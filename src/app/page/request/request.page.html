@@ -1,0 +1,26 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/topoRequest.svg" class="ion-padding"slot="start" (click)="onBack()"></ion-icon>
+    <ion-icon src="../../assets/icon/editIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
+    
+    <ion-title class="ion-text-center">
+      Nova Requisição
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid  class="no-padding-bottom no-padding-top">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11"  class="no-padding-bottom no-padding-top">
+        <ion-segment [scrollable]="true" [value]="step" class="segmentBottom" (ionChange)="setStep($event.target.value)">
+          <ion-segment-button [value]="step.key" [disabled]="!step.enabled"  *ngFor="let step of steps" >
+              {{step.title}}
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+    <app-request-form *ngIf="step == 0"></app-request-form>
+    <app-insumo *ngIf="step == 1"> </app-insumo>
+    <app-documents *ngIf="step == 2"></app-documents>
+  </ion-grid>  
+</ion-content>

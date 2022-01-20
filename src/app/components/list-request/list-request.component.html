@@ -1,0 +1,25 @@
+
+<ion-grid class="box ion-margin-bottom" [class.boxblue]="currentClass" [class.boxWhite]="!currentClass">
+    <ion-row class="status">
+        <ion-col size="3">
+            <p class="dataStatus ion-text-start">{{item.dataHora | date: 'dd/mm/yyyy'}}</p>
+        </ion-col>
+        <ion-col size="9">
+            <p class="dataStatus ion-text-end d-flex"><ion-icon name="checkmark-done-circle-outline"></ion-icon>{{getStauts(item.status)}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row class="status">
+        <ion-col size="12" class="details">
+            <p class="ion-text-start ">Nº:<span>{{item.codigoExterno}}</span></p>
+            <p class="ion-text-start ">Trimetal Const e Montagens LTDA</p>
+            <p class="ion-text-start ">{{item.observacao}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12">
+            <h3 class="ion-text-center" (click)="goToDetail(item.id)"> Ver Detalhes</h3>
+        </ion-col>
+    </ion-row>
+  
+
+</ion-grid>

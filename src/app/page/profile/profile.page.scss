@@ -1,0 +1,68 @@
+
+ion-header{
+    height: 100px;
+    ion-toolbar{
+        --border-width:0;
+        align-items: center;
+        display: flex;
+        color: #4682B4;
+        --ion-toolbar-background: #EAECED;
+        height: 100%;
+        box-shadow: 0px 2px 36px rgba(0, 0, 0, 0.08);
+        border-radius: 0px 0px 18px 18px;
+        ion-icon{
+            font-size: 25px;
+        }
+        ion-title{
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 18px;
+        }
+    }
+}
+ion-content{
+    --background:#FFFFFF;
+    ion-item.editInput{
+        ion-input{
+            font-size: 16px;
+            line-height: 20px;
+            --padding-start: 6px;
+            border: 2px solid #EAECED;
+            box-sizing: border-box;
+            border-radius: 9px;
+        }
+    }
+    ion-item{ 
+        --padding-start:0;
+        --background:#FFFFFF;
+        --border-color:#EAECED;
+        border-bottom: var(–ion-color-warning,red);
+        ion-input{
+            color: #828282;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height */
+            letter-spacing: -0.02em;
+        }
+        ion-label{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 17px;
+            /* identical to box height */
+            letter-spacing: -0.01em;
+            margin-bottom: 10px;
+            /* Azul - Siecon - 02 */
+            color: #4682B4;
+        }
+        
+    }
+    ion-grid{
+        height: 100%;
+        ion-row{
+            height: 100%;
+            padding-bottom: 70px;
+        }
+    }
+}

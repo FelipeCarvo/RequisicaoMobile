@@ -1,0 +1,215 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
+    --ion-background-color: #ffff;
+    background: #FFFFFF;
+  }
+
+ion-app{
+    app-allRequest{
+        background: #FFFFFF;
+    }
+    --ion-font-family:  'Montserrat', sans-serif!important;
+    font-family:  'Montserrat', sans-serif!important;
+    --ion-background-color: #023A51;
+    ion-button.btnEdit{
+        --background: #2CBC63;
+        color:#EAECED;
+    }
+    ion-button.btnVoltar{
+        --background: #CDE8FF;
+        color: #023A51;
+    }
+    .no-padding-left{
+        padding-inline-start: 0;
+    }
+    .no-padding-right{
+        padding-inline-end: 0;
+    }
+    .btnRedondo{
+        height: 52px;
+        --border-radius: 26px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        line-height: 22px;
+    }
+    menu-root{
+        z-index: 2;
+    }
+    .icon-green{
+        color: #2CBC63;
+    }
+    #requestForm{
+        margin-top: 35px;
+        .datetime-text{
+            display: flex;
+            align-items: center;
+        }
+        ion-item{ 
+            --padding-start:0;
+            --background:#FFFFFF;
+            --border-color:#EAECED;
+            border-bottom: var(–ion-color-warning,red);
+            --inner-padding-end:0;
+            ion-select.select-icon{
+                transform:initial!important;
+            }
+            .gestao{
+                font-size: 16px!important;
+                line-height: 20px!important;
+                /* identical to box height */
+                letter-spacing: -0.02em!important;
+                font-weight: 300!important;
+                /* CINZA - Siecon - 01 */
+                color: #A0A0AE!important;
+            }
+            ion-textarea{
+                padding-top: var(--ion-grid-column-padding-xs, var(--ion-grid-column-padding, 5px));
+            }
+            ion-select{
+                --padding-end: 11px;
+                min-width: 100%;
+                .select-icon{
+                    transform:initial!important;
+                }
+            }
+            ion-datetime::part(text){
+                display: flex;
+                align-items: center;
+                height: 100%;
+            }
+            ion-select::part(icon) {
+                transform: initial!important;
+                color: #4682B4;
+                opacity: 1;
+            }
+         
+            ion-input,ion-select,ion-textarea,.calendar{
+                color: #828282;
+                font-weight: normal;
+                font-size: 16px;
+                --placeholder-color: #BDBDBD;
+                opacity: 1!important;
+                --placeholder-opacity: 1;
+                line-height: 20px;
+                /* identical to box height */
+                letter-spacing: -0.02em;
+                background: #F8F8F8;
+                /* CINZA - Siecon - 02 */
+                border: 2px solid #EAECED;
+                box-sizing: border-box;
+                border-radius: 9px;
+                --padding-start:11px;
+                margin-top:4px;
+                min-height: 52px;
+            }
+            .calendar{
+                display: flex;
+                align-items: center;
+                ion-icon{
+                    font-size: 25px;
+                    margin-left: auto;
+                    margin-right: 16px;
+                }
+            }
+            ion-textarea{
+                --color: #000;
+                --placeholder-color: #000;
+            }
+            ion-textarea{
+                height: 117px;
+                min-height: 117px;
+                background: #FFF!important;
+                margin-top: 9px;
+            }
+            ion-button.searchButton{
+                --background: #EAECED;
+                border-radius: 10px;
+                height: 52px;
+                width: calc(100% - 5px);
+            }
+            .toogleItem{
+                font-weight: 600!important;
+                font-size: 16px!important;
+                line-height: 20px!important;
+                letter-spacing: -0.02em!important;
+                transform: initial;
+                color: #023A51!important;
+            }
+            ion-toggle{
+                --background: #E0E0E0!important;
+                width: 44px;
+                min-height: 24px;
+            }
+         
+            ion-label{
+                width: 100%;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 17px;
+                letter-spacing: -0.01em;
+                transform: initial;
+                color: #4682B4;
+                span{
+                    color: #BDBDBD;
+                    font-weight: 400;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    .custom-alert{
+        --background: #fff;
+        text-align: center;
+        color: red;
+    }
+    .my-custom-modal{
+        --background: #fff;
+        ion-toolbar::after{
+            content: none;
+        }
+        ion-content{
+            --background: #fff;
+        }
+    }
+    input:-webkit-autofill {
+        height: 0px;
+        -webkit-box-shadow:0 0 0 10px white inset!important;
+        -webkit-text-fill-color: #C4C4C4!important;
+        font-weight: 500px;
+    }
+    
+    input:-webkit-autofill:focus {
+        height: 0px;
+        -webkit-box-shadow: 0 0 0 10px white inset!important;
+        -webkit-text-fill-color: #C4C4C4!important;
+    } 
+}
+

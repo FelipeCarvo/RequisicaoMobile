@@ -1,0 +1,93 @@
+.header-md::after{
+    content: none!important;
+}
+ion-header{
+    height: 100px;
+    ::after{
+       
+    }
+    ion-toolbar{
+        --border-width:0;
+        align-items: center;
+        display: flex;
+        color: #4682B4;
+        --ion-toolbar-background: #EAECED;
+        height: 100%;
+        box-shadow: 0px 2px 36px rgba(0, 0, 0, 0.08);
+        border-radius: 0px 0px 18px 18px;
+        ::after{
+            content: none!important;
+        }
+        ion-icon{
+            font-size: 25px;
+        }
+        ion-title{
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 18px;
+        }
+    }
+}
+.status{
+    ion-radio{
+        margin-inline-end: 9px!important;
+        --border-width:3px;
+    }
+    ion-label{
+        font-weight: 600!important;
+        font-size: 16px!important;
+        line-height: 20px!important;
+        letter-spacing: -0.02em!important;
+    }
+
+}
+.corpo{
+    ion-item{
+      
+        --padding-start: 0;
+        margin-top: 15px;
+        --border-color: #EAECED;
+        border-bottom: var(–ion-color-warning, red);
+        --inner-padding-end: 0;
+        ion-label{
+            color: #4682B4;
+            font-weight: 600;
+            font-size: 14px;
+            overflow: initial!important;
+            line-height: 17px;
+        }
+        p{
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: -0.02em;
+            color: #828282;
+        }
+    }
+}
+ion-item{
+    --background:transparent;
+}
+ion-row{
+    width: 100%;
+}
+.boxBlueConsulta{
+    background-color: #4682B4;
+    ion-checkbox{
+        --background:transparent;
+        margin-inline-end: 5px;
+        --color:#CDE8FF;
+        --border-width:3px;
+        --border-color:#CDE8FF;
+        --border-radius:50%;
+        --background-checked:#ffff;	
+        --border-color-checked:#CDE8FF;
+      
+    }
+}
+.diasUteis{
+    letter-spacing: -0.08px;
+    color: #023A51;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18px;
+}

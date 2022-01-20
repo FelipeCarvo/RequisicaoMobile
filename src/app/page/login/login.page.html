@@ -1,0 +1,33 @@
+
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11">
+        <div class="logo">
+          <img id="logo-login" src="../../assets/whiteLogo.svg" />
+        </div>
+      </ion-col>
+      <ion-col class="align-self-center" size="11">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <ion-item lines="none">
+            <ion-icon name="person-outline" slot="start" class="iconColor" size="small"></ion-icon>
+            <ion-input formControlName="userName" required type="text" placeholder="Usuário"> </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="lock-closed-outline" class="iconColor" slot="start" size="small"></ion-icon>
+            <ion-input  formControlName="password" class="password" name="password" type={{typePassword}} placeholder="Senha" required>
+          </ion-input>
+         
+          <ion-icon [name]="typePassword !== 'text' ? 'eye' : 'eye-off' " slot="end" class="iconColor2" size="small" (click)="revealPassword()"></ion-icon>
+          </ion-item>
+          <ion-button class="btn-login" type="submit" expand="block"[disabled]="loginForm.invalid">
+          <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+            <ion-spinner name="crescent" *ngIf="loadSendData"></ion-spinner>
+            {{!loadSendData ?'Entrar':'' }}
+            </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>  
+  </ion-grid>
+</ion-content>
