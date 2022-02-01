@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 @Component({
@@ -7,12 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./insumo.component.scss'],
 })
 export class InsumoComponent implements OnInit {
-
+  @Input()validForm;
   constructor(public modalController: ModalController,public router:Router) { }
 
   ngOnInit() {}
   presentModal(){
-    this.router.navigate(['/central-estoque/insumos']);
+    console.log()
+    //this.router.navigate(['/central-estoque/insumos']);
   }
 
 }
