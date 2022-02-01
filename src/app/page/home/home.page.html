@@ -23,14 +23,16 @@
 <ion-content [fullscreen]="true">
   <div style="height: 80px;"></div>
   <ion-grid class="principalDiv">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="11">
+    <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+    <ion-row class="ion-justify-content-center" >
+      
+      <ion-col size="11" [@hideShowAnimator]="load">
        <p  class="ion-margin-vertical">Requisição em Andamento</p>
       </ion-col>
       <ion-col size="11" *ngFor="let item of listReq; let i = index">
-        <list-request-component [item]="item"></list-request-component>
+        <list-request-component [item]="item" [loaded]="load"></list-request-component>
       </ion-col>
-       <ion-col size="11">
+       <ion-col size="11" [@hideShowAnimator]="load">
         <h3 class="ion-text-center" (click)="viewAllRequest()">Ver Todas Requisições</h3>
        </ion-col>
     </ion-row>

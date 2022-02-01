@@ -16,7 +16,6 @@ export class LoginPage implements OnInit{
     this.initForm()
   }
   ngOnInit(){
-    console.log(new Date().getTime()/1000)
   }
   private initForm(): void {
     this.loginForm = this.formBuilder.group({
@@ -25,7 +24,6 @@ export class LoginPage implements OnInit{
     });
   }
   revealPassword(){
-   
     if(this.typePassword == "password"){
       this.typePassword = "text";
     }else{

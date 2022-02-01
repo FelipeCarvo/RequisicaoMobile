@@ -28,6 +28,28 @@ ion-header{
         }
     }
 }
+#requestForm{
+    margin-top: 0!important;
+}
+.statusDiv{
+    background: #F8F8F8;
+    border-radius: 25px;
+    color: #023A51;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 26px;
+    margin-top: 26px;
+    p{
+        line-height: 20px;
+        font-size: 16px;
+        margin: 0;
+        font-weight: 400;
+    }
+ 
+}
 .status{
     ion-radio{
         margin-inline-end: 9px!important;
@@ -63,6 +85,10 @@ ion-header{
             color: #828282;
         }
     }
+}
+.btnVoltar{
+    margin-bottom: 32px;
+    margin-top: 24px;
 }
 ion-item{
     --background:transparent;

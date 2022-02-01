@@ -5,8 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { InsumosPage } from './insumos.page';
 import {InsumosPageRoutingModule} from './insumos-routing.module';
+import {sharedModules} from '../../../components/components.module'
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule,InsumosPageRoutingModule],
+  imports: [ CommonModule, FormsModule, IonicModule,InsumosPageRoutingModule,sharedModules],
   declarations: [InsumosPage],
   exports: [InsumosPage]
 })

@@ -111,7 +111,7 @@ ion-app{
                 opacity: 1;
             }
          
-            ion-input,ion-select,ion-textarea,.calendar{
+            ion-input,.customInput,ion-select,ion-textarea,.calendar{
                 color: #828282;
                 font-weight: normal;
                 font-size: 16px;
@@ -213,3 +213,45 @@ ion-app{
     } 
 }
 
+.mat-autocomplete-panel{
+    box-shadow: 0 2px 4px -1px #0003, 0 4px 5px #00000024, 0 1px 10px #0000001f!important;
+    -webkit-scrollbar {
+        width: 10px;
+    }
+    -webkit-scrollbar-track {
+        color: red;
+        background: red!important;
+    }
+      scrollbar-color: red!important;
+    -webkit-scrollbar-thumb {
+        background: red!important;
+    }
+    -webkit-scrollbar-thumb:hover {
+    background: red!important;
+    }
+    .mat-option.mat-active {
+        background: rgba(0,0,0,.04);
+       color: #4682B4;
+    }
+    .mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+        color: #4682B4!important;
+    }
+    .mat-option {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px!important;
+        letter-spacing: -0.01em;
+        transform: initial;
+        color: #828282;
+        font-family: 'Montserrat';
+        height: 40px!important;
+
+    }
+
+}
+.modalFinishReq{
+    --background:#fff;
+    ion-content{
+        --background:#fff;
+    }
+}

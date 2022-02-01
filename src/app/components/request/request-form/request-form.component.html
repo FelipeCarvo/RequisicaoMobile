@@ -1,54 +1,26 @@
-<form id="requestForm">
+<form id="requestForm" [formGroup]="reqForm">
+ 
   <ion-row class="ion-justify-content-center"> 
-    <ion-col size="11" class="no-padding-top">
+    <ion-col size="11" class="no-padding-top" >
       <ion-item  lines="none" class="box">
-        <ion-row>
-          <ion-label position="floating">Empreendimento</ion-label>
-          <ion-col size="9" class="no-padding-left">
-            <ion-input value="leo"></ion-input>
-          </ion-col>
-          <ion-col size="3" class="no-padding-right">
-            <ion-button class="searchButton">
-              <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>    
+        <app-input-search label="Empreendimento" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" name="empreendimentoId" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Motivo</ion-label>
-        <ion-select placeholder="Select One">
-          <ion-select-option value="f">Todos</ion-select-option>
+        <ion-select placeholder="Todos" formControlName="motivoId"  [selectedText]="selectedTest()">
+          <ion-select-option *ngFor="let item of motivos" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <ion-row>
-          <ion-label position="floating">Número O.F <span>(Para desconto)</span></ion-label>
-          <ion-col size="9" class="no-padding-left">
-            <ion-input value="leo"></ion-input>
-          </ion-col>
-          <ion-col size="3"  class="no-padding-right">
-            <ion-button class="searchButton">
-              <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>    
+        <app-input-search label="Número O.F (Para desconto)" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
-        <ion-row>
-          <ion-label position="floating">Aprovador</ion-label>
-          <ion-col size="9" class="no-padding-left">
-            <ion-input value="leo"></ion-input>
-          </ion-col>
-          <ion-col size="3"  class="no-padding-right">
-            <ion-button class="searchButton">
-              <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>    
+        <app-input-search label="Aprovador" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsUsuarios" placeholder="Aprovador" name="aprovador" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>
+    
       </ion-item>
       <ion-item lines="none" class="box">
         <ion-label position="stacked">Observações</ion-label>
-        <ion-textarea placeholder="Enter more information here..."></ion-textarea>
+        <ion-textarea placeholder="Enter more information here..." formControlName="observacao"></ion-textarea>
       </ion-item>
     </ion-col>
   </ion-row>

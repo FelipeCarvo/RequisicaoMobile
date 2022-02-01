@@ -1,0 +1,29 @@
+<ion-row [formGroup]="parentForm">
+
+  <ion-label position="floating">{{label}}</ion-label>
+  <ion-col size="9" class="no-padding-left">
+    
+    <div  matAutocompleteOrigin #origin="matAutocompleteOrigin" >
+      <input
+        matInput
+        type="text"
+        [placeholder]="placeholder" 
+        [formControlName]="controlName"
+        [matAutocomplete]="name"
+        [disabled]="!!refreshLoad ? true: false"
+        class="customInput"
+        [matAutocompleteConnectedTo]="origin" >
+    </div>
+  </ion-col>
+  <ion-col size="3" class="no-padding-right">
+    <ion-button class="searchButton" (click)="getLoockups()" [disabled]="!!listItemFilter">
+      <ion-spinner name="crescent" *ngIf="loading" ></ion-spinner>
+      <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding icon-green" slot="end" *ngIf="!loading"></ion-icon>
+    </ion-button> 
+   </ion-col>
+   <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
+    <mat-option *ngFor="let option of listItemFilter | async" [value]="option.id">
+      {{option.descricao}}
+    </mat-option>
+  </mat-autocomplete>
+</ion-row>

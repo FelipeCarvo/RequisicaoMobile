@@ -1,0 +1,18 @@
+ion-row{
+    width: 100%;
+    input{
+        width: 100%;
+        padding-inline-start: 11px;
+        --placeholder-color: #BDBDBD;
+        ::placeholder{
+            color: #BDBDBD;
+        }
+    }
+    ion-spinner{
+     
+        color: #4682B4;
+    }
+}
+
+
+

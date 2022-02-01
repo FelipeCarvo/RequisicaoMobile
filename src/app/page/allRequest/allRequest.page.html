@@ -8,9 +8,10 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-grid class="principalDiv">
+    <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
     <ion-row class="ion-justify-content-center">
       <ion-col size="11" *ngFor="let item of listReq; let i = index">
-        <list-request-component [item]="item"></list-request-component>
+        <list-request-component [item]="item" [loaded]="load"></list-request-component>
       </ion-col>
        
     </ion-row>

@@ -18,6 +18,7 @@ import {SetToken} from '@store/actions/auth.actions'
 export class Interceptor implements HttpInterceptor {
  constructor(private store: Store,private http:HttpClient){}
  intercept( request: HttpRequest<any>, next: HttpHandler, ):Observable<HttpEvent<any>> {
+    let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
     let {body} = request;
     let {grantTypeLogin,client_id,scope} = environment;
@@ -29,10 +30,13 @@ export class Interceptor implements HttpInterceptor {
       });
     }
     else if(isAuthenticated){
-      console.log("entrei")
       let token = this.store.selectSnapshot(AuthUser.getToken);
-      request = request.clone({
-        setHeaders: {'Authorization': `Bearer ${token}`},
+      request = request.clone( {
+        setHeaders: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       });
     }
     return next.handle(request).pipe(
@@ -47,7 +51,6 @@ export class Interceptor implements HttpInterceptor {
             async(res:any) => {
               const {access_token} = res;
               this.store.dispatch(new SetToken(access_token));
-              console.log(request)
               request = request.clone( {
                 setHeaders: {
                   Accept: 'application/json',
@@ -55,13 +58,21 @@ export class Interceptor implements HttpInterceptor {
                   Authorization: `Bearer ${access_token}`
                 }
               });
-              return next.handle(request)
+              return next.handle(request).pipe(
+                catchError((error: HttpErrorResponse) => {
+                  errorMsg = `Error: ${error.error.message}`;
+                  return throwError(errorMsg);
+                })
+              );
+                
             },
             error => {
+              errorMsg = `Error: ${error.error.message}`;
+              return throwError(errorMsg);
             }
           )
         }
-        let errorMsg = '';
+       
         if (error.error instanceof ErrorEvent) {
           console.log('this is client side error');
           errorMsg = `Error: ${error.error.message}`;

@@ -1,0 +1,113 @@
+.header-md::after{
+    content: none!important;
+}
+ion-header{
+    height: 100px;
+    ion-toolbar{
+        --border-width:0;
+        align-items: center;
+        display: flex;
+        color: #4682B4;
+        --ion-toolbar-background: #EAECED;
+        height: 100%;
+        box-shadow: 0px 2px 36px rgba(0, 0, 0, 0.08);
+        border-radius: 0px 0px 18px 18px;
+        ion-icon{
+            font-size: 25px;
+        }
+        ion-title{
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 18px;
+        }
+    }
+}
+ion-content{
+    .gridSecond{
+        margin-top: 0!important;
+        height: 100%;
+        .rowCustom{
+            height: 100%;
+            align-items: center;
+        }
+    }
+    ion-grid{
+        margin-top: 40px;
+        .topReq{
+            border-bottom: 1px solid #EAECED;
+            .iconTop{
+                font-size: 40px;
+            }
+            p{
+                color: #A0A0AE;
+                font-weight: 500;
+                font-size: 16px;
+                margin-top: 16.5px!important;
+                line-height: 19.5px;
+                margin-bottom: 29px;
+            }
+        }
+        .status{
+            ion-item{
+                margin-top: 26px;
+                --background: transparent;
+                color: #A0A0AE;
+                font-size: 16px;
+                line-height: 20px;
+                letter-spacing: -0.02em;
+                ion-radio{
+                    margin-inline-end: 9px!important;
+                    --border-width:3px;
+                }
+            }
+        }
+        ion-list,.radio{
+            ion-radio{
+                margin-inline-end: 5px;
+                --color:#4682B4;
+                --border-radius	:3px;
+            }
+            background: transparent;
+        }
+        ion-button{
+            width: 100%;
+            --border-radius: 26px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            height: 52px;
+            color: #FFFFFF;
+            --background: #2CBC63;
+            margin-bottom: 52px;
+            margin-top: 52px;
+        }
+ 
+        .BottomReq{
+           
+            .divIcon{
+                background: #F1FFF6;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 159px;
+                width: 159px;
+                ion-icon {
+                    font-size: 66px;
+                }
+            }
+            h3{
+                font-weight: bold;
+                font-size: 26px;
+                line-height: 32px;
+                text-align: center;
+                letter-spacing: -0.02em;
+                color: #4682B4; 
+                margin-top: 34px;
+                margin-bottom: 74px;
+            }
+    
+        }
+    }
+
+}

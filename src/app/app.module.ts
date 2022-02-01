@@ -10,8 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { InterceptorModule } from './interceptor/interceptor.module';
 import { NgxsModule } from '@ngxs/store';
 import {AuthUser} from './store/state/auth.state';
+import {ReqState} from './store/state/req.state'
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {opacityAnimation} from '@services/animation/custom-animation';
+import {sharedModules} from './components/components.module'
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -21,6 +25,8 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
     InterceptorModule,
     FormsModule,
     BrowserModule, 
+    BrowserAnimationsModule,
+    sharedModules,
     IonicModule.forRoot(
       {
         rippleEffect: true,
@@ -30,12 +36,13 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
     ), 
     AppRoutingModule,
     MenuComponentComponentModule,
-    NgxsModule.forRoot([AuthUser], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AuthUser,ReqState], { developmentMode: !environment.production }),
     NgxsStoragePluginModule.forRoot({
-      key: ['AuthUser']
+      key: ['AuthUser','ReqState']
     }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+  exports:[sharedModules]
 })
 export class AppModule {}

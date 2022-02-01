@@ -8,8 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <form id="requestForm">
-    <ion-row class="ion-justify-content-center corpo" >
+  <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+  <form id="requestForm"  [@hideShowAnimator]="load">
+    <ion-row class="ion-justify-content-center corpo" *ngIf="load">
+      <ion-col size=11>
+        <div class="statusDiv">
+          <p>STATUS: <span>{{reqItem.statusDescricao}}</span></p>
+        </div>
+      </ion-col>
       <ion-col size="11">
         <ion-row>
           <ion-col size="6">
@@ -21,47 +27,47 @@
           <ion-col  size="6">
             <ion-item>
               <ion-label position="stacked">Data:</ion-label>
-              <p>11 /10/ 2021 - 15:45</p>
+              <p>{{reqItem.dataHora}}</p>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-item>
-          <ion-label position="stacked">Insumo:</ion-label>
-          <p>S/ Complemento</p>
-        </ion-item>
-        <ion-item>
           <ion-label position="stacked">Empreendimento:</ion-label>
-          <p>S/ Complemento</p>
-        </ion-item>
-        <ion-row>
+          <p>{{reqItem.empreendimento.descricao}}</p>
+        </ion-item>        
+        <ion-row *ngFor="let item of reqItem.itens">
+          <ion-item>
+            <ion-label position="stacked">Insumo:</ion-label>
+            <p>{{item.insumo.descricao}}</p>
+          </ion-item>
           <ion-col size="8">
             <ion-item>
               <ion-label position="stacked">Quantidade</ion-label>
-              <p>S/ Complemento</p>
+              <p>{{item.quantidade}}</p>
             </ion-item>
           </ion-col>
           <ion-col  size="4">
             <ion-item>
               <ion-label position="stacked">Unidade</ion-label>
-              <p>UN</p>
+              <p>{{item.insumo.unidade}}</p>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-item>
           <ion-label position="stacked">Solicitante:</ion-label>
-          <p>S/ Complemento</p>
+          <p>{{reqItem.solicitante}}</p>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Numero OF:</ion-label>
-          <p>S/ Complemento</p>
+          <p>{{!!reqItem.ofCodigo ? reqItem.ofCodigo : 'Não possue Numero OF'}}</p>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Aprovador:</ion-label>
-          <p>S/ Complemento</p>
+          <p>{{!!reqItem.aprovadoPorUsuario ? reqItem.aprovadoPorUsuario : 'Aprovação pendente'}}</p>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Observações:</ion-label>
-          <p>S/ Complemento</p>
+          <p>{{reqItem.observacao}}</p>
         </ion-item>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">

@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form id="requestForm" style="margin-top:0!important;">
+  <form id="requestForm" style="margin-top:0!important;" [formGroup]="reqForm">
     <ion-row class="ion-justify-content-center"> 
       <ion-col size="11" class="no-padding-top">
         <ion-list>
@@ -41,17 +41,7 @@
         </ion-list>
         
         <ion-item lines="none" class="box ion-margin-vertical">
-          <ion-row>
-            <ion-label position="floating">Código da Empresa</ion-label>
-            <ion-col size="9" class="no-padding-left">
-              <ion-input value="Código da Obra"></ion-input>
-            </ion-col>
-            <ion-col size="3" class="no-padding-right">
-              <ion-button class="searchButton">
-                <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>    
+          <app-input-search label="Código da Empresa" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da Empresa" name="empresaId" [parentForm]="reqForm" controlName="empresaId" ngDefaultControl></app-input-search>
         </ion-item>
         <ion-item class="box radio"> 
           <ion-label>Apenas Etapas do Insumo</ion-label>
@@ -90,6 +80,7 @@
           </ion-row>    
         </ion-item>
         <ion-item  lines="none" class="box">
+          <app-input-search label="Insumo" [pesquisa]="{empreendimentoId: 'd83b520d-4095-472c-81c0-5f3789f80322'}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo" name="insumoId" [parentForm]="reqForm" controlName="insumoId" ngDefaultControl></app-input-search>
           <ion-row>
             <ion-label position="floating">Insumo</ion-label>
             <ion-col size="9" class="no-padding-left">

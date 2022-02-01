@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AllRequestPageRoutingModule } from './allRequest-routing.module';
 import { AllRequestPage } from './allRequest.page';
-import { ListRequestComponentModule } from '../../components/list-request/list-resquest.module';
+import {sharedModules} from '../../components/components.module'
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    sharedModules,
     IonicModule,
     AllRequestPageRoutingModule,
-    ListRequestComponentModule
-
   ],
   declarations: [AllRequestPage]
 })
