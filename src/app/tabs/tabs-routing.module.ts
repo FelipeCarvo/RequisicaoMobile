@@ -24,17 +24,20 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('../page/profile/profile.module').then(m => m.ProfilePageModule),
-        data:{noHeader:true}
+        data:{noHeader:true},
+        canActivate:[RouterTokenValidation]
       },
       {
         path: 'request',
         loadChildren: () => import('../page/request/request.module').then(m => m.RequestPageModule),
-        data:{noHeader:true}
+        data:{noHeader:true},
+        canActivate:[RouterTokenValidation]
       },
       {
         path: 'all-request',
         loadChildren: () => import('../page/allRequest/allRequest.module').then(m => m.AllRequestPageModule),
-        data:{noHeader:true}
+        data:{noHeader:true},
+        canActivate:[RouterTokenValidation]
       },
     ]
   },

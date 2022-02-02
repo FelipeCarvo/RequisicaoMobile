@@ -6,14 +6,15 @@ import { ReqIntefaceModel } from '../models/req.model';
 @State<ReqIntefaceModel>({
   name: 'ReqState',
   defaults: {
+    requisicaoId:null,
     motivoId: null,
     observacao: null,
     empreendimentoId: null,
     ofDescontoMaterial: null,
-    exportadoConstruCompras: null,
+    exportadoConstruCompras: false,
     prazoCotacaoConstruCompras:0,
     aprovador: null,
-    versaoEsperada: 3
+    //versaoEsperada: 3
   }
 })
 @Injectable({
@@ -26,13 +27,17 @@ export class ReqState {
     return !!state.empreendimentoId;
   }
   @Selector()
+  static validReqId(state: ReqIntefaceModel) {
+    return !!state.requisicaoId;
+  }
+  @Selector()
   static getReq(state: ReqIntefaceModel) {
     return state;
   }
   @Action(setReqFileds)
-  setReqFileds({ patchState }: StateContext<ReqIntefaceModel>, { payload }: setReqFileds) {
-      console.log(payload)
-    patchState(payload);
+  setReqFileds(state: StateContext<ReqIntefaceModel>, { payload }: setReqFileds) {
+    console.log(state)
+    state.patchState(payload);
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {EnumStatus} from '@services/utils/enums/EnumStatus';
 import { Router } from '@angular/router';
 import { trigger, style, animate, transition, state } from '@angular/animations';
+import * as moment from 'moment';
 @Component({
   selector: 'list-request-component',
   templateUrl: './list-request.component.html',
@@ -22,7 +23,10 @@ export class ListRequest implements OnInit {
   constructor(private router:Router) {
     
    }
+   getDate(date) {
 
+    return moment(date).format('DD/MM/YYYY');
+  }
   ngOnInit() {
    this.currentClass = this.router.url.includes('/home') ;
   }

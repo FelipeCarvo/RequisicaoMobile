@@ -19,8 +19,8 @@
         </ion-segment>
       </ion-col>
     </ion-row>
-    <app-request-form *ngIf="step == 0" #appChild></app-request-form>
-    <app-insumo *ngIf="step == 1" [validForm]="validForm"> </app-insumo>
+    <app-request-form *ngIf="step == 0" #appChild [getFormForStore]="getFormForStore()" (setFormForStore)="setFormForStore($event)"></app-request-form>
+    <app-insumo *ngIf="step == 1" [validForm]="validForm()"> </app-insumo>
     <app-documents *ngIf="step == 2"></app-documents>
   </ion-grid>  
 </ion-content>

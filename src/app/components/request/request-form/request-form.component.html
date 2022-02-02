@@ -7,7 +7,7 @@
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Motivo</ion-label>
-        <ion-select placeholder="Todos" formControlName="motivoId"  [selectedText]="selectedTest()">
+        <ion-select placeholder="Todos" formControlName="motivoId"  [selectedText]="selectedTextOption()">
           <ion-select-option *ngFor="let item of motivos" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>

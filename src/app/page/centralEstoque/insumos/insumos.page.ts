@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
-
+import { Store } from '@ngxs/store';
+import {ReqState} from '@store/state/req.state';
+import {setReqFileds} from '@store/actions/req.actions'
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +16,7 @@ import {FilterRequestFields} from '@services/utils/interfaces/request.interface'
   styleUrls: ['./insumos.page.scss'],
 })
 export class InsumosPage{
+  empreendimentoId:String = null;
   public reqForm: FormGroup;
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
@@ -40,9 +43,11 @@ export class InsumosPage{
     "versaoEsperada": 0,
     "gerarAtivoImobilizado": true
   }
-  constructor(public navCtrl:NavController, private router:Router,private formBuilder: FormBuilder) { }
+  constructor(public navCtrl:NavController, private router:Router,private formBuilder: FormBuilder,private store:Store) { }
 
   ngOnInit() {
+    const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
+    this.empreendimentoId = empreendimentoId;    
     this.reqForm = this.formBuilder.group({
       empresaId:  new FormControl('', [Validators.required]),
       planoContasId:[null],

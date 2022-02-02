@@ -12,8 +12,9 @@ export class InsumoComponent implements OnInit {
 
   ngOnInit() {}
   presentModal(){
-    console.log()
-    //this.router.navigate(['/central-estoque/insumos']);
+    if(this.validForm){
+      this.router.navigate(['/central-estoque/insumos']);
+    }
   }
 
 }
