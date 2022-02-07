@@ -12,8 +12,8 @@ from '@angular/common/http';
 import { Observable,throwError, } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { AuthUser } from '@store/state/auth.state';
-import {SetToken} from '@store/actions/auth.actions'
+import { AuthUser } from '@core/store/state/auth.state';
+import {SetToken} from '@core/store/actions/auth.actions'
 @Injectable()
 export class Interceptor implements HttpInterceptor {
  constructor(private store: Store,private http:HttpClient){}
@@ -32,25 +32,27 @@ export class Interceptor implements HttpInterceptor {
     else if(isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
       request = request.clone( {
-        setHeaders: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
+        // setHeaders: {
+        //   Accept: 'application/json',
+        //   'Content-Type': 'application/json',
+        //   Authorization: `Bearer ${token}`
+        // }
       });
     }
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if(error.status === 401){
+          const newRequest = Object.assign({},request);
+          console.log(newRequest)
           const arr = {
             userName:"suporte",
             password:"Pass123$"
           }
-        
           this.http.post(`${environment.BASE_URL}/sieconsts/connect/token`,arr).subscribe(
             async(res:any) => {
               const {access_token} = res;
-              this.store.dispatch(new SetToken(access_token));
+              await this.store.dispatch(new SetToken(access_token));
+            
               request = request.clone( {
                 setHeaders: {
                   Accept: 'application/json',
@@ -58,13 +60,13 @@ export class Interceptor implements HttpInterceptor {
                   Authorization: `Bearer ${access_token}`
                 }
               });
-              return next.handle(request).pipe(
-                catchError((error: HttpErrorResponse) => {
-                  errorMsg = `Error: ${error.error.message}`;
-                  return throwError(errorMsg);
-                })
-              );
-                
+                return next.handle(request).pipe(
+                  catchError((error: HttpErrorResponse) => {
+  
+                    errorMsg = `Error: ${error.error.message}`;
+                    return throwError(errorMsg);
+                  })
+                );
             },
             error => {
               errorMsg = `Error: ${error.error.message}`;
@@ -72,15 +74,14 @@ export class Interceptor implements HttpInterceptor {
             }
           )
         }
-       
         if (error.error instanceof ErrorEvent) {
           console.log('this is client side error');
           errorMsg = `Error: ${error.error.message}`;
         }
         else {
-          console.log('this is server side error');
+          console.log('this is server side error',error);
           let err = error.error
-          errorMsg = `${err.error_description}`;
+          errorMsg = `${err?.error_description ? err.error_description : err.Mensagem}`;
         }
         return throwError(errorMsg);
       })

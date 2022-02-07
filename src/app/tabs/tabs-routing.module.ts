@@ -28,16 +28,21 @@ const routes: Routes = [
         canActivate:[RouterTokenValidation]
       },
       {
-        path: 'request',
-        loadChildren: () => import('../page/request/request.module').then(m => m.RequestPageModule),
-        data:{noHeader:true},
-        canActivate:[RouterTokenValidation]
-      },
-      {
         path: 'all-request',
         loadChildren: () => import('../page/allRequest/allRequest.module').then(m => m.AllRequestPageModule),
         data:{noHeader:true},
         canActivate:[RouterTokenValidation]
+      },
+      {
+        path: 'central-req',
+        loadChildren: () => import('../page/central-request/central-module/centeal-estoque.module').then( m => m.CentealEstoquePageModule),
+        data:{noHeader:true},
+        canActivate:[RouterTokenValidation]
+      },
+      {
+        path: 'detail-request/:requisicaoId',
+        loadChildren: () => import('../page/detail-request/detail-request.module').then( m => m.DetailRequestPageModule),
+        data:{noHeader:true},
       },
     ]
   },

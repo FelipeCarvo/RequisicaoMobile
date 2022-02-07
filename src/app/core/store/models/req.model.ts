@@ -7,5 +7,5 @@ export interface ReqIntefaceModel  {
     exportadoConstruCompras?: boolean,
     prazoCotacaoConstruCompras?: Number,
     aprovador?: string,
-    //versaoEsperada: 3
+    versaoEsperada: 3
 }

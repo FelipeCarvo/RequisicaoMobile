@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
-import {setAuthData} from '../../store/actions/auth.actions'
+import {setAuthData} from '@core/store/actions/auth.actions'
 @Injectable({
     providedIn: 'root'
   })

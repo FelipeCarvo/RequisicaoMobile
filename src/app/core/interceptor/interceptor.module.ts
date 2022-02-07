@@ -10,11 +10,11 @@ import { LoadingWithRetryInterceptor } from './loading-with-retry.interceptor';
     useClass: Interceptor,
     multi: true,
   },
-  // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: LoadingWithRetryInterceptor,
-  //   multi: true,
-  // },
+  {
+     provide: HTTP_INTERCEPTORS,
+     useClass: LoadingWithRetryInterceptor,
+     multi: true,
+   },
  ],
 })
 export class InterceptorModule {}

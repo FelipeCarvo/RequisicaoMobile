@@ -5,17 +5,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {MenuComponentComponentModule} from './components/menu-cp/menu.module';
+import {MenuComponentComponentModule} from './shared/components/menu-cp/menu.module';
 import { HttpClientModule } from '@angular/common/http';
-import { InterceptorModule } from './interceptor/interceptor.module';
+import { InterceptorModule } from './core/interceptor/interceptor.module';
 import { NgxsModule } from '@ngxs/store';
-import {AuthUser} from './store/state/auth.state';
-import {ReqState} from './store/state/req.state'
+import {AuthUser} from '@core/store/state/auth.state';
+import {ReqState} from '@core/store/state/req.state'
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {opacityAnimation} from '@services/animation/custom-animation';
-import {sharedModules} from './components/components.module'
+import {sharedModules} from '@components/components.module'
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

@@ -5,16 +5,8 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
-    path: 'central-estoque',
-    loadChildren: () => import('./page/centralEstoque/centeal-estoque/centeal-estoque.module').then( m => m.CentealEstoquePageModule)
-  },
-  {
-    path: 'detail-request/:requisicaoId',
-    loadChildren: () => import('./page/detail-request/detail-request.module').then( m => m.DetailRequestPageModule),
-    data:{noHeader:true},
-  },
+  }
+
 
   // {
   //   path: 'request',

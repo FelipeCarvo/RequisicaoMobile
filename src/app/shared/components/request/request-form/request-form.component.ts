@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import {opacityAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
+import { filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ import {FilterRequestFields} from '@services/utils/interfaces/request.interface'
 })
 export class RequestFormComponent implements OnInit {
   @Input()getFormForStore:any;
+  @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   public reqForm: FormGroup;
   // filteredOptionsEmpreendimento: Observable<string[]>;
@@ -25,18 +27,8 @@ export class RequestFormComponent implements OnInit {
   };
   motivos:any;
   load = false;
-  object ={
-    "motivoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "observacao": "string",
-    "empreendimentoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "ofDescontoMaterial": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "exportadoConstruCompras": true,
-    "prazoCotacaoConstruCompras": 0,
-    "aprovador": "string",
-    "versaoEsperada": 0
-  }
   constructor(private loockupstService:LoockupstService,private formBuilder: FormBuilder) { }
-  ngOnInit() {
+  async ngOnInit() {
     this.getLoockupMotivo();
     this.reqForm = this.formBuilder.group({
       empreendimentoId:  new FormControl(null, [Validators.required]),
@@ -45,13 +37,18 @@ export class RequestFormComponent implements OnInit {
       aprovador: new FormControl(null),
       observacao:[null]
     });
-    this.setValform();
+    await this.setValform();
     this.reqForm.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
+       
         let val = this.getFormField(e);
         let formField = {[e]:val};
-        this.setFormForStore.emit(formField);
+        let atualValue = this.getFormForStore[e]
+        if(formField != atualValue){
+          this.setFormForStore.emit(formField);
+          this.UpdateForm.emit(true);
+        }
       })
     })
   }
@@ -62,8 +59,13 @@ export class RequestFormComponent implements OnInit {
       this.motivos = res;
     });
   }
-  setValform(){
-    this.reqForm.patchValue(this.getFormForStore);
+  async setValform(){  
+    await this.reqForm.patchValue(this.getFormForStore);
+    let formVal = await this.getForm();
+    let obj1 = this.removeFields(formVal);
+    let obj2 = this.removeFields(this.getFormForStore);
+    this.UpdateForm.emit(JSON.stringify(obj1) !== JSON.stringify(obj2))
+   
   }
   getFormField(field){
     return this.reqForm.get(field).value
@@ -75,7 +77,15 @@ export class RequestFormComponent implements OnInit {
   validform(){
     return this.reqForm.valid;
   }
-  getForm(){
+  async getForm(){
     return this.reqForm.getRawValue();
+  }
+  removeFields(obj){
+    let res = Object.assign({}, obj);
+    let filterVal =Object.keys(res).filter(e => res[e] == null || (e == "requisicaoId" || e == "id"));
+    filterVal.forEach(e =>{
+      res[e] = e;
+      delete res[e];
+    })
   }
 }

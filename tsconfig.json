@@ -14,9 +14,10 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@services/*": ["src/app/services/*"],
+      "@core/*": ["src/app/core/*"],
+      "@services/*": ["src/app/shared/services/*"],
+      "@components/*": ["src/app/shared/components/*"],
       "@environment/*": ["src/environments/*"],
-      "@store/*": ["src/app/store/*"]
     },
   },
  

@@ -18,6 +18,11 @@ const routes: Routes = [
         loadChildren: () => import('../consulta-estoque/consulta-estoque.module').then( m => m.ConsultaEstoquePageModule),
         data:{noHeader:true},
       },
+      {
+        path: 'nova-req',
+        loadChildren: () => import('../request/request.module').then( m => m.RequestPageModule),
+        data:{noHeader:true},
+      }
     ]  
   }
 ];

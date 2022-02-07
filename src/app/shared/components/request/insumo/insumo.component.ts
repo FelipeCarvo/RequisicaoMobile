@@ -13,7 +13,7 @@ export class InsumoComponent implements OnInit {
   ngOnInit() {}
   presentModal(){
     if(this.validForm){
-      this.router.navigate(['/central-estoque/insumos']);
+      this.router.navigate(['/tabs/central-req/insumos']);
     }
   }
 

@@ -17,7 +17,7 @@ export class homePage {
    this.getReq()
   }
   newRequest(){
-    this.router.navigate(['/tabs/request']);
+    this.router.navigate(['/tabs/central-req/nova-req']);
   }
   viewAllRequest(){
     this.router.navigate(['/tabs/all-request']);

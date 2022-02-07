@@ -5,8 +5,8 @@ import {LoockupstService} from '@services/lookups/lookups.service';
 import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { Store } from '@ngxs/store';
-import {ReqState} from '@store/state/req.state';
-import {setReqFileds} from '@store/actions/req.actions'
+import {ReqState} from '@core/store/state/req.state';
+import {setReqFileds} from '@core/store/actions/req.actions'
 @Injectable({
   providedIn: 'root'
 })
@@ -61,6 +61,6 @@ export class InsumosPage{
     this.navCtrl.back();
   }
   public goCentralEstoque(){
-    this.router.navigate(['/central-estoque/consulta-estoque']);
+    this.router.navigate(['/central-req/consulta-estoque']);
   }
 }

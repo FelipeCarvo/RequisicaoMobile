@@ -14,7 +14,7 @@ import { ReqIntefaceModel } from '../models/req.model';
     exportadoConstruCompras: false,
     prazoCotacaoConstruCompras:0,
     aprovador: null,
-    //versaoEsperada: 3
+    versaoEsperada: 3
   }
 })
 @Injectable({

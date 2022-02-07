@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./centeal-estoque.page.scss'],
 })
 export class CentealEstoquePage implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit() {
