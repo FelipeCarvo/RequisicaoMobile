@@ -12,6 +12,7 @@
         [matAutocomplete]="name"
         [disabled]="!!refreshLoad ? true: false"
         class="customInput"
+        (focus)="getLoockups()"
         [matAutocompleteConnectedTo]="origin" >
     </div>
   </ion-col>

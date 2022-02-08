@@ -10,7 +10,7 @@ import {
 }  
 from '@angular/common/http';
 import { Observable,throwError, } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError ,switchMap} from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
 import {SetToken} from '@core/store/actions/auth.actions'
@@ -32,47 +32,18 @@ export class Interceptor implements HttpInterceptor {
     else if(isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
       request = request.clone( {
-        // setHeaders: {
-        //   Accept: 'application/json',
-        //   'Content-Type': 'application/json',
-        //   Authorization: `Bearer ${token}`
-        // }
+        setHeaders: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+         }
       });
     }
     return next.handle(request).pipe(
+     
       catchError((error: HttpErrorResponse) => {
         if(error.status === 401){
-          const newRequest = Object.assign({},request);
-          console.log(newRequest)
-          const arr = {
-            userName:"suporte",
-            password:"Pass123$"
-          }
-          this.http.post(`${environment.BASE_URL}/sieconsts/connect/token`,arr).subscribe(
-            async(res:any) => {
-              const {access_token} = res;
-              await this.store.dispatch(new SetToken(access_token));
-            
-              request = request.clone( {
-                setHeaders: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${access_token}`
-                }
-              });
-                return next.handle(request).pipe(
-                  catchError((error: HttpErrorResponse) => {
-  
-                    errorMsg = `Error: ${error.error.message}`;
-                    return throwError(errorMsg);
-                  })
-                );
-            },
-            error => {
-              errorMsg = `Error: ${error.error.message}`;
-              return throwError(errorMsg);
-            }
-          )
+          return this.handle401Error(request, next);
         }
         if (error.error instanceof ErrorEvent) {
           console.log('this is client side error');
@@ -87,5 +58,34 @@ export class Interceptor implements HttpInterceptor {
       })
     );
  }
-
+ getNewReq(request: HttpRequest<any>){
+  const arr = {
+    userName:"suporte",
+    password:"Pass123$"
+  }
+  let {grantTypeLogin,client_id,scope} = environment;
+  const newUrl = {url: `${environment.BASE_URL}/sieconsts/connect/token`};
+  let newHeader = {
+    setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded'},
+    body:`userName=${arr.userName}&Password=${arr.password}&grant_type=${grantTypeLogin}&scope=${scope}&client_id=${client_id}`
+  };
+  newHeader= Object.assign(newHeader, newUrl);
+  return request.clone(newHeader)
+ }
+ private handle401Error(request: HttpRequest<any>, next: HttpHandler){
+  const newReq = this.getNewReq(request)
+  return next.handle(newReq).pipe(
+    switchMap((res:any) =>{
+      const token = res.body?.access_token;
+      const newRequest = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return next.handle(newRequest);
+    }),
+    catchError((error: HttpErrorResponse) => {
+      return throwError(`Error: ${error.error.Mensagem}`);
+    })
+  )}
 }
