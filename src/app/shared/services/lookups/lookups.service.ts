@@ -13,7 +13,8 @@ export enum endPointsEnum{
   'servicoId' ='contratoservicos/Lookups/Servicos',
   'insumoId'='suprimentos/Lookups/Insumos',
   'blocoId' = 'cadastros/Lookups/Blocos',
-  'unidadeId'= 'cadastros/Lookups/Unidades'
+  'unidadeId'= 'cadastros/Lookups/Unidades',
+  'etapaId' = 'orcamentos/Lookups/Etapas',
 
 }
 @Injectable({

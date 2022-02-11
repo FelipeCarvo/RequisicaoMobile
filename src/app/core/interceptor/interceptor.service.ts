@@ -23,21 +23,21 @@ export class Interceptor implements HttpInterceptor {
     let {body} = request;
     let {grantTypeLogin,client_id,scope} = environment;
     let isAuthenticated = this.store.selectSnapshot(AuthUser.isAuthenticated);
-    if(tokenUrl){
+    if(tokenUrl && !isAuthenticated){
       request = request.clone({
         setHeaders: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body:`userName=${body.userName}&Password=${body.password}&grant_type=${grantTypeLogin}&scope=${scope}&client_id=${client_id}`
+        body:`userName=${body.userName}&Password=${body.password}&grant_type=${grantTypeLogin}&scope=${scope} offline_access&client_id=${client_id}`
       });
     }
     else if(isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
-      request = request.clone( {
-        setHeaders: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+       request = request.clone( {
+          setHeaders: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
          }
-      });
+        });
     }
     return next.handle(request).pipe(
      
@@ -59,15 +59,12 @@ export class Interceptor implements HttpInterceptor {
     );
  }
  getNewReq(request: HttpRequest<any>){
-  const arr = {
-    userName:"suporte",
-    password:"Pass123$"
-  }
+  let refresh_token = this.store.selectSnapshot(AuthUser.getRefreshToken);
   let {grantTypeLogin,client_id,scope} = environment;
   const newUrl = {url: `${environment.BASE_URL}/sieconsts/connect/token`};
   let newHeader = {
     setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded'},
-    body:`userName=${arr.userName}&Password=${arr.password}&grant_type=${grantTypeLogin}&scope=${scope}&client_id=${client_id}`
+    body:`grant_type=refresh_token&scope=${scope}&client_id=${client_id}&refresh_token=${refresh_token}`
   };
   newHeader= Object.assign(newHeader, newUrl);
   return request.clone(newHeader)
@@ -77,6 +74,7 @@ export class Interceptor implements HttpInterceptor {
   return next.handle(newReq).pipe(
     switchMap((res:any) =>{
       const token = res.body?.access_token;
+      this.store.dispatch(new SetToken(token));
       const newRequest = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

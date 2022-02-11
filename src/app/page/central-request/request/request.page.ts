@@ -7,7 +7,9 @@ import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds} from '@core/store/actions/req.actions'
 import {RequestService} from '@services/request/request.service'
 import { ToastController } from '@ionic/angular';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import {RouteInterceptorService} from '@services/utils/route-event';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -31,13 +33,11 @@ export class RequestPage implements OnInit {
     private store:Store,
     private rquestService:RequestService,
     private toastController:ToastController,
-    private router:Router
+    private router:Router,
+    private loadingController:LoadingController,
+    private routeInterceptorService: RouteInterceptorService
   ) {  
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.history.push(event.urlAfterRedirects)
-      }
-    })
+
     this.store
     .select(state => state.ReqState)
     .subscribe(e => {
@@ -50,21 +50,36 @@ export class RequestPage implements OnInit {
   ngOnInit() {
    
   }
-  setStep(val){
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loading.present();
+
+  
+    return loading
+  }
+  async setStep(val){
     if(this.validForm()){
       if(this.sendPost){
         this.sendReq(val);       
       }else{
-        
-          this.childComponent?.reqForm.reset();
+        const {requisicaoId} = this.getFormForStore()
        
+        const test = await this.rquestService.getVersion(requisicaoId).toPromise()
+        console.log(test)
+        this.childComponent?.reqForm.reset();
         this.step = val;
       }         
     }
   }
   public onBack(event) {
-    this.history.pop()
-    console.log(this.history);
+    const {previousUrl} =this.routeInterceptorService
+    if(previousUrl == '/tabs/home'){
+
+    }
     // this.navCtrl.back();
   }
   validReqId(){
@@ -88,11 +103,17 @@ export class RequestPage implements OnInit {
     });
     await modal.present();
   }
-  sendReq(val){
+  async sendReq(val){
     let {params,type} = this.getParams();
-    this.rquestService.postReq(params,type).subscribe((res:any) =>{
+    const loading = await this.presentLoading();
+    if(type === 'POST'){
+      delete params["versaoEsperada"];
+    }
+    this.rquestService.postReq(params,type).subscribe(async(response:any) =>{
+      await loading.onDidDismiss();
       if(!this.validReqId()){
-        this.setFormForStore({requisicaoId:res});
+        this.setFormForStore({requisicaoId:response});
+        
       }
       setTimeout(()=>{
         if(val !=0){
@@ -102,6 +123,7 @@ export class RequestPage implements OnInit {
       },200)
     },
     async(error) =>{
+      await loading.onDidDismiss();
       const toast = await this.toastController.create({
         message: error,
         duration: 2000

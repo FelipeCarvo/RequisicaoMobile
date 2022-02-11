@@ -34,7 +34,7 @@ export class ListRequest implements OnInit {
    return EnumStatus[status]
   }
   goToDetail(requisicaoId){
-    this.router.navigate([`/detail-request/${requisicaoId}`]);
+    this.router.navigate([`tabs/detail-request/${requisicaoId}`]);
   }
 
 }

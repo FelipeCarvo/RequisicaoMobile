@@ -6,8 +6,8 @@ import { AuthUserStateModel } from '../models/auth.model';
   name: 'AuthUser',
   defaults: {
     userName:null,
-    Password:null,
     token: null,
+    refreshToken:null
   }
 })
 @Injectable({
@@ -17,6 +17,11 @@ export class AuthUser {
   @Selector()
   static getToken(state: AuthUserStateModel) {
     return state.token;
+  }
+  @Selector()
+  static getRefreshToken(state: AuthUserStateModel) {
+    console.log(state)
+    return state.refreshToken;
   }
   @Selector()
   static isAuthenticated(state: AuthUserStateModel) {
@@ -30,10 +35,11 @@ export class AuthUser {
   }
   @Action(setAuthData)
   setAuthData({patchState}:StateContext<AuthUserStateModel>,{payload}:setAuthData){
+    console.log("aqui",payload)
     patchState({
       token:payload.token,
       userName:payload.userName,
-      Password:payload.Password
+      refreshToken:payload.refreshToken
     })
   }
 }

@@ -10,7 +10,8 @@ export enum endPointsEnum{
   'RelatorioRequisicao' ='/sieconwebwebapi/api/suprimentos/Requisicao/RelatorioRequisicao',
   'Empreendimentos'= '/sieconwebwebapi/api/cadastros/Lookups/Empreendimentos',
   'newReq' = 'sieconwebwebapi/api/suprimentos/Requisicao/NovaRequisicaoCriada',
-  'UpateReq' = 'sieconwebwebapi/api/suprimentos/Requisicao/RequisicaoAtualizada'
+  'UpateReq' = 'sieconwebwebapi/api/suprimentos/Requisicao/RequisicaoAtualizada',
+  'GetVersion' = '/sieconwebsuprimentos/api/Requisicao'
 }
 @Injectable({
     providedIn: 'root'
@@ -47,6 +48,21 @@ export enum endPointsEnum{
         )
       })
     }
+    getVersion(id = null, endPoint = 'GetVersion'){
+      return new Observable((observer) => {
+ 
+        this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
+          async(res:any) => {
+            console.log(res)
+            observer.next(res);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
     postReq(params , type){
       const url = `${this.apiUrl}${endPointsEnum['RequisicaoId']}`
       let req = type == 'POST' ? this.http.post(url,params) : this.http.put(url,params);
@@ -65,7 +81,6 @@ export enum endPointsEnum{
     sortFunction(a,b){  
       let dateA = new Date(a.dataHora).getTime();
       let dateB = new Date(b.dataHora).getTime();
-      console.log(dateA,dateB)
       return dateA < dateB ? 1 : -1;  
     }
   }

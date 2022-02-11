@@ -10,16 +10,17 @@ import {setAuthData} from '@core/store/actions/auth.actions'
   export class LoginService {
     constructor(private http:HttpClient, private store:Store){}
     login(obj){
-      console.log(obj)
+
       return new Observable((observer) => {
         this.http.post(`${environment.BASE_URL}/sieconsts/connect/token`,obj).subscribe(
           async(res:any) => {
-            const {access_token} = res
+            const {access_token,refresh_token} = res;
+            const userName =  obj.userName;
             const authData = {
               token:access_token,
-              obj
+              refreshToken:refresh_token,
+              userName
             }
-            console.log(authData)
             await this.store.dispatch(new setAuthData(authData));
             observer.next(res);
           },

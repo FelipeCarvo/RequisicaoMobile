@@ -7,6 +7,7 @@ import {RequestFormComponentModule} from '@components/request/request-form/resqu
 import {InsumoComponentModule} from '@components/request/insumo/insumo.module'
 import { RequestPage } from './request.page';
 import {DocumentsComponentComponentModule} from '@components/request/documents/documents.module'
+import {RouteInterceptorService} from '@services/utils/route-event';
 @NgModule({
   imports: [
     CommonModule,
@@ -15,8 +16,9 @@ import {DocumentsComponentComponentModule} from '@components/request/documents/d
     RequestPageRoutingModule,
     RequestFormComponentModule,
     InsumoComponentModule,
-    DocumentsComponentComponentModule
+    DocumentsComponentComponentModule,
+    
   ],
-  declarations: [RequestPage]
+  declarations: [RequestPage,]
 })
 export class RequestPageModule {}

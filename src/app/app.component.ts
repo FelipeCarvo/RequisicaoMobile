@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
 export class AppComponent {
   hiddenMenu:true;
   constructor(private menu: MenuController, private router:Router) {
+
     this.router.events
       .pipe(filter(event => event instanceof ActivationEnd && event.snapshot.children.length == 0))
       .subscribe((event: ActivationEnd) => {

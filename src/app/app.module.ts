@@ -10,7 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { InterceptorModule } from './core/interceptor/interceptor.module';
 import { NgxsModule } from '@ngxs/store';
 import {AuthUser} from '@core/store/state/auth.state';
-import {ReqState} from '@core/store/state/req.state'
+import {ReqState} from '@core/store/state/req.state';
+import {InsumoState} from'@core/store/state/inusmos.state';
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,9 +37,9 @@ import {sharedModules} from '@components/components.module'
     ), 
     AppRoutingModule,
     MenuComponentComponentModule,
-    NgxsModule.forRoot([AuthUser,ReqState], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AuthUser,ReqState,InsumoState], { developmentMode: !environment.production }),
     NgxsStoragePluginModule.forRoot({
-      key: ['AuthUser','ReqState']
+      key: ['AuthUser','ReqState','InsumoState']
     }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

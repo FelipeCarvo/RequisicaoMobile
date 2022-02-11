@@ -4,6 +4,7 @@
   <ion-col size="9" class="no-padding-left">
     
     <div  matAutocompleteOrigin #origin="matAutocompleteOrigin" >
+      
       <input
         matInput
         type="text"
@@ -15,6 +16,11 @@
         (focus)="getLoockups()"
         [matAutocompleteConnectedTo]="origin" >
     </div>
+    <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
+      <mat-option *ngFor="let option of listItemFilter | async" [value]="option.id">
+        {{option.descricao}}
+      </mat-option>
+    </mat-autocomplete>
   </ion-col>
   <ion-col size="3" class="no-padding-right">
     <ion-button class="searchButton" (click)="getLoockups()" [disabled]="!!listItemFilter">
@@ -22,9 +28,5 @@
       <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding icon-green" slot="end" *ngIf="!loading"></ion-icon>
     </ion-button> 
    </ion-col>
-   <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
-    <mat-option *ngFor="let option of listItemFilter | async" [value]="option.id">
-      {{option.descricao}}
-    </mat-option>
-  </mat-autocomplete>
+
 </ion-row>

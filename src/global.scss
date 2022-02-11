@@ -25,12 +25,71 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+::-webkit-scrollbar-track
+{
+
+border-radius: 9px!important;
+background-color: #EAECED!important;
+}
+
+::-webkit-scrollbar
+{
+width: 3px!important;
+background-color: #EAECED!important;
+}
+
+::-webkit-scrollbar-thumb
+{
+background-color: #4682B4!important;
+}
 app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
     --ion-background-color: #ffff;
     background: #FFFFFF;
   }
 
+  .my-custom-interface {
+   
+    .action-sheet-container {
+      
+        .action-sheet-group{
+            background: #fFFFFF!important;
+            // padding-top: 18px;
+            // padding-bottom: 18px;
+            .sc-ion-action-sheet-md {
+                --button-background: linear-gradient(0deg, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08), rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08) 50%, transparent 50%) bottom/100% 1px no-repeat transparent;
+                justify-content: center;
+                --button-background-selected-opacity: 0.6;
+                --button-background-selected: #EAECED;
+                --button-color: #4682B4;
+                --button-color-selected: #023A51;
+                text-align: center;
+            }
+            .action-sheet-button{  
+                font-weight: bold;
+                font-size: 16px;
+                height: 60px;
+                line-height: 18px;
+            }
+            &:first-child{
+                border-radius:9px 9px 0px 0px;
+                box-shadow: 0px 2px 36px rgb(0 0 0 / 30%);
+            }.action-sheet-cancel{
+                color: var(--ion-color-danger, #eb445a);;
+            }
+
+        }
+        .action-sheet-group.action-sheet-group-cancel{
+            border:none!important;
+        } 
+      
+
+    }
+
+  }
 ion-app{
+    app-input-search{
+        width: 100%;
+    }
     app-allRequest{
         background: #FFFFFF;
     }
@@ -60,6 +119,7 @@ ion-app{
         font-size: 18px;
         line-height: 22px;
     }
+
     menu-root{
         z-index: 2;
     }
@@ -214,38 +274,23 @@ ion-app{
 }
 
 .mat-autocomplete-panel{
-    box-shadow: 0 2px 4px -1px #0003, 0 4px 5px #00000024, 0 1px 10px #0000001f!important;
-    -webkit-scrollbar {
-        width: 10px;
-    }
-    -webkit-scrollbar-track {
-        color: red;
-        background: red!important;
-    }
-      scrollbar-color: red!important;
-    -webkit-scrollbar-thumb {
-        background: red!important;
-    }
-    -webkit-scrollbar-thumb:hover {
-    background: red!important;
-    }
+    box-shadow: 0px 2px 36px rgba(0, 0, 0, 0.08);
+    border-radius: 0px 0px 18px 18px;
+
     .mat-option.mat-active {
         background: rgba(0,0,0,.04);
        color: #4682B4;
     }
     .mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+        background: rgba(0,0,0,.04);
         color: #4682B4!important;
     }
     .mat-option {
-        font-weight: 600;
+        font-weight: 400;
         font-size: 14px;
-        line-height: 17px!important;
-        letter-spacing: -0.01em;
-        transform: initial;
-        color: #828282;
+        height: 50px;
+        line-height: 18px;
         font-family: 'Montserrat';
-        height: 40px!important;
-
     }
 
 }

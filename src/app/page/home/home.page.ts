@@ -25,7 +25,6 @@ export class homePage {
   getReq(){
     const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
     const beforeDay = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
-    console.log(moment(currentDatecurrentDate).format())
     const params = {
       dataInicial: moment(beforeDay).format(),
       dataFinal: moment(currentDatecurrentDate).format(),

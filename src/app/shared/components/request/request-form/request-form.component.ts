@@ -57,6 +57,14 @@ export class RequestFormComponent implements OnInit {
     const params = {pesquisa: ''};
     this.loockupstService.getLookUp(params,'motivoId').then(res =>{
       this.motivos = res;
+      const select = document.querySelector(".custom-options");
+      console.log(select); 
+      // select.className = 'my-custom-interface'
+      // conso
+      //document.querySelector<HTMLElement>('.custom-options');
+      // select.interfaceOptions = {
+      //   cssClass: 'my-custom-interface'
+      // };
     });
   }
   async setValform(){  

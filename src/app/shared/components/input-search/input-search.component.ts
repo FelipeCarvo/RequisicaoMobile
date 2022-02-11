@@ -3,8 +3,8 @@ import { trigger, style, animate, transition, state } from '@angular/animations'
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith} from 'rxjs/operators';
-
-import { MatAutocomplete } from '@angular/material/autocomplete';
+// import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
 export class HashDirective  {
   @Input() hash: string;
 
@@ -18,6 +18,7 @@ export class HashDirective  {
 })
 export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
+  @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Input() label: string;
   @Input() placeholder: string;
   @Input() name: string;
@@ -28,6 +29,7 @@ export class InputSearchComponent implements OnInit {
   listGroup:any = [];
   loading = false;
   refreshLoad= false;
+  required = false;
   // createDisplayFn =(value: string)=> {
   //     console.log(value)
   //     return !!value && this.listGroup.length > 0 ? this.listGroup.filter(option => option.id == value)[0].descricao : value;
@@ -37,9 +39,11 @@ export class InputSearchComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.required = this.parentForm.get(this.controlName).invalid;
     if(!!this.getValue()){
       this.refreshLoad = true;
       this.getLoockups();
+     
     }
   } 
   displayFn(value = this.getValue()) {
@@ -66,6 +70,8 @@ export class InputSearchComponent implements OnInit {
         if(this.refreshLoad){
           this.parentForm.controls[this.controlName].setValue(this.getValue());
           this.refreshLoad = false;
+        }else{
+          this.inputAutoComplete.openPanel();
         }
       },300)
     }

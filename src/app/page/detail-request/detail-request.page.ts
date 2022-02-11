@@ -33,9 +33,7 @@ export class DetailRequestPage implements OnInit {
     this.rquestService.getReq(params,'RelatorioRequisicao').subscribe((res:any) =>{
       this.reqItem = res[0];
       let date = new Date(this.reqItem.dataHora)
-      console.log(date)
       this.reqItem.dataHora = date.toLocaleDateString('PT-US',{ hour12: false,hour: "numeric", minute: "numeric"})
-      console.log(this.reqItem)
       setTimeout(()=>{
         this.load = true;
       },300)

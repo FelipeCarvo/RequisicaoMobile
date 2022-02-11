@@ -7,7 +7,7 @@
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Motivo</ion-label>
-        <ion-select placeholder="Todos" formControlName="motivoId"  [selectedText]="selectedTextOption()">
+        <ion-select placeholder="Todos" formControlName="motivoId" cancel-text="cancelar" interface="action-sheet" [interfaceOptions]="{ cssClass: 'my-custom-interface' }" [selectedText]="selectedTextOption()">
           <ion-select-option *ngFor="let item of motivos" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -20,7 +20,7 @@
       </ion-item>
       <ion-item lines="none" class="box">
         <ion-label position="stacked">Observações</ion-label>
-        <ion-textarea placeholder="Enter more information here..." formControlName="observacao"></ion-textarea>
+        <ion-textarea placeholder="Enter more information here..." formControlName="observacao" cols="20"></ion-textarea>
       </ion-item>
     </ion-col>
   </ion-row>
