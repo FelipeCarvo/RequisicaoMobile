@@ -8,6 +8,7 @@ import {setReqFileds} from '@core/store/actions/req.actions'
 import {RequestService} from '@services/request/request.service'
 import { ToastController } from '@ionic/angular';
 import { NavigationStart, Router } from '@angular/router';
+import {map, startWith} from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import {RouteInterceptorService} from '@services/utils/route-event';
 @Component({
@@ -48,7 +49,10 @@ export class RequestPage implements OnInit {
    }
 
   ngOnInit() {
-   
+    const {requisicaoId} = this.getFormForStore();
+    if(!!requisicaoId){
+      this.getVersion();
+    }
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
@@ -61,19 +65,28 @@ export class RequestPage implements OnInit {
   
     return loading
   }
-  async setStep(val){
+   setStep(val){
+    //  if(val === this.step){
+    //    return;
+    //  }
     if(this.validForm()){
+      console.log(this.sendPost)
       if(this.sendPost){
         this.sendReq(val);       
       }else{
-        const {requisicaoId} = this.getFormForStore()
-       
-        const test = await this.rquestService.getVersion(requisicaoId).toPromise()
-        console.log(test)
-        this.childComponent?.reqForm.reset();
         this.step = val;
       }         
     }
+  }
+  async getVersion(){
+    const {requisicaoId} = this.getFormForStore();
+    if(!!requisicaoId){
+      this.rquestService.getVersion(requisicaoId).subscribe(async(res) =>{
+        console.log(res)
+        this.setFormForStore({versaoEsperada:res});
+     },async(error)=>{});
+    }
+
   }
   public onBack(event) {
     const {previousUrl} =this.routeInterceptorService
@@ -91,7 +104,7 @@ export class RequestPage implements OnInit {
   setFormForStore(formField){
     this.store.dispatch(new setReqFileds(formField))
   }
-  public  validForm(){
+  public validForm(){
     let valid = this.store.selectSnapshot(ReqState.validEmpreendimentoId);
     return valid
   }
@@ -104,31 +117,38 @@ export class RequestPage implements OnInit {
     await modal.present();
   }
   async sendReq(val){
-    let {params,type} = this.getParams();
+    const {requisicaoId,versaoEsperada} = this.getFormForStore();
     const loading = await this.presentLoading();
+    let {params,type} = this.getParams();
     if(type === 'POST'){
       delete params["versaoEsperada"];
     }
-    this.rquestService.postReq(params,type).subscribe(async(response:any) =>{
-      await loading.onDidDismiss();
+    
+    this.rquestService.postReq(params,type).pipe(
+      map(x => this.getVersion())
+    ).subscribe(async(response:any) =>{
+      this.step = val;
+      this.sendPost = false;
       if(!this.validReqId()){
         this.setFormForStore({requisicaoId:response});
-        
+       
       }
-      setTimeout(()=>{
-        if(val !=0){
-          this.childComponent?.reqForm.reset();
-        }
-        this.step = val;
+       
+      setTimeout(async ()=>{
+        console.log("aqui")
+        await loading.onDidDismiss();  
+      
       },200)
     },
     async(error) =>{
-      await loading.onDidDismiss();
+     
       const toast = await this.toastController.create({
         message: error,
         duration: 2000
       });
       toast.present();
+      await loading.onDidDismiss();
+      this.step = this.step;
     })
   }
   UpdateForm(ev){

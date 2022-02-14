@@ -31,8 +31,10 @@ import { insumosModel } from '../models/inusmos.model';
   providedIn: 'root'
 })
 export class InsumoState {
-
- 
+  @Selector()
+  getIdInsumo(state:insumosModel){
+    return state.insumoId;
+  }
   @Selector()
   static validInsumos(state: insumosModel) {
     return !!state.requisicaoId;

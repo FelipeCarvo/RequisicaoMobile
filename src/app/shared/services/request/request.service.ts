@@ -53,8 +53,7 @@ export enum endPointsEnum{
  
         this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
           async(res:any) => {
-            console.log(res)
-            observer.next(res);
+            observer.next(res.resultado.version);
           },
           error => {
             console.log(error)

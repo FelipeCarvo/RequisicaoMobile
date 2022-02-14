@@ -2,7 +2,7 @@ import { Component, OnInit,Injectable ,ViewChild} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
-
+import {ReqState} from '@core/store/state/req.state';
 import { Store } from '@ngxs/store';
 import {InsumoState} from '@core/store/state/inusmos.state';
 import { setInsumosFileds } from '@core/store/actions/insumos.actions';
@@ -25,13 +25,20 @@ export class InsumosPage{
   ) { }
 
   ngOnInit() {
-
+    if(!this.validReqId()){
+      const {requisicaoId,versaoEsperada} = this.getRequest();
+     this.setFormForStore({requisicaoId,versaoEsperada});
+    
+    }
   }
   validReqId(){
     return this.store.selectSnapshot(InsumoState.validInsumos);
   }
   getFormForStore(){
     return this.store.selectSnapshot(InsumoState.getInsumos);
+  }
+  getRequest(){
+    return this.store.selectSnapshot(ReqState.getReq);
   }
   setFormForStore(formField){
     this.store.dispatch(new setInsumosFileds(formField))
@@ -41,6 +48,7 @@ export class InsumosPage{
     this.navCtrl.back();
   }
   public goCentralEstoque(){
-    this.router.navigate(['/central-req/consulta-estoque']);
+    console.log(this.getFormForStore())
+    this.router.navigate(['tabs/central-req/consulta-estoque']);
   }
 }

@@ -12,8 +12,8 @@
   <ion-grid  class="no-padding-bottom no-padding-top">
     <ion-row class="ion-justify-content-center">
       <ion-col size="11"  class="no-padding-bottom no-padding-top">
-        <ion-segment [scrollable]="true" [value]="step" class="segmentBottom" (ionChange)="setStep($event.target.value)">
-          <ion-segment-button [value]="item.key" [disabled]="!item.enabled || item.key == step"  *ngFor="let item of steps" >
+        <ion-segment [scrollable]="true" [value]="step" class="segmentBottom" (ionSelect)="setStep($event.target.value)">
+          <ion-segment-button [value]="item.key"  [disabled]="!item.enabled || item.key == step"  *ngFor="let item of steps" >
               {{item.title}}
           </ion-segment-button>
         </ion-segment>
