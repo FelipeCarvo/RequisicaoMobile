@@ -3,7 +3,7 @@
   <ion-row class="ion-justify-content-center"> 
     <ion-col size="11" class="no-padding-top" >
       <ion-item  lines="none" class="box">
-        <app-input-search label="Empreendimento" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" name="empreendimentoId" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Empreendimento" formName="req" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" name="empreendimentoId" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Motivo</ion-label>
@@ -12,10 +12,10 @@
         </ion-select>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Número O.F (Para desconto)" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
+        <app-input-search label="Número O.F (Para desconto)" formName="req" disabledFieldName="Código da obra" disabledCondition="empreendimentoId"  [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
-        <app-input-search label="Aprovador" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsUsuarios" placeholder="Aprovador" name="aprovador" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>
+        <app-input-search label="Aprovador" disabledFieldName="Código da obra" formName="req"  disabledCondition="empreendimentoId" [pesquisa]="{pesquisa: ''}"  [listItemFilter]="listItemFilter.filteredOptionsUsuarios" placeholder="Aprovador" name="aprovador" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>
     
       </ion-item>
       <ion-item lines="none" class="box">

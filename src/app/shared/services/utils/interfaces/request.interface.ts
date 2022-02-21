@@ -4,6 +4,7 @@ export interface FilterRequestFields {
     filteredOptionsOFsDescontoMaterial?: Observable<string[]>,
     filteredOptionsUsuarios?:Observable<string[]>,
     filteredOptionsEmpresasInsumos?: Observable<string[]>,
+    EmpresasDoEmpreendimento?: Observable<string[]>,
     filteredOptionsInsumos?: Observable<string[]>,
     filteredOptionsPlanoDeContas?: Observable<string[]>,    
     filteredOptionsServico?: Observable<string[]>,       

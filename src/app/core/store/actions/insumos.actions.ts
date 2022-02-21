@@ -1,4 +1,7 @@
-export class setInsumosFileds {
-    static readonly type = '[Insumostate] setInsumosFileds';
-    constructor(public payload: any) {}
-  }
+export class SetInsumosFileds {
+  static readonly type = '[Insumostate] SetInsumosFileds';
+  constructor(public payload: any) {}
+}
+export class ResetStateInsumos {
+  static readonly type = '[Insumostate] ResetStateInsumos';
+}

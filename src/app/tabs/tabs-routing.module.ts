@@ -44,13 +44,19 @@ const routes: Routes = [
         loadChildren: () => import('../page/detail-request/detail-request.module').then( m => m.DetailRequestPageModule),
         data:{noHeader:true},
       },
+      {
+        path: '**',
+        redirectTo: '/tabs/home',
+        pathMatch: 'full'
+      }
     ]
   },
   {
-    path: '',
-    redirectTo: '/tabs/login',
+    path: '**',
+    redirectTo: '/tabs/home',
     pathMatch: 'full'
-  }
+  },
+
 ];
 
 @NgModule({

@@ -5,6 +5,7 @@ import {opacityAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { filter } from 'rxjs/operators';
+import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,6 @@ export class RequestFormComponent implements OnInit {
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   public reqForm: FormGroup;
-  // filteredOptionsEmpreendimento: Observable<string[]>;
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
     filteredOptionsOFsDescontoMaterial:null,
@@ -27,24 +27,19 @@ export class RequestFormComponent implements OnInit {
   };
   motivos:any;
   load = false;
-  constructor(private loockupstService:LoockupstService,private formBuilder: FormBuilder) { }
+  constructor(private loockupstService:LoockupstService,private formBuilder: FormBuilder) {
+    this.initForm();
+  }
   async ngOnInit() {
     this.getLoockupMotivo();
-    this.reqForm = this.formBuilder.group({
-      empreendimentoId:  new FormControl(null, [Validators.required]),
-      motivoId: new FormControl(null),
-      OFsDescontoMaterial: [null],
-      aprovador: new FormControl(null),
-      observacao:[null]
-    });
     await this.setValform();
     this.reqForm.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-       
+ 
         let val = this.getFormField(e);
         let formField = {[e]:val};
-        let atualValue = this.getFormForStore[e]
+        let atualValue = this.getFormForStore[e];
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
           this.UpdateForm.emit(true);
@@ -52,19 +47,34 @@ export class RequestFormComponent implements OnInit {
       })
     })
   }
-
+ 
+  initForm(){
+    this.reqForm = this.formBuilder.group({
+      empreendimentoId:  new FormControl(null, [Validators.required]),
+      motivoId: new FormControl(null),
+      OFsDescontoMaterial: [null],
+      aprovador: new FormControl({value:null}),
+      observacao:[null]
+    });
+  }
+  getDisable(){
+    if(!!this.reqForm){
+      return this.reqForm.get('empreendimentoId').invalid
+    }
+  }
   async getLoockupMotivo(){
-    const params = {pesquisa: ''};
-    this.loockupstService.getLookUp(params,'motivoId').then(res =>{
+    const {motivoId} = this.getFormForStore;
+    console.log(motivoId)
+    const params:RequestFormInterface = {motivos: {pesquisa:null}};
+    let {motivos} = params; 
+    Object.keys(motivos).forEach(key => {
+      console.log(motivos[key])
+      if (motivos[key] == null && key != 'pesquisa') {
+        delete motivos[key];
+      }
+    });
+    this.loockupstService.getLookUp(motivos,'motivoId').then(res =>{
       this.motivos = res;
-      const select = document.querySelector(".custom-options");
-      console.log(select); 
-      // select.className = 'my-custom-interface'
-      // conso
-      //document.querySelector<HTMLElement>('.custom-options');
-      // select.interfaceOptions = {
-      //   cssClass: 'my-custom-interface'
-      // };
     });
   }
   async setValform(){  
@@ -73,7 +83,6 @@ export class RequestFormComponent implements OnInit {
     let obj1 = this.removeFields(formVal);
     let obj2 = this.removeFields(this.getFormForStore);
     this.UpdateForm.emit(JSON.stringify(obj1) !== JSON.stringify(obj2))
-   
   }
   getFormField(field){
     return this.reqForm.get(field).value

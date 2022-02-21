@@ -28,16 +28,28 @@ ion-header{
         }
     }
 }
+ion-checkbox{
+    --background-checked: #4682B4;
+    --border-color-checked: #4682B4;
+    --border-width:2px;
+    width: 16px;
+    height: 16px;
+    --background:transparent;
+    --border-color:#4682B4;
+    --checkmark-color: #fff;
+    --checkmark-width: 3px;
+    --color: #4682B4;
+    --border-radius: 3px;
+    margin-inline-end: 10px;
+}
 .status{
-    ion-radio{
-        margin-inline-end: 9px!important;
-        --border-width:3px;
-    }
+
     ion-label{
-        font-weight: 600!important;
-        font-size: 16px!important;
+        color: #023A51 !important;
+        font-size: 16px !important;
         line-height: 20px!important;
         letter-spacing: -0.02em!important;
+        font-weight: 400 !important;
     }
     .aprovado{
         color: #2CBC63!important;
@@ -55,13 +67,9 @@ ion-list,.radio{
         font-size: 16px!important;
         line-height: 20px!important;
         letter-spacing: -0.02em!important;
-        font-weight: 200!important;
+        font-weight: 400!important;
     }
-    ion-radio{
-        margin-inline-end: 5px;
-        --color:#4682B4;
-        --border-radius	:3px;
-    }
+
     background: transparent;
 }
 ion-row{
@@ -73,4 +81,15 @@ ion-row{
     font-weight: 600;
     font-size: 16px;
     line-height: 18px;
+}
+.required-text{
+    p{
+        color: #EB5757;
+        font-size: 13px;
+        margin-top: 2px!important;
+        margin-bottom: 0!important;
+        margin-block-end: 1em;
+        line-height: 18px;
+        letter-spacing: -0.02em;
+    }
 }

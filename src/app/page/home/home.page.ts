@@ -2,8 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {RequestService} from '@services/request/request.service'
 import {opacityAnimation} from '@services/animation/custom-animation'
-import * as moment from 'moment';
-@Component({
+import * as moment from 'moment';@Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
@@ -12,8 +11,12 @@ import * as moment from 'moment';
 export class homePage {
   listReq: Array<any>;
   load = false;
-  constructor(private router:Router,private rquestService:RequestService) {}
+  constructor(
+    private router:Router,
+    private rquestService:RequestService,
+   ) {}
   ngOnInit() {
+  
    this.getReq()
   }
   newRequest(){

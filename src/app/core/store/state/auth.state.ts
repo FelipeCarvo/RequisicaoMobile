@@ -1,14 +1,15 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { SetToken,setAuthData } from '../actions/auth.actions';
+import { SetToken,setAuthData,Logout } from '../actions/auth.actions';
 import { AuthUserStateModel } from '../models/auth.model';
+const defaults: AuthUserStateModel = {
+  userName: null,
+  token:null,
+  refreshToken:null
+};
 @State<AuthUserStateModel>({
   name: 'AuthUser',
-  defaults: {
-    userName:null,
-    token: null,
-    refreshToken:null
-  }
+  defaults: defaults
 })
 @Injectable({
   providedIn: 'root'
@@ -35,11 +36,14 @@ export class AuthUser {
   }
   @Action(setAuthData)
   setAuthData({patchState}:StateContext<AuthUserStateModel>,{payload}:setAuthData){
-    console.log("aqui",payload)
     patchState({
       token:payload.token,
       userName:payload.userName,
       refreshToken:payload.refreshToken
     })
+  }
+  @Action(Logout)
+  logout(context: StateContext<AuthUserStateModel>) {
+    context.setState({ ...defaults });
   }
 }

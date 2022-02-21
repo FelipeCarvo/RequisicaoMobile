@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ListInsumosPageRoutingModule } from './list-insumos-routing.module';
 
 import { ListInsumosPage } from './list-insumos.page';
-
+import {sharedModules} from '@components/components.module'
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListInsumosPageRoutingModule
+    ListInsumosPageRoutingModule,
+    sharedModules
   ],
   declarations: [ListInsumosPage]
 })

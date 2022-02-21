@@ -18,9 +18,11 @@ export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   empreendimentoId:String = null;
-  public reqForm: FormGroup;
+  public reqFormInsumos: FormGroup;
+  public etapas:any= [];
+  loadForm: boolean = false;
   listItemFilter:FilterRequestFields ={
-    filteredOptionsEmpresasInsumos:null,
+    EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
     filteredOptionsPlanoDeContas:null,
     filteredOptionsServico:null
@@ -31,50 +33,94 @@ export class IsumosFormComponent implements OnInit {
     private router:Router,
     private formBuilder: FormBuilder,
     private store:Store
-  ) { }
+  ) {
+   
+   }
 
   async ngOnInit() {
+    this.initForm();
+  }
+  async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;
-    this.reqForm = this.formBuilder.group({
+    this.reqFormInsumos = this.formBuilder.group({
       empresaId:  new FormControl('', [Validators.required]),
-      planoContasId:[null],
-      servicoId: [null],
-      insumoId:[null],
-      blocoId:[null],
-      unidadeId:[null]
+      planoContasId:new FormControl(null),
+      servicoId: new FormControl(null),
+      insumoId:new FormControl(null),
+      blocoId:new FormControl(null),
+      unidadeId:new FormControl(null),
+      etapaId:new FormControl(null),
+      somenteInsumosDaEtapa:new FormControl(false),
     });
+    this.loadForm = true;
     await this.setValform();
-    this.reqForm.valueChanges.subscribe(selectedValue  => {
+    this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
       if(!!selectedValue.insumoId){
-        const params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:selectedValue.insumoId,mostrarDI:true};
-        this.getLoockupEtapa(params);
+        // const params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:selectedValue.insumoId};
+        // this.getLoockupEtapa(params);
       }
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-       
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e]
-        if(formField != atualValue){
+        if(formField != atualValue && e != 'somenteInsumosDaEtapa'){
           this.setFormForStore.emit(formField);
         }
       })
     })
   }
-  async setValform(){  
-    await this.reqForm.patchValue(this.getFormForStore);
+  async disabledEtapa(){
+    let params;
+   
+    let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    let insumoId = this.reqFormInsumos?.get('insumoId').value;
+    let retorno;
+    if(!!this.empreendimentoId){
+        params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId};
+      retorno = true;
+      if(somenteInsumosDaEtapa && !insumoId){
+        params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId};
+        return false
+      }else{
+        return true;
+      }
+    }else{
+      retorno = false;
+    }
+    return retorno
   }
-  async getLoockupEtapa(params){
+  async setValform(){  
+    await this.reqFormInsumos.patchValue(this.getFormForStore);
+  }
+  async getLoockupEtapa(){
+    let params;
+    let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    let insumoId = this.reqFormInsumos?.get('insumoId').value;
+    if(somenteInsumosDaEtapa){
+      if(!!insumoId){
+        params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId,mostrarDI: true,};
+      }else{
+        this.etapas = [];
+        return
+      }
+    }else{
+      params = {pesquisa: '',empreendimentoId:this.empreendimentoId};
+    }
     this.loockupstService.getLookUp(params,'etapaId').then(res =>{
-     console.log(res)
+      this.etapas = res;
     });
   }
   async getForm(){
-    return this.reqForm.getRawValue();
+    return this.reqFormInsumos.getRawValue();
+  }
+  getEtapaByDre(ev){
+    console.log(this.reqFormInsumos.get('somenteInsumosDaEtapa').value)
+    console.log(this.reqFormInsumos.get('somenteInsumosDaEtapa').value)
   }
   getFormField(field){
-    return this.reqForm.get(field).value
+    return this.reqFormInsumos.get(field).value
   }
   public dismiss(): void {
     this.navCtrl.back();

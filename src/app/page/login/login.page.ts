@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'login.page.html',
@@ -12,10 +13,18 @@ export class LoginPage implements OnInit{
   public loginForm: FormGroup;
   public loadSendData = false;
   public typePassword = "password";
-  constructor(private formBuilder: FormBuilder,private router:Router ,private loginService:LoginService,private toastController:ToastController) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router:Router,
+    private loginService:LoginService,
+    private toastController:ToastController,
+  
+
+  ) {
     this.initForm()
   }
   ngOnInit(){
+
   }
   private initForm(): void {
     this.loginForm = this.formBuilder.group({

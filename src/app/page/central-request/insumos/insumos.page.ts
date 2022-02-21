@@ -1,11 +1,11 @@
-import { Component, OnInit,Injectable ,ViewChild} from '@angular/core';
+import { Component, OnInit,Injectable ,ViewChild,Input} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {ReqState} from '@core/store/state/req.state';
 import { Store } from '@ngxs/store';
 import {InsumoState} from '@core/store/state/inusmos.state';
-import { setInsumosFileds } from '@core/store/actions/insumos.actions';
+import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +16,7 @@ import { setInsumosFileds } from '@core/store/actions/insumos.actions';
 })
 export class InsumosPage{
   @ViewChild('appChild', {static: false}) childComponent;
+
   constructor(
     private loockupstService:LoockupstService,
     public navCtrl:NavController,
@@ -41,7 +42,7 @@ export class InsumosPage{
     return this.store.selectSnapshot(ReqState.getReq);
   }
   setFormForStore(formField){
-    this.store.dispatch(new setInsumosFileds(formField))
+    this.store.dispatch(new SetInsumosFileds(formField))
   }
 
   public dismiss(): void {

@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
+import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
 import { trigger, style, animate, transition, state } from '@angular/animations';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith,switchMap} from 'rxjs/operators';
 // import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
+
 export class HashDirective  {
   @Input() hash: string;
 
@@ -16,6 +18,7 @@ export class HashDirective  {
   styleUrls: ['./input-search.component.scss'],
 
 })
+
 export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
@@ -26,44 +29,78 @@ export class InputSearchComponent implements OnInit {
   @Input() parentForm:FormGroup;
   @Input() listItemFilter:any;
   @Input() pesquisa:any;
+  @Input() disabledCondition:any;
+  @Input() disabledFieldName:string;
+  @Input() formName:string;
+  msgDisabled:string;
   listGroup:any = [];
   loading = false;
   refreshLoad= false;
-  required = false;
-  // createDisplayFn =(value: string)=> {
-  //     console.log(value)
-  //     return !!value && this.listGroup.length > 0 ? this.listGroup.filter(option => option.id == value)[0].descricao : value;
-    
-  // }
+  noSearchResult = false;
   constructor(private loockupstService:LoockupstService,){
 
   }
   ngOnInit() {
-    this.required = this.parentForm.get(this.controlName).invalid;
+
     if(!!this.getValue()){
       this.refreshLoad = true;
       this.getLoockups();
      
     }
-  } 
+  }
+   
   displayFn(value = this.getValue()) {
     if(!!value && this.listGroup.length > 0){
       return this.listGroup.filter(option => option.id == value)[0]?.descricao
     }
   
   }
-
+  viewDisabled(){
+    let type = !!this.disabledCondition ? this.getValidInput(this.disabledCondition) : false;
+    let type1 = !!this.controlName ? this.getValidInput(this.controlName) : false;
+    if(!!type){
+      this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
+      this.parentForm.get(this.controlName).disable();
+    }else if(type){
+      this.parentForm.get(this.controlName).enable();
+    }
+     if(!!type1){
+      this.msgDisabled = `${this.placeholder} é um campo obrigatório`
+    }
+    return type || type1 || this.refreshLoad
+  }
+  getValidInput(FormControl){
+    return this.parentForm.get(FormControl).invalid
+  }
   getValue(){
     return this.parentForm.get(this.controlName).value 
+  }
+  focusout(){
+    if(this.noSearchResult){
+      this.parentForm.controls[this.controlName].setValue(null)
+    }
   }
   async getLoockups(){
     if (!this.listItemFilter){
       this.loading = true;
       const params = this.pesquisa;
-      this.listGroup = await this.loockupstService.getLookUp(params,this.controlName);
+      let enumName = this.controlName
+      if(this.formName == 'insumos' && this.controlName == 'empresaId'){
+        enumName = 'EmpresasDoEmpreendimento'
+      }
+      // if(!!this.getValue()){
+      //   params.valorSelecionado = this.getValue();
+      // }
+      // const test:RequestFormInterface = {motivos: {pesquisa:'',valorSelecionado:this.getValue()}};
+      this.listGroup = await this.loockupstService.getLookUp(params,enumName);
       this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
         startWith(''),
-        map(value => this._filter(value,this.listGroup)),
+        map((value) => {
+          let filterValue = this._filter(value,this.listGroup);
+          this.noSearchResult = filterValue.length == 0;
+
+          return filterValue
+        }),
       );
       setTimeout(()=>{
         this.loading = false;

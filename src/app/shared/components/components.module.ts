@@ -10,6 +10,8 @@ import {MatFormFieldModule,} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {ModalFinishReqComponent} from './modal-finish-req/modal-finish-req.component'
 import {IsumosFormComponent} from './request/isumos-form/isumos-form.component'
+import { IonicModule } from '@ionic/angular';
+import{ListInsumosComponent} from './list-insumos/list-insumos.component';
  @NgModule({
     imports: [
       CommonModule,
@@ -18,10 +20,10 @@ import {IsumosFormComponent} from './request/isumos-form/isumos-form.component'
       ReactiveFormsModule,
       MatAutocompleteModule,
       MatFormFieldModule,
-      MatInputModule
-      
+      MatInputModule,
+      IonicModule
     ],
-    declarations: [SpinnerComponent,InputSearchComponent,ModalFinishReqComponent,IsumosFormComponent],
-    exports:[InputSearchComponent,SpinnerComponent,FormsModule,CommonModule,ListRequestComponentModule,FormControlDirective,ReactiveFormsModule,ModalFinishReqComponent,IsumosFormComponent,RouteInterceptorService]
+    declarations: [SpinnerComponent,InputSearchComponent,ModalFinishReqComponent,IsumosFormComponent,ListInsumosComponent],
+    exports:[InputSearchComponent,SpinnerComponent,FormsModule,CommonModule,ListRequestComponentModule,FormControlDirective,ReactiveFormsModule,ModalFinishReqComponent,IsumosFormComponent,RouteInterceptorService,ListInsumosComponent]
   })
   export class sharedModules {}

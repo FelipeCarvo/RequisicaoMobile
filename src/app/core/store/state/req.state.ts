@@ -1,21 +1,21 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { setReqFileds } from '../actions/req.actions';
+import { setReqFileds,ResetStateReq } from '../actions/req.actions';
 import { ReqIntefaceModel } from '../models/req.model';
-
+const defaults:ReqIntefaceModel = {
+  requisicaoId:null,
+  motivoId: null,
+  observacao: null,
+  empreendimentoId: null,
+  ofDescontoMaterial: null,
+  exportadoConstruCompras: false,
+  prazoCotacaoConstruCompras:0,
+  aprovador: null,
+  versaoEsperada: null
+}
 @State<ReqIntefaceModel>({
   name: 'ReqState',
-  defaults: {
-    requisicaoId:null,
-    motivoId: null,
-    observacao: null,
-    empreendimentoId: null,
-    ofDescontoMaterial: null,
-    exportadoConstruCompras: false,
-    prazoCotacaoConstruCompras:0,
-    aprovador: null,
-    versaoEsperada: null
-  }
+  defaults: defaults
 })
 @Injectable({
   providedIn: 'root'
@@ -35,9 +35,12 @@ export class ReqState {
     return state;
   }
   @Action(setReqFileds)
-  setReqFileds(state: StateContext<ReqIntefaceModel>, { payload }: setReqFileds) {
-    console.log(state)
-    state.patchState(payload);
+  setReqFileds(context: StateContext<ReqIntefaceModel>, { payload }: setReqFileds) {
+    context.patchState(payload);
+  }
+  @Action(ResetStateReq)
+  resetStateReq(context: StateContext<ReqIntefaceModel>){
+    context.setState({ ...defaults });
   }
 
 }

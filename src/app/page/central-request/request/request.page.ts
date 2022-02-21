@@ -4,13 +4,14 @@ import { ModalController } from '@ionic/angular';
 import {ModalFinishReqComponent} from '@components/modal-finish-req/modal-finish-req.component';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {setReqFileds} from '@core/store/actions/req.actions'
+import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions'
 import {RequestService} from '@services/request/request.service'
 import { ToastController } from '@ionic/angular';
-import { NavigationStart, Router } from '@angular/router';
-import {map, startWith} from 'rxjs/operators';
+import {Router } from '@angular/router';
+import {map,tap,switchMap} from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import {RouteInterceptorService} from '@services/utils/route-event';
+import {LoadingService} from '@services/loading/loading-service';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -21,6 +22,7 @@ export class RequestPage implements OnInit {
   step:Number = 0;
   validStep: boolean = false;
   sendPost:boolean = false;
+  requisicaoId:string = null;
   private history: string[] = []
   steps:any = [
     { key: 0, title: "Requisição",enabled:true},
@@ -36,7 +38,8 @@ export class RequestPage implements OnInit {
     private toastController:ToastController,
     private router:Router,
     private loadingController:LoadingController,
-    private routeInterceptorService: RouteInterceptorService
+    private routeInterceptorService: RouteInterceptorService,
+    public loading: LoadingService,
   ) {  
 
     this.store
@@ -47,30 +50,16 @@ export class RequestPage implements OnInit {
       this.steps[2].enabled = this.validStep;
     });
    }
-
   ngOnInit() {
     const {requisicaoId} = this.getFormForStore();
-    if(!!requisicaoId){
+    this.requisicaoId = requisicaoId;
+    if(!!this.requisicaoId){
       this.getVersion();
     }
   }
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000
-    });
-    await loading.present();
 
-  
-    return loading
-  }
    setStep(val){
-    //  if(val === this.step){
-    //    return;
-    //  }
     if(this.validForm()){
-      console.log(this.sendPost)
       if(this.sendPost){
         this.sendReq(val);       
       }else{
@@ -79,14 +68,12 @@ export class RequestPage implements OnInit {
     }
   }
   async getVersion(){
-    const {requisicaoId} = this.getFormForStore();
-    if(!!requisicaoId){
-      this.rquestService.getVersion(requisicaoId).subscribe(async(res) =>{
-        console.log(res)
+    if(!!this.requisicaoId){
+      this.rquestService.getVersion(this.requisicaoId).subscribe(async(res:any) =>{
+    
         this.setFormForStore({versaoEsperada:res});
      },async(error)=>{});
     }
-
   }
   public onBack(event) {
     const {previousUrl} =this.routeInterceptorService
@@ -105,11 +92,9 @@ export class RequestPage implements OnInit {
     this.store.dispatch(new setReqFileds(formField))
   }
   public validForm(){
-    let valid = this.store.selectSnapshot(ReqState.validEmpreendimentoId);
-    return valid
+    return this.store.selectSnapshot(ReqState.validEmpreendimentoId);
   }
   async openModal(){
-   
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
@@ -117,39 +102,40 @@ export class RequestPage implements OnInit {
     await modal.present();
   }
   async sendReq(val){
-    const {requisicaoId,versaoEsperada} = this.getFormForStore();
-    const loading = await this.presentLoading();
+    this.loading.present();
     let {params,type} = this.getParams();
     if(type === 'POST'){
       delete params["versaoEsperada"];
     }
-    
     this.rquestService.postReq(params,type).pipe(
-      map(x => this.getVersion())
-    ).subscribe(async(response:any) =>{
-      this.step = val;
-      this.sendPost = false;
-      if(!this.validReqId()){
+      tap((response:any) => {
+        console.log('1')
+        this.requisicaoId = response;
         this.setFormForStore({requisicaoId:response});
-       
+      }),
+      switchMap((id) => {
+        console.log('2')
+        return this.rquestService.getVersion(id)
+      }))
+      .subscribe(async(result:any) =>{
+        console.log('3')
+        console.log(result)
+        this.loading.dismiss();
+        this.setFormForStore({versaoEsperada:result});
+        this.step = val;
+        
+        this.sendPost = false;  
+      },
+      async(error) =>{
+        const toast = await this.toastController.create({
+          message: error,
+          duration: 2000
+        });
+        toast.present();
+        this.loading.dismiss();
+        this.step = this.step;
       }
-       
-      setTimeout(async ()=>{
-        console.log("aqui")
-        await loading.onDidDismiss();  
-      
-      },200)
-    },
-    async(error) =>{
-     
-      const toast = await this.toastController.create({
-        message: error,
-        duration: 2000
-      });
-      toast.present();
-      await loading.onDidDismiss();
-      this.step = this.step;
-    })
+    )
   }
   UpdateForm(ev){
     this.sendPost = ev

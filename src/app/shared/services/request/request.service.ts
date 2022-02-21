@@ -9,9 +9,11 @@ export enum endPointsEnum{
   'RequisicaoId' ='/sieconwebsuprimentos/api/Requisicao',
   'RelatorioRequisicao' ='/sieconwebwebapi/api/suprimentos/Requisicao/RelatorioRequisicao',
   'Empreendimentos'= '/sieconwebwebapi/api/cadastros/Lookups/Empreendimentos',
-  'newReq' = 'sieconwebwebapi/api/suprimentos/Requisicao/NovaRequisicaoCriada',
-  'UpateReq' = 'sieconwebwebapi/api/suprimentos/Requisicao/RequisicaoAtualizada',
-  'GetVersion' = '/sieconwebsuprimentos/api/Requisicao'
+  'newReq' = '/sieconwebwebapi/api/suprimentos/Requisicao/NovaRequisicaoCriada',
+  'UpateReq' = '/sieconwebwebapi/api/suprimentos/Requisicao/RequisicaoAtualizada',
+  'GetVersion' = '/sieconwebsuprimentos/api/Requisicao',
+  'getIsumosId' = '/sieconwebsuprimentos/api/ItemRequisicao'
+  
 }
 @Injectable({
     providedIn: 'root'
@@ -50,10 +52,22 @@ export enum endPointsEnum{
     }
     getVersion(id = null, endPoint = 'GetVersion'){
       return new Observable((observer) => {
- 
         this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             observer.next(res.resultado.version);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    getInsumosById(id = null, endPoint = 'getIsumosId'){
+      return new Observable((observer) => {
+        this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
           },
           error => {
             console.log(error)
@@ -68,6 +82,7 @@ export enum endPointsEnum{
       return new Observable((observer) => {
         req.subscribe(
           async(res:any) => {
+            console.log(res)
             observer.next(res.resultado);
           },
           error => {

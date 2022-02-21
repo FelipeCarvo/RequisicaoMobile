@@ -37,7 +37,16 @@ background-color: #EAECED!important;
 width: 3px!important;
 background-color: #EAECED!important;
 }
-
+.my-custom-class-loading{
+    --background: #EAECED;
+    --spinner-color: #4682B4;
+    box-shadow:none;
+    color: #023A51;
+    ion-spinner{
+        width: 40px;
+        height: 40px;
+    }
+}
 ::-webkit-scrollbar-thumb
 {
 background-color: #4682B4!important;

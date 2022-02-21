@@ -1,15 +1,41 @@
 ion-row{
     width: 100%;
-    input{
-        width: 100%;
+    .formInput{
+        background: #F8F8F8;
+        border: 2px solid #EAECED;
+        box-sizing: border-box;
+        border-radius: 9px;
         padding-inline-start: 11px;
-        --placeholder-color: #BDBDBD;
-        ::placeholder{
-            color: #BDBDBD;
+        margin-top: 4px;
+        min-height: 52px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        ion-icon {
+            position: absolute;
+            color: #EB5757;
+            font-size: 18px;
+            right: 11px;
+          }
+        input{
+            width: 100%;
+            border: none!important;
+            border-radius: 0!important;
+            margin-top: 0!important;
+        }
+    }
+    .required-text{
+        p{
+            color: #EB5757;
+            font-size: 13px;
+            margin-top: 2px!important;
+            margin-bottom: 0!important;
+            margin-block-end: 1em;
+            line-height: 18px;
+            letter-spacing: -0.02em;
         }
     }
     ion-spinner{
-     
         color: #4682B4;
     }
 }

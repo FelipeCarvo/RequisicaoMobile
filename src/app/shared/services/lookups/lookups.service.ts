@@ -3,20 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable,} from 'rxjs';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
-export enum endPointsEnum{
-  'empreendimentoId'= 'cadastros/Lookups/Empreendimentos',
-  'motivoId' = 'suprimentos/Lookups/Motivos',
-  'OFsDescontoMaterial'= 'suprimentos/Lookups/OFsDescontoMaterial',
-  'aprovador'='cadastros/Lookups/Usuarios',
-  'empresaId' = 'cadastros/Lookups/Empresas',
-  'planoContasId' = 'cadastros/Lookups/PlanoContas',
-  'servicoId' ='contratoservicos/Lookups/Servicos',
-  'insumoId'='suprimentos/Lookups/Insumos',
-  'blocoId' = 'cadastros/Lookups/Blocos',
-  'unidadeId'= 'cadastros/Lookups/Unidades',
-  'etapaId' = 'orcamentos/Lookups/Etapas',
+import {endPointsEnum} from '../utils/enums/EnumLockup'
 
-}
 @Injectable({
     providedIn: 'root'
   })

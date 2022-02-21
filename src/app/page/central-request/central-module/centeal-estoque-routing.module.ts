@@ -22,7 +22,12 @@ const routes: Routes = [
         path: 'nova-req',
         loadChildren: () => import('../request/request.module').then( m => m.RequestPageModule),
         data:{noHeader:true},
-      }
+      },
+      {
+        path: 'list-insumos',
+        loadChildren: () => import('../list-insumos/list-insumos.module').then( m => m.ListInsumosPageModule),
+        data:{noHeader:true},
+      },
     ]  
   }
 ];
