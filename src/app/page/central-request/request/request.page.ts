@@ -7,10 +7,8 @@ import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions'
 import {RequestService} from '@services/request/request.service'
 import { ToastController } from '@ionic/angular';
-import {Router } from '@angular/router';
 import {map,tap,switchMap} from 'rxjs/operators';
-import { LoadingController } from '@ionic/angular';
-import {RouteInterceptorService} from '@services/utils/route-event';
+import { AlertController } from '@ionic/angular';
 import {LoadingService} from '@services/loading/loading-service';
 @Component({
   selector: 'app-request',
@@ -36,9 +34,7 @@ export class RequestPage implements OnInit {
     private store:Store,
     private rquestService:RequestService,
     private toastController:ToastController,
-    private router:Router,
-    private loadingController:LoadingController,
-    private routeInterceptorService: RouteInterceptorService,
+    public alertController: AlertController,
     public loading: LoadingService,
   ) {  
 
@@ -75,12 +71,31 @@ export class RequestPage implements OnInit {
      },async(error)=>{});
     }
   }
-  public onBack(event) {
-    const {previousUrl} =this.routeInterceptorService
-    if(previousUrl == '/tabs/home'){
+  async onBack():Promise<void> {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Limpar requisição',
+      message: 'Você ainda não criou uma requisição deseja mesmo voltar ?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Voltar',
+          cssClass: 'confirm-button',
+          handler: () => {
+            this.store.dispatch(new ResetStateReq())
+            this.navCtrl.back();
+          }
+        }
+      ]
+    });
 
-    }
-    // this.navCtrl.back();
+    await alert.present();
   }
   validReqId(){
     return this.store.selectSnapshot(ReqState.validReqId);
@@ -109,7 +124,6 @@ export class RequestPage implements OnInit {
     }
     this.rquestService.postReq(params,type).pipe(
       tap((response:any) => {
-        console.log('1')
         this.requisicaoId = response;
         this.setFormForStore({requisicaoId:response});
       }),
@@ -118,8 +132,6 @@ export class RequestPage implements OnInit {
         return this.rquestService.getVersion(id)
       }))
       .subscribe(async(result:any) =>{
-        console.log('3')
-        console.log(result)
         this.loading.dismiss();
         this.setFormForStore({versaoEsperada:result});
         this.step = val;

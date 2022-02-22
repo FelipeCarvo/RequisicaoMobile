@@ -1,11 +1,11 @@
-import { Component, OnInit,Injectable ,ViewChild,Input} from '@angular/core';
+import { Component,Injectable ,ViewChild} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {LoockupstService} from '@services/lookups/lookups.service';
 import {ReqState} from '@core/store/state/req.state';
 import { Store } from '@ngxs/store';
 import {InsumoState} from '@core/store/state/inusmos.state';
-import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
+import { SetInsumosFileds,ResetStateInsumos } from '@core/store/actions/insumos.actions';
+import { AlertController } from '@ionic/angular';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,17 +18,16 @@ export class InsumosPage{
   @ViewChild('appChild', {static: false}) childComponent;
 
   constructor(
-    private loockupstService:LoockupstService,
     public navCtrl:NavController,
     private router:Router,
-
+    public alertController: AlertController,
     private store:Store
   ) { }
 
   ngOnInit() {
     if(!this.validReqId()){
       const {requisicaoId,versaoEsperada} = this.getRequest();
-     this.setFormForStore({requisicaoId,versaoEsperada});
+      this.setFormForStore({requisicaoId,versaoEsperada});
     
     }
   }
@@ -44,10 +43,33 @@ export class InsumosPage{
   setFormForStore(formField){
     this.store.dispatch(new SetInsumosFileds(formField))
   }
+  async dismiss(): Promise<void> {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Limpar insumo',
+      message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Voltar',
+          cssClass: 'confirm-button',
+          handler: () => {
+            this.store.dispatch(new ResetStateInsumos())
+            this.navCtrl.back();
+          }
+        }
+      ]
+    });
 
-  public dismiss(): void {
-    this.navCtrl.back();
+    await alert.present();
   }
+
   public goCentralEstoque(){
     console.log(this.getFormForStore())
     this.router.navigate(['tabs/central-req/consulta-estoque']);

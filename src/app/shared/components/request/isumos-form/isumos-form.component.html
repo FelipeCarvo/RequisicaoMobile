@@ -34,15 +34,16 @@
       </ion-item>
       <ion-item class="box radio"> 
         <ion-label>Apenas Etapas do Insumo</ion-label>
-        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa" (ionChange)="getEtapaByDre($event.target.value)"></ion-checkbox>
+        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa" ></ion-checkbox>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
         
-       <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && !disabledEtapa()"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet">
+       <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa()"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet">
+        <ion-select-option disabled="true" [value]="null" *ngIf="etapas.length == 0" >Nenhuma etapa disponivel</ion-select-option>
         <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
         </ion-select>
-        <ion-col size="12" *ngIf="!disabledEtapa()">
+        <ion-col size="12" *ngIf="disabledEtapa()">
           <div class="required-text">
             <p>Insumo é um campo obrigatório</p>
           </div>
@@ -62,7 +63,7 @@
         <ion-row>
           <ion-col size="8" class="no-padding-left">
             <ion-label position="floating">Quantidade</ion-label>
-            <ion-input value="100,00000"></ion-input>
+            <ion-input formControlName="quantidade" placeholder="0"></ion-input>
           </ion-col>
           <ion-col size="4"class="no-padding-right">
             <ion-label position="floating">Unidade</ion-label>
@@ -76,7 +77,7 @@
         <ion-row class="ion-align-items-center">
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
-            <ion-input value="00"></ion-input>
+            <ion-input value="00" formControlName="prazo" placeholder="0"></ion-input>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>
@@ -87,25 +88,17 @@
         <ion-row>
           <ion-col size="6" class="no-padding-left">
             <ion-label>Data de Devolução</ion-label>
-            <div class="calendar">
-              <ion-datetime displayFormat="MM/DD/YYYY" min="2005" max="2016" value="1994-12-15"></ion-datetime>
+            <div class="calendar grid-item">
+              <ion-datetime locale="pt-BR" locale="pt-BR" [value]="currentDay" picker-format="MMMM DD, YYYY" display-format="MM/DD/YYYY" [min]="currentyear" formControlName="prazoDevolucao" done-text="Confirmar" cancel-text="cancelar"   presentation="date" >
+              </ion-datetime>
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
           </ion-col>
         </ion-row>    
       </ion-item>
-      <ion-item  lines="none" class="box">
-        <ion-row>
-          <ion-label position="floating">Insumo de Substituição</ion-label>
-          <ion-col size="9" class="no-padding-left">
-            <ion-input value="Insumo"></ion-input>
-          </ion-col>
-          <ion-col size="3"  class="no-padding-right">
-            <ion-button class="searchButton">
-              <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>    
+      <ion-item  lines="none" class="box" *ngIf="!!getFormField('etapaId')">
+        <app-input-search label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo de Substituição" name="insumoSubstituicaoId" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>
+         
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-label position="floating">Complemento</ion-label>
@@ -121,7 +114,7 @@
           <ion-toggle ></ion-toggle>
         </ion-item>
       </ion-list>
-      <ion-radio-group>
+      <!-- <ion-radio-group>
         <ion-label>Status</ion-label>
           <ion-item lines="none"  class="status">
             <ion-label class="aprovado">Ativo</ion-label>
@@ -139,9 +132,10 @@
       <ion-item lines="none" class="box ion-margin-vertical">
         <ion-label position="floating">Justificativa do Status</ion-label>
         <ion-textarea placeholder="Enter more information here..."></ion-textarea>
-      </ion-item>
+      </ion-item> -->
       <ion-item  lines="none" class="box ion-margin-vertical" >
-        <ion-row>
+        <app-input-search label="Bloco"  formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" placeholder="Todos" name="blocoId" [parentForm]="reqFormInsumos" controlName="blocoId" ngDefaultControl></app-input-search>
+        <!-- <ion-row>
           <ion-label position="floating">Bloco</ion-label>
           <ion-col size="9" class="no-padding-left">
             <ion-input value="Todos"></ion-input>
@@ -151,20 +145,10 @@
               <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
             </ion-button>
           </ion-col>
-        </ion-row>    
+        </ion-row>     -->
       </ion-item>
       <ion-item  lines="none" class="box" >
-        <ion-row>
-          <ion-label position="floating">Unidade</ion-label>
-          <ion-col size="9" class="no-padding-left">
-            <ion-input value="Todos"></ion-input>
-          </ion-col>
-          <ion-col size="3"  class="no-padding-right">
-            <ion-button class="searchButton">
-              <ion-icon src="../../assets/icon/searchIcon.svg" class="ion-padding icon-green" slot="end"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>    
+        <app-input-search label="Unidade"  formName="insumos" disabledCondition="blocoId" [pesquisa]="{blocoId: getFormField('blocoId')}" disabledFieldName="blocoId" [listItemFilter]="listItemFilter.filteredOptionsUnidade" placeholder="Todos" name="unidadeId" [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item class="box  ion-margin-vertical"> 
         <ion-label class="gestao">Gestão de Frota</ion-label>

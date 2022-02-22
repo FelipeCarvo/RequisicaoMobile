@@ -7,6 +7,7 @@ export enum endPointsEnum{
   'planoContasId' = 'cadastros/Lookups/PlanoContas',
   'servicoId' ='contratoservicos/Lookups/Servicos',
   'insumoId'='suprimentos/Lookups/Insumos',
+  'insumoSubstituicaoId'='suprimentos/Lookups/Insumos',
   'blocoId' = 'cadastros/Lookups/Blocos',
   'unidadeId'= 'cadastros/Lookups/Unidades',
   'etapaId' = 'orcamentos/Lookups/Etapas',

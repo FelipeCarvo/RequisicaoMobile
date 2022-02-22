@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild } from '@angular/core';
+import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild,ChangeDetectorRef } from '@angular/core';
 import { trigger, style, animate, transition, state } from '@angular/animations';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
@@ -37,9 +37,14 @@ export class InputSearchComponent implements OnInit {
   loading = false;
   refreshLoad= false;
   noSearchResult = false;
-  constructor(private loockupstService:LoockupstService,){
+  constructor(private loockupstService:LoockupstService,
+    private cdr: ChangeDetectorRef){
 
   }
+  ngAfterViewChecked(){
+    //your code to update the model
+    this.cdr.detectChanges();
+ }
   ngOnInit() {
 
     if(!!this.getValue()){
@@ -55,9 +60,10 @@ export class InputSearchComponent implements OnInit {
     }
   
   }
-  viewDisabled(){
+  viewDisabled():boolean{
     let type = !!this.disabledCondition ? this.getValidInput(this.disabledCondition) : false;
     let type1 = !!this.controlName ? this.getValidInput(this.controlName) : false;
+    console.log(type)
     if(!!type){
       this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
       this.parentForm.get(this.controlName).disable();
