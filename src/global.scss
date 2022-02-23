@@ -90,7 +90,10 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             // padding-bottom: 18px;
             
             max-height: 50%;
-            padding: 24px;
+
+            &:first-child{
+                padding: 30px 0px 0px 0px;
+            }
             .sc-ion-action-sheet-md {
                 --button-background: linear-gradient(0deg, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08), rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08) 50%, transparent 50%) bottom/100% 1px no-repeat transparent;
                 justify-content: center;
@@ -163,7 +166,7 @@ ion-app{
         color: #2CBC63;
     }
     #requestForm{
-        margin-top: 35px;
+        margin: 35px 0px 35px 0px;
         .datetime-text{
             display: flex;
             align-items: center;
@@ -217,7 +220,8 @@ ion-app{
                 line-height: 20px;
                 /* identical to box height */
                 letter-spacing: -0.02em;
-                background: #F8F8F8;
+                background: #fff;
+                // background: #F8F8F8;
                 /* CINZA - Siecon - 02 */
                 border: 2px solid #EAECED;
                 box-sizing: border-box;
@@ -225,6 +229,9 @@ ion-app{
                 --padding-start:11px;
                 margin-top:4px;
                 min-height: 52px;
+                &:disabled{
+                    background-color: #F8F8F8;
+                }
             }
             .calendar{
                 display: flex;

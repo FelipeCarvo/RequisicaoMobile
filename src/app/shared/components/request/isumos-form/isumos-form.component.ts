@@ -29,7 +29,9 @@ export class IsumosFormComponent implements OnInit {
     filteredOptionsPlanoDeContas:null,
     filteredOptionsServico:null,
     filteredOptionsBloco:null,
-    filteredOptionsUnidade:null
+    filteredOptionsUnidade:null,
+    filteredOptionsOrdemServico:null,
+    filteredOptionsEquipamento:null
   };
   constructor(
     private loockupstService:LoockupstService,
@@ -63,8 +65,14 @@ export class IsumosFormComponent implements OnInit {
       quantidade:new FormControl(0),
       prazo:new FormControl(0),
       prazoDevolucao:new FormControl(null),
+      complemento:new FormControl(null),
+      estoque:new FormControl(false),
+      gerarAtivoImobilizado:new FormControl(false),
       blocoId:new FormControl(null),
       unidadeId:new FormControl(null),
+      ordemServicoId:new FormControl(null),
+      equipamentoId:new FormControl(null),
+      observacoes:new FormControl(null),
      
     });
     this.loadForm = true;

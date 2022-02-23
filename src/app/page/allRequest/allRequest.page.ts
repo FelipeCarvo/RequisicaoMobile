@@ -23,7 +23,6 @@ export class AllRequestPage implements OnInit {
     })
   }
   public onBack(event) {
-    console.log(event);
     this.navCtrl.back();
   }
  

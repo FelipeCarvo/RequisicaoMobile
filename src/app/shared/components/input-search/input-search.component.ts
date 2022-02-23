@@ -46,7 +46,6 @@ export class InputSearchComponent implements OnInit {
     this.cdr.detectChanges();
  }
   ngOnInit() {
-
     if(!!this.getValue()){
       this.refreshLoad = true;
       this.getLoockups();
@@ -61,22 +60,29 @@ export class InputSearchComponent implements OnInit {
   
   }
   viewDisabled():boolean{
-    let type = !!this.disabledCondition ? this.getValidInput(this.disabledCondition) : false;
-    let type1 = !!this.controlName ? this.getValidInput(this.controlName) : false;
-    console.log(type)
-    if(!!type){
-      this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
-      this.parentForm.get(this.controlName).disable();
-    }else if(type){
-      this.parentForm.get(this.controlName).enable();
+    if(!!this.disabledCondition){
+      let type =  this.getValidInputParent(this.disabledCondition);
+      let type1 = this.getValidInput(this.controlName);
+      if(!!type){
+        this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
+        this.parentForm.get(this.controlName).disable();
+      }else if(type){
+        this.parentForm.get(this.controlName).enable();
+      }
+       if(!!type1){
+        this.msgDisabled = `${this.placeholder} é um campo obrigatório`
+      }
+      return type || type1 || this.refreshLoad
+    }else{
+      return false;
     }
-     if(!!type1){
-      this.msgDisabled = `${this.placeholder} é um campo obrigatório`
-    }
-    return type || type1 || this.refreshLoad
+
   }
   getValidInput(FormControl){
     return this.parentForm.get(FormControl).invalid
+  }
+  getValidInputParent(FormControl){
+    return  !this.parentForm.get(FormControl).value
   }
   getValue(){
     return this.parentForm.get(this.controlName).value 
@@ -98,6 +104,7 @@ export class InputSearchComponent implements OnInit {
       //   params.valorSelecionado = this.getValue();
       // }
       // const test:RequestFormInterface = {motivos: {pesquisa:'',valorSelecionado:this.getValue()}};
+      console.log(params,this.controlName)
       this.listGroup = await this.loockupstService.getLookUp(params,enumName);
       this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
         startWith(''),

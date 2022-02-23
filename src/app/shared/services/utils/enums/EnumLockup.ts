@@ -11,6 +11,7 @@ export enum endPointsEnum{
   'blocoId' = 'cadastros/Lookups/Blocos',
   'unidadeId'= 'cadastros/Lookups/Unidades',
   'etapaId' = 'orcamentos/Lookups/Etapas',
-  'EmpresasDoEmpreendimento' = 'cadastros/Lookups/EmpresasDoEmpreendimento'
-
+  'EmpresasDoEmpreendimento' = 'cadastros/Lookups/EmpresasDoEmpreendimento',
+  'ordemServicoId' = 'frotas/Lookups/OrdemServico',
+  'equipamentoId'='frotas/Lookups/Equipamentos'
 }

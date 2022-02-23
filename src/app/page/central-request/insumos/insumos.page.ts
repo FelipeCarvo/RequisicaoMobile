@@ -43,7 +43,40 @@ export class InsumosPage{
   setFormForStore(formField){
     this.store.dispatch(new SetInsumosFileds(formField))
   }
+
   async dismiss(): Promise<void> {
+   let filter = Object.values(this.getFormForStore()).filter(e =>e).length > 2;
+    if(filter){
+      await this.openModal()
+    }else{
+      this.navCtrl.back();
+    }
+    // const alert = await this.alertController.create({
+    //   cssClass: 'my-custom-alert ',
+    //   header: 'Limpar insumo',
+    //   message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       cssClass: 'cancel-button',
+    //       handler: (blah) => {
+    //         console.log('Confirm Cancel: blah');
+    //       }
+    //     }, {
+    //       text: 'Voltar',
+    //       cssClass: 'confirm-button',
+    //       handler: () => {
+    //         this.store.dispatch(new ResetStateInsumos())
+    //         this.navCtrl.back();
+    //       }
+    //     }
+    //   ]
+    // });
+
+    // await alert.present();
+  }
+  async openModal(){
     const alert = await this.alertController.create({
       cssClass: 'my-custom-alert ',
       header: 'Limpar insumo',
@@ -66,10 +99,8 @@ export class InsumosPage{
         }
       ]
     });
-
     await alert.present();
   }
-
   public goCentralEstoque(){
     console.log(this.getFormForStore())
     this.router.navigate(['tabs/central-req/consulta-estoque']);

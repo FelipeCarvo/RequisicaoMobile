@@ -124,12 +124,15 @@ export class RequestPage implements OnInit {
     }
     this.rquestService.postReq(params,type).pipe(
       tap((response:any) => {
-        this.requisicaoId = response;
-        this.setFormForStore({requisicaoId:response});
+        if(!this.requisicaoId || response){
+          this.requisicaoId = response;
+          this.setFormForStore({requisicaoId:response});
+        }
+      
       }),
       switchMap((id) => {
-        console.log('2')
-        return this.rquestService.getVersion(id)
+        let reqId = !!id ? id : this.requisicaoId; 
+        return this.rquestService.getVersion(reqId)
       }))
       .subscribe(async(result:any) =>{
         this.loading.dismiss();

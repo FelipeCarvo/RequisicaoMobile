@@ -45,7 +45,6 @@ export class InsumoState {
   }
   @Action(SetInsumosFileds)
   setInsumosFileds(state: StateContext<insumosModel>, { payload }: SetInsumosFileds) {
-    console.log(state)
     state.patchState(payload);
   }
   @Action(ResetStateInsumos)

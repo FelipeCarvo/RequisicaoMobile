@@ -21,7 +21,6 @@ export class AuthUser {
   }
   @Selector()
   static getRefreshToken(state: AuthUserStateModel) {
-    console.log(state)
     return state.refreshToken;
   }
   @Selector()

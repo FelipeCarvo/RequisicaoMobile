@@ -33,7 +33,9 @@ export class RequestFormComponent implements OnInit {
   async ngOnInit() {
     this.getLoockupMotivo();
     await this.setValform();
+    
     this.reqForm.valueChanges.subscribe(selectedValue  => {
+      console.log(selectedValue);
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
  
@@ -65,10 +67,9 @@ export class RequestFormComponent implements OnInit {
   async getLoockupMotivo(){
     const {motivoId} = this.getFormForStore;
     console.log(motivoId)
-    const params:RequestFormInterface = {motivos: {pesquisa:null}};
+    const params:RequestFormInterface = {motivos: {pesquisa:''}};
     let {motivos} = params; 
     Object.keys(motivos).forEach(key => {
-      console.log(motivos[key])
       if (motivos[key] == null && key != 'pesquisa') {
         delete motivos[key];
       }
