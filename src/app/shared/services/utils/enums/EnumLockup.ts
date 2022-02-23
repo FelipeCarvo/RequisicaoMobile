@@ -1,4 +1,4 @@
-export enum endPointsEnum{
+export enum LookupsEndPoints{
   'empreendimentoId'= 'cadastros/Lookups/Empreendimentos',
   'motivoId' = 'suprimentos/Lookups/Motivos',
   'OFsDescontoMaterial'= 'suprimentos/Lookups/OFsDescontoMaterial',

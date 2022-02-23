@@ -4,17 +4,7 @@ import { Observable,} from 'rxjs';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
 import * as moment from 'moment';
-export enum endPointsEnum{
-  'PesquisaRequisicoes' = '/sieconwebwebapi/api/suprimentos/Requisicao/PesquisaRequisicoes',
-  'RequisicaoId' ='/sieconwebsuprimentos/api/Requisicao',
-  'RelatorioRequisicao' ='/sieconwebwebapi/api/suprimentos/Requisicao/RelatorioRequisicao',
-  'Empreendimentos'= '/sieconwebwebapi/api/cadastros/Lookups/Empreendimentos',
-  'newReq' = '/sieconwebwebapi/api/suprimentos/Requisicao/NovaRequisicaoCriada',
-  'UpateReq' = '/sieconwebwebapi/api/suprimentos/Requisicao/RequisicaoAtualizada',
-  'GetVersion' = '/sieconwebsuprimentos/api/Requisicao',
-  'getIsumosId' = '/sieconwebsuprimentos/api/ItemRequisicao'
-  
-}
+import {RequestsEndPoints} from '../utils/enums/EnumRequest'
 @Injectable({
     providedIn: 'root'
   })
@@ -39,7 +29,7 @@ export enum endPointsEnum{
         if(!!params == false){
           params = this.getInitialParams();
         }
-        this.http.post(`${this.apiUrl}${endPointsEnum[endPoint]}`,params).subscribe(
+        this.http.post(`${this.apiUrl}${RequestsEndPoints[endPoint]}`,params).subscribe(
           async(res:any) => {
             observer.next(res.resultado.sort(this.sortFunction));
           },
@@ -52,7 +42,7 @@ export enum endPointsEnum{
     }
     getVersion(id = null, endPoint = 'GetVersion'){
       return new Observable((observer) => {
-        this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
+        this.http.get(`${this.apiUrl}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             observer.next(res.resultado.version);
           },
@@ -65,7 +55,7 @@ export enum endPointsEnum{
     }
     getInsumosById(id = null, endPoint = 'getIsumosId'){
       return new Observable((observer) => {
-        this.http.get(`${this.apiUrl}${endPointsEnum[endPoint]}/${id}`).subscribe(
+        this.http.get(`${this.apiUrl}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             observer.next(res.resultado);
           },
@@ -77,7 +67,7 @@ export enum endPointsEnum{
       })
     }
     postReq(params , type){
-      const url = `${this.apiUrl}${endPointsEnum['RequisicaoId']}`
+      const url = `${this.apiUrl}${RequestsEndPoints['RequisicaoId']}`
       let req = type == 'POST' ? this.http.post(url,params) : this.http.put(url,params);
       return new Observable((observer) => {
         req.subscribe(

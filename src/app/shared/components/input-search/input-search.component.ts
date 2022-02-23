@@ -49,7 +49,6 @@ export class InputSearchComponent implements OnInit {
     if(!!this.getValue()){
       this.refreshLoad = true;
       this.getLoockups();
-     
     }
   }
    
@@ -69,12 +68,16 @@ export class InputSearchComponent implements OnInit {
       }else if(type){
         this.parentForm.get(this.controlName).enable();
       }
-       if(!!type1){
+      if(!!type1){
         this.msgDisabled = `${this.placeholder} é um campo obrigatório`
       }
       return type || type1 || this.refreshLoad
     }else{
-      return false;
+      let type =  this.getValidInput(this.controlName);
+      if(!!type){
+        this.msgDisabled = `${this.placeholder} é um campo obrigatório`
+      }
+      return type;
     }
 
   }
@@ -88,6 +91,7 @@ export class InputSearchComponent implements OnInit {
     return this.parentForm.get(this.controlName).value 
   }
   focusout(){
+    
     if(this.noSearchResult){
       this.parentForm.controls[this.controlName].setValue(null)
     }
@@ -100,18 +104,12 @@ export class InputSearchComponent implements OnInit {
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
       }
-      // if(!!this.getValue()){
-      //   params.valorSelecionado = this.getValue();
-      // }
-      // const test:RequestFormInterface = {motivos: {pesquisa:'',valorSelecionado:this.getValue()}};
-      console.log(params,this.controlName)
       this.listGroup = await this.loockupstService.getLookUp(params,enumName);
       this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
         startWith(''),
         map((value) => {
           let filterValue = this._filter(value,this.listGroup);
           this.noSearchResult = filterValue.length == 0;
-
           return filterValue
         }),
       );
@@ -119,7 +117,14 @@ export class InputSearchComponent implements OnInit {
         this.loading = false;
         if(this.refreshLoad){
           this.parentForm.controls[this.controlName].setValue(this.getValue());
+          const selectedValue = this.getValue();
           this.refreshLoad = false;
+          if(!!selectedValue){
+            let test = !!this.listGroup.find(e => e.id == selectedValue);
+            if(!test){
+              this.parentForm.controls[this.controlName].setValue(null)
+            }
+          }
         }else{
           this.inputAutoComplete.openPanel();
         }

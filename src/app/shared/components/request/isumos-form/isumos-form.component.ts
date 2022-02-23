@@ -58,16 +58,16 @@ export class IsumosFormComponent implements OnInit {
       empresaId:  new FormControl('', [Validators.required]),
       etapaId:new FormControl(null),
       somenteInsumosDaEtapa:new FormControl(false),
-      planoContasId:new FormControl(null),
+      planoContasId:new FormControl(null, [Validators.required]),
       insumoSubstituicaoId:new FormControl(null),
       servicoId: new FormControl(null),
-      insumoId:new FormControl(null),
-      quantidade:new FormControl(0),
-      prazo:new FormControl(0),
+      insumoId:new FormControl(null, [Validators.required]),
+      quantidade:new FormControl(0, [Validators.required]),
+      prazo:new FormControl(0, [Validators.required]),
       prazoDevolucao:new FormControl(null),
-      complemento:new FormControl(null),
-      estoque:new FormControl(false),
-      gerarAtivoImobilizado:new FormControl(false),
+      complemento:new FormControl('S/COMPLEMENTO', [Validators.required]),
+      estoque:new FormControl(false, [Validators.required]),
+      gerarAtivoImobilizado:new FormControl(false, [Validators.required]),
       blocoId:new FormControl(null),
       unidadeId:new FormControl(null),
       ordemServicoId:new FormControl(null),
@@ -88,7 +88,7 @@ export class IsumosFormComponent implements OnInit {
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e]
-        if(formField != atualValue && e != 'somenteInsumosDaEtapa'){
+        if(formField != atualValue){
           this.setFormForStore.emit(formField);
         }
       })
@@ -97,10 +97,9 @@ export class IsumosFormComponent implements OnInit {
   
   disabledEtapa():void{
     let retorno;
-    let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
-    let insumoId = this.reqFormInsumos?.get('insumoId').value;
+    const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    const insumoId = this.reqFormInsumos?.get('insumoId').value;
     if(!!somenteInsumosDaEtapa){
-      console.log(insumoId)
       retorno = !insumoId
     }
     else{
@@ -115,6 +114,8 @@ export class IsumosFormComponent implements OnInit {
     let params;
     let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
     let insumoId = this.reqFormInsumos?.get('insumoId').value;
+  
+    
     if(somenteInsumosDaEtapa){
       if(!!insumoId){
         params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId,mostrarDI: true,};
@@ -126,8 +127,23 @@ export class IsumosFormComponent implements OnInit {
       params = {pesquisa: '',empreendimentoId:this.empreendimentoId};
     }
     this.loockupstService.getLookUp(params,'etapaId').then(res =>{
+      const selectedEtapa = this.getFormField('etapaId');
       this.etapas = res;
+      if(!!selectedEtapa){
+        let test = !!this.etapas.find(e => e.id == selectedEtapa);
+        const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
+        if(!!insumoSubstituicaoId){
+          this.reqFormInsumos.controls['insumoSubstituicaoId'].setValue(null)
+        }
+        if(!test){
+          this.reqFormInsumos.controls['etapaId'].setValue(null)
+        }
+      }
     });
+  }
+  selectedTextOption() {
+    if(!!this.etapas)
+    return this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0]?.descricao
   }
   async getForm(){
     return this.reqFormInsumos.getRawValue();

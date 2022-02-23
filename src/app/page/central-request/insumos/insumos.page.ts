@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import {InsumoState} from '@core/store/state/inusmos.state';
 import { SetInsumosFileds,ResetStateInsumos } from '@core/store/actions/insumos.actions';
 import { AlertController } from '@ionic/angular';
+import {InsumosRequest} from '@services/insumos/inusmo-req.service'
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +22,8 @@ export class InsumosPage{
     public navCtrl:NavController,
     private router:Router,
     public alertController: AlertController,
-    private store:Store
+    private store:Store,
+    private insumosRequest:InsumosRequest
   ) { }
 
   ngOnInit() {
@@ -51,30 +53,6 @@ export class InsumosPage{
     }else{
       this.navCtrl.back();
     }
-    // const alert = await this.alertController.create({
-    //   cssClass: 'my-custom-alert ',
-    //   header: 'Limpar insumo',
-    //   message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       role: 'cancel',
-    //       cssClass: 'cancel-button',
-    //       handler: (blah) => {
-    //         console.log('Confirm Cancel: blah');
-    //       }
-    //     }, {
-    //       text: 'Voltar',
-    //       cssClass: 'confirm-button',
-    //       handler: () => {
-    //         this.store.dispatch(new ResetStateInsumos())
-    //         this.navCtrl.back();
-    //       }
-    //     }
-    //   ]
-    // });
-
-    // await alert.present();
   }
   async openModal(){
     const alert = await this.alertController.create({

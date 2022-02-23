@@ -7,9 +7,11 @@ import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions'
 import {RequestService} from '@services/request/request.service'
 import { ToastController } from '@ionic/angular';
-import {map,tap,switchMap} from 'rxjs/operators';
-import { AlertController } from '@ionic/angular';
+import {tap,switchMap} from 'rxjs/operators';
 import {LoadingService} from '@services/loading/loading-service';
+import {AlertServices} from '@services/utils/alerts-services/alerts-services';
+import {UpdateRequestStatus} from '@services/send-status/send-status.service';
+
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -21,7 +23,6 @@ export class RequestPage implements OnInit {
   validStep: boolean = false;
   sendPost:boolean = false;
   requisicaoId:string = null;
-  private history: string[] = []
   steps:any = [
     { key: 0, title: "Requisição",enabled:true},
     { key: 1, title: "Insumos",enabled:this.validStep},
@@ -34,8 +35,10 @@ export class RequestPage implements OnInit {
     private store:Store,
     private rquestService:RequestService,
     private toastController:ToastController,
-    public alertController: AlertController,
     public loading: LoadingService,
+    private alertServices: AlertServices,
+    private updateRequestStatus: UpdateRequestStatus,
+
   ) {  
 
     this.store
@@ -52,11 +55,13 @@ export class RequestPage implements OnInit {
     if(!!this.requisicaoId){
       this.getVersion();
     }
+
   }
 
    setStep(val){
+    const hasUpdate = Object.values(this.getFormForStore()).filter(e =>e).length > 0 && !this.requisicaoId;
     if(this.validForm()){
-      if(this.sendPost){
+      if(this.sendPost || hasUpdate){
         this.sendReq(val);       
       }else{
         this.step = val;
@@ -71,31 +76,29 @@ export class RequestPage implements OnInit {
      },async(error)=>{});
     }
   }
-  async onBack():Promise<void> {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-alert ',
-      header: 'Limpar requisição',
-      message: 'Você ainda não criou uma requisição deseja mesmo voltar ?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'cancel-button',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Voltar',
-          cssClass: 'confirm-button',
-          handler: () => {
-            this.store.dispatch(new ResetStateReq())
-            this.navCtrl.back();
-          }
-        }
-      ]
-    });
 
-    await alert.present();
+  async onBack():Promise<void> {
+    const reqId =  !!this.requisicaoId;
+    const filter = Object.values(this.getFormForStore()).filter(e =>e).length > 0;
+    if(reqId ||filter){
+      const res = await this.alertServices.alertReq(reqId,filter);
+      if(res === 'confirm-exclude'){
+        const {versaoEsperada} = this.getFormForStore();
+        this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
+        this.store.dispatch(new ResetStateReq());
+        this.navCtrl.back();  
+        },err =>{
+          console.log(err)
+        });
+      }
+      else if(res === 'confirm'){
+        this.store.dispatch(new ResetStateReq());
+        this.navCtrl.back(); 
+      }
+    }
+    else{
+      this.navCtrl.back();
+    }
   }
   validReqId(){
     return this.store.selectSnapshot(ReqState.validReqId);

@@ -223,10 +223,11 @@ ion-app{
                 background: #fff;
                 // background: #F8F8F8;
                 /* CINZA - Siecon - 02 */
-                border: 2px solid #EAECED;
+                border: 2px solid #EAECED!important;
                 box-sizing: border-box;
-                border-radius: 9px;
-                --padding-start:11px;
+                border-radius: 9px!important;
+                padding-inline-start: 11px;
+                --padding-start: 11px;
                 margin-top:4px;
                 min-height: 52px;
                 &:disabled{

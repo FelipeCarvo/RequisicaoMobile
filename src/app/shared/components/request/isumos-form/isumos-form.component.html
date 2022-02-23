@@ -39,8 +39,7 @@
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
         
-       <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa()"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet">
-        <ion-select-option disabled="true" [value]="null" *ngIf="etapas.length == 0" >Nenhuma etapa disponivel</ion-select-option>
+       <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa()"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
         <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
         </ion-select>
         <ion-col size="12" *ngIf="disabledEtapa()">
@@ -77,7 +76,7 @@
         <ion-row class="ion-align-items-center">
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
-            <ion-input value="00" formControlName="prazo" placeholder="0"></ion-input>
+            <ion-input formControlName="prazo" placeholder="0"></ion-input>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>
@@ -152,6 +151,9 @@
         <ion-label position="floating">Observações</ion-label>
         <ion-textarea placeholder="Enter more information here..." formControlName="observacoes"></ion-textarea>
       </ion-item>
+    </ion-col>
+    <ion-col size="11" >
+      <ion-button class="btnRedondo btnVoltar"  type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
     </ion-col>
   </ion-row>
 </form>

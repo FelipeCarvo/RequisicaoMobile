@@ -1,9 +1,8 @@
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable,} from 'rxjs';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
-import {endPointsEnum} from '../utils/enums/EnumLockup'
+import {LookupsEndPoints} from '../utils/enums/EnumLockup'
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +15,7 @@ import {endPointsEnum} from '../utils/enums/EnumLockup'
     getLookUp(params = null, endPoint = 'Empreendimentos'){
       return new Promise((resolve, reject) => {
      
-        this.http.post(`${this.apiUrl}${endPointsEnum[endPoint]}`,JSON.stringify(params)).subscribe(
+        this.http.post(`${this.apiUrl}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },

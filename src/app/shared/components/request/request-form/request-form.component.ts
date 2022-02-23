@@ -35,7 +35,6 @@ export class RequestFormComponent implements OnInit {
     await this.setValform();
     
     this.reqForm.valueChanges.subscribe(selectedValue  => {
-      console.log(selectedValue);
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
  
@@ -66,7 +65,6 @@ export class RequestFormComponent implements OnInit {
   }
   async getLoockupMotivo(){
     const {motivoId} = this.getFormForStore;
-    console.log(motivoId)
     const params:RequestFormInterface = {motivos: {pesquisa:''}};
     let {motivos} = params; 
     Object.keys(motivos).forEach(key => {
