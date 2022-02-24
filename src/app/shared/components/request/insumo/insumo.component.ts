@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input,Output,EventEmitter, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {RequestService} from '@services/request/request.service';
@@ -13,7 +13,8 @@ import {InsumosRequest} from '@services/insumos/inusmo-req.service'
 })
 export class InsumoComponent implements OnInit {
   @Input() requisicaoId:String;
-  @Input()validForm;
+  @Input() validForm;
+  @Output() updateStep:EventEmitter<any> = new EventEmitter();
   listInsumos: Array<any>;
   loading:boolean = false;
   constructor(
@@ -24,27 +25,20 @@ export class InsumoComponent implements OnInit {
     private loadingController:LoadingController,) { }
 
   ngOnInit() {
-   this.getInsumos()
+    console.log(!!this.validForm)
+    if(!!this.validForm){
+      this.getInsumos();
+    }else{
+      this.updateStep.emit(0)
+    }
   }
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
-      console.log(res);
       this.listInsumos = res;
       setTimeout(() =>{
         this.loading = true;
       },200)
-
-      console.log(res)
     })
-  }
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000
-    });
-    await loading.present();
-    return loading
   }
   presentModal(){
     if(this.validForm){

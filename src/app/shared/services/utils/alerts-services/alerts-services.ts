@@ -59,6 +59,8 @@ export class AlertServices {
       ]
     });
     await alert.present();
+    const {role} = await alert.onDidDismiss();
+    return role
   }
   public async presentSucess(msg: string): Promise<void> {
     const alert = await this.alertCtrl.create({

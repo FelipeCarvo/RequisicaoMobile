@@ -10,7 +10,7 @@ const defaults:insumosModel = {
   servicoId: null,
   insumoId: null,
   quantidade: 0,
-  prazo: null,
+  prazo: 0,
   prazoDevolucao: null,
   insumoSubstituicaoId: null,
   complemento: "S/COMPLEMENTO",

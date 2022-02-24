@@ -55,9 +55,11 @@ export class RequestPage implements OnInit {
     if(!!this.requisicaoId){
       this.getVersion();
     }
-
   }
-
+  updateStep(step){
+    console.log("update step",step)
+    this.step = step;
+  }
    setStep(val){
     const hasUpdate = Object.values(this.getFormForStore()).filter(e =>e).length > 0 && !this.requisicaoId;
     if(this.validForm()){

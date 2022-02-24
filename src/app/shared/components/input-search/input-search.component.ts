@@ -19,7 +19,7 @@ export class HashDirective  {
 
 })
 
-export class InputSearchComponent implements OnChanges {
+export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Input() label: string;
@@ -43,20 +43,15 @@ export class InputSearchComponent implements OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.disablebuttonTest = this.viewDisabled;
+    this.disablebuttonTest = this.viewDisabled();
   }
-  OnChanges(){
-    
-  }
-  ngAfterViewChecked(){
-    //your code to update the model
-    this.cdr.detectChanges();
- }
   ngOnInit() {
     if(!!this.getValue()){
       this.refreshLoad = true;
+      this.disablebuttonTest = this.viewDisabled();
       this.getLoockups();
     }
+    this.cdr.detectChanges();
   }
    
   displayFn(value = this.getValue()) {
@@ -65,7 +60,7 @@ export class InputSearchComponent implements OnChanges {
     }
   
   }
-  get viewDisabled(): boolean{
+  viewDisabled(): boolean{
     if(!!this.disabledCondition){
       let type =  this.getValidInputParent(this.disabledCondition);
       let type1 = this.getValidInput(this.controlName);

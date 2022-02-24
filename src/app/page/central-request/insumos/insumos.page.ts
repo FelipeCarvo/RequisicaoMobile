@@ -30,7 +30,6 @@ export class InsumosPage{
     if(!this.validReqId()){
       const {requisicaoId,versaoEsperada} = this.getRequest();
       this.setFormForStore({requisicaoId,versaoEsperada});
-    
     }
   }
   validReqId(){
@@ -60,10 +59,13 @@ export class InsumosPage{
     }
   }
   async openModal(){
-    const res = await this.alertServices.alertInsumos();
+    await this.alertServices.alertInsumos().then(res =>{
+      console.log(res)
       if(res === 'confirm'){
        this.resetAndBack();
       }
+    });
+
     // const alert = await this.alertController.create({
     //   cssClass: 'my-custom-alert ',
     //   header: 'Limpar insumo',
