@@ -22,7 +22,7 @@
           <ion-icon [name]="typePassword !== 'text' ? 'eye' : 'eye-off' " slot="end" class="iconColor2" size="small" (click)="revealPassword()"></ion-icon>
           </ion-item>
           <ion-button class="btn-login" type="submit" expand="block"[disabled]="loginForm.invalid">
-          <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+            <ion-ripple-effect type="unbounded"></ion-ripple-effect>
             <ion-spinner name="crescent" *ngIf="loadSendData"></ion-spinner>
             {{!loadSendData ?'Entrar':'' }}
             </ion-button>

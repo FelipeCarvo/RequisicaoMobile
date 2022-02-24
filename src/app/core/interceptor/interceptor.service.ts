@@ -51,10 +51,10 @@ export class Interceptor implements HttpInterceptor {
         }
         else {
           console.log('this is server side error',error);
-          let err = error.error
+          const err = error.error
           errorMsg = `${err?.error_description ? err.error_description : err.Mensagem}`;
         }
-        return throwError(errorMsg);
+        return throwError(error.error);
       })
     );
  }
@@ -71,6 +71,7 @@ export class Interceptor implements HttpInterceptor {
  }
  private handle401Error(request: HttpRequest<any>, next: HttpHandler){
   const newReq = this.getNewReq(request)
+  console.log(newReq)
   return next.handle(newReq).pipe(
     switchMap((res:any) =>{
       const token = res.body?.access_token;

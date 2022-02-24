@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild,ChangeDetectorRef } from '@angular/core';
+import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild,ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { trigger, style, animate, transition, state } from '@angular/animations';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
@@ -19,7 +19,7 @@ export class HashDirective  {
 
 })
 
-export class InputSearchComponent implements OnInit {
+export class InputSearchComponent implements OnChanges {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Input() label: string;
@@ -37,9 +37,16 @@ export class InputSearchComponent implements OnInit {
   loading = false;
   refreshLoad= false;
   noSearchResult = false;
+  disablebuttonTest = false;
   constructor(private loockupstService:LoockupstService,
     private cdr: ChangeDetectorRef){
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.disablebuttonTest = this.viewDisabled;
+  }
+  OnChanges(){
+    
   }
   ngAfterViewChecked(){
     //your code to update the model
@@ -58,20 +65,20 @@ export class InputSearchComponent implements OnInit {
     }
   
   }
-  viewDisabled():boolean{
+  get viewDisabled(): boolean{
     if(!!this.disabledCondition){
       let type =  this.getValidInputParent(this.disabledCondition);
       let type1 = this.getValidInput(this.controlName);
       if(!!type){
         this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
         this.parentForm.get(this.controlName).disable();
-      }else if(type){
+      }else if(!type){
         this.parentForm.get(this.controlName).enable();
       }
       if(!!type1){
         this.msgDisabled = `${this.placeholder} é um campo obrigatório`
       }
-      return type || type1 || this.refreshLoad
+      return type || type1;
     }else{
       let type =  this.getValidInput(this.controlName);
       if(!!type){

@@ -1,6 +1,6 @@
 <form id="requestForm">
   <ion-row class="ion-justify-content-center">
-    <ion-col size="9" >
+    <ion-col size="9"  *ngIf="!!listInsumos && listInsumos.length == 0" [@hideShowAnimator]="loading">
       <ion-button class="btnRedondo btnVoltar" (click)="presentModal()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
     </ion-col>
     <ion-col size="11" class="ion-margin-vertical">
@@ -8,6 +8,9 @@
         Insumos Adicionados
       </ion-item>
     </ion-col>
+  </ion-row>
+  <app-spinner [showSpinner]="!loading" [@hideShowAnimator]="!loading" *ngIf="!loading"></app-spinner>
+  <ion-row  class="ion-justify-content-center" *ngIf="!!listInsumos && listInsumos.length == 0" [@hideShowAnimator]="loading">
     <ion-col size="7" class="ion-margin-top"> 
       <div class="imgDiv">
         <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
@@ -18,5 +21,14 @@
         adicionado nesta requisição.</h2>
     </ion-col>
   </ion-row>
- 
+  <div *ngIf="!!listInsumos && listInsumos.length > 0"  [@hideShowAnimator]="loading">
+    <app-list-insumos-by-req *ngFor="let item of listInsumos" [item]="item"></app-list-insumos-by-req>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="9">
+        <ion-button class="btnRedondo btnVoltar" (click)="presentModal()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
+      </ion-col>
+   
+    </ion-row>
+  </div>
+
 </form>

@@ -37,6 +37,17 @@ background-color: #EAECED!important;
 width: 3px!important;
 background-color: #EAECED!important;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+margin: 0;
+}
+.search-icon-input{
+    padding: 0;
+    margin: 0;
+}
 .my-custom-class-loading{
     --background: #EAECED;
     --spinner-color: #4682B4;

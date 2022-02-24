@@ -9,6 +9,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-isumos-form #appChild  [getFormForStore]="getFormForStore()" (setFormForStore)="setFormForStore($event)"></app-isumos-form>
+  <app-isumos-form #appChild (resetAndBack)="resetAndBack()" [getFormForStore]="getFormForStore()" (setFormForStore)="setFormForStore($event)"></app-isumos-form>
 
 </ion-content>

@@ -2,7 +2,8 @@ import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {RequestService} from '@services/request/request.service'
 import {opacityAnimation} from '@services/animation/custom-animation'
-import * as moment from 'moment';@Component({
+import * as moment from 'moment';
+@Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],

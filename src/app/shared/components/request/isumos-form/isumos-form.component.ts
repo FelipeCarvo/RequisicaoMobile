@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
+import {InsumosRequest} from '@services/insumos/inusmo-req.service'
+import { ToastController } from '@ionic/angular';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,12 +19,15 @@ import {ReqState} from '@core/store/state/req.state';
 export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
+  @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
   public etapas:any= [];
+  public sendLoading: boolean = false;
   currentDay = new Intl.DateTimeFormat('pt-BR').format(new Date()) ;
   currentyear = new Date().getFullYear();
   loadForm: boolean = false;
+  hasLoaded:boolean = false;
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -39,7 +44,8 @@ export class IsumosFormComponent implements OnInit {
     private router:Router,
     private formBuilder: FormBuilder,
     private store:Store,
-    private cdr: ChangeDetectorRef,
+    private insumosRequest:InsumosRequest,
+    private toastController:ToastController,
   ) {
    
    }
@@ -55,14 +61,14 @@ export class IsumosFormComponent implements OnInit {
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;
     this.reqFormInsumos = this.formBuilder.group({
-      empresaId:  new FormControl('', [Validators.required]),
+      empresaId:  new FormControl(null, [Validators.required]),
       etapaId:new FormControl(null),
       somenteInsumosDaEtapa:new FormControl(false),
       planoContasId:new FormControl(null, [Validators.required]),
       insumoSubstituicaoId:new FormControl(null),
       servicoId: new FormControl(null),
       insumoId:new FormControl(null, [Validators.required]),
-      quantidade:new FormControl(0, [Validators.required]),
+      quantidade:new FormControl(0, [Validators.required,Validators.pattern(/[0-9]/),Validators.min(1)]),
       prazo:new FormControl(0, [Validators.required]),
       prazoDevolucao:new FormControl(null),
       complemento:new FormControl('S/COMPLEMENTO', [Validators.required]),
@@ -78,10 +84,6 @@ export class IsumosFormComponent implements OnInit {
     this.loadForm = true;
     await this.setValform();
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
-      if(!!selectedValue.insumoId){
-        // const params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:selectedValue.insumoId};
-        // this.getLoockupEtapa(params);
-      }
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
         // this.cdr.detectChanges();
@@ -95,7 +97,7 @@ export class IsumosFormComponent implements OnInit {
     })
   }
   
-  disabledEtapa():void{
+  disabledEtapa():boolean{
     let retorno;
     const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
     const insumoId = this.reqFormInsumos?.get('insumoId').value;
@@ -107,15 +109,13 @@ export class IsumosFormComponent implements OnInit {
     }
     return retorno
   }
-  async setValform(){  
+  async setValform(){
     await this.reqFormInsumos.patchValue(this.getFormForStore);
   }
   async getLoockupEtapa(){
     let params;
     let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
     let insumoId = this.reqFormInsumos?.get('insumoId').value;
-  
-    
     if(somenteInsumosDaEtapa){
       if(!!insumoId){
         params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId,mostrarDI: true,};
@@ -150,6 +150,30 @@ export class IsumosFormComponent implements OnInit {
   }
   getFormField(field){
     return this.reqFormInsumos.get(field).value
+  }
+  validForm(){
+    return this.reqFormInsumos.valid;
+  }
+  get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
+  async submit(){
+    const valid = this.validForm();
+   if(valid){
+    const params = await this.getForm();
+    this.sendLoading = true;
+    this.insumosRequest.sendNewInsumo(params).then(response =>{
+      console.log(response);
+      this.resetAndBack.emit()
+
+    },async(error) =>{
+      this.sendLoading = false;
+      const toast = await this.toastController.create({
+        message: error,
+        duration: 2000
+      });
+      toast.present();
+    })
+
+   }
   }
   public dismiss(): void {
     this.navCtrl.back();

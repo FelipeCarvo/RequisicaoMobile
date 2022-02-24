@@ -27,17 +27,18 @@ export class RequestFormComponent implements OnInit {
   };
   motivos:any;
   load = false;
-  constructor(private loockupstService:LoockupstService,private formBuilder: FormBuilder) {
+  constructor(
+    private loockupstService:LoockupstService,
+    private formBuilder: FormBuilder
+  ) {
     this.initForm();
   }
   async ngOnInit() {
     this.getLoockupMotivo();
     await this.setValform();
-    
     this.reqForm.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
- 
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
@@ -60,7 +61,7 @@ export class RequestFormComponent implements OnInit {
   }
   getDisable(){
     if(!!this.reqForm){
-      return this.reqForm.get('empreendimentoId').invalid
+      return this.reqForm.get('empreendimentoId').invalid;
     }
   }
   async getLoockupMotivo(){

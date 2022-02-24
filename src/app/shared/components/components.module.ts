@@ -12,6 +12,7 @@ import {ModalFinishReqComponent} from './modal-finish-req/modal-finish-req.compo
 import {IsumosFormComponent} from './request/isumos-form/isumos-form.component'
 import { IonicModule } from '@ionic/angular';
 import{ListInsumosComponent} from './list-insumos/list-insumos.component';
+import {ListInsumosByReqComponent} from './list-insumos-by-req/list-insumos-by-req.component'
  @NgModule({
     imports: [
       CommonModule,
@@ -23,7 +24,7 @@ import{ListInsumosComponent} from './list-insumos/list-insumos.component';
       MatInputModule,
       IonicModule
     ],
-    declarations: [SpinnerComponent,InputSearchComponent,ModalFinishReqComponent,IsumosFormComponent,ListInsumosComponent],
-    exports:[InputSearchComponent,SpinnerComponent,FormsModule,CommonModule,ListRequestComponentModule,FormControlDirective,ReactiveFormsModule,ModalFinishReqComponent,IsumosFormComponent,RouteInterceptorService,ListInsumosComponent]
+    declarations: [SpinnerComponent,InputSearchComponent,ModalFinishReqComponent,IsumosFormComponent,ListInsumosComponent,ListInsumosByReqComponent],
+    exports:[InputSearchComponent,SpinnerComponent,FormsModule,CommonModule,ListRequestComponentModule,FormControlDirective,ReactiveFormsModule,ModalFinishReqComponent,IsumosFormComponent,RouteInterceptorService,ListInsumosComponent,ListInsumosByReqComponent]
   })
   export class sharedModules {}

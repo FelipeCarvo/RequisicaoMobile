@@ -9,12 +9,12 @@
         [placeholder]="placeholder" 
         [formControlName]="controlName"
         [matAutocomplete]="name"
-        [disabled]="viewDisabled()"
+        [disabled]="disablebuttonTest"
         class="customInput"
         (focus)="getLoockups()"
         (blur)="focusout()"
         [matAutocompleteConnectedTo]="origin" >
-        <ion-icon name="alert-circle-outline"*ngIf="viewDisabled() && !loading"></ion-icon>
+        <ion-icon name="alert-circle-outline"*ngIf="disablebuttonTest && !loading"></ion-icon>
     </div>
 
     <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
@@ -25,13 +25,13 @@
     </mat-autocomplete>
   </ion-col>
   <ion-col size="3" class="no-padding-right">
-    <ion-button class="searchButton" (click)="getLoockups()" [disabled]="!!listItemFilter || viewDisabled()">
+    <ion-button class="searchButton" (click)="getLoockups()" [disabled]="!!listItemFilter || viewDisabled">
       <ion-spinner name="crescent" *ngIf="loading" ></ion-spinner>
-      <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding icon-green" slot="end" *ngIf="!loading"></ion-icon>
+      <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding search-icon-input" slot="end" *ngIf="!loading"></ion-icon>
     </ion-button> 
   </ion-col>
   <ion-col size="12">
-    <div class="required-text" *ngIf="viewDisabled() && !loading">
+    <div class="required-text" *ngIf="disablebuttonTest && !loading">
       <p>{{msgDisabled}}</p>
     </div>
   </ion-col>

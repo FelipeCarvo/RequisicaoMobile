@@ -10,7 +10,6 @@ export class AlertServices {
         text: 'Cancelar',
         role: 'cancel',
         cssClass: 'cancel-button',
-        
       }, 
     ]
     if(filter){
@@ -40,6 +39,26 @@ export class AlertServices {
     await alert.present();
     const {role} = await alert.onDidDismiss();
     return role
+  }
+  public async alertInsumos():Promise<any> {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Limpar insumo',
+      message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button'
+        }, 
+        {
+          text: 'Voltar',
+          role: 'confirm',
+          cssClass: 'confirm-button'
+        }
+      ]
+    });
+    await alert.present();
   }
   public async presentSucess(msg: string): Promise<void> {
     const alert = await this.alertCtrl.create({

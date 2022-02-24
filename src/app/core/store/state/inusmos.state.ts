@@ -9,19 +9,19 @@ const defaults:insumosModel = {
   planoContasId: null,
   servicoId: null,
   insumoId: null,
-  quantidade: null,
+  quantidade: 0,
   prazo: null,
   prazoDevolucao: null,
   insumoSubstituicaoId: null,
-  complemento: null,
-  estoque: null,
+  complemento: "S/COMPLEMENTO",
+  estoque: false,
   blocoId: null,
   unidadeId: null,
   observacoes: null,
   ordemServicoId: null,
   equipamentoId: null,
   versaoEsperada: null,
-  gerarAtivoImobilizado: null
+  gerarAtivoImobilizado: false
 }
 @State<insumosModel>({
   name: 'InsumoState',

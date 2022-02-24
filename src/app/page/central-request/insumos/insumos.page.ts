@@ -6,7 +6,7 @@ import { Store } from '@ngxs/store';
 import {InsumoState} from '@core/store/state/inusmos.state';
 import { SetInsumosFileds,ResetStateInsumos } from '@core/store/actions/insumos.actions';
 import { AlertController } from '@ionic/angular';
-import {InsumosRequest} from '@services/insumos/inusmo-req.service'
+import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,9 +21,9 @@ export class InsumosPage{
   constructor(
     public navCtrl:NavController,
     private router:Router,
-    public alertController: AlertController,
+    private alertServices: AlertServices,
     private store:Store,
-    private insumosRequest:InsumosRequest
+   
   ) { }
 
   ngOnInit() {
@@ -47,7 +47,12 @@ export class InsumosPage{
   }
 
   async dismiss(): Promise<void> {
-   let filter = Object.values(this.getFormForStore()).filter(e =>e).length > 2;
+   const obj = this.getFormForStore();
+   if(obj?.requisicaoId){
+    delete obj['requisicaoId'];
+   } 
+   let filter = Object.values(obj).filter(e =>e).length > 2;
+   console.log(this.getFormForStore())
     if(filter){
       await this.openModal()
     }else{
@@ -55,29 +60,36 @@ export class InsumosPage{
     }
   }
   async openModal(){
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-alert ',
-      header: 'Limpar insumo',
-      message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'cancel-button',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Voltar',
-          cssClass: 'confirm-button',
-          handler: () => {
-            this.store.dispatch(new ResetStateInsumos())
-            this.navCtrl.back();
-          }
-        }
-      ]
-    });
-    await alert.present();
+    const res = await this.alertServices.alertInsumos();
+      if(res === 'confirm'){
+       this.resetAndBack();
+      }
+    // const alert = await this.alertController.create({
+    //   cssClass: 'my-custom-alert ',
+    //   header: 'Limpar insumo',
+    //   message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       cssClass: 'cancel-button',
+    //       handler: (blah) => {
+    //         console.log('Confirm Cancel: blah');
+    //       }
+    //     }, {
+    //       text: 'Voltar',
+    //       cssClass: 'confirm-button',
+    //       handler: () => {
+
+    //       }
+    //     }
+    //   ]
+    // });
+    // await alert.present();
+  }
+  public resetAndBack():void{
+    this.store.dispatch(new ResetStateInsumos())
+    this.navCtrl.back();
   }
   public goCentralEstoque(){
     console.log(this.getFormForStore())
