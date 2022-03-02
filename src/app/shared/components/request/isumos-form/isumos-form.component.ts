@@ -182,6 +182,7 @@ export class IsumosFormComponent implements OnInit {
     this.navCtrl.back();
   }
   public goCentralEstoque(){
+    
     this.router.navigate(['/central-req/consulta-estoque']);
   }
 }

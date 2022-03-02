@@ -95,6 +95,6 @@ export class InsumosPage{
   }
   public goCentralEstoque(){
     console.log(this.getFormForStore())
-    this.router.navigate(['tabs/central-req/consulta-estoque']);
+    this.router.navigate(['tabs/central-req/list-insumos']);
   }
 }

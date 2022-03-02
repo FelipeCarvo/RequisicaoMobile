@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
@@ -13,7 +14,11 @@ export class ListInsumosPage implements OnInit {
   empreendimentoId:string = null;
   load = false;
   listInsumos: Array<any>;
-  constructor(private loockupstService:LoockupstService,private store:Store) { 
+  constructor(
+    private loockupstService:LoockupstService,
+    private store:Store,
+    public navCtrl:NavController,
+  ) { 
     const {empreendimentoId}= this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;
   }
@@ -24,7 +29,7 @@ export class ListInsumosPage implements OnInit {
   getInsumos(){
     const params = {
       empreendimentoId: this.empreendimentoId,
-      // calcularQuantidade: true,
+      calcularQuantidade: true,
       // somenteInsumosDaEtapa: true,
     }
     this.loockupstService.getLookUp(params,'insumoId').then((res:Array<any>) =>{
@@ -32,5 +37,8 @@ export class ListInsumosPage implements OnInit {
         this.load = true;
       
     });
+  }
+  dismiss(){
+    this.navCtrl.back();
   }
 }
