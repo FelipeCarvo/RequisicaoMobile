@@ -9,7 +9,8 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
     providedIn: 'root'
   })
   export class RequestService {
-    apiUrl = `https://cors-anywhere.herokuapp.com/${environment.BASE_URL}`;
+    sieconwebsuprimentos = `https://cors-anywhere.herokuapp.com/${environment.sieconwebsuprimentos}`;
+    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
     constructor(private http:HttpClient, private store:Store){}
     getInitialParams(){
       const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
@@ -29,7 +30,7 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
         if(!!params == false){
           params = this.getInitialParams();
         }
-        this.http.post(`${this.apiUrl}${RequestsEndPoints[endPoint]}`,params).subscribe(
+        this.http.post(`${this.sieconwebwebapi}${RequestsEndPoints[endPoint]}`,params).subscribe(
           async(res:any) => {
             observer.next(res.resultado.sort(this.sortFunction));
           },
@@ -42,7 +43,7 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
     }
     getVersion(id = null, endPoint = 'GetVersion'){
       return new Observable((observer) => {
-        this.http.get(`${this.apiUrl}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
+        this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             observer.next(res.resultado.version);
           },
@@ -55,7 +56,7 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
     }
     getInsumosById(id = null, endPoint = 'getIsumosId'){
       return new Observable((observer) => {
-        this.http.get(`${this.apiUrl}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
+        this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             observer.next(res.resultado);
           },
@@ -67,7 +68,7 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
       })
     }
     postReq(params , type){
-      const url = `${this.apiUrl}${RequestsEndPoints['RequisicaoId']}`
+      const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
       let req = type == 'POST' ? this.http.post(url,params) : this.http.put(url,params);
       return new Observable((observer) => {
         req.subscribe(

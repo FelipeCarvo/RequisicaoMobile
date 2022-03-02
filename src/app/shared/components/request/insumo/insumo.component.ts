@@ -33,6 +33,7 @@ export class InsumoComponent implements OnInit {
   }
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
+      console.log(res)
       this.listInsumos = res;
       setTimeout(() =>{
         this.loading = true;

@@ -8,14 +8,14 @@ import {LookupsEndPoints} from '../utils/enums/EnumLockup'
     providedIn: 'root'
   })
   export class LoockupstService {
-    apiUrl = `https://cors-anywhere.herokuapp.com/${environment.BASE_URL}/sieconwebwebapi/api/`;
+    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
 
     constructor(private http:HttpClient, private store:Store){}
 
     getLookUp(params = null, endPoint = 'Empreendimentos'){
       return new Promise((resolve, reject) => {
      
-        this.http.post(`${this.apiUrl}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
+        this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },

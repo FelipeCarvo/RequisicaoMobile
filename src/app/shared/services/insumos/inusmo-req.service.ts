@@ -28,9 +28,8 @@ export interface InsumoInterface {
     providedIn: 'root'
   })
   export class InsumosRequest {
-    apiUrl = `https://cors-anywhere.herokuapp.com/${environment.BASE_URL}/sieconwebsuprimentos/api`;
-    apiUrl2 = `https://cors-anywhere.herokuapp.com/${environment.BASE_URL}/sieconwebwebapi/api`;
-
+    sieconwebsuprimentos = `https://cors-anywhere.herokuapp.com/${environment.sieconwebsuprimentos}`;
+    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
     constructor(private http:HttpClient,private store:Store,){}
     getObject(form){
       const{requisicaoId,versaoEsperada}=this.store.selectSnapshot(ReqState.getReq);
@@ -46,7 +45,7 @@ export interface InsumoInterface {
     sendNewInsumo(form){
       return new Promise((resolve, reject) => {
         const params = this.getObject(form);
-        this.http.post(`${this.apiUrl}/ItemRequisicao`,params).subscribe(
+        this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params).subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },
@@ -71,7 +70,7 @@ export interface InsumoInterface {
     getInsumoById(id){
       return new Promise((resolve, reject) => {
 
-        this.http.post(`${this.apiUrl2}/suprimentos/Requisicao/ItensRequisicao/${id}`,{}).subscribe(
+        this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ItensRequisicao/${id}`,{}).subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },
