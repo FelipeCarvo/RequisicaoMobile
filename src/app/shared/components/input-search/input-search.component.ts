@@ -1,21 +1,24 @@
-import { Component, OnChanges, Input, OnInit,ViewContainerRef,ViewChild,ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { trigger, style, animate, transition, state } from '@angular/animations';
+import { Component,OnInit, Input,ViewChild,SimpleChanges,OnChanges,forwardRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
-import {map, startWith,switchMap} from 'rxjs/operators';
-// import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {map, startWith} from 'rxjs/operators';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
-
-export class HashDirective  {
-  @Input() hash: string;
-
-  constructor(public vcRef: ViewContainerRef) {}
-}
+import { 
+  ControlValueAccessor, 
+  NG_VALUE_ACCESSOR, 
+  NG_VALIDATORS, 
+  FormControl, 
+  Validator 
+} from '@angular/forms';
 @Component({
   selector: 'app-input-search',
   templateUrl: './input-search.component.html',
   styleUrls: ['./input-search.component.scss'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => InputSearchComponent),
+    multi: true
+   }]
 
 })
 
@@ -39,66 +42,43 @@ export class InputSearchComponent implements OnInit {
   noSearchResult = false;
   disablebuttonTest = false;
   constructor(private loockupstService:LoockupstService,
-    private cdr: ChangeDetectorRef){
+  ){
 
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.disablebuttonTest = this.viewDisabled();
-  }
-  ngOnInit() {
+  ngOnInit(): void {
     if(!!this.getValue()){
       this.refreshLoad = true;
-      this.disablebuttonTest = this.viewDisabled();
       this.getLoockups();
     }
-    this.cdr.detectChanges();
   }
-   
+  get setDisableButton():boolean{
+    let disable = false;
+     if(!!this.disabledCondition){
+       let obj = this.pesquisa
+       let o = Object.keys(obj)
+       .filter((a,k) => obj[k] == null && a !='pesquisa')
+       .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
+       disable = Object.values(o).filter(e => e!=null && e!=``).length == 0
+     
+     }
+    return disable
+  } 
   displayFn(value = this.getValue()) {
     if(!!value && this.listGroup.length > 0){
       return this.listGroup.filter(option => option.id == value)[0]?.descricao
     }
-  
   }
-  viewDisabled(): boolean{
-    if(!!this.disabledCondition){
-      let type =  this.getValidInputParent(this.disabledCondition);
-      let type1 = this.getValidInput(this.controlName);
-      if(!!type){
-        this.msgDisabled = `Preencha primeiramente o ${this.disabledFieldName}`
-        this.parentForm.get(this.controlName).disable();
-      }else if(!type){
-        this.parentForm.get(this.controlName).enable();
-      }
-      if(!!type1){
-        this.msgDisabled = `${this.placeholder} é um campo obrigatório`
-      }
-      return type || type1;
-    }else{
-      let type =  this.getValidInput(this.controlName);
-      if(!!type){
-        this.msgDisabled = `${this.placeholder} é um campo obrigatório`
-      }
-      return type;
-    }
-
-  }
-  getValidInput(FormControl){
-    return this.parentForm.get(FormControl).invalid
-  }
-  getValidInputParent(FormControl){
-    return  !this.parentForm.get(FormControl).value
-  }
+ 
   getValue(){
     return this.parentForm.get(this.controlName).value 
   }
   focusout(){
-    
     if(this.noSearchResult){
       this.parentForm.controls[this.controlName].setValue(null)
     }
   }
   async getLoockups(){
+   
     if (!this.listItemFilter){
       this.loading = true;
       const params = this.pesquisa;
@@ -118,13 +98,16 @@ export class InputSearchComponent implements OnInit {
       setTimeout(()=>{
         this.loading = false;
         if(this.refreshLoad){
-          this.parentForm.controls[this.controlName].setValue(this.getValue());
-          const selectedValue = this.getValue();
+          let value = this.getValue();
+          const selectedValue = value;
+          //this.parentForm.controls[this.controlName].setValue(value);
           this.refreshLoad = false;
           if(!!selectedValue){
-            let test = !!this.listGroup.find(e => e.id == selectedValue);
-            if(!test){
+            let testValidation = !!this.listGroup.find(e => e.id == selectedValue);
+            if(!testValidation){
               this.parentForm.controls[this.controlName].setValue(null)
+            }else{
+              this.parentForm.controls[this.controlName].setValue(value);
             }
           }
         }else{

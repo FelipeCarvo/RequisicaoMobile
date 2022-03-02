@@ -7,7 +7,7 @@ import {RequestFormComponentModule} from '@components/request/request-form/resqu
 import {InsumoComponentModule} from '@components/request/insumo/insumo.module'
 import { RequestPage } from './request.page';
 import {DocumentsComponentComponentModule} from '@components/request/documents/documents.module'
-import {RouteInterceptorService} from '@services/utils/route-event';
+
 @NgModule({
   imports: [
     CommonModule,

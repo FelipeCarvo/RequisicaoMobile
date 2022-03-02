@@ -15,8 +15,9 @@ import {InsumoState} from'@core/store/state/inusmos.state';
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {opacityAnimation} from '@services/animation/custom-animation';
-import {sharedModules} from '@components/components.module'
+
+import {sharedModules} from '@components/components.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -43,7 +44,6 @@ import {sharedModules} from '@components/components.module'
     }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
-  exports:[sharedModules]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

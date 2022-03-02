@@ -25,8 +25,7 @@ export class InsumoComponent implements OnInit {
     private loadingController:LoadingController,) { }
 
   ngOnInit() {
-    console.log(!!this.validForm)
-    if(!!this.validForm){
+    if(!!this.validForm && !!this.requisicaoId){
       this.getInsumos();
     }else{
       this.updateStep.emit(0)

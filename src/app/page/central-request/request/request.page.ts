@@ -87,16 +87,19 @@ export class RequestPage implements OnInit {
       if(res === 'confirm-exclude'){
         const {versaoEsperada} = this.getFormForStore();
         this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
-        this.store.dispatch(new ResetStateReq());
-        this.navCtrl.back();  
+          this.store.dispatch(new ResetStateReq());
+          this.navCtrl.back();  
         },err =>{
           console.log(err)
         });
       }
-      else if(res === 'confirm'){
-        this.store.dispatch(new ResetStateReq());
+      this.childComponent.reqForm.reset();
+      console.log();
+      this.store.dispatch(new ResetStateReq());
+      setTimeout(()=>{
         this.navCtrl.back(); 
-      }
+      },300)
+     
     }
     else{
       this.navCtrl.back();

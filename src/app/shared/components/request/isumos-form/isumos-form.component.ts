@@ -1,4 +1,4 @@
-import { Component, OnInit,Injectable ,Output ,Input,EventEmitter,ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit,Injectable ,Output ,Input,EventEmitter} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
@@ -15,6 +15,7 @@ import { ToastController } from '@ionic/angular';
   selector: 'app-isumos-form',
   templateUrl: './isumos-form.component.html',
   styleUrls: ['./isumos-form.component.scss'],
+
 })
 export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
@@ -46,6 +47,7 @@ export class IsumosFormComponent implements OnInit {
     private store:Store,
     private insumosRequest:InsumosRequest,
     private toastController:ToastController,
+
   ) {
    
    }
@@ -86,7 +88,7 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-        // this.cdr.detectChanges();
+        
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e]
@@ -97,7 +99,7 @@ export class IsumosFormComponent implements OnInit {
     })
   }
   
-  disabledEtapa():boolean{
+  get disabledEtapa():boolean{
     let retorno;
     const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
     const insumoId = this.reqFormInsumos?.get('insumoId').value;

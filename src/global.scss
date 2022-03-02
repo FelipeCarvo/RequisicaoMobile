@@ -94,7 +94,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
   }
   .my-custom-interface {
     .action-sheet-container {
-        box-shadow: 0px 2px 36px rgb(0 0 0 / 30%);
+        //box-shadow: 0px 2px 36px rgb(0 0 0 / 30%);
         .action-sheet-group{
             background: #fFFFFF!important;
             // padding-top: 18px;
@@ -220,7 +220,7 @@ ion-app{
                 color: #4682B4;
                 opacity: 1;
             }
-         
+
             ion-input,.customInput,ion-select,ion-textarea,.calendar{
                 color: #828282;
                 font-weight: normal;

@@ -38,23 +38,23 @@
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
-        <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa()"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
-          <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao }}</ion-select-option>
+        <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
+          <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao | descripitionpipe}}</ion-select-option>
         </ion-select>
        
-          <div class="required-text"  *ngIf="disabledEtapa()">
+          <div class="required-text"  *ngIf="disabledEtapa">
             <p>Insumo é um campo obrigatório</p>
           </div>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Plano de contas" formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsPlanoDeContas" placeholder="Plano de contas" name="planoContasId" [parentForm]="reqFormInsumos" controlName="planoContasId" ngDefaultControl></app-input-search>
+        <app-input-search label="Plano de contas" formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsPlanoDeContas" placeholder="Plano de contas" name="planoContasId" [parentForm]="reqFormInsumos" controlName="planoContasId" ngDefaultControl></app-input-search>
       </ion-item>
 
       <ion-item  lines="none" class="box ion-margin-vertical">
         <app-input-search label="Serviço" formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId,pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsServico" placeholder="Serviço" name="servicoId" [parentForm]="reqFormInsumos" controlName="servicoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Insumo"  formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo" name="insumoId" [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Insumo"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo" name="insumoId" [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-row>
@@ -99,7 +99,7 @@
         </ion-row>    
       </ion-item>
       <ion-item  lines="none" class="box" *ngIf="!!getFormField('etapaId')">
-        <app-input-search label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo de Substituição" name="insumoSubstituicaoId" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>  
+        <app-input-search label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" placeholder="Insumo de Substituição" name="insumoSubstituicaoId" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>  
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-label position="floating">Complemento</ion-label>
@@ -135,11 +135,11 @@
         <ion-textarea placeholder="Enter more information here..."></ion-textarea>
       </ion-item> -->
       <ion-item  lines="none" class="box ion-margin-vertical" >
-        <app-input-search label="Bloco"  formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" placeholder="Todos" name="blocoId" [parentForm]="reqFormInsumos" controlName="blocoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Bloco"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" placeholder="Todos"  [parentForm]="reqFormInsumos" controlName="blocoId" ngDefaultControl></app-input-search>
 
       </ion-item>
       <ion-item  lines="none" class="box" >
-        <app-input-search label="Unidade"  formName="insumos" disabledCondition="blocoId" [pesquisa]="{blocoId: getFormField('blocoId')}" disabledFieldName="bloco" [listItemFilter]="listItemFilter.filteredOptionsUnidade" placeholder="Todos" name="unidadeId" [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
+        <app-input-search label="Unidade"  formName="insumos" disabledCondition="true" [pesquisa]="{pesquisa:'',blocoId: getFormField('blocoId')}" [listItemFilter]="listItemFilter.filteredOptionsUnidade" placeholder="Todos" name="unidadeId" [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item class="box  ion-margin-vertical"> 
         <ion-label class="gestao">Gestão de Frota</ion-label>

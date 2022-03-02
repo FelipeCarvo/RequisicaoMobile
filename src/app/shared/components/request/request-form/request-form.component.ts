@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import {opacityAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
-import { filter } from 'rxjs/operators';
 import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
 @Injectable({
   providedIn: 'root'
@@ -20,6 +19,7 @@ export class RequestFormComponent implements OnInit {
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   public reqForm: FormGroup;
+  private loadForm:boolean = false
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
     filteredOptionsOFsDescontoMaterial:null,
@@ -37,7 +37,7 @@ export class RequestFormComponent implements OnInit {
     this.getLoockupMotivo();
     await this.setValform();
     this.reqForm.valueChanges.subscribe(selectedValue  => {
-      let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
+      let filterVal =Object.keys(selectedValue).filter(e => this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
         let val = this.getFormField(e);
         let formField = {[e]:val};
@@ -49,20 +49,15 @@ export class RequestFormComponent implements OnInit {
       })
     })
   }
- 
   initForm(){
     this.reqForm = this.formBuilder.group({
-      empreendimentoId:  new FormControl(null, [Validators.required]),
-      motivoId: new FormControl(null),
-      OFsDescontoMaterial: [null],
-      aprovador: new FormControl({value:null}),
-      observacao:[null]
+      empreendimentoId:  new FormControl({value:null,disabled:false}, [Validators.required]),
+      motivoId: new FormControl({ value: null,disabled: false}),
+      OFsDescontoMaterial: new FormControl({ value: null,disabled: false}),
+      aprovador: new FormControl({ value: null,disabled: false}),
+      observacao:new FormControl({value:null,disabled:false})
     });
-  }
-  getDisable(){
-    if(!!this.reqForm){
-      return this.reqForm.get('empreendimentoId').invalid;
-    }
+    this.loadForm = true;
   }
   async getLoockupMotivo(){
     const {motivoId} = this.getFormForStore;

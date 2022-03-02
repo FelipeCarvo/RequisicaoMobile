@@ -18,6 +18,9 @@ ion-row{
             border: none!important;
             border-radius: 0!important;
             margin-top: 0!important;
+            &:disabled{
+                background-color: #EAECED!important;
+            }          
         }
     }
     .required-text{

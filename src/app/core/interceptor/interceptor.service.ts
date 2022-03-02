@@ -64,7 +64,7 @@ export class Interceptor implements HttpInterceptor {
   const newUrl = {url: `${environment.BASE_URL}/sieconsts/connect/token`};
   let newHeader = {
     setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded'},
-    body:`grant_type=refresh_token&scope=${scope}&client_id=${client_id}&refresh_token=${refresh_token}`
+    body:`grant_type=refresh_token&scope=${scope} offline_access&client_id=${client_id}&refresh_token=${refresh_token}`
   };
   newHeader= Object.assign(newHeader, newUrl);
   return request.clone(newHeader)
