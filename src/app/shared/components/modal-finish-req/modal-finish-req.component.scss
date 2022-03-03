@@ -56,6 +56,9 @@ ion-content{
                 line-height: 20px;
                 letter-spacing: -0.02em;
                 ion-radio{
+                    --border-color:#4682B4;	
+                    --color:#C4C4C4;
+                    --color-checked:#4682B4;	
                     margin-inline-end: 9px!important;
                     --border-width:3px;
                 }

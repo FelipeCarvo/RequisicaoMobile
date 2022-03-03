@@ -33,7 +33,7 @@ export class InputSearchComponent implements OnInit {
   @Input() pesquisa:any;
   @Input() disabledCondition:any;
   @Input() formName:string;
-  msgDisabled:string;
+  @Input() msgDisabled?:string;
   listGroup:any = [];
   loading = false;
   refreshLoad= false;
@@ -68,7 +68,9 @@ export class InputSearchComponent implements OnInit {
   }
  
   getValue(){
-    console.log(this.parentForm.get(this.controlName).value )
+    if(this.disabledCondition){
+      console.log(this.parentForm.get(this.controlName));
+    }
     return this.parentForm.get(this.controlName).value 
   }
   focusout(){

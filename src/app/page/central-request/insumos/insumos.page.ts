@@ -46,12 +46,8 @@ export class InsumosPage{
   }
 
   async dismiss(): Promise<void> {
-   const obj = this.getFormForStore();
-   if(obj?.requisicaoId){
-    delete obj['requisicaoId'];
-   } 
-   let filter = Object.values(obj).filter(e =>e).length > 2;
-   console.log(this.getFormForStore())
+   let obj = await this.getFormForStore();
+   let filter = Object.values(obj).filter(e =>e).length > 3;
     if(filter){
       await this.openModal()
     }else{
@@ -65,29 +61,6 @@ export class InsumosPage{
        this.resetAndBack();
       }
     });
-
-    // const alert = await this.alertController.create({
-    //   cssClass: 'my-custom-alert ',
-    //   header: 'Limpar insumo',
-    //   message: 'Você ainda não adicionou um insumo deseja mesmo voltar ?',
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       role: 'cancel',
-    //       cssClass: 'cancel-button',
-    //       handler: (blah) => {
-    //         console.log('Confirm Cancel: blah');
-    //       }
-    //     }, {
-    //       text: 'Voltar',
-    //       cssClass: 'confirm-button',
-    //       handler: () => {
-
-    //       }
-    //     }
-    //   ]
-    // });
-    // await alert.present();
   }
   public resetAndBack():void{
     this.store.dispatch(new ResetStateInsumos())

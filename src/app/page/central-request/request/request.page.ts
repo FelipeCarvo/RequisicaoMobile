@@ -23,6 +23,7 @@ export class RequestPage implements OnInit {
   validStep: boolean = false;
   sendPost:boolean = false;
   requisicaoId:string = null;
+  versaoEsperada:number = null;;
   steps:any = [
     { key: 0, title: "Requisição",enabled:true},
     { key: 1, title: "Insumos",enabled:this.validStep},
@@ -50,8 +51,9 @@ export class RequestPage implements OnInit {
     });
    }
   ngOnInit() {
-    const {requisicaoId} = this.getFormForStore();
+    const {requisicaoId,versaoEsperada} = this.getFormForStore();
     this.requisicaoId = requisicaoId;
+    this.versaoEsperada = versaoEsperada;
     if(!!this.requisicaoId){
       this.getVersion();
     }
@@ -72,9 +74,11 @@ export class RequestPage implements OnInit {
   }
   async getVersion(){
     if(!!this.requisicaoId){
-      this.rquestService.getVersion(this.requisicaoId).subscribe(async(res:any) =>{
-    
+      this.rquestService.getVersion(this.requisicaoId).subscribe(async(res:any) =>{ 
         this.setFormForStore({versaoEsperada:res});
+        if(this.versaoEsperada !== res){
+          this.versaoEsperada = res;
+        }
      },async(error)=>{});
     }
   }
@@ -87,23 +91,33 @@ export class RequestPage implements OnInit {
       if(res === 'confirm-exclude'){
         const {versaoEsperada} = this.getFormForStore();
         this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
-          this.store.dispatch(new ResetStateReq());
+          this.resetForm();
           this.navCtrl.back();  
         },err =>{
           console.log(err)
         });
       }
-      this.childComponent.reqForm.reset();
-      console.log();
-      this.store.dispatch(new ResetStateReq());
-      setTimeout(()=>{
+      else if(res === 'confirm'){
+        this.resetForm();
+        this.navCtrl.back();  
+      }
+      else if(res === 'confirm-exclude'){
+        this.resetForm();
         this.navCtrl.back(); 
-      },300)
+      }
+      else if(res === 'finish'){
+        await this.getVersion();
+        await this.openModal();
+      }
      
     }
     else{
       this.navCtrl.back();
     }
+  }
+  resetForm(){
+    this.childComponent.reqForm.reset();
+    this.store.dispatch(new ResetStateReq());
   }
   validReqId(){
     return this.store.selectSnapshot(ReqState.validReqId);
@@ -118,9 +132,13 @@ export class RequestPage implements OnInit {
     return this.store.selectSnapshot(ReqState.validEmpreendimentoId);
   }
   async openModal(){
+ 
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
+      componentProps:{
+        id:this.requisicaoId,versaoEsperada:this.versaoEsperada
+      }
     });
     await modal.present();
   }

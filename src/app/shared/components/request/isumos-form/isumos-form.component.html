@@ -139,7 +139,7 @@
 
       </ion-item>
       <ion-item  lines="none" class="box" >
-        <app-input-search label="Unidade"  formName="insumos" disabledCondition="true" [pesquisa]="{pesquisa:'',blocoId: getFormField('blocoId')}" [listItemFilter]="listItemFilter.filteredOptionsUnidade"  [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
+        <app-input-search label="Unidade"  formName="insumos" disabledCondition="true" msgDisabled="preencha primeiramente o bloco" [pesquisa]="{pesquisa:'',blocoId: getFormField('blocoId')}" [listItemFilter]="listItemFilter.filteredOptionsUnidade"  [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item class="box  ion-margin-vertical"> 
         <ion-label class="gestao">Gestão de Frota</ion-label>
@@ -156,7 +156,7 @@
       </ion-item>
     </ion-col>
     <ion-col size="11" >
-      <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="submit()" [disabled]="!validForm()">
+      <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="submit()" [disabled]="!validForm() || sendLoading">
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
         {{!sendLoading ?' Adicionar Insumos':'' }}

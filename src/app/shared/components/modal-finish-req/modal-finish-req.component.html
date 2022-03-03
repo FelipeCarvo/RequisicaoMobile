@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-toolbar lines="none">
+  <ion-toolbar lines="none" >
     <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>  
     <ion-title class="ion-text-center">
       Finalizar Requisição      
@@ -7,8 +7,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-grid *ngIf="!hasFinish">
-    <ion-row class="ion-justify-content-center ion-text-center">
+  <ion-grid [ngClass]="{'gridSecond': hasFinish}">
+    <ion-row *ngIf="!hasFinish" class="ion-justify-content-center ion-text-center">
       <ion-col size="11" class="topReq">
         <ion-row>
           <ion-col size="12">
@@ -19,49 +19,24 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col size="12">
-        <ion-radio-group class="status">
-            <ion-item lines="none"  >
-              <ion-label >Reprovada</ion-label>
-              <ion-radio value="1" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Não Concluída</ion-label>
-              <ion-radio value="2"slot="start"> </ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label>Em Aprovação</ion-label>
-              <ion-radio value="3" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label >Aprovada para Cotação</ion-label>
-              <ion-radio value="4" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label >Aprovada para O.F</ion-label>
-              <ion-radio value="5" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label>Aprovada para O.F de Tranferência</ion-label>
-              <ion-radio value="6" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label>Aprovada para B.T</ion-label>
-              <ion-radio value="7" slot="start"></ion-radio>
-            </ion-item>
-            <ion-item  lines="none">
-              <ion-label>Cancelada</ion-label>
-              <ion-radio value="8" slot="start"></ion-radio>
-            </ion-item>
+      <ion-col size="12" [formGroup]="formStatus">
+        <ion-radio-group class="status" formControlName="satusId">
+            <ion-item *ngFor="let status of optionsSelect" lines="none"  >
+              <ion-label >{{status.name}}</ion-label>
+              <ion-radio [value]="status.id" slot="start"></ion-radio>
+            </ion-item>          
         </ion-radio-group>
       </ion-col>
       <ion-col size="11">
-        <ion-button class="btnGreen" (click)="finish()">Finalizar Requisição</ion-button>
+        <ion-button class="btnGreen" expand="block" (click)="submit()" [disabled]="!validForm || sendLoading">
+          <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+          <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
+          {{!sendLoading ?'Finalizar Requisição':'' }}
+        </ion-button>
+
       </ion-col>
     </ion-row>
-  </ion-grid>
-  <ion-grid *ngIf="hasFinish" class="gridSecond">
-    <ion-row  class="ion-justify-content-center ion-text-center rowCustom">
+    <ion-row  *ngIf="hasFinish" class="ion-justify-content-center ion-text-center rowCustom">
       <ion-col size="11"  class="BottomReq">
         <ion-row class="ion-justify-content-center ion-text-center">
           <div class="divIcon">
@@ -77,4 +52,21 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <!-- <ion-grid *ngIf="hasFinish" class="gridSecond">
+    <ion-row  class="ion-justify-content-center ion-text-center rowCustom">
+      <ion-col size="11"  class="BottomReq">
+        <ion-row class="ion-justify-content-center ion-text-center">
+          <div class="divIcon">
+            <ion-icon src="../../assets/icon/finishReq.svg" ></ion-icon>
+          </div>
+          <ion-col size="12">
+            <h3>Requisição enviada com sucesso!</h3>  
+          </ion-col>
+          <ion-col size="12">
+            <ion-button class="btnGreen">Nova Requisição</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
 </ion-content>

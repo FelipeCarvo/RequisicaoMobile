@@ -12,7 +12,7 @@
         </ion-select>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Número O.F (Para desconto)" formName="req" disabledCondition="true"  [pesquisa]="{pesquisa: '',empreendimentoId:this.getFormForStore['empreendimentoId']}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
+        <app-input-search label="Número O.F (Para desconto)" msgDisabled="preencha primeiramente o empreendimento" formName="req" disabledCondition="true"  [pesquisa]="{pesquisa: '',empreendimentoId:this.getFormForStore['empreendimentoId']}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <app-input-search label="Aprovador" formName="req"  [pesquisa]="{pesquisa: ''}"  [listItemFilter]="listItemFilter.filteredOptionsUsuarios" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>

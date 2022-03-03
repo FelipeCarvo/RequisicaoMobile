@@ -159,7 +159,6 @@ export class IsumosFormComponent implements OnInit {
   get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
   async submit(){
     const valid = this.validForm();
-    console.log(this.reqFormInsumos)
    if(valid){
     const params = await this.getForm();
     this.sendLoading = true;

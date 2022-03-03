@@ -18,8 +18,6 @@ export class LoginPage implements OnInit{
     private router:Router,
     private loginService:LoginService,
     private toastController:ToastController,
-  
-
   ) {
     this.initForm()
   }

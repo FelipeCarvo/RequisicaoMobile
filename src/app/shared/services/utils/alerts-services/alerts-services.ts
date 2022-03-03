@@ -23,7 +23,11 @@ export class AlertServices {
       buttons.push({
         text: 'Limpar e excluir',
         role: 'confirm-exclude',
-        cssClass: 'cancel-button'
+        cssClass: 'exclude-button'
+      },{
+        text: 'finalizar',
+        role: 'finish',
+        cssClass: 'finish-button'
       })
     }
     return buttons

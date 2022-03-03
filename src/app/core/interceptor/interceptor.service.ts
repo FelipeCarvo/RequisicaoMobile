@@ -67,6 +67,7 @@ export class Interceptor implements HttpInterceptor {
     body:`grant_type=refresh_token&scope=${scope} offline_access&client_id=${client_id}&refresh_token=${refresh_token}`
   };
   newHeader= Object.assign(newHeader, newUrl);
+ console.log(newHeader);
   return request.clone(newHeader)
  }
  private handle401Error(request: HttpRequest<any>, next: HttpHandler){
