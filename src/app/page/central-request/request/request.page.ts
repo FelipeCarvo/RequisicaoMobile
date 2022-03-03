@@ -19,7 +19,7 @@ import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 })
 export class RequestPage implements OnInit {
   @ViewChild('appChild', {static: false}) childComponent;
-  step:Number = 1;
+  step:Number = 0;
   validStep: boolean = false;
   sendPost:boolean = false;
   requisicaoId:string = null;

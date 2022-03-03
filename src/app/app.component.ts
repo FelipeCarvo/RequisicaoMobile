@@ -21,10 +21,10 @@ export class AppComponent {
       });
   }
   async ngOnInit() {
-    await SplashScreen.show({
-      showDuration: 5000,
-      autoHide: true
-    });
+    setTimeout(async () => {
+      await SplashScreen.hide();
+    },3000)
+
   }
 
   openFirst() {
