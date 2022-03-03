@@ -1,4 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ModalController } from '@ionic/angular';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
@@ -7,6 +8,20 @@ import { ToastController } from '@ionic/angular';
   selector: 'app-modal-finish-req',
   templateUrl: './modal-finish-req.component.html',
   styleUrls: ['./modal-finish-req.component.scss'],
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateX(100%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateX(0)', opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({transform: 'translateX(0)', opacity: 1}),
+          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+        ])
+      ]
+    )
+  ],
 })
 export class ModalFinishReqComponent implements OnInit {
   @Input() id: string;

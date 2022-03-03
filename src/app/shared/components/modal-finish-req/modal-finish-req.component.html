@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <ion-grid [ngClass]="{'gridSecond': hasFinish}">
-    <ion-row *ngIf="!hasFinish" class="ion-justify-content-center ion-text-center">
+    <ion-row *ngIf="!hasFinish" [@enterAnimation] class="ion-justify-content-center ion-text-center">
       <ion-col size="11" class="topReq">
         <ion-row>
           <ion-col size="12">
@@ -36,7 +36,7 @@
 
       </ion-col>
     </ion-row>
-    <ion-row  *ngIf="hasFinish" class="ion-justify-content-center ion-text-center rowCustom">
+    <ion-row  *ngIf="hasFinish" [@enterAnimation] class="ion-justify-content-center ion-text-center rowCustom">
       <ion-col size="11"  class="BottomReq">
         <ion-row class="ion-justify-content-center ion-text-center">
           <div class="divIcon">
