@@ -1,7 +1,7 @@
 <ion-header >
   <ion-toolbar lines="none">
     <ion-icon src="../../assets/icon/topoRequest.svg" class="ion-padding"slot="start" (click)="onBack()"></ion-icon>
-    <ion-icon src="../../assets/icon/editIcon.svg" class="ion-padding icon-green" slot="end" (click)="openModal()"></ion-icon>
+    <ion-icon src="../../assets/icon/editIcon.svg" disabled="true" class="ion-padding icon-green" slot="end" (click)="openModal()"  [ngClass]="{'disabled': !requisicaoId}"></ion-icon>
     
     <ion-title class="ion-text-center">
       Nova Requisição

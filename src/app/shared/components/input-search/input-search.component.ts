@@ -27,13 +27,11 @@ export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() name: string;
   @Input() controlName: any;
   @Input() parentForm:FormGroup;
   @Input() listItemFilter:any;
   @Input() pesquisa:any;
   @Input() disabledCondition:any;
-  @Input() disabledFieldName:string;
   @Input() formName:string;
   msgDisabled:string;
   listGroup:any = [];
@@ -70,6 +68,7 @@ export class InputSearchComponent implements OnInit {
   }
  
   getValue(){
+    console.log(this.parentForm.get(this.controlName).value )
     return this.parentForm.get(this.controlName).value 
   }
   focusout(){

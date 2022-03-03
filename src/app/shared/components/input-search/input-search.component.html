@@ -6,7 +6,7 @@
         <input
           matInput
           type="text"
-          [placeholder]="placeholder"
+          [placeholder]="!!placeholder ? placeholder : label"
           [formControlName]="controlName"
           [matAutocomplete]="name"
           [disableControl]="setDisableButton"

@@ -15,6 +15,11 @@ ion-header{
         border-radius: 0px 0px 18px 18px;
         ion-icon{
             font-size: 25px;
+            &.disabled{
+                cursor: default;
+                opacity: .4;
+                pointer-events: none;
+            }
         }
         ion-title{
             font-weight: bold;

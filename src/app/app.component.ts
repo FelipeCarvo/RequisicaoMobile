@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { ActivationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SplashScreen } from '@capacitor/splash-screen';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -19,6 +20,13 @@ export class AppComponent {
        
       });
   }
+  async ngOnInit() {
+    await SplashScreen.show({
+      showDuration: 5000,
+      autoHide: true
+    });
+  }
+
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
