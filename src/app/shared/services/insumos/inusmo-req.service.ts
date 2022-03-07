@@ -28,8 +28,8 @@ export interface InsumoInterface {
     providedIn: 'root'
   })
   export class InsumosRequest {
-    sieconwebsuprimentos = `https://cors-anywhere.herokuapp.com/${environment.sieconwebsuprimentos}`;
-    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
+    sieconwebsuprimentos = `${environment.sieconwebsuprimentos}`;
+    sieconwebwebapi = `${environment.sieconwebwebapi}`;
     constructor(private http:HttpClient,private store:Store,){}
     getObject(form){
       const{requisicaoId,versaoEsperada}=this.store.selectSnapshot(ReqState.getReq);

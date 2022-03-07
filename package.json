@@ -5,10 +5,11 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "Gcp": "cd src/App/components && ng generate component --name",
+    "Gcp": "cd src/App/components && ng generate component",
     "start": "ng serve -- --proxy-config ./proxy.config.json",
     "build": "ng build",
-    "resources": "capacitor-resources -p android,ios && node resources.js",
+    "generate_apk":"npm run build && ionic cap sync android && npm run resources && cd android && ./gradlew assembleDebug",
+    "resources": "capacitor-resources -p android --transform-splash cover && node resources.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

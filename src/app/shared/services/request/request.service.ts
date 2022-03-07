@@ -9,8 +9,8 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
     providedIn: 'root'
   })
   export class RequestService {
-    sieconwebsuprimentos = `https://cors-anywhere.herokuapp.com/${environment.sieconwebsuprimentos}`;
-    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
+    sieconwebsuprimentos = `${environment.sieconwebsuprimentos}`;
+    sieconwebwebapi = `${environment.sieconwebwebapi}`;
     constructor(private http:HttpClient, private store:Store){}
     getInitialParams(){
       const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)

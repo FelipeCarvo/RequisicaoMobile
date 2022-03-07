@@ -43,6 +43,9 @@ export class homePage {
       setTimeout(()=>{
         this.load = true;
       },200)
+    },async(error)=>{
+      this.load = true;
+      console.log(error)
     })
   }
 }

@@ -8,7 +8,7 @@ import {LookupsEndPoints} from '../utils/enums/EnumLockup'
     providedIn: 'root'
   })
   export class LoockupstService {
-    sieconwebwebapi = `https://cors-anywhere.herokuapp.com/${environment.sieconwebwebapi}`;
+    sieconwebwebapi = `${environment.sieconwebwebapi}`;
 
     constructor(private http:HttpClient, private store:Store){}
 

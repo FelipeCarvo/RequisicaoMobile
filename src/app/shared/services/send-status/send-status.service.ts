@@ -5,7 +5,7 @@ import {environment} from '@environment/environment';
     providedIn: 'root'
   })
   export class UpdateRequestStatus {
-    apiUrl = `https://cors-anywhere.herokuapp.com/${environment.sieconwebsuprimentos}/Requisicao`;
+    apiUrl = `${environment.sieconwebsuprimentos}/Requisicao`;
 
     constructor(private http:HttpClient){}
 

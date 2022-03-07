@@ -26,6 +26,7 @@ export class DetailRequestPage implements OnInit {
     this.getReq(this.requisicaoId)
   }
   public dismiss(): void {
+    // console.log(this.navCtrl)
     this.navCtrl.back();
   }
   getReq(id){
