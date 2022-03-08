@@ -28,10 +28,15 @@ export class InsumoComponent implements OnInit {
     private insumosRequest:InsumosRequest,
     public loadingService: LoadingService,
     private alertServices: AlertServices,
-    private store:Store) { }
-
+    private store:Store
+  ){}
+  async ionViewWillEnter(){
+    this.initApp();
+  }  
   async ngOnInit() {
-   
+   this.initApp();
+  }
+  initApp(){
     if(!!this.validForm && !!this.requisicaoId){
       this.getInsumos();
     }else{
@@ -44,6 +49,8 @@ export class InsumoComponent implements OnInit {
       this.loadingService.present();
       const params = `RequisicaoId=${this.requisicaoId}&ItemId=${id}&VersaoEsperada=${this.versaoEsperada}`
       this.insumosRequest.deleteById(params).then((res:any) =>{
+        var index = this.listInsumos.findIndex((o)=>o.id === id);
+       if (index !== -1) this.listInsumos.splice(index, 1);
         this.loadingService.dismiss();
         
       })

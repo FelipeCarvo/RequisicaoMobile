@@ -163,8 +163,7 @@ export class IsumosFormComponent implements OnInit {
     const params = await this.getForm();
     this.sendLoading = true;
     this.insumosRequest.sendNewInsumo(params).then(response =>{
-      console.log(response);
-      this.resetAndBack.emit()
+      this.resetAndBack.emit();
 
     },async(error) =>{
       this.sendLoading = false;
