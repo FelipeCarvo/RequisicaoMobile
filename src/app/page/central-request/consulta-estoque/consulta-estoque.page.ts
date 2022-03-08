@@ -8,11 +8,14 @@ import { NavController } from '@ionic/angular';
 export class ConsultaEstoquePage implements OnInit {
 
   constructor(public navCtrl:NavController,) { }
-
+  centralEstoque:boolean = true;
   ngOnInit() {
   }
   public dismiss(): void {
     this.navCtrl.back();
+  }
+  setEstoque(estoque:boolean){
+    this.centralEstoque = estoque;
   }
 
 }

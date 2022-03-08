@@ -14,11 +14,11 @@
           <ion-col size="11">
             <ion-item lines="none" >
               <ion-label class="aprovado">Central de Estoque</ion-label>
-              <ion-checkbox value="test" slot="start"></ion-checkbox>
+              <ion-checkbox [value]="true" [checked]="centralEstoque" slot="start" (ionChange)="setEstoque($event.target.value)"></ion-checkbox>
             </ion-item>
             <ion-item lines="none" >
               <ion-label class="aprovado">Demais Empreendimentos</ion-label>
-              <ion-checkbox value="cord" slot="start"></ion-checkbox>
+              <ion-checkbox [value]="false" slot="start" [checked]="!centralEstoque" (ionChange)="setEstoque($event.target.value)"></ion-checkbox>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -43,12 +43,12 @@
           <ion-row> 
             <ion-col size="8" class="no-padding-left">
               <ion-label position="floating">Quantidade Requisitada</ion-label>
-              <ion-input value="leo"></ion-input>
+              <ion-input value="0"></ion-input>
             </ion-col>
             <ion-col size="4" class="no-padding-right">
               <ion-label  position="floating">Unidade</ion-label>
               <ion-select placeholder="Select One">
-                <ion-select-option value="f">Un</ion-select-option>
+                <ion-select-option value="0">Un</ion-select-option>
               </ion-select>
             </ion-col>
           </ion-row>    
@@ -57,7 +57,7 @@
           <ion-row>
             <ion-label position="floating">Saldo em Esotoque</ion-label>
             <ion-col size="9" class="no-padding-left">
-              <ion-input value="leo"></ion-input>
+              <ion-input value="0"></ion-input>
             </ion-col>
             <ion-col size="3" class="no-padding-right">
               <ion-button class="searchButton">
@@ -70,7 +70,7 @@
           <ion-row> 
             <ion-col size="8" class="no-padding-left">
               <ion-label position="floating">Quantidade Reservada</ion-label>
-              <ion-input value="leo"></ion-input>
+              <ion-input value="0"></ion-input>
             </ion-col>
           </ion-row>    
         </ion-item>

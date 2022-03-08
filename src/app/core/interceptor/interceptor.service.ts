@@ -10,7 +10,7 @@ import {
 }  
 from '@angular/common/http';
 import { Observable,throwError, } from 'rxjs';
-import { catchError ,switchMap} from 'rxjs/operators';
+import { catchError ,switchMap,debounceTime} from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
 import {SetToken} from '@core/store/actions/auth.actions'
@@ -42,6 +42,7 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if(error.status === 401){
+          const newReq = this.getNewReq(request)
           return this.handle401Error(request, next);
         }else{
           if (error.error instanceof ErrorEvent) {
@@ -67,14 +68,14 @@ export class Interceptor implements HttpInterceptor {
     body:`grant_type=refresh_token&scope=${scope} offline_access&client_id=${client_id}&refresh_token=${refresh_token}`
   };
   newHeader= Object.assign(newHeader, newUrl);
- console.log(newHeader);
   return request.clone(newHeader)
  }
- private handle401Error(request: HttpRequest<any>, next: HttpHandler){
+ private handle401Error(request: HttpRequest<any>, next: HttpHandler):Observable<any> {
   const newReq = this.getNewReq(request)
-  console.log(newReq)
   return next.handle(newReq).pipe(
+    debounceTime(600),
     switchMap((res:any) =>{
+      console.log(res)
       const token = res.body?.access_token;
       this.store.dispatch(new SetToken(token));
       const newRequest = request.clone({

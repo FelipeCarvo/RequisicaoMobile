@@ -17,7 +17,6 @@ import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 })
 export class InsumosPage{
   @ViewChild('appChild', {static: false}) childComponent;
-  
   constructor(
     public navCtrl:NavController,
     private router:Router,
@@ -67,7 +66,12 @@ export class InsumosPage{
     this.navCtrl.back();
   }
   public goCentralEstoque(){
-    console.log(this.getFormForStore())
-    this.router.navigate(['tabs/central-req/list-insumos']);
+    const {insumoId} = this.getFormForStore();
+    let url = 'list-insumos'
+   
+    if(!!insumoId){
+     url = 'consulta-estoque'
+    }
+    this.router.navigate([`tabs/central-req/${url}`]);
   }
 }
