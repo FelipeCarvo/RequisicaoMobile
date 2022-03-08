@@ -31,33 +31,33 @@ export class Interceptor implements HttpInterceptor {
     }
     else if(isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
-       request = request.clone( {
-          setHeaders: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-         }
-        });
+      request = request.clone( {
+        setHeaders: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
     }
     return next.handle(request).pipe(
-     
       catchError((error: HttpErrorResponse) => {
         if(error.status === 401){
           return this.handle401Error(request, next);
+        }else{
+          if (error.error instanceof ErrorEvent) {
+            console.log('this is client side error');
+            errorMsg = `Error: ${error.error.message}`;
+          }
+          else {
+            console.log('this is server side error',error);
+            const err = error.error
+            errorMsg = `${err?.error_description ? err.error_description : err.Mensagem}`;
+          }
+          return throwError(error.error);
         }
-        if (error.error instanceof ErrorEvent) {
-          console.log('this is client side error');
-          errorMsg = `Error: ${error.error.message}`;
-        }
-        else {
-          console.log('this is server side error',error);
-          const err = error.error
-          errorMsg = `${err?.error_description ? err.error_description : err.Mensagem}`;
-        }
-        return throwError(error.error);
       })
     );
- }
+  }
  getNewReq(request: HttpRequest<any>){
   let refresh_token = this.store.selectSnapshot(AuthUser.getRefreshToken);
   let {grantTypeLogin,client_id,scope} = environment;

@@ -8,7 +8,18 @@
     font-size: 18px;
     line-height: 22px;
 }
-
+.static-checkbox{
+    .item-interactive-disabled{
+        ion-label{
+            opacity: 1!important;
+        }
+    }
+    ion-checkbox{
+        &.checkbox-disabled{
+            opacity: 1;
+        }
+    }
+}
 ion-header{
     height: 100px;
     ::after{

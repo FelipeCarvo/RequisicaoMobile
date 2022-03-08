@@ -1,6 +1,6 @@
 ion-card{
-  border: 2px solid #CDE8FF;
-  border-radius: 16px;
+
+  border-radius: 9px;
   background: #fff;
   margin-bottom: 30px;
   margin-top: 0;
@@ -24,6 +24,9 @@ ion-card{
     }
   }
   ion-card-content{
+    border: 3px solid #CDE8FF;
+  
+    border-radius: 0 0 9px 9px;
     text-align: left;
     padding: 0;
     display: flex;
@@ -65,5 +68,25 @@ ion-card{
       }
      
     }
+    .card-footer{
+      background: #EAECED;
+      padding: 0!important;
+      border-radius: 0 0 9px 9px;
+      height: 52px;
+      align-items: center;
+      ion-label{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        letter-spacing: -0.01em;
+        &.exclude{
+          color: #EB5757!important;
+        }
+        &.edit{
+          color: #828282;
+        }
+      }
+    }
   }
+
 }

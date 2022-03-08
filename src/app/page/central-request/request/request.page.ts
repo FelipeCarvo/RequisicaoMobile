@@ -55,6 +55,7 @@ export class RequestPage implements OnInit {
     this.requisicaoId = requisicaoId;
     this.versaoEsperada = versaoEsperada;
     if(!!this.requisicaoId){
+      this.step = 1;
       this.getVersion();
     }
   }
