@@ -1,8 +1,9 @@
 <ion-card >
   <ion-card-header>
-    <ion-card-title>Data</ion-card-title>
+    <ion-icon name="ellipsis-vertical" (click)="displayButtons()"></ion-icon>
+   
   </ion-card-header>
-  <ion-card-content> 
+  <ion-card-content [class.active]="showButtons"> 
     <ion-col size="12" style="padding: 0;">
       <ion-row class="borded">
         <ion-col size="9">
@@ -19,9 +20,9 @@
           <p>{{item.unidade}}</p>
         </ion-col>
       </ion-row>
-      <ion-row class="card-footer">
+      <ion-row class="card-footer" *ngIf="showButtons" [@grow]>
         <ion-col offset="7" size="3">
-          <ion-label class="exclude">Remover</ion-label>
+          <ion-label class="exclude" (click)="exludeItem(item.id)">Remover</ion-label>
         </ion-col>
         <ion-col size="2">
           <ion-label  class="edit">editar</ion-label>

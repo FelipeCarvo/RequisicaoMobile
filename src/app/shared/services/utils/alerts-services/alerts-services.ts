@@ -44,6 +44,28 @@ export class AlertServices {
     const {role} = await alert.onDidDismiss();
     return role
   }
+  public async removerInsumo():Promise<any> {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Deseja remover esse insumo?',
+     
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button'
+        }, 
+        {
+          text: 'OK',
+          role: 'confirm',
+          cssClass: 'confirm-button'
+        }
+      ]
+    });
+    await alert.present();
+    const {role} = await alert.onDidDismiss();
+    return role
+  }
   public async alertInsumos():Promise<any> {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-alert ',

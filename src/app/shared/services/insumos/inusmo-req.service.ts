@@ -69,8 +69,20 @@ export interface InsumoInterface {
     }
     getInsumoById(id){
       return new Promise((resolve, reject) => {
-
         this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ItensRequisicao/${id}`,{}).subscribe(
+          async(res:any) => {
+            resolve(res.resultado);
+          },
+          error => {
+           
+            reject(error);
+          }
+        )
+      })
+    }
+    deleteById(params){
+      return new Promise((resolve, reject) => {
+        this.http.delete(`${this.sieconwebsuprimentos}/ItemRequisicao?${params}`).subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },

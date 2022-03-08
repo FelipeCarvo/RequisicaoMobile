@@ -17,7 +17,7 @@ import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 })
 export class InsumosPage{
   @ViewChild('appChild', {static: false}) childComponent;
-
+  
   constructor(
     public navCtrl:NavController,
     private router:Router,

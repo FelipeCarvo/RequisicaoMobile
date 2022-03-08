@@ -22,7 +22,7 @@
     </ion-col>
   </ion-row>
   <div *ngIf="!!listInsumos && listInsumos.length > 0"  [@hideShowAnimator]="loading">
-    <app-list-insumos-by-req *ngFor="let item of listInsumos" [item]="item"></app-list-insumos-by-req>
+    <app-list-insumos-by-req *ngFor="let item of listInsumos" (excludeInsumo)="excludeInsumo($event)"  (editInsumo)="editInsumo" [item]="item"></app-list-insumos-by-req>
     <ion-row class="ion-justify-content-center">
       <ion-col size="9">
         <ion-button class="btnRedondo btnVoltar" (click)="presentModal()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
