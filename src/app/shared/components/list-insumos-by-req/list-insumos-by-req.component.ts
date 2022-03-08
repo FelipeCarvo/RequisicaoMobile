@@ -26,6 +26,9 @@ export class ListInsumosByReqComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
+  editItem(id){
+    this.editInsumo.emit(id)
+  }
   exludeItem(id){
     this.excludeInsumo.emit(id)
   }

@@ -1,6 +1,8 @@
 import { Component, Input,Output,EventEmitter, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
 import {RequestService} from '@services/request/request.service';
 import {LoadingService} from '@services/loading/loading-service';
 import {opacityAnimation} from '@services/animation/custom-animation'
@@ -25,7 +27,8 @@ export class InsumoComponent implements OnInit {
     private requestService:RequestService,
     private insumosRequest:InsumosRequest,
     public loadingService: LoadingService,
-    private alertServices: AlertServices,) { }
+    private alertServices: AlertServices,
+    private store:Store) { }
 
   async ngOnInit() {
    
@@ -46,8 +49,20 @@ export class InsumoComponent implements OnInit {
       })
     }
   }
-  editInsumo(){
-
+  editInsumo(id){
+    this.loadingService.present();
+    const params = `ItemId=${id}`
+    this.insumosRequest.getItemEdit(params).then((res:any) =>{
+      this.loadingService.dismiss();
+      const objResult = this.removeEmpty(res);
+      this.store.dispatch(new SetInsumosFileds(objResult))
+      this.router.navigate(['/tabs/central-req/insumos']);
+    })
+  }
+  removeEmpty(obj) {
+    return Object.entries(obj)
+    .filter(([_, v]) => v != null)
+    .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
   }
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{

@@ -23,7 +23,7 @@ export class RequestPage implements OnInit {
   validStep: boolean = false;
   sendPost:boolean = false;
   requisicaoId:string = null;
-  versaoEsperada:number = null;;
+  versaoEsperada:Number;
   steps:any = [
     { key: 0, title: "Requisição",enabled:true},
     { key: 1, title: "Insumos",enabled:this.validStep},

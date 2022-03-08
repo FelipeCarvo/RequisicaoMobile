@@ -1,4 +1,5 @@
 export interface insumosModel {
+    id?: string;
     requisicaoId?: String,
     empresaId?: String,
     etapaId?: String,

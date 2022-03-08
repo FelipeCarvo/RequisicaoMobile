@@ -80,6 +80,19 @@ export interface InsumoInterface {
         )
       })
     }
+    getItemEdit(id){
+      return new Promise((resolve, reject) => {
+        this.http.get(`${this.sieconwebsuprimentos}/ItemRequisicao?${id}`).subscribe(
+          async(res:any) => {
+            resolve(res.resultado);
+          },
+          error => {
+           
+            reject(error);
+          }
+        )
+      })
+    }
     deleteById(params){
       return new Promise((resolve, reject) => {
         this.http.delete(`${this.sieconwebsuprimentos}/ItemRequisicao?${params}`).subscribe(

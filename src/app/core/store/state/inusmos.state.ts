@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SetInsumosFileds,ResetStateInsumos } from '../actions/insumos.actions';
 import { insumosModel } from '../models/inusmos.model';
 const defaults:insumosModel = {
+  id:null,
   requisicaoId: null,
   empresaId: null,
   etapaId: null,
