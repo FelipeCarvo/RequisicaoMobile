@@ -1,0 +1,6 @@
+
+<ion-content>
+  Modal Content
+  <input class="ion-hide" #f type="file" (change)="changeListener($event)" id="file-input" accept="image/png, image/jpeg">
+  <ion-button  (click)="f.click()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
+</ion-content>

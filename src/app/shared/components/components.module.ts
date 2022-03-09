@@ -15,11 +15,9 @@ import {ListInsumosByReqComponent} from './list-insumos-by-req/list-insumos-by-r
 import { DatePipe } from '@angular/common';
 import {Descripitionpipe} from '../pipes/descripition-pipe';
 import {DisableControlDirective} from '../directives/disabled-input';
+import {DocumentModalComponent} from '../components/document-modal/document-modal.component'
 const providers = [
   Descripitionpipe,DisableControlDirective
-]
-const modules = [
-  CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(),
 ]
 const matModules = [
   MatAutocompleteModule,
@@ -33,7 +31,8 @@ const components = [
   ModalFinishReqComponent,
   IsumosFormComponent,
   ListInsumosComponent,
-  ListInsumosByReqComponent
+  ListInsumosByReqComponent,
+  DocumentModalComponent
 ]
 @NgModule({
  
