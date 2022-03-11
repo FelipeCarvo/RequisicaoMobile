@@ -14,10 +14,12 @@ import{ListInsumosComponent} from './list-insumos/list-insumos.component';
 import {ListInsumosByReqComponent} from './list-insumos-by-req/list-insumos-by-req.component'
 import { DatePipe } from '@angular/common';
 import {Descripitionpipe} from '../pipes/descripition-pipe';
+import {imageTypepipe} from '../pipes/image-type-pipe';
 import {DisableControlDirective} from '../directives/disabled-input';
 import {DocumentModalComponent} from '../components/document-modal/document-modal.component'
+import {NoImageIconComponent} from '../components/no-image-icon/no-image-icon.component'
 const providers = [
-  Descripitionpipe,DisableControlDirective
+  Descripitionpipe,DisableControlDirective,imageTypepipe
 ]
 const matModules = [
   MatAutocompleteModule,
@@ -32,7 +34,8 @@ const components = [
   IsumosFormComponent,
   ListInsumosComponent,
   ListInsumosByReqComponent,
-  DocumentModalComponent
+  DocumentModalComponent,
+  NoImageIconComponent
 ]
 @NgModule({
  

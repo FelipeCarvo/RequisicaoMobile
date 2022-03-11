@@ -90,11 +90,22 @@
         <ion-row>
           <ion-col size="6" class="no-padding-left">
             <ion-label>Data de Devolução</ion-label>
-            <div class="calendar grid-item">
-              <ion-datetime locale="pt-BR" locale="pt-BR" [value]="currentDay" picker-format="MMMM DD, YYYY" display-format="MM/DD/YYYY" [min]="currentyear" formControlName="prazoDevolucao" done-text="Confirmar" cancel-text="cancelar"   presentation="date" >
-              </ion-datetime>
+            <div class="calendar grid-item" id="open-date-input">
+              <ion-input [value]="getFormField('prazoDevolucao')" readonly></ion-input>
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
+          </ion-col>
+          <ion-col size="12">
+            <ion-popover trigger="open-date-input" :show-backdrop="true" size="cover">
+              <ng-template>
+                <ion-datetime presentation="date" locale="pt-BR" locale="pt-BR" 
+                  [value]="currentDay" picker-format="MMMM DD, YYYY" 
+                  display-format="MM/DD/YYYY" [min]="currentyear" 
+                  formControlName="prazoDevolucao" done-text="Confirmar"
+                  cancel-text="cancelar">
+                </ion-datetime>
+              </ng-template> 
+            </ion-popover>
           </ion-col>
         </ion-row>    
       </ion-item>

@@ -13,7 +13,7 @@ import { Observable,throwError, } from 'rxjs';
 import { catchError ,switchMap,debounceTime} from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
-import {SetToken} from '@core/store/actions/auth.actions'
+import {SetToken,setAuthData} from '@core/store/actions/auth.actions'
 @Injectable()
 export class Interceptor implements HttpInterceptor {
  constructor(private store: Store,private http:HttpClient){}
@@ -42,7 +42,6 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if(error.status === 401){
-          const newReq = this.getNewReq(request)
           return this.handle401Error(request, next);
         }else{
           if (error.error instanceof ErrorEvent) {
@@ -64,29 +63,33 @@ export class Interceptor implements HttpInterceptor {
   let {grantTypeLogin,client_id,scope} = environment;
   const newUrl = {url: `${environment.BASE_URL}/sieconsts/connect/token`};
   let newHeader = {
-    setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded'},
+    setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded',Authorization:''},
     body:`grant_type=refresh_token&scope=${scope} offline_access&client_id=${client_id}&refresh_token=${refresh_token}`
   };
   newHeader= Object.assign(newHeader, newUrl);
   return request.clone(newHeader)
  }
  private handle401Error(request: HttpRequest<any>, next: HttpHandler):Observable<any> {
-  const newReq = this.getNewReq(request)
+  const newReq = this.getNewReq(request);
   return next.handle(newReq).pipe(
     debounceTime(600),
-    switchMap((res:any) =>{
-      console.log(res)
-      const token = res.body?.access_token;
-      this.store.dispatch(new SetToken(token));
+    switchMap(async (res:any) =>{
+      const {access_token,refresh_token} = res?.body;
+      const authData = {
+        token:access_token,
+        refreshToken:refresh_token,
+      }
+      await this.store.dispatch(new setAuthData(authData));
       const newRequest = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${access_token}`
         }
       });
-      return next.handle(newRequest);
+      return next.handle(newRequest).toPromise();
     }),
     catchError((error: HttpErrorResponse) => {
       return throwError(`Error: ${error.error.Mensagem}`);
     })
-  )}
+  )
+}
 }

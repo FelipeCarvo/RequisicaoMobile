@@ -18,6 +18,7 @@
       "@services/*": ["src/app/shared/services/*"],
       "@components/*": ["src/app/shared/components/*"],
       "@environment/*": ["src/environments/*"],
+      "@assets/*": ["src/assets/*"],
     },
   },
  

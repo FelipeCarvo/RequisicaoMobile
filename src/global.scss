@@ -254,6 +254,12 @@ ion-app{
             .calendar{
                 display: flex;
                 align-items: center;
+                ion-input{
+                    margin: 0!important;
+                    border: none!important;
+                    text-align: center;
+                    padding-right: 15px!important;
+                }
                 ion-icon{
                     font-size: 25px;
                     margin-left: auto;
@@ -351,7 +357,25 @@ ion-app{
 }
 .modalFinishReq{
     --background:#fff;
+    --border-radius: 18px 18px 0px 0px;
     ion-content{
         --background:#fff;
+    }
+}
+ion-popover{
+    --width: auto!important;
+}
+ion-datetime{
+    --background: #fff;
+    color: #4682B4;
+    .calendar-day-active {
+        color: var(--ion-color-contrast);
+        --background: #4682B4;
+    }
+    .calendar-day-today::after {
+        border: 1px solid #4682B4;
+    }
+    .calendar-days-of-week{
+        color: #EAECED;
     }
 }
