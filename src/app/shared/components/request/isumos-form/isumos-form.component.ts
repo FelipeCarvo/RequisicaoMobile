@@ -8,6 +8,7 @@ import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {InsumosRequest} from '@services/insumos/inusmo-req.service'
 import { ToastController } from '@ionic/angular';
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,8 +28,10 @@ export class IsumosFormComponent implements OnInit {
   public etapas:any= [];
   public sendLoading: boolean = false;
   public insumoTypeUnidades:String = null;
-  currentDay = new Intl.DateTimeFormat('pt-BR').format(new Date()) ;
-  currentyear = new Date().getFullYear();
+  diference = new Date().toISOString();
+  currentDay = new Date().toISOString();
+  currentyear = new Date().toISOString();
+ 
   loadForm: boolean = false;
   hasLoaded:boolean = false;
   listItemFilter:FilterRequestFields ={
@@ -55,10 +58,15 @@ export class IsumosFormComponent implements OnInit {
    }
 
   async ngOnInit() {
+    console.log(this.currentDay,this.currentyear)
     this.initForm();
+    this.setDif()
     if(!!this.getFormField('etapaId')){
       this.getLoockupEtapa();
     }
+  }
+  setDateManual(val){
+    this.diference = moment(this.diference).add(val, 'days').toISOString()
   }
   setUnidadeType(desc: string){
     if(!!desc){
@@ -66,8 +74,12 @@ export class IsumosFormComponent implements OnInit {
     }else{
       this.insumoTypeUnidades = null
     }
-   
-  
+  }
+  setDif(){
+    let a = moment(this.diference);
+    let b = moment(this.currentDay);
+    let dif:any = a.diff(b,'days')
+    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
   }
   async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);

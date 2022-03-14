@@ -73,14 +73,36 @@
           </ion-col>
         </ion-row>    
       </ion-item>
-      <ion-item  lines="none" class="box">
-        <ion-row class="ion-align-items-center">
+      <ion-item  lines="none" class="box ion-margin-vertical">
+        <ion-row >
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
-            <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number"></ion-input>
+            <div class="calendar grid-item">
+              <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" (ionInput)="setDateManual($event.target.value)"></ion-input>
+              <ion-icon src="../../assets/icon/calendar.svg" slot="end"  id="open-date-input-diff" ></ion-icon>
+            </div>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>
+          </ion-col>
+          <ion-col size="12">
+            <ion-popover trigger="open-date-input-diff" :show-backdrop="true" size="cover">
+              <ng-template>
+                <ion-datetime 
+                  presentation="date" locale="pt-BR"  
+                  [value]="currentDay" 
+                  picker-format="MMMM DD, YYYY" 
+                  display-format="MM/DD/YYYY" 
+                  [min]="currentyear" 
+                  done-text="Confirmar"
+                  cancel-text="cancelar"
+                  [(ngModel)]="diference"
+                  (ionChange)="setDif()"
+                  [ngModelOptions]="{standalone: true}"
+                  >
+                </ion-datetime>
+              </ng-template> 
+            </ion-popover>
           </ion-col>
         </ion-row>    
       </ion-item>
@@ -96,7 +118,7 @@
           <ion-col size="12">
             <ion-popover trigger="open-date-input" :show-backdrop="true" size="cover">
               <ng-template>
-                <ion-datetime presentation="date" locale="pt-BR" locale="pt-BR" 
+                <ion-datetime presentation="date" locale="pt-BR" 
                   [value]="currentDay" picker-format="MMMM DD, YYYY" 
                   display-format="MM/DD/YYYY" [min]="currentyear" 
                   formControlName="prazoDevolucao" done-text="Confirmar"
