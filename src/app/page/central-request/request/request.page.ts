@@ -19,7 +19,7 @@ import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 })
 export class RequestPage implements OnInit {
   @ViewChild('appChild', {static: false}) childComponent;
-  step:Number = 0;
+  step:any = 0;
   validStep: boolean = false;
   sendPost:boolean = false;
   requisicaoId:string = null;
@@ -86,33 +86,37 @@ export class RequestPage implements OnInit {
   async onBack():Promise<void> {
     const reqId =  !!this.requisicaoId;
     const filter = Object.values(this.getFormForStore()).filter(e =>e).length > 0;
-    if(reqId ||filter){
-      const res = await this.alertServices.alertReq(reqId,filter);
-      if(res === 'confirm-exclude'){
-        const {versaoEsperada} = this.getFormForStore();
-        this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
+    if(this.step == 0){   
+      if(reqId ||filter){
+        const res = await this.alertServices.alertReq(reqId,filter);
+        if(res === 'confirm-exclude'){
+          const {versaoEsperada} = this.getFormForStore();
+          this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
+            this.resetForm();
+            this.navCtrl.back();  
+          },err =>{
+            console.log(err)
+          });
+        }
+        else if(res === 'confirm'){
           this.resetForm();
           this.navCtrl.back();  
-        },err =>{
-          console.log(err)
-        });
+        }
+        else if(res === 'confirm-exclude'){
+          this.resetForm();
+          this.navCtrl.back(); 
+        }
+        else if(res === 'finish'){
+          await this.getVersion();
+          await this.openModal();
+        }
+      
       }
-      else if(res === 'confirm'){
-        this.resetForm();
-        this.navCtrl.back();  
+      else{
+        this.navCtrl.back();
       }
-      else if(res === 'confirm-exclude'){
-        this.resetForm();
-        this.navCtrl.back(); 
-      }
-      else if(res === 'finish'){
-        await this.getVersion();
-        await this.openModal();
-      }
-     
-    }
-    else{
-      this.navCtrl.back();
+    }else{
+      this.step = this.step -1;
     }
   }
   resetForm(){
