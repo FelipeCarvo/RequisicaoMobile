@@ -119,9 +119,11 @@ export class InputSearchComponent implements OnInit {
               this.parentForm.controls[this.controlName].setValue(value);
             }
           }
+        }else{
+          this.inputAutoComplete.openPanel();
         }
       },300)
-      this.inputAutoComplete.openPanel();
+
     }
   }
   private _filter(value: string,res): string[] {
