@@ -29,7 +29,42 @@
         <p class="ion-margin-vertical">Nenhuma requisição encontrada</p>
        </ion-col>
       <ion-col size="11" [@hideShowAnimator]="load  && !!listReq" *ngIf="load && !!listReq">
-       <p class="ion-margin-vertical">Requisição em Andamento</p>
+        <ion-row>
+          <ion-col size="9">
+            <p class="ion-margin-vertical" >Requisição em Andamento</p>
+          </ion-col>
+          <ion-col size="3">
+            <p class="ion-margin-vertical ion-text-right" (click)="showFIlters = !showFIlters">Filtros</p>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="11" [@hideShowAnimator]="showFIlters">
+        <form  style="margin: 16px 0!important;">
+          <ion-row>
+            <ion-col size="12">
+              <ion-label>Status</ion-label>
+              <ion-select placeholder="Todos" [value]="statusRequisicao" cancel-text="cancelar" interface="action-sheet" [interfaceOptions]="{ cssClass: 'my-custom-interface' }" [selectedText]="selectedTextOption()">
+                <ion-select-option *ngFor="let item of filterStatus" [value]="item?.id" >{{ item?.status }}</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>Data Inicial</ion-label>
+              <div class="calendar grid-item">
+                <ion-input [value]="dataFInal | momentPipe" readonly  style="text-align: left;"></ion-input>
+                <ion-icon src="../../assets/icon/calendar.svg"  id="open-date-input-diff" ></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>Data Final</ion-label>
+              <div class="calendar grid-item">
+                <ion-input  [value]="dataInicial | momentPipe" readonly style="text-align: left;"></ion-input>
+                <ion-icon   src="../../assets/icon/calendar.svg"  id="open-date-input-diff" ></ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+
+        </form>
+
       </ion-col>
       <ion-col size="11" *ngFor="let item of listReq; let i = index">
         <list-request-component [item]="item" [loaded]="load"></list-request-component>

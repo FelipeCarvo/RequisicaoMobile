@@ -108,6 +108,7 @@ export class IsumosFormComponent implements OnInit {
     this.loadForm = true;
     await this.setValform();
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
+      console.log(selectedValue);
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
         

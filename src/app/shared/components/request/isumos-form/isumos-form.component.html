@@ -115,7 +115,7 @@
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
           </ion-col>
-          <ion-col size="12">
+        
             <ion-popover trigger="open-date-input" :show-backdrop="true" size="cover">
               <ng-template>
                 <ion-datetime presentation="date" locale="pt-BR" 
@@ -126,7 +126,7 @@
                 </ion-datetime>
               </ng-template> 
             </ion-popover>
-          </ion-col>
+
         </ion-row>    
       </ion-item>
       <ion-item  lines="none" class="box" *ngIf="!!getFormField('etapaId')">
