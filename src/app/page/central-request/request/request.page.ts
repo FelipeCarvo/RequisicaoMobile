@@ -60,7 +60,6 @@ export class RequestPage implements OnInit {
     }
   }
   updateStep(step){
-    console.log("update step",step)
     this.step = step;
   }
    setStep(val){

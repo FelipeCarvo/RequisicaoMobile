@@ -16,9 +16,11 @@ export class homePage {
     private router:Router,
     private rquestService:RequestService,
    ) {}
+   ionViewWillEnter(){
+    this.getReq()
+  }
   ngOnInit() {
-  
-   this.getReq()
+
   }
   newRequest(){
     this.router.navigate(['/tabs/central-req/nova-req']);

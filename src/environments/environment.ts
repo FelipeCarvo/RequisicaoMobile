@@ -9,7 +9,7 @@ export const environment = {
   sieconwebwebapi:'https://demo.poliview.com.br:21000/sieconwebwebapi/api',
   grantTypeLogin:'password',
   client_id:'sieconwebusuariosenha',
-  scope:'SieconWeb.Suprimentos SieconWeb.SP7.WebAPI '
+  scope:'SieconWeb.Suprimentos SieconWeb.SP7.WebAPI'
 };
 
 /*

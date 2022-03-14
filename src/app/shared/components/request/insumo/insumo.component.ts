@@ -1,6 +1,7 @@
 import { Component, Input,Output,EventEmitter, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController, } from '@ionic/angular';
+
+import { Router,ActivationStart,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
 import {RequestService} from '@services/request/request.service';
@@ -8,6 +9,7 @@ import {LoadingService} from '@services/loading/loading-service';
 import {opacityAnimation} from '@services/animation/custom-animation'
 import {InsumosRequest} from '@services/insumos/inusmo-req.service'
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-insumo',
   templateUrl: './insumo.component.html',
@@ -28,20 +30,29 @@ export class InsumoComponent implements OnInit {
     private insumosRequest:InsumosRequest,
     public loadingService: LoadingService,
     private alertServices: AlertServices,
-    private store:Store
-  ){}
-  async ionViewWillEnter(){
-    this.initApp();
-  }  
+    private store:Store,
+    public activatedroute: ActivatedRoute
+  ){
+    console.log(this.router.url)
+    this.activatedroute.url.subscribe(res => {
+      this.initApp();
+    })
+ 
+  }
+
+
   async ngOnInit() {
+    console.log("init")
    this.initApp();
   }
   initApp(){
     if(!!this.validForm && !!this.requisicaoId){
+      this.loading = false
       this.getInsumos();
     }else{
       this.updateStep.emit(0)
     }
+  
   }
   async excludeInsumo(id){
     const res = await this.alertServices.removerInsumo();

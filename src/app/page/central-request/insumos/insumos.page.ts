@@ -7,6 +7,7 @@ import {InsumoState} from '@core/store/state/inusmos.state';
 import { SetInsumosFileds,ResetStateInsumos } from '@core/store/actions/insumos.actions';
 import { AlertController } from '@ionic/angular';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,9 +23,9 @@ export class InsumosPage{
     private router:Router,
     private alertServices: AlertServices,
     private store:Store,
-   
-  ) { }
+  ) { 
 
+  }
   ngOnInit() {
     if(!this.validReqId()){
       const {requisicaoId,versaoEsperada} = this.getRequest();

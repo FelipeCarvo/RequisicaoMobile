@@ -13,10 +13,11 @@ import { Observable,throwError, } from 'rxjs';
 import { catchError ,switchMap,debounceTime} from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
-import {SetToken,setAuthData} from '@core/store/actions/auth.actions'
+import {SetToken,setAuthData,Logout} from '@core/store/actions/auth.actions';
+import { Router } from '@angular/router';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
- constructor(private store: Store,private http:HttpClient){}
+ constructor(private store: Store,private http:HttpClient,private router:Router){}
  intercept( request: HttpRequest<any>, next: HttpHandler, ):Observable<HttpEvent<any>> {
     let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
@@ -63,8 +64,8 @@ export class Interceptor implements HttpInterceptor {
   let {grantTypeLogin,client_id,scope} = environment;
   const newUrl = {url: `${environment.BASE_URL}/sieconsts/connect/token`};
   let newHeader = {
-    setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded',Authorization:''},
-    body:`grant_type=refresh_token&scope=${scope} offline_access&client_id=${client_id}&refresh_token=${refresh_token}`
+    setHeaders: { 'Content-Type': 'application/x-www-form-urlencoded','Accept':'*/*'},
+    body:`client_id=${client_id}&refresh_token=${refresh_token}&grant_type=refresh_token&scope=${scope} offline_access`
   };
   newHeader= Object.assign(newHeader, newUrl);
   return request.clone(newHeader)
@@ -88,6 +89,8 @@ export class Interceptor implements HttpInterceptor {
       return next.handle(newRequest).toPromise();
     }),
     catchError((error: HttpErrorResponse) => {
+      this.store.dispatch(new Logout())
+      this.router.navigate([ `/tabs/login`]);
       return throwError(`Error: ${error.error.Mensagem}`);
     })
   )
