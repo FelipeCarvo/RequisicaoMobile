@@ -78,8 +78,8 @@
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
             <div class="calendar grid-item">
-              <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" (ionInput)="setDateManual($event.target.value)"></ion-input>
-              <ion-icon src="../../assets/icon/calendar.svg" slot="end"  id="open-date-input-diff" ></ion-icon>
+              <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" style="text-align: left;" (ionInput)="setDateManual($event.target.value)"></ion-input>
+              <ion-icon src="../../assets/icon/calendar.svg"  id="open-date-input-diff" ></ion-icon>
             </div>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
@@ -111,7 +111,7 @@
           <ion-col size="6" class="no-padding-left">
             <ion-label>Data de Devolução</ion-label>
             <div class="calendar grid-item" id="open-date-input">
-              <ion-input [value]="getFormField('prazoDevolucao')" readonly></ion-input>
+              <ion-input [value]="getFormField('prazoDevolucao') | momentPipe" readonly style="text-align: left;"></ion-input>
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
           </ion-col>

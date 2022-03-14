@@ -66,7 +66,7 @@ export class IsumosFormComponent implements OnInit {
     }
   }
   setDateManual(val){
-    this.diference = moment(this.diference).add(val, 'days').toISOString()
+    this.diference = moment(new Date()).add(val, 'days').toISOString()
   }
   setUnidadeType(desc: string){
     if(!!desc){
