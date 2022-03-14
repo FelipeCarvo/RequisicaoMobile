@@ -13,8 +13,9 @@
           class="customInput"
           (focus)="getLoockups()"
           (blur)="focusout()"
-          [matAutocompleteConnectedTo]="origin" >
-          <ion-icon name="alert-circle-outline"*ngIf="setDisableButton && !loading"></ion-icon>
+          [matAutocompleteConnectedTo]="origin" 
+          style="    padding-inline-end: 30px;">
+          <ion-icon name="close-outline" *ngIf="!!getValue()" (click)="clearField()"></ion-icon>
       </div>
   
       <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
@@ -30,9 +31,5 @@
         <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding search-icon-input" slot="end" *ngIf="!loading"></ion-icon>
       </ion-button> 
     </ion-col>
-    
-      <div class="required-text" *ngIf="setDisableButton && !loading">
-        <p>{{msgDisabled}}</p>
-      </div>
   </ion-row>
 </ion-item>

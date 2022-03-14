@@ -73,7 +73,7 @@ export class Interceptor implements HttpInterceptor {
  private handle401Error(request: HttpRequest<any>, next: HttpHandler):Observable<any> {
   const newReq = this.getNewReq(request);
   return next.handle(newReq).pipe(
-    debounceTime(600),
+    debounceTime(1000),
     switchMap(async (res:any) =>{
       const {access_token,refresh_token} = res?.body;
       const authData = {

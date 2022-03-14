@@ -18,8 +18,9 @@ import {imageTypepipe} from '../pipes/image-type-pipe';
 import {DisableControlDirective} from '../directives/disabled-input';
 import {DocumentModalComponent} from '../components/document-modal/document-modal.component'
 import {NoImageIconComponent} from '../components/no-image-icon/no-image-icon.component'
+import {NumberDirective} from '../directives/number-directive'
 const providers = [
-  Descripitionpipe,DisableControlDirective,imageTypepipe
+  Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective
 ]
 const matModules = [
   MatAutocompleteModule,

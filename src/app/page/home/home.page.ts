@@ -37,8 +37,10 @@ export class homePage {
       retificada: "Todos",
       vistada: "Todos",
       situacao: "Todas",
+      statusRequisicao:2,
       filtrarComprador: true,
       exportadoConstruCompras: "Todos"
+      
     }
     this.rquestService.getReq(params).subscribe((res:any) =>{
       this.listReq = res;​

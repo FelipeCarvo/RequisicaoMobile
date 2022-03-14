@@ -21,6 +21,7 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
         retificada: "Todos",
         vistada: "Todos",
         situacao: "Todas",
+       
         filtrarComprador: true,
         exportadoConstruCompras: "Todos"
       }

@@ -21,10 +21,12 @@ export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
+ 
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
   public etapas:any= [];
   public sendLoading: boolean = false;
+  public insumoTypeUnidades:String = null;
   currentDay = new Intl.DateTimeFormat('pt-BR').format(new Date()) ;
   currentyear = new Date().getFullYear();
   loadForm: boolean = false;
@@ -58,7 +60,15 @@ export class IsumosFormComponent implements OnInit {
       this.getLoockupEtapa();
     }
   }
+  setUnidadeType(desc: string){
+    if(!!desc){
+      this.insumoTypeUnidades = desc.split('-')[1]
+    }else{
+      this.insumoTypeUnidades = null
+    }
+   
   
+  }
   async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;

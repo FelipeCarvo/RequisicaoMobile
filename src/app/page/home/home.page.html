@@ -25,10 +25,10 @@
   <ion-grid class="principalDiv">
     <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
     <ion-row class="ion-justify-content-center" >
-      <ion-col size="11" [@hideShowAnimator]="load && !listReq">
+      <ion-col size="11" [@hideShowAnimator]="load && !listReq" *ngIf="load && !listReq">
         <p class="ion-margin-vertical">Nenhuma requisição encontrada</p>
        </ion-col>
-      <ion-col size="11" [@hideShowAnimator]="load  && !!listReq">
+      <ion-col size="11" [@hideShowAnimator]="load  && !!listReq" *ngIf="load && !!listReq">
        <p class="ion-margin-vertical">Requisição em Andamento</p>
       </ion-col>
       <ion-col size="11" *ngFor="let item of listReq; let i = index">

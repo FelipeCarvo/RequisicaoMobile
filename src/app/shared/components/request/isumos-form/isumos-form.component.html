@@ -54,19 +54,17 @@
         <app-input-search label="Serviço" formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId,pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsServico" [parentForm]="reqFormInsumos" controlName="servicoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Insumo"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsInsumos"  [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Insumo"  formName="insumos" (setUnidadeType)="setUnidadeType($event)" [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsInsumos"  [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-row>
           <ion-col size="8" class="no-padding-left">
             <ion-label position="floating">Quantidade</ion-label>
-            <ion-input formControlName="quantidade" type="number" placeholder="0"></ion-input>
+            <ion-input formControlName="quantidade" numbersOnly type="number" placeholder="0"></ion-input>
           </ion-col>
           <ion-col size="4"class="no-padding-right">
             <ion-label position="floating">Unidade</ion-label>
-            <ion-select placeholder="Todas" [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet">
-              <ion-select-option value="f">Un</ion-select-option>
-            </ion-select>
+            <ion-input [value]="insumoTypeUnidades" readonly ></ion-input>
           </ion-col>
           <ion-col size="12">
             <div class="required-text" *ngIf="!!quantidadeInput.errors && !!quantidadeInput.errors.min">
@@ -79,7 +77,7 @@
         <ion-row class="ion-align-items-center">
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
-            <ion-input formControlName="prazo" placeholder="0"></ion-input>
+            <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number"></ion-input>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>

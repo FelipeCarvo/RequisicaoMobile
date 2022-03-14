@@ -1,4 +1,4 @@
-import { Component,OnInit, Input,ViewChild,SimpleChanges,OnChanges,forwardRef } from '@angular/core';
+import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith} from 'rxjs/operators';
@@ -25,6 +25,7 @@ import {
 export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
+  @Output() setUnidadeType:EventEmitter<any> = new EventEmitter();
   @Input() label: string;
   @Input() placeholder: string;
   @Input() controlName: any;
@@ -63,19 +64,26 @@ export class InputSearchComponent implements OnInit {
   } 
   displayFn(value = this.getValue()) {
     if(!!value && this.listGroup.length > 0){
-      return this.listGroup.filter(option => option.id == value)[0]?.descricao
+      let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
+      if(this.controlName === "insumoId"){
+        this.setUnidadeType.emit(desc)
+      }
+      return desc
     }
   }
  
   getValue(){
-    if(this.disabledCondition){
-      console.log(this.parentForm.get(this.controlName));
-    }
     return this.parentForm.get(this.controlName).value 
+  }
+  clearField(){
+    this.parentForm.controls[this.controlName].setValue('');
+    if(this.controlName === "insumoId"){
+      this.setUnidadeType.emit(null)
+    }
   }
   focusout(){
     if(this.noSearchResult){
-      this.parentForm.controls[this.controlName].setValue(null)
+     this.clearField();
     }
   }
   async getLoockups(){
@@ -106,15 +114,14 @@ export class InputSearchComponent implements OnInit {
           if(!!selectedValue){
             let testValidation = !!this.listGroup.find(e => e.id == selectedValue);
             if(!testValidation){
-              this.parentForm.controls[this.controlName].setValue(null)
+              this.parentForm.controls[this.controlName].setValue('')
             }else{
               this.parentForm.controls[this.controlName].setValue(value);
             }
           }
-        }else{
-          this.inputAutoComplete.openPanel();
         }
       },300)
+      this.inputAutoComplete.openPanel();
     }
   }
   private _filter(value: string,res): string[] {
