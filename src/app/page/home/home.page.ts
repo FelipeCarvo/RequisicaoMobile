@@ -18,8 +18,8 @@ export class homePage {
   load = false;
   showFIlters:Boolean = false;
   statusRequisicao:Number = 2;
-  dataInicial = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
-  dataFinal = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+  dataInicial = new Date(Date.now()  - 10 * 24 * 60 * 60 * 1000);
+  dataFinal = new Date(Date.now());
   constructor(
     private router:Router,
     private rquestService:RequestService,
@@ -28,7 +28,7 @@ export class homePage {
     this.getReq()
   }
   ngOnInit() {
-    
+   
   }
 
   newRequest(){
@@ -67,6 +67,10 @@ export class homePage {
         this.load = true;
         this.dataInicial = new Date(this.dataInicial);
         this.dataFinal = new Date(this.dataFinal);
+        let datea = moment(this.dataInicial)
+        let dateb = moment(this.dataFinal)
+        let dif:any = dateb.diff(datea,'days')
+        let msg = `Requisições adicionadas nos ultimos ${dif} dias`
       },200)
     },async(error)=>{
       this.load = true;

@@ -1,7 +1,6 @@
 import { Component, Input,Output,EventEmitter, OnInit } from '@angular/core';
 import { ModalController, } from '@ionic/angular';
-
-import { Router,ActivationStart,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
 import {RequestService} from '@services/request/request.service';
@@ -9,7 +8,6 @@ import {LoadingService} from '@services/loading/loading-service';
 import {opacityAnimation} from '@services/animation/custom-animation'
 import {InsumosRequest} from '@services/insumos/inusmo-req.service'
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
-import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-insumo',
   templateUrl: './insumo.component.html',

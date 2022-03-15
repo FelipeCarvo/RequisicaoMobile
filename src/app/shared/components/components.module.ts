@@ -22,8 +22,9 @@ import {FilterReqComponent} from '../components/filter-req/filter-req.component'
 import {NumberDirective} from '../directives/number-directive'
 import {momentPipe} from '../pipes/moment-pipe'
 import {MosuePositionDirective} from '../directives/mouse-position'
+import {statusPipe,statusMoment} from '../pipes/status.pipe'
 const providers = [
-  Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective
+  statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective,statusPipe
 ]
 const matModules = [
   MatAutocompleteModule,

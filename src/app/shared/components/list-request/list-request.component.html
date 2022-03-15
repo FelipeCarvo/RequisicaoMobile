@@ -2,10 +2,10 @@
 <ion-grid class="box ion-margin-bottom" [class.boxblue]="currentClass" [class.boxWhite]="!currentClass" @hideShowAnimator *ngIf="loaded">
     <ion-row class="status">
         <ion-col size="3">
-            <p class="dataStatus ion-text-start">{{getDate(item.dataHora) }}</p>
+            <p class="dataStatus ion-text-start">{{item.dataHora|momentPipe }}</p>
         </ion-col>
         <ion-col size="9">
-            <p class="dataStatus ion-text-end d-flex"><ion-icon name="checkmark-done-circle-outline"></ion-icon>{{getStauts(item.status)}}</p>
+            <p class="dataStatus ion-text-end d-flex"><ion-icon name="checkmark-done-circle-outline"></ion-icon>{{item.status | statusPipe}}</p>
         </ion-col>
     </ion-row>
     <ion-row class="status">
