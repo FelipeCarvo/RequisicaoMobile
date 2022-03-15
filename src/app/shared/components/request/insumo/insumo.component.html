@@ -9,10 +9,10 @@
       </ion-item>
     </ion-col>
   </ion-row>
-  <app-spinner [showSpinner]="!loading" [@hideShowAnimator]="!loading" *ngIf="!loading"></app-spinner>
-  <ion-row  class="ion-justify-content-center" *ngIf="!!listInsumos && listInsumos.length == 0" [@hideShowAnimator]="loading">
-    <ion-col size="7" class="ion-margin-top"> 
-      <div class="imgDiv">
+  <app-spinner [showSpinner]="!loading" @hideShowAnimator *ngIf="!loading"></app-spinner>
+  <ion-row  class="ion-justify-content-center" *ngIf="!!listInsumos && listInsumos.length == 0" >
+    <ion-col size="7" class="ion-margin-top" > 
+      <div class="imgDiv" >
         <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
       </div>
     </ion-col>
@@ -21,7 +21,7 @@
         adicionado nesta requisição.</h2>
     </ion-col>
   </ion-row>
-  <div *ngIf="!!listInsumos && listInsumos.length > 0"  [@hideShowAnimator]="loading">
+  <div *ngIf="!!listInsumos && listInsumos.length > 0"  @hideShowAnimator>
     <app-list-insumos-by-req *ngFor="let item of listInsumos" (excludeInsumo)="excludeInsumo($event)"  (editInsumo)="editInsumo($event)" [item]="item"></app-list-insumos-by-req>
     <ion-row class="ion-justify-content-center">
       <ion-col size="9">

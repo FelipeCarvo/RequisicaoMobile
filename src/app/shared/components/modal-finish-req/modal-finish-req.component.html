@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <ion-grid [ngClass]="{'gridSecond': hasFinish}">
-    <ion-row *ngIf="!hasFinish" [@enterAnimation] class="ion-justify-content-center ion-text-center">
+    <ion-row *ngIf="!hasFinish" @hideShowAnimator class="ion-justify-content-center ion-text-center">
       <ion-col size="11" class="topReq">
         <ion-row>
           <ion-col size="12">
@@ -36,7 +36,7 @@
 
       </ion-col>
     </ion-row>
-    <ion-row  *ngIf="hasFinish" [@enterAnimation] class="ion-justify-content-center ion-text-center rowCustom">
+    <ion-row  *ngIf="hasFinish" @hideShowAnimator class="ion-justify-content-center ion-text-center rowCustom">
       <ion-col size="11"  class="BottomReq">
         <ion-row class="ion-justify-content-center ion-text-center">
           <div class="divIcon">
@@ -52,21 +52,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <ion-grid *ngIf="hasFinish" class="gridSecond">
-    <ion-row  class="ion-justify-content-center ion-text-center rowCustom">
-      <ion-col size="11"  class="BottomReq">
-        <ion-row class="ion-justify-content-center ion-text-center">
-          <div class="divIcon">
-            <ion-icon src="../../assets/icon/finishReq.svg" ></ion-icon>
-          </div>
-          <ion-col size="12">
-            <h3>Requisição enviada com sucesso!</h3>  
-          </ion-col>
-          <ion-col size="12">
-            <ion-button class="btnGreen">Nova Requisição</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
 </ion-content>

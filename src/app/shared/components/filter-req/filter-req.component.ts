@@ -41,10 +41,22 @@ export class FilterReqComponent implements OnInit {
     return this.filterForm.get("status").value;
   }
   get _dataInicio(){
+  
     return this.filterForm.get("dataInicio").value;
   }
   get _dataFim(){
     return this.filterForm.get("dataFim").value;
+  }
+  get _disabledButton(){
+
+    let validOne = moment(this.formatDate(this._dataInicio)).isSame(this.formatDate(this.dataInicial));
+    let validTwo = moment(this.formatDate(this._dataFim)).isSame(this.formatDate(this.dataFinal));
+    let validThree = this.statusRequisicao == this._status;
+    let validation = !validOne || !validTwo || !validThree;
+    return !validation
+  }
+  formatDate(date){
+    return  moment(date).format('YYYY-MM-DD')
   }    
   ngOnInit() {
     this.initForm()

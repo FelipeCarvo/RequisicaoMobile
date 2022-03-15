@@ -3,17 +3,12 @@ import {EnumStatus} from '@services/utils/enums/EnumStatus';
 import { Router } from '@angular/router';
 import { trigger, style, animate, transition, state } from '@angular/animations';
 import * as moment from 'moment';
+import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
 @Component({
   selector: 'list-request-component',
   templateUrl: './list-request.component.html',
   styleUrls: ['./list-request.component.scss'],
-  animations: [
-    trigger('hideShowAnimator', [
-      state('true', style({transform: 'translateY(0)'})),
-      state('false', style({transform: 'translateY(100%)' })),
-      transition('false <=> true', animate(500))
-    ])
-  ]
+  animations: [translateAnimation()]
 })
 export class ListRequest implements OnInit {
   @Input() name: string;

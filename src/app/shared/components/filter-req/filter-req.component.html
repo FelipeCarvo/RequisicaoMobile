@@ -22,7 +22,7 @@
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR" 
               [value]="currentDay" picker-format="MMMM DD, YYYY" 
-              display-format="MM/DD/YYYY" [min]="currentyear" 
+              display-format="MM/DD/YYYY" [max]="currentDay" 
               formControlName="dataInicio" done-text="Confirmar"
               cancel-text="cancelar">
             </ion-datetime>
@@ -42,8 +42,9 @@
         <ion-popover trigger="date-fim" alignment="center" :show-backdrop="true" size="cover" side="top">
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR" 
-              [value]="currentDay" picker-format="MMMM DD, YYYY" 
-              display-format="MM/DD/YYYY" [min]="_dataInicio" 
+              [value]="_dataInicio" picker-format="MMMM DD, YYYY" 
+              display-format="MM/DD/YYYY" [min]="_dataInicio"
+              [max]="currentDay" 
               formControlName="dataFim" done-text="Confirmar"
               cancel-text="cancelar">
             </ion-datetime>
@@ -52,7 +53,7 @@
       </div>  
     </ion-col>
     <ion-col size="12">
-      <ion-button class="btnRedondo btnVoltar" expand="block" (click)="apllyFilter()"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Aplicar</ion-button>
+      <ion-button class="btnRedondo btnVoltar" expand="block" [disabled]="_disabledButton" (click)="apllyFilter()"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Aplicar</ion-button>
     </ion-col>
   </ion-row>
 </form>

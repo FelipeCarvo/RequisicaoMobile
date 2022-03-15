@@ -1,5 +1,5 @@
 
-<ion-grid class="box ion-margin-bottom" [class.boxblue]="currentClass" [class.boxWhite]="!currentClass" [@hideShowAnimator]="loaded">
+<ion-grid class="box ion-margin-bottom" [class.boxblue]="currentClass" [class.boxWhite]="!currentClass" @hideShowAnimator *ngIf="loaded">
     <ion-row class="status">
         <ion-col size="3">
             <p class="dataStatus ion-text-start">{{getDate(item.dataHora) }}</p>

@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service'
-import {opacityAnimation,rotateAnimation} from '@services/animation/custom-animation'
+import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
 import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import * as moment from 'moment';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  animations: [opacityAnimation(),rotateAnimation()]
+  animations: [translateAnimation(),rotateAnimation()]
 })
 export class homePage {
   listReq: Array<any> = [];

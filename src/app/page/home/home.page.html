@@ -25,29 +25,26 @@
   <ion-grid class="principalDiv">
     <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
     <ion-row class="ion-justify-content-center" >
-      <ion-col size="11" >
+      <ion-col size="11" @hideShowAnimator *ngIf="load">
         <ion-row>
-          <ion-col size="9" @hideShowAnimator *ngIf="load && listReq.length > 0">
+          <ion-col size="9" *ngIf="listReq.length > 0">
             <p class="ion-margin-vertical" >Requisição em Andamento</p>
           </ion-col>
-          <ion-col size="3" @hideShowAnimator *ngIf="load">
+          <ion-col size="3" >
             <p class="ion-margin-vertical ion-text-right filter-p" (click)="showFIlters = !showFIlters">Filtros <ion-icon name="chevron-down-outline" [@rotatedState]="showFIlters"></ion-icon></p>
           </ion-col>
-          <ion-col size="12" @hideShowAnimator *ngIf="load &&  listReq.length == 0">
+          <ion-col size="12" *ngIf="listReq.length == 0">
             <p class="ion-margin-vertical">Nenhuma requisição encontrada</p>
           </ion-col>
         </ion-row>
       </ion-col>
       <ion-col size="11" @hideShowAnimator *ngIf="showFIlters && (load && !!listReq)">
         <app-filter-req [statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
-        
       </ion-col>
-      <ion-col size="11" *ngFor="let item of listReq; let i = index">
-        <list-request-component [item]="item" [loaded]="load"></list-request-component>
-      </ion-col>
-       <ion-col size="11" [@hideShowAnimator]="load  && !!listReq">
+      <ion-col size="11" *ngIf="!showFIlters && load">
+        <list-request-component [item]="item" [loaded]="load"  *ngFor="let item of listReq; let i = index"></list-request-component>
         <h3 class="ion-text-center" (click)="viewAllRequest()">Ver Todas Requisições</h3>
-       </ion-col>
+      </ion-col>
     </ion-row>
   </ion-grid>
   

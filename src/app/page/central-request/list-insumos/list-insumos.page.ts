@@ -3,12 +3,12 @@ import { NavController } from '@ionic/angular';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {opacityAnimation} from '@services/animation/custom-animation'
+import {translateAnimation} from '@services/animation/custom-animation'
 @Component({
   selector: 'app-list-insumos',
   templateUrl: './list-insumos.page.html',
   styleUrls: ['./list-insumos.page.scss'],
-  animations: [opacityAnimation()]
+  animations: [translateAnimation()]
 })
 export class ListInsumosPage implements OnInit {
   empreendimentoId:string = null;

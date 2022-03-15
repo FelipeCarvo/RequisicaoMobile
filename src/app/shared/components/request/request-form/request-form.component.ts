@@ -1,7 +1,7 @@
 import { Component, OnInit,Output ,Input,EventEmitter} from '@angular/core';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
-import {opacityAnimation} from '@services/animation/custom-animation';
+import {translateAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
@@ -12,7 +12,7 @@ import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
   styleUrls: ['./request-form.component.scss'],
-  animations: [opacityAnimation()]
+  animations: [translateAnimation()]
 })
 export class RequestFormComponent implements OnInit {
   @Input()getFormForStore:any;

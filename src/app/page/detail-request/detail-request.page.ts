@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {opacityAnimation} from '@services/animation/custom-animation'
+import {translateAnimation} from '@services/animation/custom-animation'
 @Component({
   selector: 'app-detail-request',
   templateUrl: './detail-request.page.html',
   styleUrls: ['./detail-request.page.scss'],
-  animations: [opacityAnimation()]
+  animations: [translateAnimation()]
 })
 export class DetailRequestPage implements OnInit {
   requisicaoId:string;
