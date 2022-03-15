@@ -1,4 +1,4 @@
-<form id="requestForm" style="margin-top:0!important;" [formGroup]="reqFormInsumos" style="margin:0!important">
+<form id="requestForm" style="margin-top:0!important;" [formGroup]="reqFormInsumos" style="margin:0!important" appMousePosition>
   <ion-row class="ion-justify-content-center"> 
     <ion-col size="11" class="no-padding-top">
       <ion-list>
@@ -79,56 +79,61 @@
           <ion-col size="4" class="no-padding-left">
             <div class="calendar grid-item">
               <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" style="text-align: left;" (ionInput)="setDateManual($event.target.value)"></ion-input>
-              <ion-icon src="../../assets/icon/calendar.svg"  id="open-date-input-diff" ></ion-icon>
+              <ion-icon src="../../assets/icon/calendar.svg" (click)="diaUtil.click()" ></ion-icon>
             </div>
           </ion-col>
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>
           </ion-col>
-          <ion-col size="12">
-            <ion-popover trigger="open-date-input-diff" :show-backdrop="true" size="cover">
-              <ng-template>
-                <ion-datetime 
-                  presentation="date" locale="pt-BR"  
-                  [value]="currentDay" 
-                  picker-format="MMMM DD, YYYY" 
-                  display-format="MM/DD/YYYY" 
-                  [min]="currentyear" 
-                  done-text="Confirmar"
-                  cancel-text="cancelar"
-                  [(ngModel)]="diference"
-                  (ionChange)="setDif()"
-                  [ngModelOptions]="{standalone: true}"
-                  >
-                </ion-datetime>
-              </ng-template> 
-            </ion-popover>
-          </ion-col>
         </ion-row>    
       </ion-item>
+      <div #diaUtil id="open-date-input-diff"  style="height: 0;">
+        <ion-col size="12">
+          <ion-popover trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
+            <ng-template>
+              <ion-datetime 
+                presentation="date" locale="pt-BR"  
+                [value]="currentDay" 
+                picker-format="MMMM DD, YYYY" 
+                display-format="MM/DD/YYYY" 
+                [min]="currentyear" 
+                done-text="Confirmar"
+                cancel-text="cancelar"
+                [(ngModel)]="diference"
+                (ionChange)="setDif()"
+                [ngModelOptions]="{standalone: true}"
+                >
+              </ion-datetime>
+            </ng-template> 
+          </ion-popover>
+        </ion-col>
+      </div>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-row>
           <ion-col size="6" class="no-padding-left">
             <ion-label>Data de Devolução</ion-label>
-            <div class="calendar grid-item" id="open-date-input">
+            <div class="calendar grid-item"  (click)="prazoDate.click()">
               <ion-input [value]="getFormField('prazoDevolucao') | momentPipe" readonly style="text-align: left;"></ion-input>
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
           </ion-col>
-        
-            <ion-popover trigger="open-date-input" :show-backdrop="true" size="cover">
-              <ng-template>
-                <ion-datetime presentation="date" locale="pt-BR" 
-                  [value]="currentDay" picker-format="MMMM DD, YYYY" 
-                  display-format="MM/DD/YYYY" [min]="currentyear" 
-                  formControlName="prazoDevolucao" done-text="Confirmar"
-                  cancel-text="cancelar">
-                </ion-datetime>
-              </ng-template> 
-            </ion-popover>
-
         </ion-row>    
       </ion-item>
+      <div id="open-date-input" #prazoDate style="height: 0;">
+        <ion-col size="12">
+          <ion-popover trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
+            <ng-template>
+              <ion-datetime presentation="date" locale="pt-BR" 
+                [value]="currentDay" picker-format="MMMM DD, YYYY" 
+                display-format="MM/DD/YYYY" [min]="currentyear" 
+                formControlName="prazoDevolucao" done-text="Confirmar"
+                cancel-text="cancelar">
+              </ion-datetime>
+            </ng-template> 
+          </ion-popover>
+        </ion-col>
+
+      </div>
       <ion-item  lines="none" class="box" *ngIf="!!getFormField('etapaId')">
         <app-input-search label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>  
       </ion-item>

@@ -38,6 +38,8 @@ $app-theme: mat.define-light-theme((
 
 /** Ionic CSS Variables **/
 :root {
+  --mouse-position-y:0;
+  --mouse-position-x:0;
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;

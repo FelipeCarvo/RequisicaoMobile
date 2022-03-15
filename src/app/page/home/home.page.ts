@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service'
-import {opacityAnimation} from '@services/animation/custom-animation'
+import {opacityAnimation,rotateAnimation} from '@services/animation/custom-animation'
 import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
@@ -11,26 +11,15 @@ import * as moment from 'moment';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  animations: [opacityAnimation()]
+  animations: [opacityAnimation(),rotateAnimation()]
 })
 export class homePage {
-  listReq: Array<any>;
+  listReq: Array<any> = [];
   load = false;
   showFIlters:Boolean = false;
   statusRequisicao:Number = 2;
   dataInicial = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
-  dataFInal = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
-  filterStatus = [
-    {status:'Reprovada',id:1},
-    {status:'Não Concluída',id:2},
-    {status:'Em Aprovação',id:3},
-    {status:'Aprovada para Cotação',id:4},
-    {status:'Aprovada para OF',id:5},
-    {status:'Cancelada',id:6},
-    {status:'Aprovação Cancelada',id:7},
-    {status:'Aprovada para OF Transferência',id:8},
-    {status:'Aprovada para BT',id:9}
-  ]
+  dataFinal = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
   constructor(
     private router:Router,
     private rquestService:RequestService,
@@ -39,28 +28,35 @@ export class homePage {
     this.getReq()
   }
   ngOnInit() {
-
-  }
-  selectedTextOption() {
     
-    return this.filterStatus.filter(option => option.id == this.statusRequisicao)[0]?.status
   }
+
   newRequest(){
     this.router.navigate(['/tabs/central-req/nova-req']);
   }
   viewAllRequest(){
     this.router.navigate(['/tabs/all-request']);
   }
+  setParams(params){
+    this.showFIlters = false;
+    const {dataFim ,dataInicio , status} = params;
+    this.dataInicial = dataInicio;
+    this.dataFinal = dataFim;
+    this.statusRequisicao = status;
+    setTimeout(() =>{
+      this.getReq();
+    },250)
+
+  }
   getReq(){
-    const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
-    const beforeDay = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+    this.load = false;
     const params = {
-      dataInicial: moment(beforeDay).format(),
-      dataFinal: moment(currentDatecurrentDate).format(),
+      dataInicial: moment(this.dataInicial).format(),
+      dataFinal: moment(this.dataFinal).format(),
       retificada: "Todos",
       vistada: "Todos",
       situacao: "Todas",
-      statusRequisicao:2,
+      statusRequisicao:this.statusRequisicao,
       filtrarComprador: true,
       exportadoConstruCompras: "Todos"
       
@@ -69,6 +65,8 @@ export class homePage {
       this.listReq = res;​
       setTimeout(()=>{
         this.load = true;
+        this.dataInicial = new Date(this.dataInicial);
+        this.dataFinal = new Date(this.dataFinal);
       },200)
     },async(error)=>{
       this.load = true;

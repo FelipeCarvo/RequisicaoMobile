@@ -363,7 +363,8 @@ ion-app{
     }
 }
 ion-popover{
-    --width: auto!important;
+    --offset-y:var(--mouse-position-y);
+    // --width: auto!important;
 }
 ion-datetime{
     --background: #fff;

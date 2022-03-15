@@ -18,10 +18,12 @@ import {imageTypepipe} from '../pipes/image-type-pipe';
 import {DisableControlDirective} from '../directives/disabled-input';
 import {DocumentModalComponent} from '../components/document-modal/document-modal.component'
 import {NoImageIconComponent} from '../components/no-image-icon/no-image-icon.component'
+import {FilterReqComponent} from '../components/filter-req/filter-req.component'
 import {NumberDirective} from '../directives/number-directive'
 import {momentPipe} from '../pipes/moment-pipe'
+import {MosuePositionDirective} from '../directives/mouse-position'
 const providers = [
-  Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe
+  Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective
 ]
 const matModules = [
   MatAutocompleteModule,
@@ -37,7 +39,8 @@ const components = [
   ListInsumosComponent,
   ListInsumosByReqComponent,
   DocumentModalComponent,
-  NoImageIconComponent
+  NoImageIconComponent,
+  FilterReqComponent
 ]
 @NgModule({
  

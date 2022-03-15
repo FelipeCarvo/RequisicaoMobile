@@ -9,6 +9,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
   hiddenMenu:true;
   constructor(private menu: MenuController, private router:Router) {
 

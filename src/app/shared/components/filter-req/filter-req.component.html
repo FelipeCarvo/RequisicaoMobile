@@ -1,0 +1,58 @@
+<form  style="margin: 0 0 16px 0!important;" id="requestForm" [formGroup]="filterForm" (ngSubmit)="apllyFilter()" appMousePosition>
+  <ion-row >
+    <ion-col size="12">
+      <ion-item lines="none">
+        <ion-label  position="floating">Status</ion-label>
+        <ion-select formControlName="status"  placeholder="Todos" cancel-text="cancelar" interface="action-sheet" [interfaceOptions]="{ cssClass: 'my-custom-interface' }" [selectedText]="selectedTextOption()">
+          <ion-select-option *ngFor="let item of filterStatus" [value]="item?.id" >{{ item?.status }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-col>
+    <ion-col size="12">
+      <ion-item lines="none">
+        <ion-label  position="floating">Data Inicial</ion-label>
+        <div class="calendar grid-item" (click)="dataInicial.click()">
+          <ion-input [value]="_dataInicio | momentPipe" readonly  style="text-align: left;"></ion-input>
+          <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
+        </div>
+      </ion-item>
+      <div id="date-inicio" #dataInicial >
+        <ion-popover trigger="date-inicio" alignment="center" :show-backdrop="true" size="cover" side="top">
+          <ng-template>
+            <ion-datetime presentation="date" locale="pt-BR" 
+              [value]="currentDay" picker-format="MMMM DD, YYYY" 
+              display-format="MM/DD/YYYY" [min]="currentyear" 
+              formControlName="dataInicio" done-text="Confirmar"
+              cancel-text="cancelar">
+            </ion-datetime>
+          </ng-template> 
+        </ion-popover> 
+      </div> 
+    </ion-col>
+    <ion-col size="12">
+      <ion-item lines="none">
+        <ion-label  position="floating">Data Final</ion-label>
+        <div class="calendar grid-item" (click)="dataFinal.click()">
+          <ion-input  [value]="_dataFim | momentPipe" readonly style="text-align: left;"></ion-input>
+          <ion-icon   src="../../assets/icon/calendar.svg"  id="open-date-input-diff" ></ion-icon>
+        </div>
+      </ion-item> 
+      <div id="date-fim" #dataFinal >
+        <ion-popover trigger="date-fim" alignment="center" :show-backdrop="true" size="cover" side="top">
+          <ng-template>
+            <ion-datetime presentation="date" locale="pt-BR" 
+              [value]="currentDay" picker-format="MMMM DD, YYYY" 
+              display-format="MM/DD/YYYY" [min]="_dataInicio" 
+              formControlName="dataFim" done-text="Confirmar"
+              cancel-text="cancelar">
+            </ion-datetime>
+          </ng-template> 
+        </ion-popover> 
+      </div>  
+    </ion-col>
+    <ion-col size="12">
+      <ion-button class="btnRedondo btnVoltar" expand="block" (click)="apllyFilter()"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Aplicar</ion-button>
+    </ion-col>
+  </ion-row>
+</form>

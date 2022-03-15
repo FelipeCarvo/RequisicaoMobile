@@ -66,43 +66,4 @@
             border-radius: 9px;
         }
     }
-ion-input{
 
-    &:disabled{
-        background-color: #F8F8F8;
-    }
-}
-.calendar{
-    color: #828282;
-    font-weight: normal;
-    font-size: 16px;
-    --placeholder-color: #BDBDBD;
-    opacity: 1!important;
-    --placeholder-opacity: 1;
-    line-height: 20px;
-    /* identical to box height */
-    letter-spacing: -0.02em;
-    background: #02435E;
-    // background: #F8F8F8;
-    /* CINZA - Siecon - 02 */
-    border: 2px solid #EAECED!important;
-    box-sizing: border-box;
-    border-radius: 9px!important;
-    padding-inline-start: 11px;
-    --padding-start: 11px;
-    margin-top:4px;
-    min-height: 52px;
-    display: flex;
-    align-items: center;
-    ion-input{
-        margin: 0!important;
-        border: none!important;
-        text-align: center;
-        padding-right: 15px!important;
-    }
-    ion-icon{
-        font-size: 25px;
-        margin-left: auto;
-        margin-right: 16px;
-    }
-}
