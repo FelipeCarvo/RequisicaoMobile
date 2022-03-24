@@ -132,9 +132,9 @@ export class InputSearchComponent implements OnInit {
     }
   }
   private _filter(value: string,res): string[] {
-    console.log(value)
-    const filterValue = value;
-    return this.listGroup.filter(option => option.descricao.toLowerCase().includes(filterValue.toLowerCase()));
+    console.log(value, !!value)
+    let filterValue = !!value ? value.toLocaleLowerCase(): value;
+    return this.listGroup.filter(option => option.descricao.toLowerCase().includes(filterValue));
   }
 
 }

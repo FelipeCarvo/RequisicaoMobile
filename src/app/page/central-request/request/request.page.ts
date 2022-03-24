@@ -22,8 +22,8 @@ export class RequestPage implements OnInit {
   step:any = 0;
   validStep: boolean = false;
   sendPost:boolean = false;
-  requisicaoId:string = null;
-  versaoEsperada:Number;
+  // requisicaoId:string = null;
+  // versaoEsperada:Number;
   steps:any = [
     { key: 0, title: "Requisição",enabled:true},
     { key: 1, title: "Insumos",enabled:this.validStep},
@@ -40,8 +40,8 @@ export class RequestPage implements OnInit {
     private alertServices: AlertServices,
     private updateRequestStatus: UpdateRequestStatus,
 
-  ) {  
-
+  ) 
+  {  
     this.store
     .select(state => state.ReqState)
     .subscribe(e => {
@@ -49,22 +49,34 @@ export class RequestPage implements OnInit {
       this.steps[1].enabled = this.validStep;
       this.steps[2].enabled = this.validStep;
     });
-   }
+  }
+  get validReqId(){
+    return this.store.selectSnapshot(ReqState.validReqId);
+  }
+  get getFormForStore() {
+    return this.store.selectSnapshot(ReqState.getReq);
+  }
+  public get validForm(){
+    return this.store.selectSnapshot(ReqState.validEmpreendimentoId);
+  }
+  public get requisicaoId(){
+    return this.store.selectSnapshot(ReqState.getReqId);
+  }
+  public get versaoEsperada(){
+    return this.store.selectSnapshot(ReqState.getVersaoEsperada);
+  }
   ngOnInit() {
-    const {requisicaoId,versaoEsperada} = this.getFormForStore();
-    this.requisicaoId = requisicaoId;
-    this.versaoEsperada = versaoEsperada;
     if(!!this.requisicaoId){
       this.step = 1;
-      this.getVersion();
     }
   }
   updateStep(step){
     this.step = step;
   }
+
    setStep(val){
-    const hasUpdate = Object.values(this.getFormForStore()).filter(e =>e).length > 0 && !this.requisicaoId;
-    if(this.validForm()){
+    const hasUpdate = Object.values(this.getFormForStore).filter(e =>e).length > 0 && !this.requisicaoId;
+    if(this.validForm){
       if(this.sendPost || hasUpdate){
         this.sendReq(val);       
       }else{
@@ -72,29 +84,19 @@ export class RequestPage implements OnInit {
       }         
     }
   }
-  async getVersion(){
-    if(!!this.requisicaoId){
-      this.rquestService.getVersion(this.requisicaoId).subscribe(async(res:any) =>{ 
-        this.setFormForStore({versaoEsperada:res});
-        if(this.versaoEsperada !== res){
-          this.versaoEsperada = res;
-        }
-     },async(error)=>{});
-    }
-  }
-
   async onBack():Promise<void> {
     const reqId =  !!this.requisicaoId;
-    const filter = Object.values(this.getFormForStore()).filter(e =>e).length > 0;
+    const filter = Object.values(this.getFormForStore).filter(e =>e).length > 0;
     if(this.step == 0){   
       if(reqId ||filter){
         const res = await this.alertServices.alertReq(reqId,filter);
         if(res === 'confirm-exclude'){
-          const {versaoEsperada} = this.getFormForStore();
+          const {versaoEsperada} = this.getFormForStore;
           this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
             this.resetForm();
             this.navCtrl.back();  
           },err =>{
+            this.showMsg(err?.Mensagem)
             console.log(err)
           });
         }
@@ -107,7 +109,6 @@ export class RequestPage implements OnInit {
           this.navCtrl.back(); 
         }
         else if(res === 'finish'){
-          await this.getVersion();
           await this.openModal();
         }
       
@@ -123,20 +124,13 @@ export class RequestPage implements OnInit {
     this.childComponent.reqForm.reset();
     this.store.dispatch(new ResetStateReq());
   }
-  validReqId(){
-    return this.store.selectSnapshot(ReqState.validReqId);
-  }
-  getFormForStore(){
-    return this.store.selectSnapshot(ReqState.getReq);
-  }
-  setFormForStore(formField){
+
+  public setFormForStore(formField){
     this.store.dispatch(new setReqFileds(formField))
   }
-  public validForm(){
-    return this.store.selectSnapshot(ReqState.validEmpreendimentoId);
-  }
+
   async openModal(){
- 
+    console.log(this.versaoEsperada)
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
@@ -145,38 +139,44 @@ export class RequestPage implements OnInit {
       }
     });
     await modal.present();
+    modal.onDidDismiss().then(response => {
+      if(!this.validForm){
+      
+        this.resetForm()
+        this.step = 0;
+      }
+    });
+  }
+  async showMsg(msg){
+    const toast = await this.toastController.create(
+      {
+        message: msg,
+        duration: 2000
+      }
+    );
+    toast.present();
   }
   async sendReq(val){
     this.loading.present();
+    let msg: String;
     let {params,type} = this.getParams();
-    if(type === 'POST'){
-      delete params["versaoEsperada"];
-    }
-    this.rquestService.postReq(params,type).pipe(
-      tap((response:any) => {
-        if(!this.requisicaoId || response){
-          this.requisicaoId = response;
-          this.setFormForStore({requisicaoId:response});
+    this.rquestService.postReqTwo(params,type)
+      .subscribe(async(res:any) => {
+        const {requisicaoId,versaoEsperada} = res;
+        if(type === 'POST'){
+          msg = `Requisição criada com sucesso: ${requisicaoId}`
         }
-      
-      }),
-      switchMap((id) => {
-        let reqId = !!id ? id : this.requisicaoId; 
-        return this.rquestService.getVersion(reqId)
-      }))
-      .subscribe(async(result:any) =>{
+        else{
+          msg = `Requisição editada com sucesso: ${requisicaoId}`
+        }
         this.loading.dismiss();
-        this.setFormForStore({versaoEsperada:result});
+        await this.showMsg(msg)
         this.step = val;
-        
         this.sendPost = false;  
       },
       async(error) =>{
-        const toast = await this.toastController.create({
-          message: error,
-          duration: 2000
-        });
-        toast.present();
+        msg = error?.Mensagem
+        await this.showMsg(msg)
         this.loading.dismiss();
         this.step = this.step;
       }
@@ -186,14 +186,14 @@ export class RequestPage implements OnInit {
     this.sendPost = ev
   }
   getParams(){
-    let params = Object.assign({}, this.getFormForStore());
-    let type = this.validReqId() ? "PUT" :"POST";
+    let params = Object.assign({}, this.getFormForStore);
+    let type = this.validReqId ? "PUT" :"POST";
     for (const key in params) {
       if (!params[key]) {
         delete params[key];
       }
     }
-    if(this.validReqId()){
+    if(this.validReqId){
       params["id"] = params["requisicaoId"];
       delete params["requisicaoId"];
     }

@@ -56,7 +56,25 @@ export class IsumosFormComponent implements OnInit {
   ) {
    
    }
-
+   get disabledEtapa():boolean{
+    let retorno;
+    const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    const insumoId = this.reqFormInsumos?.get('insumoId').value;
+    if(!!somenteInsumosDaEtapa){
+      retorno = !insumoId
+    }
+    else{
+      retorno = false;
+    }
+    return retorno
+  }
+  get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
+  get validForm(){
+    return this.reqFormInsumos.valid;
+  }
+  get getForm(){
+    return this.reqFormInsumos.getRawValue();
+  }
   async ngOnInit() {
     console.log(this.currentDay,this.currentyear)
     this.initForm();
@@ -123,18 +141,7 @@ export class IsumosFormComponent implements OnInit {
     })
   }
   
-  get disabledEtapa():boolean{
-    let retorno;
-    const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
-    const insumoId = this.reqFormInsumos?.get('insumoId').value;
-    if(!!somenteInsumosDaEtapa){
-      retorno = !insumoId
-    }
-    else{
-      retorno = false;
-    }
-    return retorno
-  }
+
   async setValform(){
     await this.reqFormInsumos.patchValue(this.getFormForStore);
   }
@@ -171,22 +178,16 @@ export class IsumosFormComponent implements OnInit {
     if(!!this.etapas)
     return this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0]?.descricao
   }
-  async getForm(){
-    return this.reqFormInsumos.getRawValue();
-  }
+
   getFormField(field){
     return this.reqFormInsumos.get(field).value
   }
-  validForm(){
-    return this.reqFormInsumos.valid;
-  }
-  get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
+
+
   async submit(){
-    const valid = this.validForm();
-   if(valid){
-    const params = await this.getForm();
+   if(this.validForm){
     this.sendLoading = true;
-    this.insumosRequest.sendNewInsumo(params).then(async(response) =>{
+    this.insumosRequest.sendNewInsumo(this.getForm).subscribe(async(response) =>{
       this.sendLoading = false;
       this.reqFormInsumos.reset();
       this.insumoTypeUnidades = null

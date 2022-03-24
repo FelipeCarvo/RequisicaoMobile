@@ -31,6 +31,14 @@ export class ReqState {
     return !!state.requisicaoId;
   }
   @Selector()
+  static getReqId(state: ReqIntefaceModel) {
+    return state.requisicaoId;
+  }
+  @Selector()
+  static getVersaoEsperada(state: ReqIntefaceModel) {
+    return state.versaoEsperada;
+  }
+  @Selector()
   static getReq(state: ReqIntefaceModel) {
     return state;
   }

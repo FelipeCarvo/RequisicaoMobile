@@ -1,10 +1,12 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ModalController } from '@ionic/angular';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
+import { Store } from '@ngxs/store';
+import {ResetStateReq} from '@core/store/actions/req.actions'
+import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
 @Component({
   selector: 'app-modal-finish-req',
   templateUrl: './modal-finish-req.component.html',
@@ -32,6 +34,7 @@ export class ModalFinishReqComponent implements OnInit {
     private updateRequestStatus: UpdateRequestStatus,
     private formBuilder: FormBuilder,
     private toastController:ToastController,
+    private store:Store
   ){
     this.formStatus = this.formBuilder.group({
       satusId:  new FormControl(null, [Validators.required]),
@@ -49,6 +52,11 @@ export class ModalFinishReqComponent implements OnInit {
       dismissed: true
     });
   }
+  resetReq(){
+    this.store.dispatch(new ResetStateInsumos());
+    this.store.dispatch(new ResetStateReq());
+    this.dismiss()
+  }
   async openErrorToast(error: any){
     const toast = await this.toastController.create({
       message: error,
@@ -62,6 +70,7 @@ export class ModalFinishReqComponent implements OnInit {
     let {url} = this.optionsSelect.filter(el=> el.id === satusId)[0];
     let body = {}
     if(satusId != 1 && (url.includes('{id}')||url.includes('{versaoEsperada}'))){
+      console.log(this.versaoEsperada)
       url = url.replace('{id}',this.id).replace('{versaoEsperada}',this.versaoEsperada.toString())
     }else if(satusId ===1){
       body = {id:this.id,versaoEsperada:this.versaoEsperada,}

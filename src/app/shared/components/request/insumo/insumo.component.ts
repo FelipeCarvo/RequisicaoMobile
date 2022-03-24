@@ -37,9 +37,8 @@ export class InsumoComponent implements OnInit {
     })
  
   }
-
-
   async ngOnInit() {
+    
     console.log("init")
    this.initApp();
   }

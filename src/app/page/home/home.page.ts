@@ -58,7 +58,7 @@ export class homePage {
     this.load = false;
     const params = {
       dataInicial: moment(this.dataInicial).format(),
-      dataFinal: moment(this.dataFinal).format(),
+      dataFinal: moment(this.dataFinal).set("hour", 24).format(),
       retificada: "Todos",
       vistada: "Todos",
       situacao: "Todas",
@@ -67,6 +67,7 @@ export class homePage {
       exportadoConstruCompras: "Todos"
       
     }
+    console.log(moment(this.dataFinal).format())
     this.rquestService.getReq(params).subscribe((res:any) =>{
       if(!!this.empreendimentoDescricao){
         this.listReq = res.filter(el => el.empreendimento === parseInt(this.empreendimentoDescricao));​

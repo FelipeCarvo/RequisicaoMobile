@@ -5,6 +5,9 @@ import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
 import * as moment from 'moment';
 import {RequestsEndPoints} from '../utils/enums/EnumRequest'
+import {tap,switchMap} from 'rxjs/operators';
+import {ReqState} from '@core/store/state/req.state';
+import {setReqFileds} from '@core/store/actions/req.actions'
 @Injectable({
     providedIn: 'root'
   })
@@ -46,10 +49,10 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
+            this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version}))
             observer.next(res.resultado.version);
           },
           error => {
-            console.log(error)
             observer.error(error);
           }
         )
@@ -76,6 +79,54 @@ import {RequestsEndPoints} from '../utils/enums/EnumRequest'
           async(res:any) => {
             console.log(res)
             observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    get getStore(){
+      return this.store.selectSnapshot(ReqState.getReq)
+    }
+    postReqTwo(params , type){
+      const {requisicaoId,versaoEsperada} = this.getStore;
+      const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
+      let req;
+      if(type === 'POST'){
+        req = this.http.post(url,params);
+        delete params["versaoEsperada"];
+      }else{
+        params.versaoEsperada = versaoEsperada;
+        req = this.http.put(url,params);
+      }
+      return new Observable((observer) => {
+        req.pipe(
+          tap((response:any) => {
+           console.log('tap',response);
+          
+          }),
+          switchMap((postReRes:any) => {
+            const {resultado} = postReRes;
+            let res;
+            if(!!resultado && requisicaoId != resultado){
+              res = resultado;
+            }else if(!!requisicaoId && !resultado){
+              res = requisicaoId;
+            }
+            if(!!res && res != requisicaoId){
+              this.store.dispatch(new setReqFileds({requisicaoId:resultado}))
+            }
+            console.log(res)
+            if(!!res)
+            return this.getVersion(res)
+          })
+        ).subscribe(
+          async(res:any) => {
+            console.log('subscribe',res);
+            
+            observer.next({versaoEsperada:res,requisicaoId:this.getStore.requisicaoId});
           },
           error => {
             console.log(error)

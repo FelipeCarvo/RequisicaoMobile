@@ -86,9 +86,7 @@ export class RequestFormComponent implements OnInit {
     if(!!this.motivos)
     return this.motivos.filter(option => option.id == this.getFormField('motivoId'))[0]?.descricao
   }
-  validform(){
-    return this.reqForm.valid;
-  }
+
   async getForm(){
     return this.reqForm.getRawValue();
   }
