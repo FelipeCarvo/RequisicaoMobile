@@ -53,6 +53,29 @@
       </div>  
     </ion-col>
     <ion-col size="12">
+      <ion-item  lines="none" class="mat-input-container">
+        <ion-label position="floating">Filtrar por Empreendimento</ion-label>
+        <div  matAutocompleteOrigin #origin="matAutocompleteOrigin" class="formInput">
+          <input
+            matInput
+            type="text"
+            placeholder="Empreendimento"
+            formControlName="empreendimento"
+            [matAutocomplete]="name"
+            class="customInput"
+            [matAutocompleteConnectedTo]="origin" 
+            style="padding-inline-end: 30px;">
+            <ion-icon name="close-outline" *ngIf="!!hasValueEmpreendimento" (click)="clearField()"></ion-icon>
+        </div>
+        <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >
+          <mat-option value="null" *ngIf="noSearchResult">Nenhum valor encontrado</mat-option>
+          <mat-option *ngFor="let option of listItemFilter | async" [value]="option.descricao">
+            {{option.descricao}}
+          </mat-option>
+        </mat-autocomplete>
+      </ion-item>
+    </ion-col>
+    <ion-col size="12">
       <ion-button class="btnRedondo btnVoltar" expand="block" [disabled]="_disabledButton" (click)="apllyFilter()"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Aplicar</ion-button>
     </ion-col>
   </ion-row>

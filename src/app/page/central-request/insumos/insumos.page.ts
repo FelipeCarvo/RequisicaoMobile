@@ -62,6 +62,9 @@ export class InsumosPage{
       }
     });
   }
+  public onlyReset():void{
+    this.store.dispatch(new ResetStateInsumos())
+  }
   public resetAndBack():void{
     this.store.dispatch(new ResetStateInsumos())
     this.navCtrl.back();

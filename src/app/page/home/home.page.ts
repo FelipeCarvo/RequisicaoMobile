@@ -18,6 +18,7 @@ export class homePage {
   load = false;
   showFIlters:Boolean = false;
   statusRequisicao:Number = 2;
+  empreendimentoDescricao:any = '';
   dataInicial = new Date(Date.now()  - 10 * 24 * 60 * 60 * 1000);
   dataFinal = new Date(Date.now());
   constructor(
@@ -39,10 +40,15 @@ export class homePage {
   }
   setParams(params){
     this.showFIlters = false;
-    const {dataFim ,dataInicio , status} = params;
+    const {dataFim ,dataInicio , status,empreendimento} = params;
     this.dataInicial = dataInicio;
     this.dataFinal = dataFim;
     this.statusRequisicao = status;
+    if(!!empreendimento){
+      this.empreendimentoDescricao = empreendimento.replace(/[^0-9]/g,'');
+    }else{
+      this.empreendimentoDescricao = '';
+    }
     setTimeout(() =>{
       this.getReq();
     },250)
@@ -62,7 +68,11 @@ export class homePage {
       
     }
     this.rquestService.getReq(params).subscribe((res:any) =>{
-      this.listReq = res;​
+      if(!!this.empreendimentoDescricao){
+        this.listReq = res.filter(el => el.empreendimento === parseInt(this.empreendimentoDescricao));​
+      }else{
+        this.listReq = res;​
+      }
       setTimeout(()=>{
         this.load = true;
         this.dataInicial = new Date(this.dataInicial);
@@ -74,7 +84,6 @@ export class homePage {
       },200)
     },async(error)=>{
       this.load = true;
-      console.log(error)
     })
   }
 }

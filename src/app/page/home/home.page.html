@@ -39,7 +39,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="11" @hideShowAnimator *ngIf="showFIlters && (load && !!listReq)">
-        <app-filter-req [statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
+        <app-filter-req [empreendimentoDescricao]="empreendimentoDescricao"[statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
       </ion-col>
       <ion-col size="11" *ngIf="!showFIlters && load">
         <list-request-component [item]="item" [loaded]="load"  *ngFor="let item of listReq; let i = index"></list-request-component>

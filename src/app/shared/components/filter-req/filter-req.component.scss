@@ -51,6 +51,25 @@ ion-item{
       margin-right: 16px;
   }
 }
+.mat-input-container{
+  width: 100%;
+
+  .formInput{
+    position:relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    ion-icon {
+      position: absolute;
+      color: #EB5757;
+      font-size: 18px;
+      right: 11px;
+    }
+    input{
+      width: 100%;
+    }
+  }
+}
 ion-popover {
   // --offset-y: -50%;
   // --width: 100%!important;

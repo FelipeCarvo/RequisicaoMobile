@@ -11,10 +11,9 @@
           [matAutocomplete]="name"
           [disableControl]="setDisableButton"
           class="customInput"
-          (focus)="getLoockups()"
-          (blur)="focusout()"
+          (focus)="!listItemFilter ? getLoockups() : ''"
           [matAutocompleteConnectedTo]="origin" 
-          style="    padding-inline-end: 30px;">
+          style="padding-inline-end: 30px;">
           <ion-icon name="close-outline" *ngIf="!!getValue()" (click)="clearField()"></ion-icon>
       </div>
   
@@ -26,7 +25,7 @@
       </mat-autocomplete>
     </ion-col>
     <ion-col size="3" class="no-padding-right">
-      <ion-button class="searchButton" (click)="getLoockups()" [disabled]="!!listItemFilter || setDisableButton">
+      <ion-button class="searchButton" (click)="getLoockups()" [disabled]="setDisableButton">
         <ion-spinner name="crescent" *ngIf="loading" ></ion-spinner>
         <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding search-icon-input" slot="end" *ngIf="!loading"></ion-icon>
       </ion-button> 

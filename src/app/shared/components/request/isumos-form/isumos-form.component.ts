@@ -1,4 +1,4 @@
-import { Component, OnInit,Injectable ,Output ,Input,EventEmitter} from '@angular/core';
+import { Component, OnInit,Injectable ,Output ,Input,EventEmitter,ViewChild} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
@@ -21,8 +21,8 @@ import * as moment from 'moment';
 export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
-  @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
- 
+  @Output() onlyReset:EventEmitter<any> = new EventEmitter();
+  @ViewChild('scrollTarget') scrollTarget;
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
   public etapas:any= [];
@@ -75,6 +75,7 @@ export class IsumosFormComponent implements OnInit {
       this.insumoTypeUnidades = null
     }
   }
+  
   setDif(){
     let a = moment(this.diference);
     let b = moment(this.currentDay);
@@ -185,9 +186,17 @@ export class IsumosFormComponent implements OnInit {
    if(valid){
     const params = await this.getForm();
     this.sendLoading = true;
-    this.insumosRequest.sendNewInsumo(params).then(response =>{
-      this.resetAndBack.emit();
-
+    this.insumosRequest.sendNewInsumo(params).then(async(response) =>{
+      this.sendLoading = false;
+      this.reqFormInsumos.reset();
+      this.insumoTypeUnidades = null
+      this.onlyReset.emit();
+      const toast = await this.toastController.create({
+        message: 'Insumo criado com sucesso',
+        duration: 3000
+      });
+      this.scrollToElement();
+      toast.present();
     },async(error) =>{
       this.sendLoading = false;
       const toast = await this.toastController.create({
@@ -203,7 +212,11 @@ export class IsumosFormComponent implements OnInit {
     this.navCtrl.back();
   }
   public goCentralEstoque(){
-    
     this.router.navigate(['/central-req/consulta-estoque']);
+  }
+  scrollToElement() {
+    let el = this.scrollTarget.nativeElement
+    el.scrollIntoView({ behavior: 'smooth' });
+
   }
 }

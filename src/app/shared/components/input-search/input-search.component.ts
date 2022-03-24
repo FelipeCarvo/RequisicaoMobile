@@ -45,11 +45,12 @@ export class InputSearchComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    if(!!this.getValue()){
+    if(!!this.getValue() || this.formName == 'insumos' && this.controlName == 'empresaId'){
       this.refreshLoad = true;
       this.getLoockups();
     }
   }
+
   get setDisableButton():boolean{
     let disable = false;
      if(!!this.disabledCondition){
@@ -96,6 +97,10 @@ export class InputSearchComponent implements OnInit {
         enumName = 'EmpresasDoEmpreendimento'
       }
       this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+      if(this.formName == 'insumos' && this.controlName =="empresaId"){
+        let value = this.listGroup[0].id;
+        this.parentForm.controls[this.controlName].setValue(value);
+      }
       this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
         startWith(''),
         map((value) => {
@@ -127,8 +132,9 @@ export class InputSearchComponent implements OnInit {
     }
   }
   private _filter(value: string,res): string[] {
+    console.log(value)
     const filterValue = value;
-    return this.listGroup.filter(option => option.id.includes(filterValue));
+    return this.listGroup.filter(option => option.descricao.toLowerCase().includes(filterValue.toLowerCase()));
   }
 
 }
