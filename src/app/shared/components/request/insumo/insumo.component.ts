@@ -70,6 +70,7 @@ export class InsumoComponent implements OnInit {
     this.insumosRequest.getItemEdit(params).then((res:any) =>{
       this.loadingService.dismiss();
       const objResult = this.removeEmpty(res);
+      console.log(res)
       this.store.dispatch(new SetInsumosFileds(objResult))
       this.router.navigate(['/tabs/central-req/insumos']);
     })

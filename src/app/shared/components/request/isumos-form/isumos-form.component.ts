@@ -26,11 +26,13 @@ export class IsumosFormComponent implements OnInit {
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
   public etapas:any= [];
+  public metodSend: String = 'POST'
   public sendLoading: boolean = false;
   public insumoTypeUnidades:String = null;
   diference = new Date().toISOString();
   currentDay = new Date().toISOString();
   currentyear = new Date().toISOString();
+  sendMsg:String = 'Adicionar Insumos';
   loadedEtapas = false;
   loadForm: boolean = false;
   hasLoaded:boolean = false;
@@ -76,16 +78,22 @@ export class IsumosFormComponent implements OnInit {
     return this.reqFormInsumos.getRawValue();
   }
   async ngOnInit() {
-   
+    const {id} = this.getFormForStore;
+    if(!!id){
+      this.metodSend = 'PUT';
+      this.sendMsg = 'Editar Insumos';
+    }
     this.initForm();
-    this.setDif();
+    if(!this.reqFormInsumos.controls['prazo'].value){
+      this.setDif();
+    }
     
     if(!!this.getFormField('etapaId')){
       this.getLoockupEtapa();
     }
   }
   setDateManual(val){
-    this.diference = moment(new Date()).add(val, 'days').toISOString()
+    this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
   setUnidadeType(desc: string){
     if(!!desc){
@@ -96,13 +104,10 @@ export class IsumosFormComponent implements OnInit {
   }
   
   setDif(){
-    if(!this.reqFormInsumos.controls['prazo'].value){
-      let a = moment(this.diference);
-      let b = moment(this.currentDay);
-      let dif:any = a.diff(b,'days')
-      this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
-    }
-
+    let a = moment(this.diference);
+    let b = moment(this.currentDay);
+    let dif:any = a.diff(b,'days');
+    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))    
   }
   async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
@@ -131,7 +136,7 @@ export class IsumosFormComponent implements OnInit {
     this.loadForm = true;
     await this.setValform();
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
-      console.log(selectedValue);
+
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
         
@@ -192,13 +197,18 @@ export class IsumosFormComponent implements OnInit {
   async submit(){
    if(this.validForm){
     this.sendLoading = true;
-    this.insumosRequest.sendNewInsumo(this.getForm).subscribe(async(response) =>{
+    const {id} = this.getFormForStore;
+    this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
       this.sendLoading = false;
+      let type = 'criado';
+      if(this.metodSend === 'PUT'){
+        type = 'editado'
+      }
       this.resetForm();
       this.insumoTypeUnidades = null
       this.onlyReset.emit();
       const toast = await this.toastController.create({
-        message: 'Insumo criado com sucesso',
+        message: `Insumo ${type} com sucesso`,
         duration: 3000
       });
       this.scrollToElement();

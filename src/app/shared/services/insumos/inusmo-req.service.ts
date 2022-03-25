@@ -7,6 +7,7 @@ import { Observable,} from 'rxjs';
 import {tap,switchMap} from 'rxjs/operators';
 import {RequestService} from '../request/request.service';
 export interface InsumoInterface {
+  itemId: any;
   requisicaoId: String,
   empresaId: String,
   etapaId: String,
@@ -43,6 +44,7 @@ export interface InsumoInterface {
       const obj:InsumoInterface = <InsumoInterface>{requisicaoId,versaoEsperada, ...form};
       let params = Object.assign({}, obj);
       for (const key in params) {
+        
         if (!params[key]) {
           delete params[key];
         }
@@ -74,11 +76,18 @@ export interface InsumoInterface {
     //     )
     //   })
     // }
-    sendNewInsumo(form){
-      const params = this.getObject(form);
+    sendNewInsumo(form,metod,id = null){
+      let req;
+      let params = this.getObject(form);
+      if(metod == 'POST'){
+        req = this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
+      }else{
+        params.itemId =id;
+        req = this.http.put(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
+      }
+     
       return new Observable((observer) => {
-        this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
-        .pipe(
+        req.pipe(
           tap((response:any) => {
            console.log('tap',response);
           

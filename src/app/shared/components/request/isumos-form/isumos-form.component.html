@@ -196,7 +196,7 @@
       <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="submit()" [disabled]="!validForm || sendLoading">
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
-        {{!sendLoading ?' Adicionar Insumos':'' }}
+        {{!sendLoading ? sendMsg :'' }}
       </ion-button>
     </ion-col>
   </ion-row>

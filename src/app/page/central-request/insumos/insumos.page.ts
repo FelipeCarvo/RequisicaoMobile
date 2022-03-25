@@ -28,6 +28,7 @@ export class InsumosPage{
   }
   ngOnInit() {
     if(!this.validReqId()){
+      console.log(this.getFormForStore())
       const {requisicaoId,versaoEsperada} = this.getRequest();
       this.setFormForStore({requisicaoId,versaoEsperada});
     }
@@ -56,7 +57,6 @@ export class InsumosPage{
   }
   async openModal(){
     await this.alertServices.alertInsumos().then(res =>{
-      console.log(res)
       if(res === 'confirm'){
        this.resetAndBack();
       }
