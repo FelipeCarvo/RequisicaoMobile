@@ -96,10 +96,13 @@ export class IsumosFormComponent implements OnInit {
   }
   
   setDif(){
-    let a = moment(this.diference);
-    let b = moment(this.currentDay);
-    let dif:any = a.diff(b,'days')
-    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
+    if(!this.reqFormInsumos.controls['prazo'].value){
+      let a = moment(this.diference);
+      let b = moment(this.currentDay);
+      let dif:any = a.diff(b,'days')
+      this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
+    }
+
   }
   async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);

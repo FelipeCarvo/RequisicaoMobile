@@ -121,7 +121,9 @@ export class RequestPage implements OnInit {
     }
   }
   resetForm(){
-    this.childComponent.reqForm.reset();
+    if(this.step === 0){
+      this.childComponent.reqForm.reset();
+    }
     this.store.dispatch(new ResetStateReq());
   }
 
