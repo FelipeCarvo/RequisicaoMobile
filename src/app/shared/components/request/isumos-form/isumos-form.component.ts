@@ -31,7 +31,7 @@ export class IsumosFormComponent implements OnInit {
   diference = new Date().toISOString();
   currentDay = new Date().toISOString();
   currentyear = new Date().toISOString();
- 
+  loadedEtapas = false;
   loadForm: boolean = false;
   hasLoaded:boolean = false;
   listItemFilter:FilterRequestFields ={
@@ -76,9 +76,10 @@ export class IsumosFormComponent implements OnInit {
     return this.reqFormInsumos.getRawValue();
   }
   async ngOnInit() {
-    console.log(this.currentDay,this.currentyear)
+   
     this.initForm();
-    this.setDif()
+    this.setDif();
+    
     if(!!this.getFormField('etapaId')){
       this.getLoockupEtapa();
     }
@@ -160,6 +161,7 @@ export class IsumosFormComponent implements OnInit {
       params = {pesquisa: '',empreendimentoId:this.empreendimentoId};
     }
     this.loockupstService.getLookUp(params,'etapaId').then(res =>{
+      this.loadedEtapas = true;
       const selectedEtapa = this.getFormField('etapaId');
       this.etapas = res;
       if(!!selectedEtapa){
@@ -189,7 +191,7 @@ export class IsumosFormComponent implements OnInit {
     this.sendLoading = true;
     this.insumosRequest.sendNewInsumo(this.getForm).subscribe(async(response) =>{
       this.sendLoading = false;
-      this.reqFormInsumos.reset();
+      this.resetForm();
       this.insumoTypeUnidades = null
       this.onlyReset.emit();
       const toast = await this.toastController.create({
@@ -218,6 +220,15 @@ export class IsumosFormComponent implements OnInit {
   scrollToElement() {
     let el = this.scrollTarget.nativeElement
     el.scrollIntoView({ behavior: 'smooth' });
-
+  }
+  public resetForm(){
+ 
+    Object.keys(this.reqFormInsumos.controls).forEach(key => {
+      if(key != 'empresaId' && key != 'complemento'){
+        this.reqFormInsumos.get(key).setValue(null)
+      }
+    });
+    // const controlNames = ['nameOne', 'nameTwo'];
+    // controlNames.map((value: string) => this.reqFormInsumos.get(value).setValue(null));
   }
 }

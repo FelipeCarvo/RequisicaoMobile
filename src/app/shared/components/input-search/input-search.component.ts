@@ -1,4 +1,4 @@
-import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef } from '@angular/core';
+import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith} from 'rxjs/operators';
@@ -40,17 +40,21 @@ export class InputSearchComponent implements OnInit {
   refreshLoad= false;
   noSearchResult = false;
   disablebuttonTest = false;
-  constructor(private loockupstService:LoockupstService,
+  constructor(
+    private loockupstService:LoockupstService,
+    private cdr: ChangeDetectorRef
   ){
 
   }
   ngOnInit(): void {
-    if(!!this.getValue() || this.formName == 'insumos' && this.controlName == 'empresaId'){
+    if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
       this.refreshLoad = true;
       this.getLoockups();
     }
   }
-
+  get getValue(){
+    return this.parentForm.get(this.controlName).value 
+  }
   get setDisableButton():boolean{
     let disable = false;
      if(!!this.disabledCondition){
@@ -63,7 +67,7 @@ export class InputSearchComponent implements OnInit {
      }
     return disable
   } 
-  displayFn(value = this.getValue()) {
+  displayFn(value = this.getValue) {
     if(!!value && this.listGroup.length > 0){
       let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
       if(this.controlName === "insumoId"){
@@ -73,30 +77,41 @@ export class InputSearchComponent implements OnInit {
     }
   }
  
-  getValue(){
-    return this.parentForm.get(this.controlName).value 
-  }
+
   clearField(){
-    this.parentForm.controls[this.controlName].setValue('');
+    this.parentForm.controls[this.controlName].setValue(null);
     if(this.controlName === "insumoId"){
       this.setUnidadeType.emit(null)
     }
   }
+  openPanel(){
+    setTimeout(()=>{
+      this.inputAutoComplete.openPanel();
+    },200)
+ 
+  }
+  ngAfterViewChecked(){
+    //your code to update the model
+    this.cdr.detectChanges();
+ }
   focusout(){
     if(this.noSearchResult){
      this.clearField();
     }
   }
   async getLoockups(){
-   
-    if (!this.listItemFilter){
+
+
       this.loading = true;
       const params = this.pesquisa;
       let enumName = this.controlName
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
       }
-      this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+      console.log()
+      if(this.listGroup.length == 0){
+        this.listGroup = await this.loockupstService.getLookUp(params,enumName)
+      }
       if(this.formName == 'insumos' && this.controlName =="empresaId"){
         let value = this.listGroup[0].id;
         this.parentForm.controls[this.controlName].setValue(value);
@@ -111,30 +126,31 @@ export class InputSearchComponent implements OnInit {
       );
       setTimeout(()=>{
         this.loading = false;
-        if(this.refreshLoad){
-          let value = this.getValue();
-          const selectedValue = value;
-          //this.parentForm.controls[this.controlName].setValue(value);
+        
           this.refreshLoad = false;
-          if(!!selectedValue){
-            let testValidation = !!this.listGroup.find(e => e.id == selectedValue);
+          if(!!this.getValue){
+            let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
             if(!testValidation){
-              this.parentForm.controls[this.controlName].setValue('')
+              this.parentForm.controls[this.controlName].setValue('');
+              this.inputAutoComplete.openPanel();
             }else{
-              this.parentForm.controls[this.controlName].setValue(value);
+              this.parentForm.controls[this.controlName].setValue(this.getValue);
+             
             }
           }
-        }else{
-          this.inputAutoComplete.openPanel();
-        }
-      },300)
 
-    }
+
+        
+      },300)
   }
   private _filter(value: string,res): string[] {
-    console.log(value, !!value)
-    let filterValue = !!value ? value.toLocaleLowerCase(): value;
-    return this.listGroup.filter(option => option.descricao.toLowerCase().includes(filterValue));
+    let filter;
+    if(!!value){
+      filter =this.listGroup.filter(option => option.descricao.toLowerCase().includes(value.toLocaleLowerCase()));
+    }else{
+      filter = this.listGroup;
+    }
+    return filter;
   }
 
 }

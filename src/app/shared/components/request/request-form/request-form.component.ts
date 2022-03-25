@@ -33,6 +33,11 @@ export class RequestFormComponent implements OnInit {
   ) {
     this.initForm();
   }
+
+  get hasValueEmpreendimento():boolean{
+    console.log(!!this.reqForm.get("empreendimentoId").value)
+    return !!this.reqForm.get("empreendimentoId").value
+  }
   async ngOnInit() {
     this.getLoockupMotivo();
     await this.setValform();

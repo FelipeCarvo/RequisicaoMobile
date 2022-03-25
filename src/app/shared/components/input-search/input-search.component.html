@@ -11,10 +11,10 @@
           [matAutocomplete]="name"
           [disableControl]="setDisableButton"
           class="customInput"
-          (focus)="!listItemFilter ? getLoockups() : ''"
+          (focus)="getLoockups()"
           [matAutocompleteConnectedTo]="origin" 
           style="padding-inline-end: 30px;">
-          <ion-icon name="close-outline" *ngIf="!!getValue()" (click)="clearField()"></ion-icon>
+          <ion-icon name="close-outline" *ngIf="!!getValue" (click)="clearField(); openPanel()"></ion-icon>
       </div>
   
       <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" >

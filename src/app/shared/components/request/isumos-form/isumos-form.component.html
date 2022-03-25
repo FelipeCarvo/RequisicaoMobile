@@ -39,6 +39,7 @@
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
         <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
+          <ion-select-option *ngIf="etapas.length == 0 && loadedEtapas" [disabled]="true">Nenhuma etapa disponivel</ion-select-option>
           <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao | descripitionpipe:50}}</ion-select-option>
         </ion-select>
        
