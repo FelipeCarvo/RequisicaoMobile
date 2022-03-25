@@ -26,6 +26,7 @@ export class FilterReqComponent implements OnInit {
   currentyear = new Date().toISOString();
   listItemFilter: Observable<string[]>;
   noSearchResult = false;
+  showInput = false;
   filterStatus = [
     {status:'Reprovada',id:1},
     {status:'Não Concluída',id:2},
@@ -42,6 +43,28 @@ export class FilterReqComponent implements OnInit {
     private loockupstService:LoockupstService,
   ) { 
     
+  }
+  get _status() {
+    return this.filterForm.get("status").value;
+  }
+  get _dataInicio(){
+  
+    return this.filterForm.get("dataInicio").value;
+  }
+  get _dataFim(){
+    return this.filterForm.get("dataFim").value;
+  }
+  get hasValueEmpreendimento(){
+
+    return this.filterForm.get('empreendimento').value 
+  }
+  get _disabledButton(){
+    let validOne = moment(this.formatDate(this._dataInicio)).isSame(this.formatDate(this.dataInicial));
+    let validTwo = moment(this.formatDate(this._dataFim)).isSame(this.formatDate(this.dataFinal));
+    let validThree = this.statusRequisicao == this._status;
+    let validFour = this.empreendimentoDescricao == this.hasValueEmpreendimento;
+    let validation = !validOne || !validTwo || !validThree || !validFour;
+    return !validation
   }
   ngOnInit() {
     this.initForm();
@@ -69,13 +92,18 @@ export class FilterReqComponent implements OnInit {
   selectedTextOption() {
     return this.filterStatus.filter(option => option.id == this._status)[0]?.status
   }
+
   async getLookUp(){
     const params = {pesquisa:''}
-    const enumName = 'empreendimentoId'
-    this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+    const enumName = 'empreendimentoId';
+    if(this.listGroup.length == 0){
+      this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+    }
+    this.showInput = true;
     this.listItemFilter = this.filterForm.get('empreendimento').valueChanges.pipe(
       startWith(''),
       map((value) => {
+        
         let filterValue = this._filter(value,this.listGroup);
         this.noSearchResult = filterValue.length == 0;
         return filterValue
@@ -86,6 +114,7 @@ export class FilterReqComponent implements OnInit {
     this.inputAutoComplete.openPanel();
   }
   displayFn(value = this.hasValueEmpreendimento) {
+    console.log('display',this.listGroup);
     if(!!value && this.listGroup.length > 0){
       let desc =  this.listGroup.filter(option => option.descricao == value)[0]?.descricao
       return desc
@@ -95,27 +124,7 @@ export class FilterReqComponent implements OnInit {
     const filterValue = value;
     return this.listGroup.filter(option => option.descricao.toLowerCase().includes(filterValue.toLowerCase()));
   }
-  get _status() {
-    return this.filterForm.get("status").value;
-  }
-  get _dataInicio(){
-  
-    return this.filterForm.get("dataInicio").value;
-  }
-  get _dataFim(){
-    return this.filterForm.get("dataFim").value;
-  }
-  get hasValueEmpreendimento(){
-    return this.filterForm.get('empreendimento').value 
-  }
-  get _disabledButton(){
-    let validOne = moment(this.formatDate(this._dataInicio)).isSame(this.formatDate(this.dataInicial));
-    let validTwo = moment(this.formatDate(this._dataFim)).isSame(this.formatDate(this.dataFinal));
-    let validThree = this.statusRequisicao == this._status;
-    let validFour = this.empreendimentoDescricao == this.hasValueEmpreendimento;
-    let validation = !validOne || !validTwo || !validThree || !validFour;
-    return !validation
-  }
+
 
 
 }

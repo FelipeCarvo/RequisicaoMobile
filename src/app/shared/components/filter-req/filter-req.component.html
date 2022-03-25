@@ -53,7 +53,7 @@
       </div>  
     </ion-col>
     <ion-col size="12">
-      <ion-item  lines="none" class="mat-input-container">
+      <ion-item  lines="none" class="mat-input-container" *ngIf="showInput">
         <ion-label position="floating">Filtrar por Empreendimento</ion-label>
         <div  matAutocompleteOrigin #origin="matAutocompleteOrigin" class="formInput">
           <input

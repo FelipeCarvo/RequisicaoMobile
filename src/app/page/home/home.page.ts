@@ -44,15 +44,22 @@ export class homePage {
     this.dataInicial = dataInicio;
     this.dataFinal = dataFim;
     this.statusRequisicao = status;
-    if(!!empreendimento){
-      this.empreendimentoDescricao = empreendimento.replace(/[^0-9]/g,'');
-    }else{
-      this.empreendimentoDescricao = '';
-    }
+    this.empreendimentoDescricao = empreendimento;
+    // if(!!empreendimento){
+    //   this.empreendimentoDescricao = empreendimento.replace(/[^0-9]/g,'');
+    // }else{
+    //   this.empreendimentoDescricao = '';
+    // }
     setTimeout(() =>{
       this.getReq();
     },250)
 
+  }
+  convertNumber(element){
+    if(!this.empreendimentoDescricao){
+      return
+    }
+    return parseInt(element.replace(/[^0-9]/g,''))
   }
   getReq(){
     this.load = false;
@@ -70,7 +77,7 @@ export class homePage {
     console.log(moment(this.dataFinal).format())
     this.rquestService.getReq(params).subscribe((res:any) =>{
       if(!!this.empreendimentoDescricao){
-        this.listReq = res.filter(el => el.empreendimento === parseInt(this.empreendimentoDescricao));​
+        this.listReq = res.filter(el => el.empreendimento === this.convertNumber(this.empreendimentoDescricao));​
       }else{
         this.listReq = res;​
       }
