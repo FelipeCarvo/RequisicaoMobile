@@ -29,6 +29,12 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         exportadoConstruCompras: "Todos"
       }
     }
+    public get requisicaoId(){
+      return this.store.selectSnapshot(ReqState.getReqId);
+    }
+    get getStore(){
+      return this.store.selectSnapshot(ReqState.getReq)
+    }
     getReq(params = null, endPoint = 'PesquisaRequisicoes'){
       return new Observable((observer) => {
         if(!!params == false){
@@ -87,9 +93,7 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
-    get getStore(){
-      return this.store.selectSnapshot(ReqState.getReq)
-    }
+
     postReqTwo(params , type){
       const {requisicaoId,versaoEsperada} = this.getStore;
       const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
@@ -130,6 +134,31 @@ import {setReqFileds} from '@core/store/actions/req.actions'
           },
           error => {
             console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    setVersion(res){
+
+    }
+    sendDocument(form,id,version,endPoint ='posDocument'){
+      let fd = new FormData();
+      fd.append('file', form[0]);
+      console.log('sendDocument',fd)
+      return new Observable((observer) => {
+        this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
+        fd
+        ).pipe(switchMap(res =>{
+          console.log('res',res,)
+          return this.getVersion(this.requisicaoId)
+        })).subscribe(
+          async(res:any) => {
+            console.log('res',res)
+            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            observer.next(res);
+          },
+          error => {
             observer.error(error);
           }
         )

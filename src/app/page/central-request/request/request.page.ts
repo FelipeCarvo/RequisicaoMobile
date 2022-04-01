@@ -73,7 +73,6 @@ export class RequestPage implements OnInit {
   updateStep(step){
     this.step = step;
   }
-
    setStep(val){
     const hasUpdate = Object.values(this.getFormForStore).filter(e =>e).length > 0 && !this.requisicaoId;
     if(this.validForm){
@@ -128,11 +127,11 @@ export class RequestPage implements OnInit {
   }
 
   public setFormForStore(formField){
+    console.log(formField);
     this.store.dispatch(new setReqFileds(formField))
   }
 
   async openModal(){
-    console.log(this.versaoEsperada)
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
@@ -158,14 +157,15 @@ export class RequestPage implements OnInit {
     );
     toast.present();
   }
-  async sendReq(val){
+  async sendReq(form){
     this.loading.present();
     let msg: String;
-    let {params,type} = this.getParams();
+    let {params,type} = this.getParams(form);
     this.rquestService.postReqTwo(params,type)
       .subscribe(async(res:any) => {
         const {requisicaoId,versaoEsperada} = res;
         if(type === 'POST'){
+          this.setFormForStore(form);
           msg = `Requisição criada com sucesso: ${requisicaoId}`
         }
         else{
@@ -173,7 +173,7 @@ export class RequestPage implements OnInit {
         }
         this.loading.dismiss();
         await this.showMsg(msg)
-        this.step = val;
+        this.step = 1;
         this.sendPost = false;  
       },
       async(error) =>{
@@ -187,8 +187,8 @@ export class RequestPage implements OnInit {
   UpdateForm(ev){
     this.sendPost = ev
   }
-  getParams(){
-    let params = Object.assign({}, this.getFormForStore);
+  getParams(form){
+    let params = Object.assign({}, form);
     let type = this.validReqId ? "PUT" :"POST";
     for (const key in params) {
       if (!params[key]) {
@@ -196,9 +196,11 @@ export class RequestPage implements OnInit {
       }
     }
     if(this.validReqId){
-      params["id"] = params["requisicaoId"];
+      params.id = this.requisicaoId;
+      params.versaoEsperada = this.versaoEsperada;
       delete params["requisicaoId"];
     }
+    console.log(params);
     return {params,type}
   }
 }

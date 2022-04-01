@@ -13,13 +13,13 @@
     <ion-row class="ion-justify-content-center">
       <ion-col size="11"  class="no-padding-bottom no-padding-top">
         <ion-segment [scrollable]="false" [value]="step" class="segmentBottom" (ionSelect)="setStep($event.target.value)">
-          <ion-segment-button [value]="item.key"  [disabled]="!item.enabled || item.key == step"  *ngFor="let item of steps" >
+          <ion-segment-button [value]="item.key"  [disabled]="!validReqId || item.key == step"  *ngFor="let item of steps" >
               {{item.title}}
           </ion-segment-button>
         </ion-segment>
       </ion-col>
     </ion-row>
-    <app-request-form *ngIf="step == 0" #appChild (UpdateForm)="UpdateForm($event)" [getFormForStore]="getFormForStore" (setFormForStore)="setFormForStore($event)"></app-request-form>
+    <app-request-form *ngIf="step == 0" #appChild (sendReq)="sendReq($event)" (UpdateForm)="UpdateForm($event)" [getFormForStore]="getFormForStore" (setFormForStore)="setFormForStore($event)"></app-request-form>
     <app-insumo *ngIf="step == 1"  [validForm]="validForm" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId" (updateStep)="updateStep($event)" (setFormForStore)="setFormForStore($event)"> </app-insumo>
     <app-documents *ngIf="step == 2" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId"></app-documents>
   </ion-grid>  

@@ -22,6 +22,8 @@ export class Interceptor implements HttpInterceptor {
   intercept( request: HttpRequest<any>, next: HttpHandler, ):Observable<HttpEvent<any>> {
     let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
+    let documentUrl  = request.url.includes('sieconwebsuprimentos/api/RequisicaoDocumentos');
+    console.log(documentUrl,'aquiii')
     let isAuthenticated = this.store.selectSnapshot(AuthUser.isAuthenticated);
     if(tokenUrl){
       request = request.clone(
@@ -30,12 +32,22 @@ export class Interceptor implements HttpInterceptor {
         }
       )
     }
-    else if(!tokenUrl && isAuthenticated){
+    else if(!documentUrl && !tokenUrl && isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
       request = request.clone( {
         setHeaders: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
+    else if(documentUrl  && isAuthenticated){
+      let token = this.store.selectSnapshot(AuthUser.getToken);
+      request = request.clone( {
+        setHeaders: {
+          // Accept: '*/*',
+        
           Authorization: `Bearer ${token}`
         }
       });

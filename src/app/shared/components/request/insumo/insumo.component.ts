@@ -3,7 +3,7 @@ import { ModalController, } from '@ionic/angular';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
-import {RequestService} from '@services/request/request.service';
+
 import {LoadingService} from '@services/loading/loading-service';
 import {opacityAnimation} from '@services/animation/custom-animation'
 import {InsumosRequest} from '@services/insumos/inusmo-req.service'
@@ -24,7 +24,7 @@ export class InsumoComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     public router:Router,
-    private requestService:RequestService,
+
     private insumosRequest:InsumosRequest,
     public loadingService: LoadingService,
     private alertServices: AlertServices,
@@ -70,7 +70,6 @@ export class InsumoComponent implements OnInit {
     this.insumosRequest.getItemEdit(params).then((res:any) =>{
       this.loadingService.dismiss();
       const objResult = this.removeEmpty(res);
-      console.log(res)
       this.store.dispatch(new SetInsumosFileds(objResult))
       this.router.navigate(['/tabs/central-req/insumos']);
     })

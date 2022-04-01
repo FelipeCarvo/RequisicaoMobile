@@ -8,7 +8,7 @@ import { MatAutocompleteModule, } from '@angular/material/autocomplete';
 import {MatFormFieldModule,} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {ModalFinishReqComponent} from './modal-finish-req/modal-finish-req.component'
-import {IsumosFormComponent} from './request/isumos-form/isumos-form.component'
+import {IsumosFormComponent} from './isumos-form/isumos-form.component'
 import { IonicModule } from '@ionic/angular';
 import{ListInsumosComponent} from './list-insumos/list-insumos.component';
 import {ListInsumosByReqComponent} from './list-insumos-by-req/list-insumos-by-req.component'
@@ -23,8 +23,9 @@ import {NumberDirective} from '../directives/number-directive'
 import {momentPipe} from '../pipes/moment-pipe'
 import {MosuePositionDirective} from '../directives/mouse-position'
 import {statusPipe,statusMoment} from '../pipes/status.pipe'
+import {sizeFormatPipe} from '../pipes/format-size-pipe'
 const providers = [
-  statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective,statusPipe
+  statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe
 ]
 const matModules = [
   MatAutocompleteModule,

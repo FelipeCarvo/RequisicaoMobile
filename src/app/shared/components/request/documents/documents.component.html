@@ -1,16 +1,45 @@
 <form id="requestForm">
   <ion-row class="ion-justify-content-center">
    <ion-col size="11">
-    <ion-item lines="none" class="box">
+      <ion-item lines="none" class="box">
       <ion-label position="stacked">Justificativa</ion-label>
       <ion-textarea placeholder="Enter more information here..."></ion-textarea>
-    </ion-item>
+      </ion-item>
       <ion-item class="ion-margin-vertical">
         Anexar arquivo Junto
       </ion-item>
+      <ion-item [lines]="!archivesValid ? 'none':'full'">
+        <ion-row class="ion-justify-content-center"  style="width:100%" >
+          <ion-col size="9"class="ion-margin-vertical">
+            <ion-button  (click)="showModal()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
+          </ion-col>
+        </ion-row>
+
+      </ion-item>
     </ion-col>
-    <ion-col size="9">
-      <ion-button  (click)="showModal()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
+
+    <ion-col size="11" *ngIf="archivesValid">
+      <ion-item  lines="none">
+        <ion-label>Documentos em anexo</ion-label>
+      </ion-item>
+      <ion-item  lines="none" *ngFor="let item of archives;" class="archive-item">
+        <ion-row style="width: 100%;" class="ion-align-items-center">
+          <ion-col size="4">
+            <img [src]="item?.filePath" *ngIf="item?.filePath">
+            <app-no-image-icon [typeFile]="item.type" *ngIf="!item.filePath"></app-no-image-icon>
+          </ion-col>
+          <ion-col size="8" class="box-desc">
+            <p class="date ion-no-margin">{{item.file.lastModifiedDate|momentPipe}}</p>
+            <p class="title">{{item.name}}</p>
+            <p class="size ion-no-margin">
+              <ion-icon name="document" *ngIf="(item.type | imageType) != 'pdf' && (item.type | imageType) != 'image'"  class="ion-no-padding"slot="start"></ion-icon>
+              <ion-icon *ngIf="(item.type|imageType) == 'pdf'" src="../../assets/icon/pdf.svg" class="ion-no-padding"slot="start"></ion-icon>
+              <ion-icon *ngIf="(item.type|imageType) == 'image'" src="../../assets/icon/img.svg" class="ion-no-padding"slot="start"></ion-icon>
+              {{item.type}} - {{item.size|formatSize}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-button (click)="sendArchive()">Enviar</ion-button>
     </ion-col>
   </ion-row>
  

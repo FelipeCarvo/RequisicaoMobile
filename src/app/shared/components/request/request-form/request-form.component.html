@@ -12,7 +12,7 @@
         </ion-select>
       </ion-item>
       <ion-item  lines="none" class="box"  *ngIf="hasValueEmpreendimento">
-        <app-input-search label="Número O.F (Para desconto)" formName="req"  [pesquisa]="{pesquisa: '',empreendimentoId:this.getFormForStore['empreendimentoId']}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
+        <app-input-search label="Número O.F (Para desconto)" formName="req"  [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoIdValue}" [listItemFilter]="listItemFilter.OFsDescontoMaterial" placeholder="Número O.F" name="OFsDescontoMaterial" [parentForm]="reqForm" controlName="OFsDescontoMaterial" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <app-input-search label="Aprovador" formName="req"  [pesquisa]="{pesquisa: ''}"  [listItemFilter]="listItemFilter.filteredOptionsUsuarios" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>
@@ -22,6 +22,13 @@
         <ion-label position="stacked">Observações</ion-label>
         <ion-textarea placeholder="Enter more information here..." formControlName="observacao" cols="20"></ion-textarea>
       </ion-item>
+    </ion-col>
+    <ion-col size="11" >
+      <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="sendForm()" [disabled]="!hasValidForm || sendLoading">
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+        <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
+        {{!sendLoading ? 'Enviar' :'' }}
+      </ion-button>
     </ion-col>
   </ion-row>
 </form>

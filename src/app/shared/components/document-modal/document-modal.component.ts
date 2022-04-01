@@ -1,4 +1,5 @@
 import { Component, OnInit,Input,Output } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 export default interface archivesInterface {
   name:String;
   id:Number;
@@ -16,7 +17,7 @@ export default interface archivesInterface {
 export class DocumentModalComponent implements OnInit {
   @Input('versaoEsperada') versaoEsperada:Number;
   @Input('requisicaoId') requisicaoId:String;
-  archives:Array<{}> = [];
+  @Input('archives') archives:Array<{}> = [];
   loaded:boolean= false;
   file:any;
   slideOpts = {
@@ -25,16 +26,21 @@ export class DocumentModalComponent implements OnInit {
   };
 
   base64textString:string;
-  constructor() {
+  constructor(
+    public modalController: ModalController,
+  ) {
     
    }
 
   ngOnInit() {
+    console.log('archives',this.archives)
   }
+
   async changeListener(e) : Promise<void> {
 
     this.file = (e.target as HTMLInputElement).files[0];
     let simpleType = this.simpleType(this.file.type);
+    console.log(this.file)
     const obj:archivesInterface = {
       id: this.archives.length + 1,
       name: this.file.name,
@@ -57,7 +63,6 @@ export class DocumentModalComponent implements OnInit {
       reader.readAsDataURL(this.file)
     }else{
       this.archives.push(obj);
-      console.log(this.file)
     }
   }
   simpleType(type){
@@ -69,6 +74,8 @@ export class DocumentModalComponent implements OnInit {
     }
     return result
   }
-  dismiss(){}
+  dismiss(){
+    this.modalController.dismiss(this.archives);
+  }
 
 }
