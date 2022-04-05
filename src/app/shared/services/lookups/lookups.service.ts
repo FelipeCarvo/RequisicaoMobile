@@ -21,18 +21,7 @@ import {LookupsEndPoints} from '../utils/enums/EnumLockup'
      
         this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
           async(res:any) => {
-            let result = res.resultado.sort((a,b)=>{
-              a = this.filterLockup(a.descricao);
-              b = this.filterLockup(b.descricao);
-              if (a > b) {
-                return 1;
-              }
-              if (a < b) {
-                return -1;
-              }
-              // a must be equal to b
-              return 0;
-            })
+            let result = res.resultado
             resolve(result);
           },
           error => {

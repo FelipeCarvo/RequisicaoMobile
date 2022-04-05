@@ -19,6 +19,7 @@ export class InsumoComponent implements OnInit {
   @Input()versaoEsperada:Number;
   @Input() validForm;
   @Output() updateStep:EventEmitter<any> = new EventEmitter();
+  @Output() updateButton:EventEmitter<any> = new EventEmitter();
   listInsumos: Array<any>;
   loading:boolean = false;
   constructor(
@@ -82,6 +83,9 @@ export class InsumoComponent implements OnInit {
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
       this.listInsumos = res;
+      if(res.length > 0){
+        this.updateButton.emit(true)
+      }
       setTimeout(() =>{
         this.loading = true;
       },200)

@@ -22,6 +22,8 @@ export class IsumosFormComponent implements OnInit {
   @Input()getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Output() onlyReset:EventEmitter<any> = new EventEmitter();
+  @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
+  
   @ViewChild('scrollTarget') scrollTarget;
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
@@ -201,17 +203,20 @@ export class IsumosFormComponent implements OnInit {
     this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
       this.sendLoading = false;
       let type = 'criado';
+
       if(this.metodSend === 'PUT'){
         type = 'editado'
+        this.resetAndBack.emit();
+      }else{
+        this.resetForm();
+        this.insumoTypeUnidades = null
+        this.onlyReset.emit();
+        this.scrollToElement();
       }
-      this.resetForm();
-      this.insumoTypeUnidades = null
-      this.onlyReset.emit();
       const toast = await this.toastController.create({
         message: `Insumo ${type} com sucesso`,
         duration: 3000
       });
-      this.scrollToElement();
       toast.present();
     },async(error) =>{
       this.sendLoading = false;

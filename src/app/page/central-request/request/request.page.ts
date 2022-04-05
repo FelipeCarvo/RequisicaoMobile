@@ -22,6 +22,7 @@ export class RequestPage implements OnInit {
   step:any = 0;
   validStep: boolean = false;
   sendPost:boolean = false;
+  hasButtonFinish:boolean = false;
   // requisicaoId:string = null;
   // versaoEsperada:Number;
   steps:any = [
@@ -65,22 +66,25 @@ export class RequestPage implements OnInit {
   public get versaoEsperada(){
     return this.store.selectSnapshot(ReqState.getVersaoEsperada);
   }
+  public get getCode(){
+    console.log(this.store.selectSnapshot(ReqState.getNumberValue))
+    return this.store.selectSnapshot(ReqState.getNumberValue)
+  }
   ngOnInit() {
     if(!!this.requisicaoId){
       this.step = 1;
     }
   }
+  updateButton(val){
+    this.hasButtonFinish = val;
+  }
   updateStep(step){
     this.step = step;
   }
    setStep(val){
-    const hasUpdate = Object.values(this.getFormForStore).filter(e =>e).length > 0 && !this.requisicaoId;
-    if(this.validForm){
-      if(this.sendPost || hasUpdate){
-        this.sendReq(val);       
-      }else{
-        this.step = val;
-      }         
+    const hasUpdate = Object.values(this.getFormForStore).filter(e =>e).length > 0 && this.requisicaoId;
+    if(hasUpdate){
+      this.step = val;     
     }
   }
   async onBack():Promise<void> {
@@ -172,6 +176,8 @@ export class RequestPage implements OnInit {
           msg = `Requisição editada com sucesso: ${requisicaoId}`
         }
         this.loading.dismiss();
+        console.log(form);
+        this.setFormForStore(form);
         await this.showMsg(msg)
         this.step = 1;
         this.sendPost = false;  

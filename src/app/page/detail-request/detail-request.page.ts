@@ -40,4 +40,10 @@ export class DetailRequestPage implements OnInit {
       },300)
     })
   }
+  editReq(){
+    this.rquestService.getCurrentReq(this.requisicaoId).subscribe((res:any) =>{
+      this.router.navigate(['/tabs/central-req/nova-req']);
+      console.log(res)
+    })
+  }
 }

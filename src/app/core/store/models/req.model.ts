@@ -1,5 +1,6 @@
 export interface ReqIntefaceModel  {
     requisicaoId?:string,
+    codigoExterno?:Number,
     motivoId?: string,
     observacao?: string,
     empreendimentoId: string,

@@ -1,10 +1,10 @@
 <ion-header >
   <ion-toolbar lines="none">
     <ion-icon src="../../assets/icon/topoRequest.svg" class="ion-padding"slot="start" (click)="onBack()"></ion-icon>
-    <ion-icon src="../../assets/icon/editIcon.svg" disabled="true" class="ion-padding icon-green" slot="end" (click)="openModal()"  [ngClass]="{'disabled': !requisicaoId}"></ion-icon>
+    <ion-icon src="../../assets/icon/editIcon.svg" disabled="true" class="ion-padding icon-green" slot="end" (click)="openModal()"  [ngClass]="{'disabled': !requisicaoId}" *ngIf="hasButtonFinish"></ion-icon>
     
     <ion-title class="ion-text-center">
-      Nova Requisição
+      {{!!getCode ? 'Nº: '+getCode : 'Nova Requisição'}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +20,7 @@
       </ion-col>
     </ion-row>
     <app-request-form *ngIf="step == 0" #appChild (sendReq)="sendReq($event)" (UpdateForm)="UpdateForm($event)" [getFormForStore]="getFormForStore" (setFormForStore)="setFormForStore($event)"></app-request-form>
-    <app-insumo *ngIf="step == 1"  [validForm]="validForm" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId" (updateStep)="updateStep($event)" (setFormForStore)="setFormForStore($event)"> </app-insumo>
+    <app-insumo *ngIf="step == 1"  [validForm]="validForm" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId" (updateStep)="updateStep($event)" (updateButton)="updateButton($event)" (setFormForStore)="setFormForStore($event)"> </app-insumo>
     <app-documents *ngIf="step == 2" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId"></app-documents>
   </ion-grid>  
 </ion-content>

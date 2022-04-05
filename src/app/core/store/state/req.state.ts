@@ -5,6 +5,7 @@ import { ReqIntefaceModel } from '../models/req.model';
 const defaults:ReqIntefaceModel = {
   requisicaoId:null,
   motivoId: null,
+  codigoExterno:null,
   observacao: null,
   empreendimentoId: null,
   ofDescontoMaterial: null,
@@ -21,7 +22,10 @@ const defaults:ReqIntefaceModel = {
   providedIn: 'root'
 })
 export class ReqState {
-
+  @Selector()
+  static getNumberValue(state: ReqIntefaceModel): Number {
+    return state.codigoExterno
+  }
   @Selector()
   static validEmpreendimentoId(state: ReqIntefaceModel) {
     return !!state.empreendimentoId;

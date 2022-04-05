@@ -7,6 +7,7 @@ import {translateAnimation,rotateAnimation} from '@services/animation/custom-ani
 import { Store } from '@ngxs/store';
 import {ResetStateReq} from '@core/store/actions/req.actions'
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
   selector: 'app-modal-finish-req',
   templateUrl: './modal-finish-req.component.html',
@@ -34,7 +35,8 @@ export class ModalFinishReqComponent implements OnInit {
     private updateRequestStatus: UpdateRequestStatus,
     private formBuilder: FormBuilder,
     private toastController:ToastController,
-    private store:Store
+    private store:Store,
+    private router:Router
   ){
     this.formStatus = this.formBuilder.group({
       satusId:  new FormControl(null, [Validators.required]),
@@ -75,9 +77,12 @@ export class ModalFinishReqComponent implements OnInit {
     }else if(satusId ===1){
       body = {id:this.id,versaoEsperada:this.versaoEsperada,}
     }
-    this.updateRequestStatus.sendReq(url,body).then(res =>{
+    this.updateRequestStatus.sendReq(url,body).then(async(res) =>{
     this.sendLoading = false;
-    this.hasFinish = !this.hasFinish
+    this.hasFinish = !this.hasFinish;
+    this.resetReq();
+    this.router.navigate(['/tabs/home']);
+    await this.openErrorToast('Status Atualizado com sucesso')
     },async(err) =>{
       this.sendLoading = false;
       await this.openErrorToast(err.Mensagem)

@@ -21,7 +21,7 @@
           <ion-col size="6">
             <ion-item>
               <ion-label position="stacked">Nº Requisição</ion-label>
-              <p>154</p>
+              <p>{{reqItem.codigo}}</p>
             </ion-item>
           </ion-col>
           <ion-col  size="6">
@@ -73,8 +73,11 @@
           <p>{{reqItem.observacao}}</p>
         </ion-item>
         <ion-row class="ion-justify-content-center">
-          <ion-col size="6">
+          <ion-col size="10">
             <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar</ion-button>
+          </ion-col>
+          <ion-col size="10" *ngIf="reqItem.statusDescricao == 'Nao Concluido'">
+            <ion-button class="btnRedondo btnVoltar" (click)="editReq()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Editar Requesicao</ion-button>
           </ion-col> 
         </ion-row>
       </ion-col>   

@@ -27,7 +27,7 @@
       <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="sendForm()" [disabled]="!hasValidForm || sendLoading">
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
-        {{!sendLoading ? 'Enviar' :'' }}
+        {{!sendLoading ? 'Confirmar' :'' }}
       </ion-button>
     </ion-col>
   </ion-row>

@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import * as moment from 'moment';
 import {RequestsEndPoints} from '../utils/enums/EnumRequest'
 import {tap,switchMap} from 'rxjs/operators';
+import { ReqIntefaceModel } from '@core/store/models/req.model';
 import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds} from '@core/store/actions/req.actions'
 @Injectable({
@@ -46,6 +47,26 @@ import {setReqFileds} from '@core/store/actions/req.actions'
           },
           error => {
             console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    getCurrentReq(id = null, endPoint = 'GetVersion'){
+      return new Observable((observer) => {
+        this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
+          async(res:any) => {
+            let result = res.resultado;
+            result.empreendimentoId =  result.empreendimentoID;
+            result.requisicaoId = result.id;
+            result.versaoEsperada = result.version
+            delete result["id"];
+            delete result["empreendimentoID"];
+            delete result["version"];
+            this.store.dispatch(new setReqFileds(result))
+            observer.next(res.resultado);
+          },
+          error => {
             observer.error(error);
           }
         )
@@ -145,7 +166,7 @@ import {setReqFileds} from '@core/store/actions/req.actions'
     sendDocument(form,id,version,endPoint ='posDocument'){
       let fd = new FormData();
       fd.append('file', form[0]);
-      console.log('sendDocument',fd)
+     
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
         fd
