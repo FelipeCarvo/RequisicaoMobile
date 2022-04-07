@@ -63,9 +63,15 @@ export class homePage {
   }
   getReq(){
     this.load = false;
+    let hour = {
+      hour: 24,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }
     const params = {
       dataInicial: moment(this.dataInicial).format(),
-      dataFinal: moment(this.dataFinal).set("hour", 24).format(),
+      dataFinal: moment(this.dataFinal).set(hour).format(),
       retificada: "Todos",
       vistada: "Todos",
       situacao: "Todas",
@@ -74,7 +80,7 @@ export class homePage {
       exportadoConstruCompras: "Todos"
       
     }
-    console.log(moment(this.dataFinal).format())
+    console.log( moment(this.dataInicial).set(hour).format("hh:mm:ss a"))
     this.rquestService.getReq(params).subscribe((res:any) =>{
       if(!!this.empreendimentoDescricao){
         this.listReq = res.filter(el => el.empreendimento === this.convertNumber(this.empreendimentoDescricao));​

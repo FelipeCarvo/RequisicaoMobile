@@ -76,7 +76,8 @@ import {setReqFileds} from '@core/store/actions/req.actions'
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
-            this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version}))
+            console.log('res',res)
+            this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version,codigoExterno:res.resultado.codigoExterno}))
             observer.next(res.resultado.version);
           },
           error => {

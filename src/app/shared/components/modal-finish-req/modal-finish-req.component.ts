@@ -82,7 +82,7 @@ export class ModalFinishReqComponent implements OnInit {
     this.hasFinish = !this.hasFinish;
     this.resetReq();
     this.router.navigate(['/tabs/home']);
-    await this.openErrorToast('Status Atualizado com sucesso')
+    await this.openErrorToast('Requisição finalizada com sucesso')
     },async(err) =>{
       this.sendLoading = false;
       await this.openErrorToast(err.Mensagem)
