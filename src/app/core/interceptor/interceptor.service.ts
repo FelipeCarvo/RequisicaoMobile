@@ -23,7 +23,6 @@ export class Interceptor implements HttpInterceptor {
     let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
     let documentUrl  = request.url.includes('sieconwebsuprimentos/api/RequisicaoDocumentos');
-    console.log(documentUrl,'aquiii')
     let isAuthenticated = this.store.selectSnapshot(AuthUser.isAuthenticated);
     if(tokenUrl){
       request = request.clone(

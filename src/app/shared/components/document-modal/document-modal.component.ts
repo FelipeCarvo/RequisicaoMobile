@@ -1,5 +1,6 @@
 import { Component, OnInit,Input,Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 export default interface archivesInterface {
   name:String;
   id:Number;
@@ -7,7 +8,8 @@ export default interface archivesInterface {
   file:any;
   simpleType:String;
   size:Number;
-  filePath?:any
+  filePath?:any,
+  descripition?:String;
 }
 @Component({
   selector: 'app-document-modal',
@@ -17,7 +19,7 @@ export default interface archivesInterface {
 export class DocumentModalComponent implements OnInit {
   @Input('versaoEsperada') versaoEsperada:Number;
   @Input('requisicaoId') requisicaoId:String;
-  @Input('archives') archives:Array<{}> = [];
+  @Input('archives') archives:Array<archivesInterface> = [];
   loaded:boolean= false;
   file:any;
   slideOpts = {
@@ -28,29 +30,37 @@ export class DocumentModalComponent implements OnInit {
   base64textString:string;
   constructor(
     public modalController: ModalController,
+    private alertServices: AlertServices,
   ) {
     
    }
 
   ngOnInit() {
-    console.log('archives',this.archives)
+
   }
-
+  async editDescription(id,i){
+    let item = this.archives.find(a => a.id === id);
+    console.log(i);
+    const descripition = await this.alertServices.alertDescription(item.descripition);
+    this.archives[i].descripition = descripition;
+  }
+  async deleteItem(id){
+    this.archives =  this.archives.filter(obj => obj.id !== id);
+  }
   async changeListener(e) : Promise<void> {
-
     this.file = (e.target as HTMLInputElement).files[0];
     let simpleType = this.simpleType(this.file.type);
-    console.log(this.file)
+    const descripition = await this.alertServices.alertDescription();
     const obj:archivesInterface = {
       id: this.archives.length + 1,
       name: this.file.name,
       type: this.file.type,
       file:this.file,
       size:this.file.size,
-      simpleType
+      simpleType,
+      descripition
 
     }
-    console.log(obj);
     if(!!this.file.type.includes('image') && !this.file.type.includes('svg')){
       const reader = new FileReader();
       reader.onload = () => {

@@ -29,7 +29,7 @@ export class RequestPage implements OnInit {
     { key: 0, title: "Requisição",enabled:true},
     { key: 1, title: "Insumos",enabled:this.validStep},
     { key: 2, title: "Documentos",enabled:this.validStep},
-   
+    { key: 3, title: "Justificativa",enabled:this.validStep},
   ]
   constructor(
     public navCtrl:NavController,
@@ -67,7 +67,6 @@ export class RequestPage implements OnInit {
     return this.store.selectSnapshot(ReqState.getVersaoEsperada);
   }
   public get getCode(){
-    console.log(this.store.selectSnapshot(ReqState.getNumberValue))
     return this.store.selectSnapshot(ReqState.getNumberValue)
   }
   ngOnInit() {

@@ -105,7 +105,42 @@ export class AlertServices {
       message: msg,
       buttons: ['OK']
     });
-
     await alert.present();
+  }
+  public async alertDescription(desc: String = ''): Promise<any>{
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Adicionar descrição',
+      inputs: [
+        {
+          name: 'desc',
+          placeholder: 'descrição',
+          cssClass: 'alert-input',
+          value: desc
+          
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button'
+        }, 
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          cssClass: 'confirm-button'
+        }
+      ]
+    });
+    await alert.present();
+    const {role,data} = await alert.onDidDismiss();
+    let result;
+    if (role === 'confirm') {
+      result = data.values.desc
+    }else{
+      result = '';
+    }
+    return result
   }
 }

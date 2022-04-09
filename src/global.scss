@@ -355,6 +355,17 @@ ion-app{
     }
 
 }
+.alert-input{
+    color: #A0A0AE!important;
+}
+.modal-documents{
+    --border-radius: 18px 18px 0px 0px;
+    --background:#fff;
+    // --border-radius: 18px 18px 0px 0px;
+    ion-content{
+        --background:#fff;
+    }
+}
 .modalFinishReq{
     --background:#fff;
     // --border-radius: 18px 18px 0px 0px;

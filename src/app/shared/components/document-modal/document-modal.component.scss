@@ -34,9 +34,24 @@ ion-label{
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
+
 .box-image{
   border: 1px solid #EAECED;
   overflow: hidden;
+  .icons{
+    --background:#EAECED;
+    ion-row{
+      width: 100%;
+      .icon{
+        font-size: 25px!important;
+        display: flex;
+        .edit{
+          color: #2CBC63;
+          
+        }
+      }
+    }
+  }
 
   .title-archive{
     ion-icon{

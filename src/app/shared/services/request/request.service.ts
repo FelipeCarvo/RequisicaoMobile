@@ -76,7 +76,6 @@ import {setReqFileds} from '@core/store/actions/req.actions'
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
-            console.log('res',res)
             this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version,codigoExterno:res.resultado.codigoExterno}))
             observer.next(res.resultado.version);
           },
@@ -130,7 +129,7 @@ import {setReqFileds} from '@core/store/actions/req.actions'
       return new Observable((observer) => {
         req.pipe(
           tap((response:any) => {
-           console.log('tap',response);
+
           
           }),
           switchMap((postReRes:any) => {
@@ -150,7 +149,7 @@ import {setReqFileds} from '@core/store/actions/req.actions'
           })
         ).subscribe(
           async(res:any) => {
-            console.log('subscribe',res);
+
             
             observer.next({versaoEsperada:res,requisicaoId:this.getStore.requisicaoId});
           },
