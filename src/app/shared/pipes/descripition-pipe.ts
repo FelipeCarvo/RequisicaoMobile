@@ -31,12 +31,11 @@ export class filterType implements PipeTransform {
     }
     else{
      if(Hasfilter){
-       retorno = content.replace(/\d+|^\s+|\s+$/g,'').split('-')[2];
+      retorno = content.replace(/[^0-9]/g,'');
        console.log(retorno);
      }
      else{
-      retorno = content.replace(/[^0-9]/g,'');
-      
+      retorno = content
      }
     }
 
