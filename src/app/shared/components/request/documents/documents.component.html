@@ -6,8 +6,9 @@
       </ion-item>
       <ion-item [lines]="!archivesValid ? 'none':'full'">
         <ion-row class="ion-justify-content-center"  style="width:100%" >
+          <input class="ion-hide" #f type="file" (change)="changeListener($event)" id="file-input">
           <ion-col size="9"class="ion-margin-vertical">
-            <ion-button  (click)="showModal()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
+            <ion-button  (click)="f.click()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
           </ion-col>
         </ion-row>
       </ion-item>
@@ -17,13 +18,23 @@
       <ion-item  lines="none">
         <ion-label>Documentos em anexo</ion-label>
       </ion-item>
-      <ion-item  lines="none" *ngFor="let item of archives;" class="archive-item">
+      <ion-item  lines="none" *ngFor="let item of archives;let i = index" class="archive-item">
         <ion-row style="width: 100%;" class="ion-align-items-center">
           <ion-col size="4">
             <img [src]="item?.filePath" *ngIf="item?.filePath">
             <app-no-image-icon [typeFile]="item.type" *ngIf="!item.filePath"></app-no-image-icon>
           </ion-col>
           <ion-col size="8" class="box-desc">
+            <div class="icons">
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                <ion-col size="6" class="icon ion-text-left">
+                  <ion-icon name="create-outline" class="edit" (click)="editDescription(item.id,i)"></ion-icon>
+                </ion-col>
+                <ion-col size="6" class="icon ion-text-right" >
+                  <ion-icon name="trash-outline"  (click)="deleteItem(item.id)"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </div>
             <p class="date ion-no-margin">{{item.file.lastModifiedDate|momentPipe}}</p>
             <p class="title">{{!!item.descripition? item.descripition: item.name}}</p>
             <p class="size ion-no-margin">

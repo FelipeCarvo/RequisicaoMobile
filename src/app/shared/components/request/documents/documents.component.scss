@@ -60,3 +60,20 @@ ion-item{
 .noImageDiv{
     background: transparent!important;
 }
+.icons{
+    position: absolute;
+    right: 0;
+    top: 0;
+    --background:#EAECED;
+    ion-row{
+      width: 100%;
+      .icon{
+        font-size: 25px!important;
+        display: flex;
+        .edit{
+          color: #2CBC63;
+          
+        }
+      }
+    }
+  }

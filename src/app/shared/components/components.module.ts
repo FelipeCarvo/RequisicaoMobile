@@ -13,7 +13,7 @@ import { IonicModule } from '@ionic/angular';
 import{ListInsumosComponent} from './list-insumos/list-insumos.component';
 import {ListInsumosByReqComponent} from './list-insumos-by-req/list-insumos-by-req.component'
 import { DatePipe } from '@angular/common';
-import {Descripitionpipe} from '../pipes/descripition-pipe';
+import {Descripitionpipe,filterType} from '../pipes/descripition-pipe';
 import {imageTypepipe} from '../pipes/image-type-pipe';
 import {DisableControlDirective} from '../directives/disabled-input';
 import {DocumentModalComponent} from '../components/document-modal/document-modal.component'
@@ -30,7 +30,8 @@ import {ListJustificativaComponent} from '../components/list-justificativa/list-
 const providers = [
   statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,
   NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe,
-  fullDate
+  fullDate,
+  filterType
 ]
 const matModules = [
   MatAutocompleteModule,

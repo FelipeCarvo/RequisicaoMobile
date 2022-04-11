@@ -14,7 +14,7 @@ const routes: Routes = [
         data:{noHeader:true},
       },
       {
-        path: 'consulta-estoque',
+        path: 'consulta-estoque/:id',
         loadChildren: () => import('../consulta-estoque/consulta-estoque.module').then( m => m.ConsultaEstoquePageModule),
         data:{noHeader:true},
       },

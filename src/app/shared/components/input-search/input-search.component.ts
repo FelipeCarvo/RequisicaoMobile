@@ -40,6 +40,7 @@ export class InputSearchComponent implements OnInit {
   refreshLoad= false;
   noSearchResult = false;
   disablebuttonTest = false;
+  filterDesc = false;
   constructor(
     private loockupstService:LoockupstService,
     private cdr: ChangeDetectorRef

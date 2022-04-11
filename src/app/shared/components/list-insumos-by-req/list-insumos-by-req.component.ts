@@ -1,5 +1,6 @@
 import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations'
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-list-insumos-by-req',
   templateUrl: './list-insumos-by-req.component.html',
@@ -23,7 +24,9 @@ export class ListInsumosByReqComponent implements OnInit {
   @Output() editInsumo:EventEmitter<any> = new EventEmitter();
   @Output() excludeInsumo:EventEmitter<any> = new EventEmitter();
   showButtons:boolean = false;
-  constructor() { }
+  constructor(
+    public router: Router,
+  ) { }
 
   ngOnInit() {}
   editItem(id){
@@ -34,6 +37,9 @@ export class ListInsumosByReqComponent implements OnInit {
   }
   displayButtons(){
     this.showButtons = !this.showButtons;
+  }
+  controleEstoque(id){
+    this.router.navigate(['tabs/central-req/consulta-estoque/'+id]);
   }
 
 }

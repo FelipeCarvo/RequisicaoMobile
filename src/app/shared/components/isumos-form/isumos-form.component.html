@@ -152,25 +152,6 @@
           <ion-toggle formControlName="gerarAtivoImobilizado"></ion-toggle>
         </ion-item>
       </ion-list>
-      <!-- <ion-radio-group>
-        <ion-label>Status</ion-label>
-          <ion-item lines="none"  class="status">
-            <ion-label class="aprovado">Ativo</ion-label>
-            <ion-radio value="cord" slot="start"></ion-radio>
-          </ion-item>
-          <ion-item lines="none"  class="status">
-            <ion-label class="suspenso">Suspenso</ion-label>
-            <ion-radio value="duesenberg"slot="start"> </ion-radio>
-          </ion-item>
-          <ion-item  lines="none" class="status">
-            <ion-label class="cancelado">Cancelado</ion-label>
-            <ion-radio value="hudson" slot="start"></ion-radio>
-          </ion-item>
-      </ion-radio-group>
-      <ion-item lines="none" class="box ion-margin-vertical">
-        <ion-label position="floating">Justificativa do Status</ion-label>
-        <ion-textarea placeholder="Enter more information here..."></ion-textarea>
-      </ion-item> -->
       <ion-item  lines="none" class="box ion-margin-vertical" >
         <app-input-search label="Bloco"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" [parentForm]="reqFormInsumos"   controlName="blocoId" ngDefaultControl></app-input-search>
 

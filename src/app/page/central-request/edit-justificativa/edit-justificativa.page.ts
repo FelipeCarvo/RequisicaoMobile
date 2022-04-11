@@ -70,7 +70,7 @@ export class EditJustificativaPage implements OnInit {
         duration: 2000
       });
       toast.present();
-      console.log(res)
+      this.navCtrl.back();
     },async(error) =>{
       console.log(error)
       const toast = await this.toastController.create({

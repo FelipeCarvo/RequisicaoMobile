@@ -114,7 +114,6 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
-
     postReqTwo(params , type){
       const {requisicaoId,versaoEsperada} = this.getStore;
       const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
@@ -186,6 +185,19 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
+    getEstoque(params){
+      return new Observable((observer) => {
+        this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ConsultaEstoque`,params).subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
     editJustifcativa(params){
       return new Observable((observer) => {
         this.http.put(`${this.sieconwebsuprimentos}/Requisicao/AtualizarJustificativa`,params)
@@ -212,7 +224,6 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
         fd
         ).pipe(switchMap(res =>{
-          console.log('res',res,)
           return this.getVersion(this.requisicaoId)
         })).subscribe(
           async(res:any) => {

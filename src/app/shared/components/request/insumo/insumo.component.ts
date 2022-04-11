@@ -60,6 +60,9 @@ export class InsumoComponent implements OnInit {
       this.insumosRequest.deleteById(params).then((res:any) =>{
         var index = this.listInsumos.findIndex((o)=>o.id === id);
        if (index !== -1) this.listInsumos.splice(index, 1);
+       if(this.listInsumos.length == 0){
+        this.updateButton.emit(false)
+       }
         this.loadingService.dismiss();
         
       })

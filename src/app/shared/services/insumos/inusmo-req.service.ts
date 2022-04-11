@@ -39,6 +39,9 @@ export interface InsumoInterface {
       private store:Store,
       private requestService:RequestService
       ){}
+    public get ReqId(){
+      return this.store.selectSnapshot(ReqState.getReqId);
+    }  
     getObject(form){
       const{requisicaoId,versaoEsperada}=this.store.selectSnapshot(ReqState.getReq);
       const obj:InsumoInterface = <InsumoInterface>{requisicaoId,versaoEsperada, ...form};
@@ -122,6 +125,7 @@ export interface InsumoInterface {
     }
     getInsumoById(id){
       return new Promise((resolve, reject) => {
+
         this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ItensRequisicao/${id}`,{}).subscribe(
           async(res:any) => {
             resolve(res.resultado);
@@ -135,7 +139,9 @@ export interface InsumoInterface {
     }
     getItemEdit(id){
       return new Promise((resolve, reject) => {
-        this.http.get(`${this.sieconwebsuprimentos}/ItemRequisicao?${id}`).subscribe(
+        this.http.get(`${this.sieconwebsuprimentos}/ItemRequisicao?${id}`)
+
+        .subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },
@@ -148,7 +154,13 @@ export interface InsumoInterface {
     }
     deleteById(params){
       return new Promise((resolve, reject) => {
-        this.http.delete(`${this.sieconwebsuprimentos}/ItemRequisicao?${params}`).subscribe(
+        this.http.delete(`${this.sieconwebsuprimentos}/ItemRequisicao?${params}`)
+        .pipe(
+          switchMap((res:any) => { 
+            return this.requestService.getVersion(this.ReqId)
+          })
+        )
+        .subscribe(
           async(res:any) => {
             resolve(res.resultado);
           },

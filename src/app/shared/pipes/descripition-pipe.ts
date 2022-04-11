@@ -22,3 +22,24 @@ export class Descripitionpipe implements PipeTransform {
     // return numsStr  
   }
 }
+@Pipe({name: 'filterType'})
+export class filterType implements PipeTransform {
+  transform(content:string,name:string,Hasfilter:boolean): String {
+    let retorno;
+    if(name !='insumoId'){
+      retorno = content
+    }
+    else{
+     if(Hasfilter){
+       retorno = content.replace(/\d+|^\s+|\s+$/g,'').split('-')[2];
+       console.log(retorno);
+     }
+     else{
+      retorno = content.replace(/[^0-9]/g,'');
+      
+     }
+    }
+
+    return retorno
+  }
+}
