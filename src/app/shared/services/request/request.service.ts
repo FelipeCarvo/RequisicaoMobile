@@ -160,8 +160,49 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
-    setVersion(res){
-
+    getJustifcativa(id = null){
+      return new Observable((observer) => {
+        this.http.get(`${this.sieconwebsuprimentos}/Requisicao/${id}/Justificativas`).subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    getJustifcativaDetail(id = null){
+      return new Observable((observer) => {
+        this.http.get(`${this.sieconwebsuprimentos}/Requisicao/Justificativa?id=${id}`).subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    editJustifcativa(params){
+      return new Observable((observer) => {
+        this.http.put(`${this.sieconwebsuprimentos}/Requisicao/AtualizarJustificativa`,params)
+        .pipe(switchMap(res =>{
+          console.log('res',res,)
+          return this.getVersion(this.requisicaoId)
+        }))
+        .subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
     }
     sendDocument(form,id,version,endPoint ='posDocument'){
       let fd = new FormData();

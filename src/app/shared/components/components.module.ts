@@ -23,9 +23,14 @@ import {NumberDirective} from '../directives/number-directive'
 import {momentPipe} from '../pipes/moment-pipe'
 import {MosuePositionDirective} from '../directives/mouse-position'
 import {statusPipe,statusMoment} from '../pipes/status.pipe'
+import {fullDate} from '../pipes/date-full-pipe'
 import {sizeFormatPipe} from '../pipes/format-size-pipe'
+import {JustificativaComponent} from '../components/request/justificativa/justificativa.component'
+import {ListJustificativaComponent} from '../components/list-justificativa/list-justificativa.component'
 const providers = [
-  statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe
+  statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,
+  NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe,
+  fullDate
 ]
 const matModules = [
   MatAutocompleteModule,
@@ -42,7 +47,9 @@ const components = [
   ListInsumosByReqComponent,
   DocumentModalComponent,
   NoImageIconComponent,
-  FilterReqComponent
+  FilterReqComponent,
+  JustificativaComponent,
+  ListJustificativaComponent
 ]
 @NgModule({
  

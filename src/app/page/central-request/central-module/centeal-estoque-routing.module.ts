@@ -28,6 +28,11 @@ const routes: Routes = [
         loadChildren: () => import('../list-insumos/list-insumos.module').then( m => m.ListInsumosPageModule),
         data:{noHeader:true},
       },
+      {
+        path: 'edit-justificativa/:justificativaId',
+        loadChildren: () => import('../edit-justificativa/edit-justificativa.module').then( m => m.EditJustificativaPageModule),
+        data:{noHeader:true},
+      }
     ]  
   }
 ];

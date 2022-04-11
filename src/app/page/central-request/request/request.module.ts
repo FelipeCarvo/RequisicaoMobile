@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import {sharedModules} from '@components/components.module'
 import { RequestPageRoutingModule } from './request-routing.module';
 import {RequestFormComponentModule} from '@components/request/request-form/resquest-form.module'
 import {InsumoComponentModule} from '@components/request/insumo/insumo.module'
@@ -10,6 +11,7 @@ import {DocumentsComponentComponentModule} from '@components/request/documents/d
 
 @NgModule({
   imports: [
+    sharedModules,
     CommonModule,
     FormsModule,
     IonicModule,

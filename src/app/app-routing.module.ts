@@ -9,7 +9,11 @@ const routes: Routes = [
   {
     path: 'list-insumos',
     loadChildren: () => import('./page/central-request/list-insumos/list-insumos.module').then( m => m.ListInsumosPageModule)
-  }
+  },
+  // {
+  //   path: 'edit-justificativa',
+  //   loadChildren: () => import('./page/central-request/edit-justificativa/edit-justificativa.module').then( m => m.EditJustificativaPageModule)
+  // }
 
 
   // {
