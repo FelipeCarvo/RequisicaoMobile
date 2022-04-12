@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-justificativa',
   templateUrl: './edit-justificativa.page.html',
@@ -25,6 +26,7 @@ export class EditJustificativaPage implements OnInit {
     private formBuilder: FormBuilder,
     private store:Store,
     private toastController:ToastController,
+    private router:Router
   ) { }
   public get requisicaoId(){
     return this.store.selectSnapshot(ReqState.getReqId);
@@ -44,7 +46,9 @@ export class EditJustificativaPage implements OnInit {
     });
   }
   public dismiss(): void {
-    this.navCtrl.back();
+   
+    this.router.navigate(['tabs/central-req/nova-req',{number:3}]);
+    // this.navCtrl.back();
   }
   getJustifcativa(){
     console.log(!!this.justificativa)
@@ -70,7 +74,7 @@ export class EditJustificativaPage implements OnInit {
         duration: 2000
       });
       toast.present();
-      this.navCtrl.back();
+     this.dismiss();
     },async(error) =>{
       console.log(error)
       const toast = await this.toastController.create({

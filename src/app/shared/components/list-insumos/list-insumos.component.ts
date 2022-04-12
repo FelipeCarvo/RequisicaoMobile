@@ -1,4 +1,4 @@
-import { Component,OnInit, Input } from '@angular/core';
+import { Component,OnInit, Input,Output,EventEmitter } from '@angular/core';;
 
 @Component({
   selector: 'app-list-insumos-cp',
@@ -9,6 +9,7 @@ import { Component,OnInit, Input } from '@angular/core';
 export class ListInsumosComponent implements OnInit {
   @Input() item: any;
   @Input() loaded:boolean;
+  @Output()goToInsumoEmpreendimento:EventEmitter<any> = new EventEmitter();;
   constructor() { }
 
   ngOnInit() {}

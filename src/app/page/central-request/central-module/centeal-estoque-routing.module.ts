@@ -32,7 +32,12 @@ const routes: Routes = [
         path: 'edit-justificativa/:justificativaId',
         loadChildren: () => import('../edit-justificativa/edit-justificativa.module').then( m => m.EditJustificativaPageModule),
         data:{noHeader:true},
-      }
+      },
+      {
+        path: 'reserva-insumo',
+        loadChildren: () => import('../reserva-insumo/reserva-insumo.module').then( m => m.ReservaInsumoPageModule),
+        data:{noHeader:true},
+      },
     ]  
   }
 ];

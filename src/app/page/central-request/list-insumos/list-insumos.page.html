@@ -15,7 +15,7 @@
         <h1>Resultado para empreendimentos</h1>
       </ion-col>
       <ion-col size="12" class="ion-text-center"*ngFor="let item of listInsumos; let i = index" >
-        <app-list-insumos-cp style="width: 100%;" [item]="item" [loaded]="load" ></app-list-insumos-cp>
+        <app-list-insumos-cp style="width: 100%;" [item]="item" [loaded]="load" (goToInsumoEmpreendimento)="goToInsumoEmpreendimento($event)"></app-list-insumos-cp>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -5,21 +5,21 @@
     <ion-row>
       <ion-col size="3">
         <ion-card-title>Codigo</ion-card-title>
-        <ion-card-subtitle>19000</ion-card-subtitle>
+        <ion-card-subtitle>{{item.empreendimento}}</ion-card-subtitle>
       </ion-col>
       <ion-col siz="9">
         <ion-card-title>Descrição</ion-card-title>
-        <ion-card-subtitle>Capão Bonito</ion-card-subtitle>
+        <ion-card-subtitle>{{item.empreendimentoDescricao}}</ion-card-subtitle>
       </ion-col>
     </ion-row>
   </ion-card-header>
   <ion-card-content>
     <ion-col>
       <ion-label>Em estoque</ion-label>
-      <p>20,00000   Un</p>
+      <p>{{item.quantidadeEstoque}}   {{item.unidade}}</p>
     </ion-col>
     <ion-col>
-      <ion-button>Reservar</ion-button>
+      <ion-button (click)="goToInsumoEmpreendimento.emit(item)">Reservar</ion-button>
     </ion-col>
   </ion-card-content>
 </ion-card>

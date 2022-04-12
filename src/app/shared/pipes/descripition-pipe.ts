@@ -31,7 +31,7 @@ export class filterType implements PipeTransform {
     }
     else{
      if(Hasfilter){
-      retorno = content.replace(/[^0-9]/g,'');
+      retorno = content.split('-')[0];
        console.log(retorno);
      }
      else{

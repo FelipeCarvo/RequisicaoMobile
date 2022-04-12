@@ -11,7 +11,7 @@ import {tap,switchMap} from 'rxjs/operators';
 import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
-
+import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -40,7 +40,7 @@ export class RequestPage implements OnInit {
     public loading: LoadingService,
     private alertServices: AlertServices,
     private updateRequestStatus: UpdateRequestStatus,
-
+    private route:ActivatedRoute
   ) 
   {  
     this.store
@@ -70,9 +70,18 @@ export class RequestPage implements OnInit {
     return this.store.selectSnapshot(ReqState.getNumberValue)
   }
   ngOnInit() {
-    if(!!this.requisicaoId){
-      this.step = 1;
+    let {params} = this.route.snapshot;
+    if(!!params.number){
+      setTimeout(() =>{
+        this.step = parseInt(params.number)
+      },200)
+
+    }else{
+      if(!!this.requisicaoId){
+        this.step = 1;
+      }
     }
+
   }
   updateButton(val){
     this.hasButtonFinish = val;

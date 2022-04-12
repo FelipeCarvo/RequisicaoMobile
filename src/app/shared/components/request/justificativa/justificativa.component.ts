@@ -21,8 +21,12 @@ export class JustificativaComponent implements OnInit {
   ) { 
     
   }
-
+  ngAfterViewInit(){
+    console.log('ngAfterContentInit')
+    this.getJustifcativa()
+  }
   ngOnInit() {
+    console.log('ngOnInit')
    this.getJustifcativa()
   }
   getJustifcativa(){
@@ -30,7 +34,7 @@ export class JustificativaComponent implements OnInit {
     this.requestService.getJustifcativa(this.requisicaoId).subscribe((res:any) =>{
       this.load = true;
       this.justificativaList = res;
-      console.log(this.justificativaList)
+   
       this.loading.dismiss();
     })
   }

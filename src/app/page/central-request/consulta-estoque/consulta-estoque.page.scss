@@ -1,6 +1,29 @@
 .header-md::after{
     content: none!important;
 }
+ion-icon{
+    margin: 0;
+}
+.estoqueIcon{
+    ion-icon{
+        position: absolute;
+        font-size: 20px;
+        color: green;
+        right: 13px;
+        z-index: 222;
+        top: calc(50% + -10px);
+        &.disabled{
+            color: #EB5757!important;
+        }
+    }
+
+}
+.disabledSearch{
+    ion-icon{
+        color: #BDBDBD!important;
+    }
+
+}
 ion-header{
     height: 100px;
     ::after{
@@ -72,7 +95,7 @@ ion-row{
 }
 .boxBlueConsulta{
     background-color: #4682B4;
-    ion-checkbox{
+    ion-radio{
         --background:transparent;
         margin-inline-end: 5px;
         --color:#CDE8FF;

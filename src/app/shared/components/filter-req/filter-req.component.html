@@ -39,7 +39,7 @@
         </div>
       </ion-item> 
       <div id="date-fim" #dataFinal >
-        <ion-popover trigger="date-fim" alignment="center" :show-backdrop="true" size="cover" side="top">
+        <ion-popover trigger="date-fim" [dismissOnSelect]="true" alignment="center" :show-backdrop="true" size="cover" side="top">
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR" 
               [value]="_dataInicio" picker-format="MMMM DD, YYYY" 

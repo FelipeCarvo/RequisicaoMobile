@@ -24,9 +24,8 @@ export class DocumentsComponent implements OnInit {
   @Input() versaoEsperada:Number;
   @Input()requisicaoId:String;
   archives:Array<archivesInterface> = [];
-  loaded:boolean= false;
   file:any;
-  base64textString:string;
+  loadButton:Boolean = false;
   constructor(
     public modalController: ModalController,
     private requestService:RequestService,
@@ -45,7 +44,11 @@ export class DocumentsComponent implements OnInit {
     this.archives[i].descripition = descripition;
   }
   async deleteItem(id){
+    this.loadButton = true;
     this.archives =  this.archives.filter(obj => obj.id !== id);
+    setTimeout(()=>{
+      this.loadButton = false;
+    },200)
   }
   async changeListener(e) : Promise<void> {
     this.file = (e.target as HTMLInputElement).files[0];
@@ -67,12 +70,15 @@ export class DocumentsComponent implements OnInit {
         obj.filePath = reader.result as string
         setTimeout(()=>{
           this.archives.push(obj);
-         
+          this.loadButton = false;
         },200)
       }
       reader.readAsDataURL(this.file)
     }else{
       this.archives.push(obj);
+      setTimeout(()=>{
+        this.loadButton = false;
+      },200)
     }
   }
   simpleType(type){

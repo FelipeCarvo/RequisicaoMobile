@@ -48,7 +48,7 @@
       <ion-item lines="full">
         <ion-row class="ion-justify-content-center"  style="width:100%" >
           <ion-col size="9"class="ion-margin-vertical">
-            <ion-button  (click)="sendArchive()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Enviar</ion-button>
+            <ion-button  (click)="sendArchive()" class="btnRedondo btnVoltar" type="submit" expand="block" [disabled]="loadButton"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Enviar</ion-button>
           </ion-col>
         </ion-row>
       </ion-item>

@@ -90,9 +90,10 @@
       </ion-item>
       <div #diaUtil id="open-date-input-diff"  style="height: 0;">
         <ion-col size="12">
-          <ion-popover trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
+          <ion-popover  [dismissOnSelect]="true" trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
               <ion-datetime 
+               
                 presentation="date" locale="pt-BR"  
                 [value]="currentDay" 
                 picker-format="MMMM DD, YYYY" 
@@ -122,7 +123,7 @@
       </ion-item>
       <div id="open-date-input" #prazoDate style="height: 0;">
         <ion-col size="12">
-          <ion-popover trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
+          <ion-popover [dismissOnSelect]="true" trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
               <ion-datetime presentation="date" locale="pt-BR" 
                 [value]="currentDay" picker-format="MMMM DD, YYYY" 
