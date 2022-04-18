@@ -285,7 +285,7 @@ import { NavParams } from '@ionic/angular';
     deleteDocument(form,endPoint ='posDocument'){
       console.log(form,endPoint)
       return new Observable((observer) => {
-        this.http.delete(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}?DocumentoId=${form.documentoId}&Id${form.id}&VersaoEsperada=${form.versaoEsperada}`
+        this.http.delete(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}?DocumentoId=${form.documentoId}&Id=${form.id}&VersaoEsperada=${form.versaoEsperada}`
         ).pipe(switchMap(res =>{
           return this.getVersion(this.requisicaoId)
         })).subscribe(
