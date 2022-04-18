@@ -27,6 +27,10 @@ import {fullDate} from '../pipes/date-full-pipe'
 import {sizeFormatPipe} from '../pipes/format-size-pipe'
 import {JustificativaComponent} from '../components/request/justificativa/justificativa.component'
 import {ListJustificativaComponent} from '../components/list-justificativa/list-justificativa.component'
+import {ModalEstoqueComponent} from '../components/modal-estoque/modal-estoque.component'
+import {StepOneComponent} from '../components/estoque/step-one/step-one.component'
+import {StepTwoComponent} from '../components/estoque/step-two/step-two.component'
+import {DocumentItemComponent} from '../components/document-item/document-item.component'
 const providers = [
   statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,
   NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe,
@@ -39,7 +43,10 @@ const matModules = [
   MatInputModule,
 ]
 const components = [
+  DocumentItemComponent,
+  StepOneComponent,
   SpinnerComponent,
+  StepTwoComponent,
   InputSearchComponent,
   ListRequest,
   ModalFinishReqComponent,
@@ -50,7 +57,8 @@ const components = [
   NoImageIconComponent,
   FilterReqComponent,
   JustificativaComponent,
-  ListJustificativaComponent
+  ListJustificativaComponent,
+  ModalEstoqueComponent
 ]
 @NgModule({
  

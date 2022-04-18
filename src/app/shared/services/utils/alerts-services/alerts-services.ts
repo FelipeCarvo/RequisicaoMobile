@@ -107,6 +107,43 @@ export class AlertServices {
     });
     await alert.present();
   }
+  public async quantidadeRes(qtd:number = 0): Promise<any>{
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-alert ',
+      header: 'Quantidade da reserva',
+      inputs: [
+        {
+          name: 'qtd',
+          placeholder: 'Quantidade',
+          cssClass: 'alert-input',
+          value: qtd
+          
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button'
+        }, 
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          cssClass: 'confirm-button'
+        }
+      ]
+    });
+    await alert.present();
+    const {role,data} = await alert.onDidDismiss();
+    console.log(data);
+    let result;
+    if (role === 'confirm') {
+      result = data.values.qtd
+    }else{
+      result = '';
+    }
+    return result
+  } 
   public async alertDescription(desc: String = ''): Promise<any>{
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-alert ',
@@ -139,7 +176,7 @@ export class AlertServices {
     if (role === 'confirm') {
       result = data.values.desc
     }else{
-      result = '';
+      result = null;
     }
     return result
   }

@@ -8,10 +8,13 @@ import { Component,OnInit, Input,Output,EventEmitter } from '@angular/core';;
 })
 export class ListInsumosComponent implements OnInit {
   @Input() item: any;
-  @Input() loaded:boolean;
+  @Input() itemId:Number;
   @Output()goToInsumoEmpreendimento:EventEmitter<any> = new EventEmitter();;
   constructor() { }
+  public get disabled(): boolean { 
+    return !!this.itemId && this.itemId == this.item.item}
+  ngOnInit() {
 
-  ngOnInit() {}
+  }
 
 }

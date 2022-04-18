@@ -7,5 +7,5 @@ export enum RequestsEndPoints{
   'UpateReq' = '/suprimentos/Requisicao/RequisicaoAtualizada',
   'GetVersion' = '/Requisicao',
   'getIsumosId' = '/ItemRequisicao',
-  'posDocument' = '/RequisicaoDocumentos'
+  'posDocument' = '/RequisicaoDocumentos',
 }

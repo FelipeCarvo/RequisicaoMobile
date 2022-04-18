@@ -27,6 +27,29 @@ ion-item{
     .box-desc{
         padding-top: 10px;
         padding-bottom: 10px;
+        &-header{
+           border-bottom: 1px solid #CDE8FF;
+          
+        }
+        &-body{
+            border-bottom: 1px solid #CDE8FF;
+            .title{
+                color: #4682B4;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 18px;
+            }
+            span{
+                color: #A0A0AE;
+            }
+        }&-footer{
+            h2{
+                color: #023A51;
+                font-size: 16px!important;
+                font-weight: 700;
+            }
+
+        }
     }
     .date{
         font-weight: 400;   
@@ -63,7 +86,7 @@ ion-item{
 .icons{
     position: absolute;
     right: 0;
-    top: 0;
+    top: 5px;
     --background:#EAECED;
     ion-row{
       width: 100%;

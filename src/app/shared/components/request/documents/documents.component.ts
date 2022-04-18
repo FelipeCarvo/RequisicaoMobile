@@ -26,6 +26,8 @@ export class DocumentsComponent implements OnInit {
   archives:Array<archivesInterface> = [];
   file:any;
   loadButton:Boolean = false;
+  loadingDocument:boolean = false;
+  documentList:Array<any> = [];
   constructor(
     public modalController: ModalController,
     private requestService:RequestService,
@@ -34,61 +36,61 @@ export class DocumentsComponent implements OnInit {
     private toastController:ToastController,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getDocument()
+    console.log(this.versaoEsperada)
+  }
   get archivesValid(){
     return this.archives.length > 0;
   }
-  async editDescription(id,i){
-    let item = this.archives.find(a => a.id === id);
-    const descripition = await this.alertServices.alertDescription(item.descripition);
-    this.archives[i].descripition = descripition;
+  getDocument(){
+    this.requestService.getDocument(this.requisicaoId).subscribe(async(res:any) =>{
+      console.log(res); 
+      this.documentList = res.resultado;
+      this.loadingDocument = true;
+    })
   }
-  async deleteItem(id){
+  async editDescription(item,i){
+    let itemDesc = this.documentList.find(a => a.id === item.id && a.entidadeId === item.entidadeId);
+    const descripition = await this.alertServices.alertDescription(item.descricao);
+   if(descripition){
+   
+    const sendItem = {
+      id: item.entidadeId,
+      versaoEsperada: this.versaoEsperada,
+      documentoId: item.id,
+      descricao: descripition
+    }
+    console.log(sendItem);
+   this.putRequest(sendItem)
+   }
+  }
+  async deleteItem(item){
+    console.log(this.versaoEsperada)
     this.loadButton = true;
-    this.archives =  this.archives.filter(obj => obj.id !== id);
-    setTimeout(()=>{
-      this.loadButton = false;
-    },200)
+    const sendItem = {
+      id: item.entidadeId,
+      versaoEsperada: this.versaoEsperada,
+      documentoId: item.id,
+    }
+    let msg
+    this.requestService.deleteDocument(sendItem).subscribe(async(res) =>{
+      this.loading.dismiss();
+      msg = 'Documento excluido com sucesso'
+      await this.showMsg(msg);
+      this.getDocument()
+    },
+    async(error) =>{
+      msg = error?.Mensagem
+      await this.showMsg(msg)
+      this.loading.dismiss();
+    })
   }
   async changeListener(e) : Promise<void> {
+    this.loadButton = true;
     this.file = (e.target as HTMLInputElement).files[0];
-    let simpleType = this.simpleType(this.file.type);
-    const descripition = await this.alertServices.alertDescription();
-    const obj:archivesInterface = {
-      id: this.archives.length + 1,
-      name: this.file.name,
-      type: this.file.type,
-      file:this.file,
-      size:this.file.size,
-      simpleType,
-      descripition
-
-    }
-    if(!!this.file.type.includes('image') && !this.file.type.includes('svg')){
-      const reader = new FileReader();
-      reader.onload = () => {
-        obj.filePath = reader.result as string
-        setTimeout(()=>{
-          this.archives.push(obj);
-          this.loadButton = false;
-        },200)
-      }
-      reader.readAsDataURL(this.file)
-    }else{
-      this.archives.push(obj);
-      setTimeout(()=>{
-        this.loadButton = false;
-      },200)
-    }
-  }
-  simpleType(type){
-    let result
-    if(!!type.includes('image') && !this.file.type.includes('svg')){
-      result = 'image'
-    }else{
-      result = type.split('/')[1];
-    }
-    return result
+    this.sendArchive(this.file);
+    
   }
   dismiss(){
     this.modalController.dismiss(this.archives);
@@ -102,14 +104,30 @@ export class DocumentsComponent implements OnInit {
     );
     toast.present();
   }
-  sendArchive(){
+  putRequest(item){
     let msg
     this.loading.present();
-    const archives = this.archives.map(el => el.file);
-    this.requestService.sendDocument(archives,this.requisicaoId,this.versaoEsperada).subscribe(async(res) =>{
+    this.requestService.editDocument(item).subscribe(async(res) =>{
+      this.loading.dismiss();
+      msg = 'Documento editado com sucesso'
+      await this.showMsg(msg);
+      this.getDocument()
+    },
+    async(error) =>{
+      msg = error?.Mensagem
+      await this.showMsg(msg)
+      this.loading.dismiss();
+    })
+  }
+  sendArchive(item){
+  
+    let msg
+    this.loading.present();
+    this.requestService.sendDocument(item,this.requisicaoId,this.versaoEsperada).subscribe(async(res) =>{
       this.loading.dismiss();
       msg = 'Documento enviado com sucesso'
-      await this.showMsg(msg)
+      await this.showMsg(msg);
+      this.getDocument()
     },
     async(error) =>{
       msg = error?.Mensagem

@@ -9,6 +9,7 @@ import {tap,switchMap} from 'rxjs/operators';
 import { ReqIntefaceModel } from '@core/store/models/req.model';
 import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds} from '@core/store/actions/req.actions'
+import { NavParams } from '@ionic/angular';
 @Injectable({
     providedIn: 'root'
   })
@@ -212,13 +213,14 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
-    editJustifcativa(params){
+    sendEstoqueItem(params){
       return new Observable((observer) => {
-        this.http.put(`${this.sieconwebsuprimentos}/Requisicao/AtualizarJustificativa`,params)
-        .pipe(switchMap(res =>{
-          console.log('res',res,)
-          return this.getVersion(this.requisicaoId)
-        }))
+        this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ReservaEstoqueItem`,params)
+        .pipe(
+          switchMap(res =>{
+            return this.getVersion(this.requisicaoId)
+          })
+        )
         .subscribe(
           async(res:any) => {
             observer.next(res.resultado);
@@ -230,10 +232,98 @@ import {setReqFileds} from '@core/store/actions/req.actions'
         )
       })
     }
+    editJustifcativa(params){
+      return new Observable((observer) => {
+        this.http.put(`${this.sieconwebsuprimentos}/Requisicao/AtualizarJustificativa`,params)
+        .pipe(
+          switchMap(res =>{
+            return this.getVersion(this.requisicaoId)
+          })
+        )
+        .subscribe(
+          async(res:any) => {
+            observer.next(res.resultado);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
+          }
+        )
+      })
+    }
+    
+    getDocumentByEntidadeId(entidadeId,id,endPoint ='posDocument'){
+      return new Observable((observer) => {
+        this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${entidadeId}/${id}/` )
+        .subscribe(
+          async(res:any) => {
+            console.log('res',res)
+          
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
+    getDocument(id,endPoint ='posDocument'){
+      return new Observable((observer) => {
+        this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/` )
+        .subscribe(
+          async(res:any) => {
+            console.log('res',res)
+          
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
+    deleteDocument(form,endPoint ='posDocument'){
+      console.log(form,endPoint)
+      return new Observable((observer) => {
+        this.http.delete(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}?DocumentoId=${form.documentoId}&Id${form.id}&VersaoEsperada=${form.versaoEsperada}`
+        ).pipe(switchMap(res =>{
+          return this.getVersion(this.requisicaoId)
+        })).subscribe(
+          async(res:any) => {
+            console.log('res',res)
+            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
+    editDocument(form,endPoint ='posDocument'){
+
+      return new Observable((observer) => {
+        this.http.put(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}`,
+        form
+        ).pipe(switchMap(res =>{
+          return this.getVersion(this.requisicaoId)
+        })).subscribe(
+          async(res:any) => {
+            console.log('res',res)
+            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
     sendDocument(form,id,version,endPoint ='posDocument'){
+      console.log('sendDocument',form)
       let fd = new FormData();
-      fd.append('file', form[0]);
-     
+      fd.append('file',form);
+      console.log(fd)
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
         fd

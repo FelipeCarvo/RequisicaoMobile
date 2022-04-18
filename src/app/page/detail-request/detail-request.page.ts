@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {translateAnimation} from '@services/animation/custom-animation'
+import {translateAnimation} from '@services/animation/custom-animation';
+import {LoadingService} from '@services/loading/loading-service';
 @Component({
   selector: 'app-detail-request',
   templateUrl: './detail-request.page.html',
@@ -12,12 +13,14 @@ import {translateAnimation} from '@services/animation/custom-animation'
 export class DetailRequestPage implements OnInit {
   requisicaoId:string;
   reqItem:any = {}
-  load = false;
+  load:Boolean = false;
+  loadButton:boolean = false;
   constructor(
     public navCtrl:NavController,
     private rquestService:RequestService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public loading: LoadingService,
     ) {
      this.requisicaoId = activatedRoute.snapshot.params.requisicaoId;
      }
@@ -41,9 +44,15 @@ export class DetailRequestPage implements OnInit {
     })
   }
   editReq(){
+    this.loadButton = true;
+    this.loading.present();
     this.rquestService.getCurrentReq(this.requisicaoId).subscribe((res:any) =>{
       this.router.navigate(['/tabs/central-req/nova-req']);
-      console.log(res)
+      this.loading.dismiss();
+      this.loadButton = false;
+    },async(error) =>{
+      this.loading.dismiss();
+      this.loadButton = false;
     })
   }
 }
