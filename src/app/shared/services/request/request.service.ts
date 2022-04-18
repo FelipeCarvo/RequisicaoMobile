@@ -320,9 +320,11 @@ import { NavParams } from '@ionic/angular';
       })
     }
     sendDocument(form,id,version,endPoint ='posDocument'){
-      console.log('sendDocument',form)
+      console.log('sendDocument',form,'fileName',form.name)
       let fd = new FormData();
       fd.append('file',form);
+      fd.append('name',form.name);
+      fd.append('fileName',form.name);
       console.log(fd)
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
