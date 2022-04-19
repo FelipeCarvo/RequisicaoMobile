@@ -38,6 +38,7 @@ export class IsumosFormComponent implements OnInit {
   loadedEtapas = false;
   loadForm: boolean = false;
   hasLoaded:boolean = false;
+  updateInsumos:boolean = false;
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -73,6 +74,15 @@ export class IsumosFormComponent implements OnInit {
     return retorno
   }
   get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
+  get etapaIdInput():String { return this.reqFormInsumos.get('etapaId').value; }
+  get paramsInsumo(){
+    let obj:{empreendimentoId?:String,pesquisa?:String,etapaId?:String,somenteInsumosDaEtapa?:Boolean} = {empreendimentoId: this.empreendimentoId,pesquisa:''}
+    if(!!this.etapaIdInput){
+      obj.etapaId = this.etapaIdInput
+      obj.somenteInsumosDaEtapa = true
+    }
+    return obj
+  }
   get validForm(){
     return this.reqFormInsumos.valid;
   }
@@ -111,6 +121,10 @@ export class IsumosFormComponent implements OnInit {
     let dif:any = a.diff(b,'days');
     this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))    
   }
+  changeEtapa(){
+    this.reqFormInsumos.controls['etapaId'].setValue(null);
+    if(!this.updateInsumos)this.updateInsumos = true;
+  }
   async initForm(){
     const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;
@@ -141,7 +155,11 @@ export class IsumosFormComponent implements OnInit {
 
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-        
+        console.log(e)
+        if(e === 'etapaId'){
+          console.log(e)
+          this.updateInsumos = true;
+        }
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e]
@@ -152,7 +170,9 @@ export class IsumosFormComponent implements OnInit {
     })
   }
   
-
+  setfalseUpdate(){
+    this.updateInsumos = false;
+  }
   async setValform(){
     await this.reqFormInsumos.patchValue(this.getFormForStore);
   }
@@ -163,6 +183,9 @@ export class IsumosFormComponent implements OnInit {
     if(somenteInsumosDaEtapa){
       if(!!insumoId){
         params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId,mostrarDI: true,};
+        if(!!this.etapaIdInput){
+          this.changeEtapa()
+        }
       }else{
         this.etapas = [];
         return

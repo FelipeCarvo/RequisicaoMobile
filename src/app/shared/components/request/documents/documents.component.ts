@@ -89,7 +89,13 @@ export class DocumentsComponent implements OnInit {
   async changeListener(e) : Promise<void> {
     this.loadButton = true;
     this.file = (e.target as HTMLInputElement).files[0];
-    
+    const fileName = await this.alertServices.alertDescription(this.file.name);
+    console.log(this.file)
+    if(!!fileName){
+      this.file.fileName = fileName;
+      // this.file.name =fileName;
+    }
+    console.log(fileName)
     this.sendArchive(this.file);
     
   }

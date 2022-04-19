@@ -38,9 +38,9 @@
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
-        <ion-select placeholder="Todos" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
+        <ion-select placeholder="Todos" (ionCancel)="changeEtapa()" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
           <ion-select-option *ngIf="etapas.length == 0 && loadedEtapas" [disabled]="true">Nenhuma etapa disponivel</ion-select-option>
-          <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao | descripitionpipe:50}}</ion-select-option>
+          <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao}}</ion-select-option>
         </ion-select>
        
           <div class="required-text"  *ngIf="disabledEtapa">
@@ -55,7 +55,7 @@
         <app-input-search label="Serviço" formName="insumos"  [pesquisa]="{empreendimentoId: empreendimentoId,pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsServico" [parentForm]="reqFormInsumos" controlName="servicoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search label="Insumo"  formName="insumos" (setUnidadeType)="setUnidadeType($event)" [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsInsumos"  [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Insumo"  formName="insumos" (setfalseUpdate)="setfalseUpdate()" [updateInsumos]="updateInsumos" (setUnidadeType)="setUnidadeType($event)" [pesquisa]="paramsInsumo" [listItemFilter]="listItemFilter.filteredOptionsInsumos"  [parentForm]="reqFormInsumos" controlName="insumoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-row>

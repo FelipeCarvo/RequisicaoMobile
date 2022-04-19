@@ -26,6 +26,7 @@ export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Output() setUnidadeType:EventEmitter<any> = new EventEmitter();
+  @Output() setfalseUpdate:EventEmitter<any> = new EventEmitter();
   @Input() label: string;
   @Input() placeholder: string;
   @Input() controlName: any;
@@ -34,6 +35,7 @@ export class InputSearchComponent implements OnInit {
   @Input() pesquisa:any;
   @Input() disabledCondition:any;
   @Input() formName:string;
+  @Input()updateInsumos:Boolean;
   @Input() msgDisabled?:string;
   listGroup:any = [];
   loading = false;
@@ -41,6 +43,7 @@ export class InputSearchComponent implements OnInit {
   noSearchResult = false;
   disablebuttonTest = false;
   filterDesc = false;
+  
   constructor(
     private loockupstService:LoockupstService,
     private cdr: ChangeDetectorRef
@@ -78,7 +81,6 @@ export class InputSearchComponent implements OnInit {
     }
   }
  
-
   clearField(){
     this.parentForm.controls[this.controlName].setValue(null);
     if(this.controlName === "insumoId"){
@@ -101,17 +103,18 @@ export class InputSearchComponent implements OnInit {
     }
   }
   async getLoockups(){
-
-
       this.loading = true;
       const params = this.pesquisa;
       let enumName = this.controlName
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
       }
-      console.log()
-      if(this.listGroup.length == 0){
-        this.listGroup = await this.loockupstService.getLookUp(params,enumName)
+      if(this.listGroup.length == 0 || this.updateInsumos){
+        if(this.listGroup.length > 0) this.listGroup = []
+        this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+        if(this.updateInsumos){
+
+        }
       }
       if(this.formName == 'insumos' && this.controlName =="empresaId"){
         let value = this.listGroup[0].id;

@@ -44,20 +44,17 @@
           
         }
         .details{
-            color: #4682B4;
+            color: #2CBC63;
             font-size: 18px;
             font-weight: 600;
             font-size: 14px;
             line-height: 18px;  
-            :first-child{
-                font-weight: 500;
-                span{
-                    color: #EAECED;
-                }
+            span{
+                color: #EAECED;
             }
-            :last-child{
-                font-weight: normal;
-                color: #A0A0AE;
+            .obser{
+                font-weight: normal!important;
+                color: #A0A0AE!important;
             }
            
         }
