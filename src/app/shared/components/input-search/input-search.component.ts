@@ -110,10 +110,11 @@ export class InputSearchComponent implements OnInit {
         enumName = 'EmpresasDoEmpreendimento'
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
-        if(this.listGroup.length > 0) this.listGroup = []
+        console.log(this.updateInsumos)
+        if(!!this.updateInsumos) this.listGroup = []
         this.listGroup = await this.loockupstService.getLookUp(params,enumName);
         if(this.updateInsumos){
-
+          this.setfalseUpdate.emit()
         }
       }
       if(this.formName == 'insumos' && this.controlName =="empresaId"){
@@ -150,7 +151,8 @@ export class InputSearchComponent implements OnInit {
   private _filter(value: string,res): string[] {
     let filter;
     if(!!value){
-      filter =this.listGroup.filter(option => option.descricao.toLowerCase().includes(value.toLocaleLowerCase()));
+      filter =this.listGroup.filter(option => 
+        option.descricao.toLowerCase().includes(value.toLocaleLowerCase()) || option.id === value);
     }else{
       filter = this.listGroup;
     }

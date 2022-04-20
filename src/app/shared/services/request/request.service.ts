@@ -274,7 +274,7 @@ import { NavParams } from '@ionic/angular';
           async(res:any) => {
             console.log('res',res)
           
-            observer.next(res);
+            observer.next(res.resultado.sort(this.sortFunction));
           },
           error => {
             observer.error(error);
@@ -320,15 +320,15 @@ import { NavParams } from '@ionic/angular';
       })
     }
     sendDocument(form,id,version,endPoint ='posDocument'){
-      console.log('sendDocument',form,'fileName',form.name)
+     const {fileName,name} = form;
+
       let fd = new FormData();
-      fd.append('File',form);
-      fd.append('Name',form.name);
-      fd.append('FileName',form.fileName);
-      console.log(fd)
+      fd.append(fileName, form,name);
+
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
-        fd
+        fd,
+        {}
         ).pipe(switchMap(res =>{
           return this.getVersion(this.requisicaoId)
         })).subscribe(

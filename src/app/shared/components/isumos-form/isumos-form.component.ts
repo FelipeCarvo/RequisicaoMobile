@@ -122,11 +122,13 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))    
   }
   changeEtapa(){
+    this.reqFormInsumos.controls['insumoId'].setValue(null);
     this.reqFormInsumos.controls['etapaId'].setValue(null);
     if(!this.updateInsumos)this.updateInsumos = true;
   }
   async initForm(){
-    const{empreendimentoId}=this.store.selectSnapshot(ReqState.getReq);
+    const{empreendimentoId,requisicaoId}=this.store.selectSnapshot(ReqState.getReq);
+    console.log(empreendimentoId,requisicaoId)
     this.empreendimentoId = empreendimentoId;
     this.reqFormInsumos = this.formBuilder.group({
       empresaId:  new FormControl(null, [Validators.required]),
@@ -155,14 +157,13 @@ export class IsumosFormComponent implements OnInit {
 
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-        console.log(e)
-        if(e === 'etapaId'){
+        let val = this.getFormField(e);
+        let formField = {[e]:val};
+        let atualValue = this.getFormForStore[e];
+        if(e === 'etapaId' && formField != atualValue){
           console.log(e)
           this.updateInsumos = true;
         }
-        let val = this.getFormField(e);
-        let formField = {[e]:val};
-        let atualValue = this.getFormForStore[e]
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
         }
