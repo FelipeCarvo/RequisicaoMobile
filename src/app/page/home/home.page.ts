@@ -4,6 +4,10 @@ import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service'
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
 import * as moment from 'moment';
+import { Store } from '@ngxs/store';
+import {ReqState} from '@core/store/state/req.state';
+import {ResetStateReq} from '@core/store/actions/req.actions'
+import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,8 +28,13 @@ export class homePage {
   constructor(
     private router:Router,
     private rquestService:RequestService,
+    private store:Store
    ) {}
+   get validReqId(){
+    return this.store.selectSnapshot(ReqState.validReqId);
+  }
    ionViewWillEnter(){
+
     this.getReq()
   }
   ngOnInit() {
@@ -33,6 +42,11 @@ export class homePage {
   }
 
   newRequest(){
+    if(this.validReqId){
+      this.store.dispatch(new ResetStateInsumos());
+      this.store.dispatch(new ResetStateReq());
+    }
+
     this.router.navigate(['/tabs/central-req/nova-req']);
   }
   viewAllRequest(){

@@ -78,7 +78,7 @@ import { NavParams } from '@ionic/angular';
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
-            this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version,codigoExterno:res.resultado.codigoExterno}))
+            this.store.dispatch(new setReqFileds({versaoEsperada:res.resultado.version,codigoExterno:res.resultado.codigoExterno,status:res.resultado.status}))
             observer.next(res.resultado.version);
           },
           error => {
