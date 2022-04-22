@@ -54,6 +54,9 @@ export class RequestPage implements OnInit {
   get validReqId(){
     return this.store.selectSnapshot(ReqState.validReqId);
   }
+  get currentStatus(){
+    return this.store.selectSnapshot(ReqState.getStatus)
+  }
   get getFormForStore() {
     return this.store.selectSnapshot(ReqState.getReq);
   }
@@ -70,6 +73,7 @@ export class RequestPage implements OnInit {
     return this.store.selectSnapshot(ReqState.getNumberValue)
   }
   ngOnInit() {
+  
     let {params} = this.route.snapshot;
     if(!!params.number){
       setTimeout(() =>{
@@ -144,11 +148,12 @@ export class RequestPage implements OnInit {
   }
 
   async openModal(){
+    console.log(this.currentStatus)
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
       componentProps:{
-        id:this.requisicaoId,versaoEsperada:this.versaoEsperada
+        id:this.requisicaoId,versaoEsperada:this.versaoEsperada,currentStatus:this.currentStatus
       }
     });
     await modal.present();

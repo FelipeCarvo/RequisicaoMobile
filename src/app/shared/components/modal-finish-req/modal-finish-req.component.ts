@@ -16,19 +16,60 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 export class ModalFinishReqComponent implements OnInit {
   @Input() id: string;
-  @Input() versaoEsperada:number
+  @Input() versaoEsperada:number;
+  @Input() currentStatus:String
   hasFinish = false;
   public formStatus: FormGroup;
   sendLoading: boolean = false;
   optionsSelect = [
-    {name:'Reprovada',id:1,url:'/Reprovar'},
-    {name:"Não Concluída",id:2,url:'/{id}/NaoConcluida/{versaoEsperada}'},
-    {name:"Em Aprovação",id:3,url:'/{id}/EmAprovacao/{versaoEsperada}'},
-    {name:'Aprovada para Cotação',id:4,url:'/{id}/AprovarParaCotacao/{versaoEsperada}'},
-    {name:'Aprovada para O.F',id:5,url:'/{id}/AprovarParaOF/{versaoEsperada}'},
-    {name:'Aprovada para O.F de Tranferência',id:6,url:'/{id}/AprovarParaOFTransferencia/{versaoEsperada}'},
-    {name:'Aprovada para B.T',id:7,url:'/{id}/AprovarParaBT/{versaoEsperada}'},
-    {name:'Cancelada',id:8,url:'/{id}/Cancelar/{versaoEsperada}'}
+    {
+      name:'Reprovada',
+      id:1,
+      url:'/Reprovar',
+      enum:'Reprovada'
+    },
+    {
+      name:"Não Concluída",
+      id:2,
+      url:'/{id}/NaoConcluida/{versaoEsperada}',
+      enum:"NãoConcluída"
+    },
+    {
+      name:"Em Aprovação",
+      id:3,
+      url:'/{id}/EmAprovacao/{versaoEsperada}',
+      enum:"EmAprovação"
+    },
+    {
+      name:'Aprovada para Cotação',
+      id:4,
+      url:'/{id}/AprovarParaCotacao/{versaoEsperada}',
+      enum:'AprovadaParaCotação',
+    },
+    {
+      name:'Aprovada para O.F',
+      id:5,
+      url:'/{id}/AprovarParaOF/{versaoEsperada}',
+      enum:'AprovadaParaOF'
+    },
+    {
+      name:'Aprovada para O.F de Tranferência',
+      id:6,
+      url:'/{id}/AprovarParaOFTransferencia/{versaoEsperada}',
+      enum:'AprovadaParaOFTransferência'
+    },
+    {
+      name:'Aprovada para B.T',
+      id:7,
+      url:'/{id}/AprovarParaBT/{versaoEsperada}',
+      enum:'AprovadaParaBT'
+    },
+    {
+      name:'Cancelada',
+      id:8,
+      url:'/{id}/Cancelar/{versaoEsperada}',
+      enum:'Cancelada'
+    }
   ]
   constructor(
     public modalController: ModalController,
@@ -38,9 +79,7 @@ export class ModalFinishReqComponent implements OnInit {
     private store:Store,
     private router:Router
   ){
-    this.formStatus = this.formBuilder.group({
-      satusId:  new FormControl(null, [Validators.required]),
-    });
+
   }
   get validForm(){
     return this.formStatus.valid;
@@ -48,7 +87,14 @@ export class ModalFinishReqComponent implements OnInit {
   get formValue(){
     return this.formStatus.getRawValue();
   }
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.currentStatus)
+    const currentStatusId = this.optionsSelect.find(o => o.enum === this.currentStatus).id
+    console.log(currentStatusId)
+    this.formStatus = this.formBuilder.group({
+      satusId:  new FormControl(currentStatusId, [Validators.required]),
+    });
+  }
   public dismiss(): void {
     this.modalController.dismiss({
       dismissed: true

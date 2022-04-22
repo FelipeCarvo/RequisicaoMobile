@@ -12,7 +12,8 @@ const defaults:ReqIntefaceModel = {
   exportadoConstruCompras: false,
   prazoCotacaoConstruCompras:0,
   aprovador: null,
-  versaoEsperada: null
+  versaoEsperada: null,
+  status:null,
 }
 @State<ReqIntefaceModel>({
   name: 'ReqState',
@@ -29,6 +30,10 @@ export class ReqState {
   @Selector()
   static validEmpreendimentoId(state: ReqIntefaceModel) {
     return !!state.empreendimentoId;
+  }
+  @Selector()
+  static getStatus(state: ReqIntefaceModel) {
+    return state.status;
   }
   @Selector()
   static validReqId(state: ReqIntefaceModel) {

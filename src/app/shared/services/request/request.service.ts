@@ -58,6 +58,7 @@ import { NavParams } from '@ionic/angular';
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             let result = res.resultado;
+            console.log(result)
             result.empreendimentoId =  result.empreendimentoID;
             result.requisicaoId = result.id;
             result.versaoEsperada = result.version
@@ -291,7 +292,7 @@ import { NavParams } from '@ionic/angular';
         })).subscribe(
           async(res:any) => {
             console.log('res',res)
-            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },
           error => {
@@ -310,7 +311,7 @@ import { NavParams } from '@ionic/angular';
         })).subscribe(
           async(res:any) => {
             console.log('res',res)
-            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },
           error => {
@@ -334,7 +335,7 @@ import { NavParams } from '@ionic/angular';
         })).subscribe(
           async(res:any) => {
             console.log('res',res)
-            this.store.dispatch(new setReqFileds({versaoEsperada:res}))
+            // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },
           error => {
@@ -348,4 +349,5 @@ import { NavParams } from '@ionic/angular';
       let dateB = new Date(b.dataHora).getTime();
       return dateA < dateB ? 1 : -1;  
     }
+
   }

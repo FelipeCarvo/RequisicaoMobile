@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy  } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
+import {Subject } from 'rxjs';
 @Component({
   selector: 'app-detail-request',
   templateUrl: './detail-request.page.html',
   styleUrls: ['./detail-request.page.scss'],
   animations: [translateAnimation()]
 })
-export class DetailRequestPage implements OnInit {
+export class DetailRequestPage implements OnInit,OnDestroy {
   requisicaoId:string;
   reqItem:any = {}
   load:Boolean = false;
   loadButton:boolean = false;
+  public unsubscribe$ = new Subject();
   constructor(
     public navCtrl:NavController,
     private rquestService:RequestService,
@@ -26,7 +28,14 @@ export class DetailRequestPage implements OnInit {
      }
 
   ngOnInit() {
+
+  }
+  ionViewWillEnter(){
+    this.loadButton = false;
     this.getReq(this.requisicaoId)
+  }
+  ngOnDestroy(): void {
+    this.unsubscribe$.unsubscribe();
   }
   public dismiss(): void {
     // console.log(this.navCtrl)

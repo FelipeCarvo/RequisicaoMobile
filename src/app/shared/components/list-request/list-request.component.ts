@@ -22,6 +22,7 @@ export class ListRequest implements OnInit {
    this.currentClass = this.router.url.includes('/home') ;
   }
   goToDetail(requisicaoId){
+    this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([`tabs/detail-request/${requisicaoId}`]);
   }
 

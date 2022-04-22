@@ -8,5 +8,6 @@ export interface ReqIntefaceModel  {
     exportadoConstruCompras?: boolean,
     prazoCotacaoConstruCompras?: Number,
     aprovador?: string,
+    status?: string,
     versaoEsperada: Number
 }
