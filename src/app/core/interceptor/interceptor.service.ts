@@ -24,6 +24,7 @@ export class Interceptor implements HttpInterceptor {
     let tokenUrl = request.url.includes('/connect/token');
     let documentUrl  = request.url.includes('sieconwebsuprimentos/api/RequisicaoDocumentos');
     let isAuthenticated = this.store.selectSnapshot(AuthUser.isAuthenticated);
+    console.log(documentUrl)
     if(tokenUrl){
       request = request.clone(
         {
@@ -41,12 +42,12 @@ export class Interceptor implements HttpInterceptor {
         }
       });
     }
+   
     else if(documentUrl  && isAuthenticated){
       let token = this.store.selectSnapshot(AuthUser.getToken);
       request = request.clone( {
         setHeaders: {
-          // Accept: '*/*',
-        
+           Accept: '*/*',
           Authorization: `Bearer ${token}`
         }
       });

@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-step-one *ngIf="initLoad && step == 0" [opcaoConsulta]="opcaoConsulta" (updateEstoque)="updateEstoque($event)" [insumoEstoque]="insumoEstoque" (consultEstoque)="consultEstoque($event)"></app-step-one>
+  <app-step-one *ngIf="initLoad && step == 0" [filtrarComplemento]="filtrarComplemento" [opcaoConsulta]="opcaoConsulta" (updateEstoque)="updateEstoque($event)" [insumoEstoque]="insumoEstoque" (consultEstoque)="consultEstoque($event)"  (updateComplementoFilter)="updateComplementoFilter($event)"></app-step-one>
   <app-step-two *ngIf="step == 1" [itemSelect]="itemSelect" [itemEstoque]="itemEstoque" (sendEstoque)="sendEstoque($event)"></app-step-two>
     <ion-row class="ion-justify-content-center corpo">
       <ion-col size="6">

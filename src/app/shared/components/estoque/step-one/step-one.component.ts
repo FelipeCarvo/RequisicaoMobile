@@ -9,8 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class StepOneComponent implements OnInit {
   @Input() insumoEstoque;
   @Input() opcaoConsulta:String;
+  @Input() filtrarComplemento:Boolean;
   @Output() consultEstoque: EventEmitter<any> = new EventEmitter<void>();
   @Output() updateEstoque: EventEmitter<any> = new EventEmitter<void>();
+  @Output() updateComplementoFilter: EventEmitter<any> = new EventEmitter<void>();
   hasLoad:Boolean = false;
   public groupRadio = [
     {name:'Central de Estoque',value:true,param:'CentralDeEstoque'},
@@ -21,16 +23,26 @@ export class StepOneComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) { }
   public get disabledButton(){
-    return this.formEstoque.controls['saldoEstoque'].value == 0;
+    return this.formEstoque.controls['saldoEstoque'].value == 0 && !this.centralEstoque;
   }
   public get quantidadeReservada(){
     return this.formEstoque.controls['quantidadeReservada'].value;
   }
+  public get centralEstoque():Boolean{
+    return this.formEstoque.controls['centralEstoque'].value == 'DemaisEmpreendimentos';
+  }
   public get quantidadeRequisitada(){
     return this.formEstoque.controls['quantidadeRequisitada'].value;
   }
+  public get filterComplement(){
+    return this.formEstoque.controls['filterComplement'].value;
+  }
   ngOnInit() {
     this.initForm();
+  }
+  changeComplement() {
+    console.log(this.filterComplement)
+    this.updateComplementoFilter.emit(this.filterComplement)
   }
   private initForm(): void {
     let {quantidadeRequisitada,quantidadeReservada,saldoEstoque,unidade} = this.insumoEstoque
@@ -40,6 +52,7 @@ export class StepOneComponent implements OnInit {
       saldoEstoque:  [saldoEstoque, [Validators.required]],
       unidade:  [unidade, [Validators.required]],
       centralEstoque: [this.opcaoConsulta, [Validators.required]],
+      filterComplement: [this.filtrarComplemento, [Validators.required]],
     });
     
   }

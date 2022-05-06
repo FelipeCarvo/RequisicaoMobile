@@ -23,6 +23,7 @@ export class ConsultaEstoquePage implements OnInit {
   public loadList: boolean = false;
   opcaoConsulta:String = "CentralDeEstoque";
   step:number = 0;
+  filtrarComplemento:Boolean = false;
   itemEstoque:{
     itemRequisicao?:String;
     quantidadeReservada?:Number;
@@ -73,7 +74,6 @@ export class ConsultaEstoquePage implements OnInit {
     })
   }
   async openModal() {
-    console.log("open modal")
     const modal = await this.modalController.create({
       component: ModalEstoqueComponent,
       cssClass: 'modalFinishReq',
@@ -84,7 +84,6 @@ export class ConsultaEstoquePage implements OnInit {
       }
     });
     await modal.present();
-  
     modal.onDidDismiss().then((res:any) => {
       if(!!res.data){
         this.itemSelect = res.data;
@@ -94,18 +93,21 @@ export class ConsultaEstoquePage implements OnInit {
       else{
         this.itemSelect = {}
       }
-
     });
   }
   updateEstoque(val){
     this.opcaoConsulta = val;
+  }
+  updateComplementoFilter(val){
+  
+    this.filtrarComplemento = val;
   }
   consultEstoque(){
     this.loadList = false;
     const params = {
       itemId:  this.idInsumo,
       opcaoConsulta: this.opcaoConsulta,
-      filtrarComplemento: true
+      filtrarComplemento: this.filtrarComplemento
     }
     this.requestService.consultaEstoqueItem(params).subscribe((res:Array<any>) =>{    
       this.listInsumos= res;​

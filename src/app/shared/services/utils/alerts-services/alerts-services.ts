@@ -172,12 +172,6 @@ export class AlertServices {
     });
     await alert.present();
     const {role,data} = await alert.onDidDismiss();
-    let result;
-    if (role === 'confirm') {
-      result = data.values.desc
-    }else{
-      result = null;
-    }
-    return result
+    return {fileName:data.values.desc,role}
   }
 }

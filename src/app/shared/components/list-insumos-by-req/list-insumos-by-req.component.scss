@@ -7,6 +7,10 @@ ion-card{
   ion-card-header{
     text-align: right;
     background-color: #CDE8FF;
+    ion-icon{
+      color:#2CBC63;
+      font-size: 25px;
+    }
     ion-card-title{
       font-weight: 400;
       font-size: 14px;
@@ -74,7 +78,7 @@ ion-card{
     .card-footer{
       background: #EAECED;
       padding: 0!important;
-      border-radius: 0 0 9px 9px;
+      // border-radius: 0 0 9px 9px;
       height: 52px;
       align-items: center;
       ion-label{

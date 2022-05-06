@@ -283,6 +283,21 @@ import { NavParams } from '@ionic/angular';
         )
       })
     }
+    viewDocument(obj,endPoint ='posDocument'){
+      return new Observable((observer) => {
+        this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}`,obj,{responseType:'blob'} )
+        .subscribe(
+          async(res:any) => {
+          
+          
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
     deleteDocument(form,endPoint ='posDocument'){
       console.log(form,endPoint)
       return new Observable((observer) => {
@@ -322,9 +337,9 @@ import { NavParams } from '@ionic/angular';
     }
     sendDocument(form,id,version,endPoint ='posDocument'){
      const {fileName,name} = form;
-
       let fd = new FormData();
-      fd.append(fileName, form,name);
+      let currentName = fileName ||name
+      fd.append(currentName, form,name);
 
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,

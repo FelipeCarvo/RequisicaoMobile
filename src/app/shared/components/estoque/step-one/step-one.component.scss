@@ -148,3 +148,17 @@ ion-row{
   --border-color: #EAECED;
   color: #A0A0AE;
 }
+ion-checkbox{
+  --background-checked: #4682B4;
+  --border-color-checked: #4682B4;
+  --border-width:2px;
+  width: 16px;
+  height: 16px;
+  --background:transparent;
+  --border-color:#4682B4;
+  --checkmark-color: #fff;
+  --checkmark-width: 3px;
+  --color: #4682B4;
+  --border-radius: 3px;
+  margin-inline-end: 10px;
+}

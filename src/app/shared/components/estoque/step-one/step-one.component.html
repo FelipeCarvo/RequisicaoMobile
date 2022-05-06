@@ -28,6 +28,10 @@
         <ion-label position="stacked">Complemento:</ion-label>
         <p>{{insumoEstoque.complemento}}</p>
       </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Filtrar por complemento:</ion-label>
+        <ion-checkbox formControlName="filterComplement"   slot="end" (ionChange)="changeComplement()"></ion-checkbox>
+      </ion-item>
       <ion-item  lines="none" class="box">
         <ion-row> 
           <ion-col size="8" class="no-padding-left">
@@ -36,7 +40,7 @@
           </ion-col>
           <ion-col size="4" class="no-padding-right">
             <ion-label  position="floating">Unidade</ion-label>
-            <ion-select [placeholder]="insumoEstoque.unidade" disabled formControlName="unidade">
+            <ion-select [placeholder]="insumoEstoque.unidade" disabled formControlName="unidade" >
               <ion-select-option value="0">Un</ion-select-option>
             </ion-select>
           </ion-col>

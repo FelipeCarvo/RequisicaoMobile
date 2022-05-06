@@ -87,14 +87,18 @@ export class DocumentsComponent implements OnInit {
     })
   }
   async changeListener(e) : Promise<void> {
+    console.log('change',e)
     this.loadButton = true;
     this.file = (e.target as HTMLInputElement).files[0];
-    const fileName = await this.alertServices.alertDescription();
-    console.log(this.file)
+    const {fileName,role} = await this.alertServices.alertDescription();
+   
+    if(role === 'cancel'){
+      return;
+    }
     if(!!fileName){
       this.file.fileName = fileName;
-      // this.file.name =fileName;
     }
+
     console.log(fileName)
     this.sendArchive(this.file);
     
@@ -124,6 +128,34 @@ export class DocumentsComponent implements OnInit {
       msg = error?.Mensagem
       await this.showMsg(msg)
       this.loading.dismiss();
+    })
+  }
+  convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader;
+    reader.onerror = reject;
+    reader.onload = () => {
+        resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
+  viewDocument(item){
+    const obj = {
+      documentoId: item.id,
+      versaoEsperada:this.versaoEsperada,
+      id:this.requisicaoId
+
+    }
+    
+    this.requestService.viewDocument(obj).subscribe(async(res:any) =>{
+      var file = new File([res], "file_name");
+      console.log(file)
+    const base64String:any = await this.convertBlobToBase64(res);
+    var file2 = new File([base64String], "file_name");
+    console.log(file2);
+    window.open(base64String); 
+    },
+    async(error) =>{
+     
     })
   }
   sendArchive(item){

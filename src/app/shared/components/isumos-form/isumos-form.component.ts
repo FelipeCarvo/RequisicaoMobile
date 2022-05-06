@@ -141,7 +141,7 @@ export class IsumosFormComponent implements OnInit {
       quantidade:new FormControl(0, [Validators.required,Validators.pattern(/[0-9]/),Validators.min(1)]),
       prazo:new FormControl(0, [Validators.required]),
       prazoDevolucao:new FormControl(null),
-      complemento:new FormControl('S/COMPLEMENTO', [Validators.required]),
+      complemento:new FormControl('S/ COMPLEMENTO', [Validators.required]),
       estoque:new FormControl(false, [Validators.required]),
       gerarAtivoImobilizado:new FormControl(false, [Validators.required]),
       blocoId:new FormControl(null),
