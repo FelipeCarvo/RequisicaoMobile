@@ -10,13 +10,17 @@ import { ReqIntefaceModel } from '@core/store/models/req.model';
 import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds} from '@core/store/actions/req.actions'
 import { NavParams } from '@ionic/angular';
+import { AuthUser } from '@core/store/state/auth.state';
 @Injectable({
     providedIn: 'root'
   })
   export class RequestService {
     sieconwebsuprimentos = `${environment.sieconwebsuprimentos}`;
     sieconwebwebapi = `${environment.sieconwebwebapi}`;
-    constructor(private http:HttpClient, private store:Store){}
+    constructor(private http:HttpClient, private store:Store){
+      this.sieconwebsuprimentos = this.getUrlParams.urlAPISuprimentos;
+      this.sieconwebwebapi = this.getUrlParams.urlAPISP7;
+    }
     getInitialParams(){
       const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
       const beforeDay = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
@@ -33,6 +37,9 @@ import { NavParams } from '@ionic/angular';
     }
     public get requisicaoId(){
       return this.store.selectSnapshot(ReqState.getReqId);
+    }
+    public get getUrlParams(){
+      return this.store.selectSnapshot(AuthUser.geturlParams)
     }
     get getStore(){
       return this.store.selectSnapshot(ReqState.getReq)
@@ -134,7 +141,7 @@ import { NavParams } from '@ionic/angular';
           
           }),
           switchMap((postReRes:any) => {
-            const {resultado} = postReRes;
+            const resultado = postReRes;
             let res;
             if(!!resultado && requisicaoId != resultado){
               res = resultado;
@@ -295,16 +302,15 @@ import { NavParams } from '@ionic/angular';
         )
       })
     }
-    viewDocument(obj,endPoint ='posDocument'){
+    viewDocument(obj,fileName,endPoint ='posDocument'){
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}`,obj,{  responseType: 'blob',observe: 'response' } )
         .subscribe(
           async(res:HttpResponse<any>) => {
-            
-            console.log(res.headers);
-            var contentDisposition = res.headers.get('content-disposition');
-            console.log(contentDisposition);
-            observer.next(res);
+            let type = this.retornaMIME(fileName)
+            let blob = new Blob([res.body], { type: type })  
+          
+            observer.next(blob);
           },
           error => {
             observer.error(error);

@@ -31,6 +31,8 @@ import {ModalEstoqueComponent} from '../components/modal-estoque/modal-estoque.c
 import {StepOneComponent} from '../components/estoque/step-one/step-one.component'
 import {StepTwoComponent} from '../components/estoque/step-two/step-two.component'
 import {DocumentItemComponent} from '../components/document-item/document-item.component'
+import {LoginComponent} from '../components/login/login/login.component'
+import {ConfigComponent} from '../components/login/config/config.component'
 const providers = [
   statusMoment,Descripitionpipe,DisableControlDirective,imageTypepipe,
   NumberDirective,momentPipe,MosuePositionDirective,statusPipe,sizeFormatPipe,
@@ -43,6 +45,8 @@ const matModules = [
   MatInputModule,
 ]
 const components = [
+  ConfigComponent,
+  LoginComponent,
   DocumentItemComponent,
   StepOneComponent,
   SpinnerComponent,

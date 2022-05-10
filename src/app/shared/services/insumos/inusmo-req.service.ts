@@ -6,6 +6,7 @@ import {ReqState} from '@core/store/state/req.state';
 import { Observable,} from 'rxjs';
 import {tap,switchMap} from 'rxjs/operators';
 import {RequestService} from '../request/request.service';
+import { AuthUser } from '@core/store/state/auth.state';
 export interface InsumoInterface {
   itemId: any;
   requisicaoId: String,
@@ -38,9 +39,16 @@ export interface InsumoInterface {
       private http:HttpClient,
       private store:Store,
       private requestService:RequestService
-      ){}
+      ){
+        this.sieconwebsuprimentos = this.getUrlParams.urlAPISuprimentos;
+        this.sieconwebwebapi = this.getUrlParams.urlAPISP7;
+      }
     public get ReqId(){
+      
       return this.store.selectSnapshot(ReqState.getReqId);
+    }
+    public get getUrlParams(){
+      return this.store.selectSnapshot(AuthUser.geturlParams)
     }  
     getObject(form){
       const{requisicaoId,versaoEsperada}=this.store.selectSnapshot(ReqState.getReq);

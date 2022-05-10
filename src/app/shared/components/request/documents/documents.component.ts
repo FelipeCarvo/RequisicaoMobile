@@ -71,7 +71,7 @@ export class DocumentsComponent implements OnInit {
       id: item.entidadeId,
       versaoEsperada: this.versaoEsperada,
       documentoId: item.id,
-      descricao: descripition
+      descricao: descripition.fileName
     }
     console.log(sendItem);
    this.putRequest(sendItem)
@@ -143,14 +143,7 @@ export class DocumentsComponent implements OnInit {
       this.loading.dismiss();
     })
   }
-  convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader;
-    reader.onerror = reject;
-    reader.onload = () => {
-        resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+
   viewDocument(item){
     const obj = {
       documentoId: item.id,
@@ -158,17 +151,17 @@ export class DocumentsComponent implements OnInit {
       id:this.requisicaoId
 
     }
-    this.requestService.viewDocument(obj).subscribe(async(res:any) =>{
+    this.requestService.viewDocument(obj,item.nomeArquivoOriginal).subscribe(async(res:any) =>{
       let resultado = await Filesystem.checkPermissions();
       if (resultado.publicStorage != 'granted') {
         let resultadoPermissao = await Filesystem.requestPermissions();
       }
       let fileName = item.nomeArquivoOriginal;
-      let {body} = res;
-      let type = this.requestService.retornaMIME(fileName)
-      let blob = new Blob([body], { type: type })
+      // let {body} = res;
+      // let type = this.requestService.retornaMIME(fileName)
+      // let blob = new Blob([body], { type: type })
    
-      await this.writeAndOpenFile(blob,fileName)
+      await this.writeAndOpenFile(res,fileName)
     },
     async(error) =>{
      

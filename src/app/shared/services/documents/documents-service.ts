@@ -2,12 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
-import {ReqState} from '@core/store/state/req.state';
+import { AuthUser } from '@core/store/state/auth.state';
 export default class DocumentService{
   sieconwebsuprimentos = `${environment.sieconwebsuprimentos}`;
   sieconwebwebapi = `${environment.sieconwebwebapi}`;
   constructor(private http:HttpClient,private store:Store,){
-
+    this.sieconwebsuprimentos = this.getUrlParams.urlAPISuprimentos;
+    this.sieconwebwebapi = this.getUrlParams.urlAPISP7;
+  }
+  public get getUrlParams(){
+    return this.store.selectSnapshot(AuthUser.geturlParams)
   }
   sendDocument(file){
     return new Promise((resolve, reject) => {
