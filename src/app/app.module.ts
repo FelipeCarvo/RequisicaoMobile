@@ -15,9 +15,9 @@ import {InsumoState} from'@core/store/state/inusmos.state';
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { File } from '@ionic-native/file/ngx';
 import {sharedModules} from '@components/components.module';
-
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -43,7 +43,7 @@ import {sharedModules} from '@components/components.module';
       key: ['AuthUser','ReqState','InsumoState']
     }),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [File,FileOpener,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

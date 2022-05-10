@@ -1,10 +1,15 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input,Injectable } from '@angular/core';
 import {DocumentModalComponent} from '../../document-modal/document-modal.component';
 import { ModalController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import { ToastController } from '@ionic/angular';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { Platform } from '@ionic/angular';
+import { File } from '@ionic-native/file/ngx';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 export default interface archivesInterface {
   name:String;
   id:Number;
@@ -20,6 +25,9 @@ export default interface archivesInterface {
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss'],
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class DocumentsComponent implements OnInit {
   @Input() versaoEsperada:Number;
   @Input()requisicaoId:String;
@@ -28,12 +36,16 @@ export class DocumentsComponent implements OnInit {
   loadButton:Boolean = false;
   loadingDocument:boolean = false;
   documentList:Array<any> = [];
+  private downloadedFile;
   constructor(
+    private fileServe:File,
+    private platform: Platform,
     public modalController: ModalController,
     private requestService:RequestService,
     public loading: LoadingService,
     private alertServices: AlertServices,
     private toastController:ToastController,
+    private fileOpener: FileOpener
   ) { }
 
   ngOnInit() {
@@ -86,6 +98,7 @@ export class DocumentsComponent implements OnInit {
       this.loading.dismiss();
     })
   }
+
   async changeListener(e) : Promise<void> {
     console.log('change',e)
     this.loadButton = true;
@@ -145,19 +158,23 @@ export class DocumentsComponent implements OnInit {
       id:this.requisicaoId
 
     }
-    
     this.requestService.viewDocument(obj).subscribe(async(res:any) =>{
-      var file = new File([res], "file_name");
-      console.log(file)
-    const base64String:any = await this.convertBlobToBase64(res);
-    var file2 = new File([base64String], "file_name");
-    console.log(file2);
-    window.open(base64String); 
+      let resultado = await Filesystem.checkPermissions();
+      if (resultado.publicStorage != 'granted') {
+        let resultadoPermissao = await Filesystem.requestPermissions();
+      }
+      let fileName = item.nomeArquivoOriginal;
+      let {body} = res;
+      let type = this.requestService.retornaMIME(fileName)
+      let blob = new Blob([body], { type: type })
+   
+      await this.writeAndOpenFile(blob,fileName)
     },
     async(error) =>{
      
     })
   }
+
   sendArchive(item){
   
     let msg
@@ -166,7 +183,10 @@ export class DocumentsComponent implements OnInit {
       this.loading.dismiss();
       msg = 'Documento enviado com sucesso'
       await this.showMsg(msg);
-      this.getDocument()
+      setTimeout(()=>{
+        this.getDocument();
+      },200)
+
     },
     async(error) =>{
       msg = error?.Mensagem
@@ -174,6 +194,30 @@ export class DocumentsComponent implements OnInit {
       this.loading.dismiss();
     })
   }
+  async writeAndOpenFile(data: Blob, fileName: string) {
+    var reader = new FileReader();
+    reader.readAsDataURL(data);
+    reader.onloadend = async function () {
+        var base64data = reader.result;
+      
+        try {
+            const result = await Filesystem.writeFile({
+                path: fileName,
+                data: <string>base64data,
+                directory: Directory.Data,
+                recursive: true
+            });
+            console.log(data)
+            let fileOpener: FileOpener = new FileOpener();
+            fileOpener.open(result.uri, data.type)
+                .then(() => console.log('File is opened'))
+                .catch(e => console.log('Error opening file', e));
 
+            console.log('Wrote file', result.uri);
+        } catch (e) {
+            console.error('Unable to write file', e);
+        }
+    }
+}
 
 }

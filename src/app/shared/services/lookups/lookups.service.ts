@@ -21,7 +21,7 @@ import {LookupsEndPoints} from '../utils/enums/EnumLockup'
      
         this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
           async(res:any) => {
-            let result = res.resultado
+            let result = res
             resolve(result);
           },
           error => {

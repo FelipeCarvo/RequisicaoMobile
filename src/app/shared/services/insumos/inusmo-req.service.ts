@@ -59,7 +59,7 @@ export interface InsumoInterface {
     //     const params = this.getObject(form);
     //     this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params).subscribe(
     //       async(res:any) => {
-    //         resolve(res.resultado);
+    //         resolve(res);
     //       },
     //       error => {
     //         let errorMsg:string = ''
@@ -128,7 +128,7 @@ export interface InsumoInterface {
 
         this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ItensRequisicao/${id}`,{}).subscribe(
           async(res:any) => {
-            resolve(res.resultado);
+            resolve(res);
           },
           error => {
            
@@ -143,7 +143,7 @@ export interface InsumoInterface {
 
         .subscribe(
           async(res:any) => {
-            resolve(res.resultado);
+            resolve(res);
           },
           error => {
            
@@ -162,7 +162,7 @@ export interface InsumoInterface {
         )
         .subscribe(
           async(res:any) => {
-            resolve(res.resultado);
+            resolve(res);
           },
           error => {
            

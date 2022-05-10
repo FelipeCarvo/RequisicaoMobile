@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-detail-request',
   templateUrl: './detail-request.page.html',
@@ -16,6 +17,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   reqItem:any = {}
   load:Boolean = false;
   loadButton:boolean = false;
+  error:boolean = false;
   public unsubscribe$ = new Subject();
   constructor(
     public navCtrl:NavController,
@@ -23,6 +25,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public loading: LoadingService,
+    private toastController:ToastController,
     ) {
      this.requisicaoId = activatedRoute.snapshot.params.requisicaoId;
      }
@@ -53,7 +56,17 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       this.reqItem.dataHora = date.toLocaleDateString('PT-US',{ hour12: false,hour: "numeric", minute: "numeric"})
       setTimeout(()=>{
         this.load = true;
+        this.error = false;
       },300)
+    },async(error) =>{
+      this.load = true;
+      console.log(error)
+      this.error = true;
+      const toast = await this.toastController.create({
+        message: error.Mensagem,
+        duration: 2000
+      });
+      toast.present();
     })
   }
   editReq(){

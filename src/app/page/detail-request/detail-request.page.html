@@ -9,9 +9,9 @@
 
 <ion-content>
   <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
-  <form id="requestForm"  [@hideShowAnimator]="load">
+  <form id="requestForm"  [@hideShowAnimator]="load" style="height: 100%;">
 
-    <ion-row class="ion-justify-content-center corpo" *ngIf="load">
+    <ion-row class="ion-justify-content-center corpo" *ngIf="load && !error">
       <ion-col size=11>
         <div class="statusDiv">
           <p>STATUS: <span>{{reqItem.statusDescricao}}</span></p>
@@ -158,6 +158,16 @@
           </ion-col> 
         </ion-row>
       </ion-col>  
+    </ion-row>
+    <ion-row  class="ion-justify-content-center" *ngIf="load && error" style="height: 100%; align-items: center;">
+      <ion-col size="5" class="ion-margin-top" > 
+        <div class="imgDiv" >
+          <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+         
+        </div>
+        <h2 class="titleNoInsumos">Algo deu errado</h2>
+      </ion-col>
+
     </ion-row>
   </form>
 </ion-content>

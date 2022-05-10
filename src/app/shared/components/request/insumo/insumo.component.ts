@@ -85,6 +85,7 @@ export class InsumoComponent implements OnInit {
   }
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
+      console.log(res);
       this.listInsumos = res;
       if(res.length > 0){
         this.updateButton.emit(true)

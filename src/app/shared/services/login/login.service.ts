@@ -31,6 +31,19 @@ import {setAuthData} from '@core/store/actions/auth.actions'
         )
       })
     }
+    getLogin(){
+      return new Observable((observer) => {
+        this.http.get(`${environment.BASE_URL}/sieconsts/connect/token`).subscribe(
+          async(res:any) => {
+
+            observer.next(res);
+          },
+          error => {
+            observer.error(error);
+          }
+        )
+      })
+    }
     public getAuthToken(refresh_token): Observable<any> {
      
       let {client_id,scope} = environment;
