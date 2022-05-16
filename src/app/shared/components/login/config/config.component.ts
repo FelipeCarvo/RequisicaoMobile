@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Output,EventEmitter  } from '@angular/core';
 import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ConfigComponent implements OnInit {
   public configForm: FormGroup;
   public loadSendData:Boolean;
+  @Output() updateCp: EventEmitter<any> = new EventEmitter<void>();
   constructor(
     private formBuilder: FormBuilder,
     private loginService:LoginService,
@@ -27,13 +28,28 @@ export class ConfigComponent implements OnInit {
   sendParams(){
     this.loadSendData = true;
     const {configParams} = this.configForm.getRawValue();
-    this.loginService.getConfig(configParams).subscribe(res=>{
+    this.loginService.getConfig(configParams).subscribe(async(res)=>{
       this.loadSendData = false;
+      const toast = await this.toastController.create({
+        message: 'Configuração encontrada',
+        duration: 2000
+      });
+      toast.present();
+      setTimeout(()=>{
+        this.updateCp.emit();
+      },300)
     },
     async(error)=>{
       this.loadSendData = false;
+      let msg;
+      if(error.status == 404){
+        msg = "Configuração nao encontra"
+      }
+      else{
+        msg = error.title
+      }
       const toast = await this.toastController.create({
-        message: error,
+        message: msg,
         duration: 2000
       });
       toast.present();

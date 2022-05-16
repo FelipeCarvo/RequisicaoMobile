@@ -28,3 +28,15 @@ export function opacityAnimation() {
         transition('false => true', animate('300ms ease-in'))
     ])
 }
+export function opacityAnimationT() {
+    return  trigger('hideShowAnimator', [
+        transition(':enter', [
+            style({transform: 'translateY(100%)', opacity: 0}),
+            animate('300ms', style({transform: 'translateY(0)', opacity: 1}))
+        ]),
+        transition(':leave', [
+        style({transform: 'translateY(0)', opacity: 1}),
+        animate('200ms', style({transform: 'translateY(100%)', opacity: 0}))
+        ])
+    ])
+}

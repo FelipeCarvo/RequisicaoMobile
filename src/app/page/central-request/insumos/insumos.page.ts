@@ -67,6 +67,7 @@ export class InsumosPage{
   }
   public resetAndBack():void{
     this.store.dispatch(new ResetStateInsumos())
+    
     this.navCtrl.back();
   }
   public goCentralEstoque(){
@@ -76,6 +77,6 @@ export class InsumosPage{
     if(!!insumoId){
      url = 'consulta-estoque'
     }
-    this.router.navigate([`tabs/central-req/${url}`]);
+    this.router.navigate([`tabs/central-req/${url}?number:3`]);
   }
 }

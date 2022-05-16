@@ -20,7 +20,7 @@
       </ion-col>
     </ion-row>
     <app-request-form *ngIf="step == 0" #appChild (sendReq)="sendReq($event)" (UpdateForm)="UpdateForm($event)" [getFormForStore]="getFormForStore" (setFormForStore)="setFormForStore($event)"></app-request-form>
-    <app-insumo *ngIf="step == 1"  [validForm]="validForm" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId" (updateStep)="updateStep($event)" (updateButton)="updateButton($event)" (setFormForStore)="setFormForStore($event)"> </app-insumo>
+    <app-insumo *ngIf="step == 1" (gonew)="gonew($event)" [validForm]="validForm" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId" (updateStep)="updateStep($event)" (updateButton)="updateButton($event)" (setFormForStore)="setFormForStore($event)"> </app-insumo>
     <app-documents *ngIf="step == 2" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId"></app-documents>
     <app-justificativa  *ngIf="step == 3" [versaoEsperada]="versaoEsperada" [requisicaoId]="requisicaoId"></app-justificativa>
   </ion-grid>  

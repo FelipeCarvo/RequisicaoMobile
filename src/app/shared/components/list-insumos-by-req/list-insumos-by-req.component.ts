@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit,Input,Output,EventEmitter,ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 @Component({
@@ -25,6 +25,7 @@ export class ListInsumosByReqComponent implements OnInit {
   @Output() excludeInsumo:EventEmitter<any> = new EventEmitter();
   showButtons:boolean = false;
   constructor(
+    private cdr: ChangeDetectorRef,
     public router: Router,
   ) { }
 
@@ -37,6 +38,7 @@ export class ListInsumosByReqComponent implements OnInit {
   }
   displayButtons(){
     this.showButtons = !this.showButtons;
+    // this.cdr.detectChanges();
   }
   controleEstoque(id){
     this.router.navigate(['tabs/central-req/consulta-estoque/'+id]);

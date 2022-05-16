@@ -1,11 +1,12 @@
 import { Component ,OnInit} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
-
+import {opacityAnimationT} from '@services/animation/custom-animation'
 @Component({
   selector: 'app-tab1',
   templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss']
+  styleUrls: ['login.page.scss'],
+  animations: [opacityAnimationT()]
 })
 export class LoginPage implements OnInit{
   hasUrl: boolean;
@@ -14,6 +15,10 @@ export class LoginPage implements OnInit{
   }
   ngOnInit(){
 
+  }
+  updateCp(){
+    console.log('updateCp', this.store.selectSnapshot(AuthUser.isAuthenticatedURL))
+    this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,HostListener,OnDestroy,ChangeDetectorRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import {ModalFinishReqComponent} from '@components/modal-finish-req/modal-finish-req.component';
@@ -11,13 +11,14 @@ import {tap,switchMap} from 'rxjs/operators';
 import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute,Router} from '@angular/router';
+import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss'],
 })
-export class RequestPage implements OnInit {
+export class RequestPage implements OnInit,OnDestroy {
   @ViewChild('appChild', {static: false}) childComponent;
   step:any = 0;
   validStep: boolean = false;
@@ -40,7 +41,9 @@ export class RequestPage implements OnInit {
     public loading: LoadingService,
     private alertServices: AlertServices,
     private updateRequestStatus: UpdateRequestStatus,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    public router:Router,
+    private cdr: ChangeDetectorRef
   ) 
   {  
     this.store
@@ -72,8 +75,40 @@ export class RequestPage implements OnInit {
   public get getCode(){
     return this.store.selectSnapshot(ReqState.getNumberValue)
   }
-  ngOnInit() {
   
+  ngAfterViewInit(){
+    
+   
+  }
+  // ionViewWillEnter(){
+  //   console.log("ionViewWillEnterMarditu")
+  //   let {params} = this.route.snapshot;
+  //   console.log("ionViewWillEnterMarditu",params)
+  //   if(!!params.number){
+  //     setTimeout(() =>{
+  //       this.step = parseInt(params.number)
+  //     },200)
+
+  //   }else{
+  //     if(!!this.requisicaoId){
+  //       this.step = 1;
+  //     }
+  //   }
+  // }
+  ionViewWillEnter(){
+    this.initStep();
+    // Actions
+ }
+  ngOnInit() {
+   this.initStep();
+
+  }
+  @HostListener('unloaded')
+  ngOnDestroy() {
+      console.log('Cleared');
+  }
+  initStep(){
+    this.step = 0;
     let {params} = this.route.snapshot;
     if(!!params.number){
       setTimeout(() =>{
@@ -82,10 +117,13 @@ export class RequestPage implements OnInit {
 
     }else{
       if(!!this.requisicaoId){
-        this.step = 1;
+        setTimeout(()=>{
+          this.step = 1;
+          this.cdr.detectChanges();
+        })
+       
       }
     }
-
   }
   updateButton(val){
     this.hasButtonFinish = val;
@@ -143,12 +181,10 @@ export class RequestPage implements OnInit {
   }
 
   public setFormForStore(formField){
-    console.log(formField);
     this.store.dispatch(new setReqFileds(formField))
   }
 
   async openModal(){
-    console.log(this.currentStatus)
     const modal = await this.modalController.create({
       component: ModalFinishReqComponent,
       cssClass: 'modalFinishReq',
@@ -189,7 +225,7 @@ export class RequestPage implements OnInit {
           msg = `Requisição editada com sucesso: ${requisicaoId}`
         }
         this.loading.dismiss();
-        console.log(form);
+
         this.setFormForStore(form);
         await this.showMsg(msg)
         this.step = 1;
@@ -219,7 +255,11 @@ export class RequestPage implements OnInit {
       params.versaoEsperada = this.versaoEsperada;
       delete params["requisicaoId"];
     }
-    console.log(params);
+
     return {params,type}
+  }
+  gonew(){
+    this.step = 0;
+    this.step = 1
   }
 }

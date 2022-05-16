@@ -1,9 +1,9 @@
-import { Component, Input,Output,EventEmitter, OnInit } from '@angular/core';
+import { Component, Input,Output,EventEmitter, AfterViewInit,ChangeDetectorRef,HostListener } from '@angular/core';
 import { ModalController, } from '@ionic/angular';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SetInsumosFileds } from '@core/store/actions/insumos.actions';
-
+import { Subscription } from 'rxjs';
 import {LoadingService} from '@services/loading/loading-service';
 import {opacityAnimation} from '@services/animation/custom-animation'
 import {InsumosRequest} from '@services/insumos/inusmo-req.service'
@@ -14,10 +14,12 @@ import {AlertServices} from '@services/utils/alerts-services/alerts-services';
   styleUrls: ['./insumo.component.scss'],
   animations: [opacityAnimation()]
 })
-export class InsumoComponent implements OnInit {
+export class InsumoComponent implements AfterViewInit {
   @Input() requisicaoId:String;
   @Input()versaoEsperada:Number;
   @Input() validForm;
+  subParams: Subscription;
+
   @Output() updateStep:EventEmitter<any> = new EventEmitter();
   @Output() updateButton:EventEmitter<any> = new EventEmitter();
   listInsumos: Array<any>;
@@ -30,19 +32,30 @@ export class InsumoComponent implements OnInit {
     public loadingService: LoadingService,
     private alertServices: AlertServices,
     private store:Store,
-    public activatedroute: ActivatedRoute
+    public activatedroute: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ){
     console.log(this.router.url)
-    this.activatedroute.url.subscribe(res => {
-      this.initApp();
-    })
+    // this.activatedroute.url.subscribe(res => {
+    //     // this.initApp();
+    //     console.log('aquii')
+    //   })
  
   }
-  async ngOnInit() {
-    
-    console.log("init")
-   this.initApp();
+  ngAfterViewInit(){
+    console.log('to aqui')
+    this.initApp();
   }
+  ngOnInit():void {
+    console.log('init')
+    this.initApp();
+    // this.sub = this.activatedroute.url.subscribe(res => {
+    //   this.initApp();
+    //   console.log('aquii')
+    // })
+
+  }
+
   initApp(){
     if(!!this.validForm && !!this.requisicaoId){
       this.loading = false
@@ -87,17 +100,22 @@ export class InsumoComponent implements OnInit {
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
       console.log(res);
       this.listInsumos = res;
-      if(res.length > 0){
-        this.updateButton.emit(true)
-      }
+      // this.cdr.detectChanges();
+  
       setTimeout(() =>{
+        if(res.length > 0){
+          this.updateButton.emit(true)
+        }
         this.loading = true;
+        // this.cdr.detectChanges();
       },200)
     })
   }
+
   presentModal(){
     if(this.validForm){
       this.router.navigate(['/tabs/central-req/insumos']);
+      // this.updateStep.emit(0)
     }
   }
 
