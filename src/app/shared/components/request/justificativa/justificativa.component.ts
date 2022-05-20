@@ -36,6 +36,13 @@ export class JustificativaComponent implements OnInit {
       this.justificativaList = res;
    
       this.loading.dismiss();
+    },async(error)=>{
+      this.loading.dismiss();
+      const toast = await this.toastController.create({
+        message: error,
+        duration: 4000
+      });
+      toast.present();
     })
   }
 

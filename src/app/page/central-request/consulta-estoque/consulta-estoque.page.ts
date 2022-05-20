@@ -128,6 +128,7 @@ export class ConsultaEstoquePage implements OnInit {
       this.router.navigate(['/tabs/central-req/nova-req']);
       this.loading.dismiss();
     },async(error)=>{
+      this.loading.dismiss();
       const toast = await this.toastController.create({
         message: error,
         duration: 4000
