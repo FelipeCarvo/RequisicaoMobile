@@ -16,6 +16,7 @@
           [disableControl]="setDisableButton"
           class="customInput"
           (focus)="getLoockups()"
+          [class]="getRequerid ? 'required' : ''"
           [matAutocompleteConnectedTo]="origin" 
           style="padding-inline-end: 30px;">
           <ion-icon name="close-outline" *ngIf="!!getValue" (click)="clearField(); openPanel()"></ion-icon>
@@ -33,6 +34,9 @@
         <ion-spinner name="crescent" *ngIf="loading" ></ion-spinner>
         <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding search-icon-input" slot="end" *ngIf="!loading"></ion-icon>
       </ion-button> 
+    </ion-col>
+    <ion-col size="12" class="required-text" *ngIf="getRequerid">
+      <p>Campo Obrigatório </p>
     </ion-col>
   </ion-row>
 </ion-item>

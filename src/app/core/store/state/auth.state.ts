@@ -19,6 +19,10 @@ const defaults: AuthUserStateModel = {
 })
 export class AuthUser {
   @Selector()
+  static getUserName(state: AuthUserStateModel):String{
+    return state.userName;
+  }
+  @Selector()
   static getToken(state: AuthUserStateModel) {
     return state.token;
   }

@@ -21,6 +21,9 @@ ion-header{
         }
     }
 }
+.header-md::after{
+    content:none!important;
+}
 ion-content{
     --background:#FFFFFF;
     ion-item.editInput{

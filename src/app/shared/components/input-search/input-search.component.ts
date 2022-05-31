@@ -51,10 +51,15 @@ export class InputSearchComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    console.log("re")
+   
     if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
       this.refreshLoad = true;
       this.getLoockups();
     }
+  }
+  get getRequerid():boolean{
+    return !!this.parentForm.get(this.controlName).errors?.required 
   }
   get getValue(){
     return this.parentForm.get(this.controlName).value 

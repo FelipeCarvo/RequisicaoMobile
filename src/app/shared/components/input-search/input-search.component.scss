@@ -23,6 +23,10 @@ ion-row{
             }          
         }
     }
+    .customInput.required{
+        border: 2px solid #EB5757 !important;
+        // border-color: #EB5757!important;
+    }
     .required-text{
         p{
             color: #EB5757;

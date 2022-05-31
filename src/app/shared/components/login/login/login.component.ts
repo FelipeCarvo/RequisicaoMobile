@@ -46,8 +46,9 @@ export class LoginComponent implements OnInit {
     },
     async(error)=>{
       this.loadSendData = !this.loadSendData;
+      console.log(error);
       const toast = await this.toastController.create({
-        message: error,
+        message: error.error_description,
         duration: 2000
       });
       toast.present();

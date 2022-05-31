@@ -5,14 +5,17 @@ import {Logout} from '@core/store/actions/auth.actions'
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
 import {ResetStateReq} from '@core/store/actions/req.actions'
 import { Store } from '@ngxs/store';
+import { AuthUser } from '@core/store/state/auth.state';
 @Component({
   selector: 'menu-root',
   templateUrl: 'menu.component.html',
   styleUrls: ['menu.component.scss'],
 })
 export class MenuComponent {
+  userName: String = null;
   constructor(private menu: MenuController,private router:Router,private store:Store) {}
   openFirst() {
+    this.userName = this.store.selectSnapshot(AuthUser.getUserName)
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit,Injectable ,Output ,Input,EventEmitter,ViewChild} from '@angular/core';
+import { Component, OnInit,Injectable ,Output ,Input,EventEmitter,ViewChild,ChangeDetectorRef} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
@@ -23,7 +23,8 @@ export class IsumosFormComponent implements OnInit {
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Output() onlyReset:EventEmitter<any> = new EventEmitter();
   @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
-  
+  @ViewChild('popOne') popOne;
+  @ViewChild('popTwo') popTwo;
   @ViewChild('scrollTarget') scrollTarget;
   empreendimentoId:String = null;
   public reqFormInsumos: FormGroup;
@@ -34,11 +35,16 @@ export class IsumosFormComponent implements OnInit {
   diference = new Date().toISOString();
   currentDay = new Date().toISOString();
   currentyear = new Date().toISOString();
+  closeModal = false;
   sendMsg:String = 'Adicionar Insumos';
   loadedEtapas = false;
   loadForm: boolean = false;
   hasLoaded:boolean = false;
   updateInsumos:boolean = false;
+  saveInsumos:boolean = false;
+  savePlanoDeContas:boolean = false;
+  saveEtapas:boolean = false;
+  saveblocoId:boolean = false;
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -57,6 +63,7 @@ export class IsumosFormComponent implements OnInit {
     private store:Store,
     private insumosRequest:InsumosRequest,
     private toastController:ToastController,
+    private cdr: ChangeDetectorRef
 
   ) {
    
@@ -89,6 +96,11 @@ export class IsumosFormComponent implements OnInit {
   get getForm(){
     return this.reqFormInsumos.getRawValue();
   }
+  test(){
+    console.log(this.saveblocoId)
+
+
+  }
   async ngOnInit() {
     const {id} = this.getFormForStore;
     if(!!id){
@@ -97,7 +109,8 @@ export class IsumosFormComponent implements OnInit {
     }
     this.initForm();
     if(!this.reqFormInsumos.controls['prazo'].value){
-      this.setDif();
+
+      this.setDif(null);
     }
     
     if(!!this.getFormField('etapaId')){
@@ -114,12 +127,28 @@ export class IsumosFormComponent implements OnInit {
       this.insumoTypeUnidades = null
     }
   }
-  
-  setDif(){
+  async openPop(){
+    await this.popOne.present();
+  }
+  async setPopTwo(event){
+    await this.popTwo.dismiss();
+
+  }
+  async setDif(event){
     let a = moment(this.diference);
     let b = moment(this.currentDay);
     let dif:any = a.diff(b,'days');
-    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))    
+    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
+    setTimeout(async()=>{
+      if(!this.closeModal){
+        await this.popOne.dismiss();
+        this.closeModal = true
+      }else{
+        this.closeModal = false 
+      }
+    },200)
+
+        
   }
   changeEtapa(){
     this.reqFormInsumos.controls['insumoId'].setValue(null);
@@ -128,7 +157,6 @@ export class IsumosFormComponent implements OnInit {
   }
   async initForm(){
     const{empreendimentoId,requisicaoId}=this.store.selectSnapshot(ReqState.getReq);
-    console.log(empreendimentoId,requisicaoId)
     this.empreendimentoId = empreendimentoId;
     this.reqFormInsumos = this.formBuilder.group({
       empresaId:  new FormControl(null, [Validators.required]),
@@ -232,10 +260,11 @@ export class IsumosFormComponent implements OnInit {
         type = 'editado'
         this.resetAndBack.emit();
       }else{
-        this.resetForm();
-        this.insumoTypeUnidades = null
+        await this.resetForm();
+        
         this.onlyReset.emit();
         this.scrollToElement();
+       
       }
       const toast = await this.toastController.create({
         message: `Insumo ${type} com sucesso`,
@@ -263,13 +292,25 @@ export class IsumosFormComponent implements OnInit {
     let el = this.scrollTarget.nativeElement
     el.scrollIntoView({ behavior: 'smooth' });
   }
-  public resetForm(){
- 
-    Object.keys(this.reqFormInsumos.controls).forEach(key => {
-      if(key != 'empresaId' && key != 'complemento'){
-        this.reqFormInsumos.get(key).setValue(null)
-      }
-    });
+  public async resetForm(){
+   
+    this.insumoTypeUnidades = null
+    let empresaId = this.getFormField('empresaId')
+    let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
+    let insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
+    let planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
+    let blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
+    this.initForm();
+    this.reqFormInsumos.controls['empresaId'].setValue(empresaId)
+    this.reqFormInsumos.controls['etapaId'].setValue(etapaId)
+    this.reqFormInsumos.controls['insumoId'].setValue(insumoId)
+    this.reqFormInsumos.controls['planoContasId'].setValue(planoContasId)
+    this.reqFormInsumos.controls['blocoId'].setValue(blocoId)
+    setTimeout(()=>{
+      this.cdr.detectChanges();
+    })
+   
+
     // const controlNames = ['nameOne', 'nameTwo'];
     // controlNames.map((value: string) => this.reqFormInsumos.get(value).setValue(null));
   }

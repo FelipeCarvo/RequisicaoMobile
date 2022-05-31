@@ -2,8 +2,8 @@
   <ion-menu side="start" menuId="first" contentId="main">
     <ion-header class="ion-no-border">
       <ion-toolbar class="ion-padding ion-no-border " >
-        <ion-title >Rodrigo Dias
-          <p class="cargo ion-no-margin">Cargo/Empresa</p>
+        <ion-title >{{userName}}
+          <!-- <p class="cargo ion-no-margin">Cargo/Empresa</p> -->
         </ion-title>
         
       </ion-toolbar>
@@ -11,7 +11,7 @@
     <ion-content>
       <ion-list>
         <ion-item (click)="redirect('profile')" lines="none" class="ion-no-border ion-margin-vertical"><ion-icon name="person-circle-outline"></ion-icon>Meu perfil</ion-item>
-        <ion-item lines="none" class="ion-no-border"><ion-icon name="notifications-outline"></ion-icon>Notificações</ion-item>
+        <!-- <ion-item lines="none" class="ion-no-border"><ion-icon name="notifications-outline"></ion-icon>Notificações</ion-item> -->
         <ion-item lines="none" class="ion-no-border ion-margin-vertical absolute_item" (click)="exit()"><ion-icon name="exit-outline"></ion-icon>Sair do Aplicativo</ion-item>
       </ion-list>
     

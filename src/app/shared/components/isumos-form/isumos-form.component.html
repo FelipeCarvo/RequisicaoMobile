@@ -7,22 +7,22 @@
             <ion-col size="6" class="ion-no-padding">
               <ion-item lines="none"  class="radio">
                 <ion-label>Insumo</ion-label>
-                <ion-checkbox disabled="true" value="insumoId" slot="start" [checked]="!!getFormField('insumoId')"></ion-checkbox>
+                <ion-checkbox slot="start"   [(ngModel)]="saveInsumos"  [ngModelOptions]="{standalone: true}"></ion-checkbox>
               </ion-item>
           
               <ion-item lines="none"  class="radio">
                 <ion-label>Etapa</ion-label>
-                <ion-checkbox disabled="true" value="etapaId" slot="start" [checked]="!!getFormField('etapaId')"> </ion-checkbox>
+                <ion-checkbox  [(ngModel)]="saveEtapas" slot="start"  [ngModelOptions]="{standalone: true}"> </ion-checkbox>
               </ion-item>
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
               <ion-item  lines="none"  class="radio">
                 <ion-label>Plano de contas</ion-label>
-                <ion-checkbox disabled="true" value="planoContasId" slot="start" [checked]="!!getFormField('planoContasId')"></ion-checkbox>
+                <ion-checkbox  [(ngModel)]="savePlanoDeContas" slot="start"  [ngModelOptions]="{standalone: true}"></ion-checkbox>
               </ion-item>
               <ion-item lines="none" class="radio">
                 <ion-label>Bloco de unidade</ion-label>
-                <ion-checkbox disabled="true" value="blocoId" slot="start" [checked]="!!getFormField('blocoId')"></ion-checkbox>
+                <ion-checkbox  [(ngModel)]="saveblocoId" slot="start"  [ngModelOptions]="{standalone: true}"></ion-checkbox>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -90,7 +90,7 @@
       </ion-item>
       <div #diaUtil id="open-date-input-diff"  style="height: 0;">
         <ion-col size="12">
-          <ion-popover  [dismissOnSelect]="true" trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
+          <ion-popover  #popOne trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
               <ion-datetime 
                
@@ -102,7 +102,7 @@
                 done-text="Confirmar"
                 cancel-text="cancelar"
                 [(ngModel)]="diference"
-                (ionChange)="setDif()"
+                (ionChange)="setDif($event)"
                 [ngModelOptions]="{standalone: true}"
                 >
               </ion-datetime>
@@ -123,11 +123,12 @@
       </ion-item>
       <div id="open-date-input" #prazoDate style="height: 0;">
         <ion-col size="12">
-          <ion-popover [dismissOnSelect]="true" trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
+          <ion-popover  #popTwo trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
               <ion-datetime presentation="date" locale="pt-BR" 
                 [value]="currentDay" picker-format="MMMM DD, YYYY" 
                 display-format="MM/DD/YYYY" [min]="currentyear" 
+                (ionChange)="setPopTwo($event)"
                 formControlName="prazoDevolucao" done-text="Confirmar"
                 cancel-text="cancelar">
               </ion-datetime>
@@ -175,6 +176,7 @@
       </ion-item>
     </ion-col>
     <ion-col size="11" >
+
       <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="submit()" [disabled]="!validForm || sendLoading">
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>

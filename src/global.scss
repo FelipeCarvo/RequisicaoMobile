@@ -188,6 +188,10 @@ ion-app{
             display: flex;
             align-items: center;
         }
+        .customInput.required{
+            border: 2px solid #EB5757 !important;
+            // border-color: #EB5757!important;
+        }
         ion-item{ 
             --padding-start:0;
             --background:#FFFFFF;
@@ -254,16 +258,17 @@ ion-app{
             .calendar{
                 display: flex;
                 align-items: center;
+                padding-inline-end: 11px;
                 ion-input{
                     margin: 0!important;
                     border: none!important;
                     text-align: center;
-                    padding-right: 15px!important;
+                    padding-right: 5px!important;
                 }
                 ion-icon{
                     font-size: 25px;
                     margin-left: auto;
-                    margin-right: 16px;
+                    // margin-right: 16px;
                 }
             }
             ion-textarea{
