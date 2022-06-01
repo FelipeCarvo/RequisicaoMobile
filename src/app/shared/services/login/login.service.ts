@@ -41,7 +41,6 @@ import { AuthUser } from '@core/store/state/auth.state';
         this.http.get(`${environment.BASE_URL}/clientespoliviewapi/api/BuscaConfiguracao/${params}`).subscribe(
           async(res:any) => {
             const {itens} = res;
-            console.log(itens);
             let urlLogin = itens.find(item => item.nome == 'urlLogin').valor;
             let urlAPISuprimentos = itens.find(item => item.nome == 'urlAPISuprimentos').valor;
             let urlAPISP7 = itens.find(item => item.nome == 'urlAPISP7').valor;

@@ -12,7 +12,7 @@ export class StepTwoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('step',this.itemEstoque)
+
   }
   reservar(){
     const postObj = {

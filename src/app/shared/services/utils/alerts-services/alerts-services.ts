@@ -135,7 +135,6 @@ export class AlertServices {
     });
     await alert.present();
     const {role,data} = await alert.onDidDismiss();
-    console.log(data);
     let result;
     if (role === 'confirm') {
       result = data.values.qtd

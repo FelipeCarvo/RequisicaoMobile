@@ -22,11 +22,9 @@ export class JustificativaComponent implements OnInit {
     
   }
   ngAfterViewInit(){
-    console.log('ngAfterContentInit')
     this.getJustifcativa()
   }
   ngOnInit() {
-    console.log('ngOnInit')
    this.getJustifcativa()
   }
   getJustifcativa(){

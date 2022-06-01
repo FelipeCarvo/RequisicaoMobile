@@ -80,21 +80,7 @@ export class RequestPage implements OnInit,OnDestroy {
     
    
   }
-  // ionViewWillEnter(){
-  //   console.log("ionViewWillEnterMarditu")
-  //   let {params} = this.route.snapshot;
-  //   console.log("ionViewWillEnterMarditu",params)
-  //   if(!!params.number){
-  //     setTimeout(() =>{
-  //       this.step = parseInt(params.number)
-  //     },200)
 
-  //   }else{
-  //     if(!!this.requisicaoId){
-  //       this.step = 1;
-  //     }
-  //   }
-  // }
   ionViewWillEnter(){
     this.initStep();
     // Actions

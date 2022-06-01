@@ -29,7 +29,7 @@ export class ListJustificativaComponent implements OnInit {
 
   ngOnInit() {}
   edit(){
-    console.log("edit",this.item)
+
     this.router.navigate([`/tabs/central-req/edit-justificativa/${this.item.id}`]);
   }
   displayButtons(){

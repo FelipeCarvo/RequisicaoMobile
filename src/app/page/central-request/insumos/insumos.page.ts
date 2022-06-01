@@ -28,7 +28,7 @@ export class InsumosPage{
   }
   ngOnInit() {
     if(!this.validReqId()){
-      console.log(this.getFormForStore())
+
       const {requisicaoId,versaoEsperada} = this.getRequest();
       this.setFormForStore({requisicaoId,versaoEsperada});
     }

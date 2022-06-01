@@ -100,7 +100,7 @@ export interface InsumoInterface {
       return new Observable((observer) => {
         req.pipe(
           tap((response:any) => {
-           console.log('tap',response);
+
           
           }),
           switchMap((res:any) => {
@@ -109,7 +109,7 @@ export interface InsumoInterface {
           })
         ).subscribe(
           async(res) => {
-            console.log('subscribe',res);
+
             
             observer.next(res);
           },

@@ -35,25 +35,12 @@ export class InsumoComponent implements AfterViewInit {
     public activatedroute: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ){
-    console.log(this.router.url)
-    // this.activatedroute.url.subscribe(res => {
-    //     // this.initApp();
-    //     console.log('aquii')
-    //   })
- 
   }
   ngAfterViewInit(){
-    console.log('to aqui')
     this.initApp();
   }
   ngOnInit():void {
-    console.log('init')
     this.initApp();
-    // this.sub = this.activatedroute.url.subscribe(res => {
-    //   this.initApp();
-    //   console.log('aquii')
-    // })
-
   }
 
   initApp(){
@@ -98,16 +85,12 @@ export class InsumoComponent implements AfterViewInit {
   }
   getInsumos(){
     this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
-      console.log(res);
       this.listInsumos = res;
-      // this.cdr.detectChanges();
-  
       setTimeout(() =>{
         if(res.length > 0){
           this.updateButton.emit(true)
         }
         this.loading = true;
-        // this.cdr.detectChanges();
       },200)
     })
   }
@@ -115,7 +98,6 @@ export class InsumoComponent implements AfterViewInit {
   presentModal(){
     if(this.validForm){
       this.router.navigate(['/tabs/central-req/insumos']);
-      // this.updateStep.emit(0)
     }
   }
 

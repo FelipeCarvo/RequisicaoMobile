@@ -52,8 +52,6 @@ export class InputSearchComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    console.log("re")
-   
     if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
       this.refreshLoad = true;
       this.getLoockups();
@@ -121,7 +119,6 @@ export class InputSearchComponent implements OnInit {
         enumName = 'EmpresasDoEmpreendimento'
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
-        console.log(this.updateInsumos)
         if(!!this.updateInsumos) this.listGroup = []
         this.listGroup = await this.loockupstService.getLookUp(params,enumName);
         if(this.updateInsumos){
@@ -150,15 +147,13 @@ export class InputSearchComponent implements OnInit {
               this.parentForm.controls[this.controlName].setValue('');
               this.inputAutoComplete.openPanel();
             }else{
-              console.log(this.controlName )
               if(this.controlName == 'insumoId'){
              
                 let filterValue:any = this._filter(this.getValue,this.listGroup)[0];
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
-                  console.log('aqui')
+                 
                   let {planoContasPadraoId} = filterValue
                   let hasPlan = !!this.parentForm.controls['planoContasId'].value;
-                  console.log(hasPlan)
                   if(!hasPlan){
                     this.parentForm.controls['planoContasId'].setValue(planoContasPadraoId);
                   }
@@ -172,8 +167,6 @@ export class InputSearchComponent implements OnInit {
   }
   setPlans(val){
 
-    console.log(val);
-    console.log(this.controlName)
   }
   private _filter(value: string,res): string[] {
     let filter;

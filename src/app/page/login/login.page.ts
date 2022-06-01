@@ -17,7 +17,7 @@ export class LoginPage implements OnInit{
 
   }
   updateCp(){
-    console.log('updateCp', this.store.selectSnapshot(AuthUser.isAuthenticatedURL))
+ 
     this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
   }
 

@@ -80,7 +80,9 @@ export class IsumosFormComponent implements OnInit {
     }
     return retorno
   }
-  get quantidadeInput() { return this.reqFormInsumos.get('quantidade'); }
+  get quantidadeInput() { 
+    return this.reqFormInsumos.get('quantidade');
+   }
   get etapaIdInput():String { return this.reqFormInsumos.get('etapaId').value; }
   get paramsInsumo(){
     let obj:{empreendimentoId?:String,pesquisa?:String,etapaId?:String,somenteInsumosDaEtapa?:Boolean} = {empreendimentoId: this.empreendimentoId,pesquisa:''}
@@ -95,11 +97,6 @@ export class IsumosFormComponent implements OnInit {
   }
   get getForm(){
     return this.reqFormInsumos.getRawValue();
-  }
-  test(){
-    console.log(this.saveblocoId)
-
-
   }
   async ngOnInit() {
     const {id} = this.getFormForStore;
@@ -119,7 +116,6 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.controls['etapaId'].valueChanges.subscribe(res =>{
       let etapas = this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0];
       if(!!etapas && !!etapas.planoContasId){
-        console.log(this.reqFormInsumos.controls['planoContasId'])
         this.reqFormInsumos.controls['planoContasId'].setValue(etapas.planoContasId)
      
        }
@@ -159,17 +155,14 @@ export class IsumosFormComponent implements OnInit {
         
   }
   eventChanged(event){
-    console.log('changeEtapa');
-    if(event.type == 'cancel'){
+    let{type} = event
+    if(type == 'cancel' || type == 'ionCancel'){
       this.reqFormInsumos.controls['etapaId'].setValue(null);
+      this.emitFieldClean( {['etapaId']:null})
+      this.updateInsumos = true;
     }
-    // this.reqFormInsumos.controls['insumoId'].setValue(null);
-
-    // if(!this.updateInsumos)this.updateInsumos = true;
   }
   changeEtapa(){
-    console.log('changeEtapa');
-    console.log( this.reqFormInsumos.controls['etapaId'].value)
     this.reqFormInsumos.controls['insumoId'].setValue(null);
     this.reqFormInsumos.controls['etapaId'].setValue(null);
     if(!this.updateInsumos)this.updateInsumos = true;
@@ -203,15 +196,12 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
 
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
-      console.log("filterVal");
-      console.log(filterVal);
+
       filterVal.forEach(e =>{
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
-      
-        console.log("formField");
-        console.log(formField);
+
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
           if(e === 'etapaId' && !!formField){
@@ -230,6 +220,11 @@ export class IsumosFormComponent implements OnInit {
   }
   async setValform(){
     await this.reqFormInsumos.patchValue(this.getFormForStore);
+  }
+  changeQtd(ev){
+    if(!ev){
+      this.reqFormInsumos.controls['quantidade'].setValue(0)
+    }
   }
   async getLoockupEtapa(){
     let params;
@@ -251,7 +246,12 @@ export class IsumosFormComponent implements OnInit {
     this.loockupstService.getLookUp(params,'etapaId').then(res =>{
       this.loadedEtapas = true;
       const selectedEtapa = this.getFormField('etapaId');
+      const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
+      let planoContasId = this.reqFormInsumos.controls['planoContasId'].value
       this.etapas = res;
+      if(!!planoContasId){
+        this.etapas = this.etapas.filter(el=>el.planoContasId == planoContasId)
+      }
       if(!!selectedEtapa){
         let test = !!this.etapas.find(e => e.id == selectedEtapa);
         const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
@@ -287,9 +287,10 @@ export class IsumosFormComponent implements OnInit {
         type = 'editado'
         this.resetAndBack.emit();
       }else{
-        await this.resetForm();
+
+        this.resetForm();
         
-        this.onlyReset.emit();
+        
         this.scrollToElement();
        
       }
@@ -319,21 +320,44 @@ export class IsumosFormComponent implements OnInit {
     let el = this.scrollTarget.nativeElement
     el.scrollIntoView({ behavior: 'smooth' });
   }
-  public async resetForm(){
-   
+  public resetForm(){
+    this.onlyReset.emit();
     this.insumoTypeUnidades = null
     let empresaId = this.getFormField('empresaId')
     let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
     let insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
     let planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
     let blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
-    this.initForm();
-    this.reqFormInsumos.controls['empresaId'].setValue(empresaId)
-    this.reqFormInsumos.controls['etapaId'].setValue(etapaId)
-    this.reqFormInsumos.controls['insumoId'].setValue(insumoId)
-    this.reqFormInsumos.controls['planoContasId'].setValue(planoContasId)
-    this.reqFormInsumos.controls['blocoId'].setValue(blocoId)
+    let objForm = {
+      empresaId:empresaId,
+      etapaId:etapaId,
+      somenteInsumosDaEtapa:false,
+      planoContasId:planoContasId,
+      insumoSubstituicaoId:null,
+      servicoId:null,
+      insumoId:insumoId,
+      quantidade:0,
+      prazo:0,
+      prazoDevolucao:null,
+      complemento:'S/ COMPLEMENTO',
+      estoque:false,
+      gerarAtivoImobilizado:false,
+      blocoId:blocoId,
+      unidadeId:null,
+      ordemServicoId:null,
+      equipamentoId:null,
+      observacoes:null  
+    }
+   
+
     setTimeout(()=>{
+      this.reqFormInsumos.patchValue(objForm)
+
+      // this.reqFormInsumos.controls['empresaId'].setValue(empresaId)
+      // this.reqFormInsumos.controls['etapaId'].setValue(etapaId)
+      // this.reqFormInsumos.controls['insumoId'].setValue(insumoId)
+      // this.reqFormInsumos.controls['planoContasId'].setValue(planoContasId)
+      // this.reqFormInsumos.controls['blocoId'].setValue(blocoId)
       this.cdr.detectChanges();
     })
    

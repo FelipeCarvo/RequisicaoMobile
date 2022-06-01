@@ -51,7 +51,6 @@ export class EditJustificativaPage implements OnInit {
     // this.navCtrl.back();
   }
   getJustifcativa(){
-    console.log(!!this.justificativa)
     this.loading.present();
     this.requestService.getJustifcativaDetail(this.justificativaId).subscribe((res:any) =>{
       this.justificativa = res;

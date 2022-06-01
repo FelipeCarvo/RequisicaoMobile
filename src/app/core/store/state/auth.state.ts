@@ -75,7 +75,6 @@ export class AuthUser {
   }
   @Action(setAuthUrl)
   setAuthUrl({patchState}:StateContext<AuthUserStateModel>,{payload}:setAuthUrl){
-    console.log("setAuthUrl",payload)
     patchState({
       urlLogin:payload.urlLogin,
       urlAPISuprimentos:payload.urlAPISuprimentos,

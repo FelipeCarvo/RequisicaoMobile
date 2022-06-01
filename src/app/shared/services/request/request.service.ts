@@ -65,7 +65,6 @@ import { AuthUser } from '@core/store/state/auth.state';
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
             let result = res;
-            console.log(result)
             result.empreendimentoId =  result.empreendimentoID;
             result.requisicaoId = result.id;
             result.versaoEsperada = result.version
@@ -113,7 +112,6 @@ import { AuthUser } from '@core/store/state/auth.state';
       return new Observable((observer) => {
         req.subscribe(
           async(res:any) => {
-            console.log(res)
             observer.next(res);
           },
           error => {
@@ -151,7 +149,6 @@ import { AuthUser } from '@core/store/state/auth.state';
             if(!!res && res != requisicaoId){
               this.store.dispatch(new setReqFileds({requisicaoId:resultado}))
             }
-            console.log(res)
             if(!!res)
             return this.getVersion(res)
           })
@@ -264,9 +261,7 @@ import { AuthUser } from '@core/store/state/auth.state';
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${entidadeId}/${id}/` )
         .subscribe(
-          async(res:any) => {
-            console.log('res',res)
-          
+          async(res:any) => {          
             observer.next(res);
           },
           error => {
@@ -280,8 +275,6 @@ import { AuthUser } from '@core/store/state/auth.state';
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}` )
         .subscribe(
           async(res:any) => {
-            console.log('res',res)
-          
             observer.next(res.sort(this.sortFunction));
           },
           error => {
@@ -294,7 +287,7 @@ import { AuthUser } from '@core/store/state/auth.state';
       return new Observable((observer) => {
         this.http.get(`${url}`).subscribe(
           async(res:any) => {
-            console.log(res)
+
           },
           error => {
             observer.error(error);
@@ -399,14 +392,12 @@ import { AuthUser } from '@core/store/state/auth.state';
       return 'text/plain';
     }
     deleteDocument(form,endPoint ='posDocument'){
-      console.log(form,endPoint)
       return new Observable((observer) => {
         this.http.delete(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}?DocumentoId=${form.documentoId}&Id=${form.id}&VersaoEsperada=${form.versaoEsperada}`
         ).pipe(switchMap(res =>{
           return this.getVersion(this.requisicaoId)
         })).subscribe(
           async(res:any) => {
-            console.log('res',res)
             // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },
@@ -425,7 +416,6 @@ import { AuthUser } from '@core/store/state/auth.state';
           return this.getVersion(this.requisicaoId)
         })).subscribe(
           async(res:any) => {
-            console.log('res',res)
             // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },
@@ -440,7 +430,6 @@ import { AuthUser } from '@core/store/state/auth.state';
       let fd = new FormData();
       let currentName = fileName ||name
       fd.append(currentName, form,name);
-      console.log(fd  )
       return new Observable((observer) => {
         this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}/${version}`,
         fd,
@@ -449,7 +438,6 @@ import { AuthUser } from '@core/store/state/auth.state';
           return this.getVersion(this.requisicaoId)
         })).subscribe(
           async(res:any) => {
-            console.log('res',res)
             // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
             observer.next(res);
           },

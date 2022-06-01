@@ -17,7 +17,7 @@ export class TabsPage implements OnInit, OnDestroy{
     this.$unsubscribe = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(this.observeUrlChanges);
   }
   observeUrlChanges(event: NavigationEnd) {
-    console.log(event.url);
+
   
   }
   ngOnDestroy() {

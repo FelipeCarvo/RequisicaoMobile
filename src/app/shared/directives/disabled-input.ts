@@ -7,7 +7,6 @@ import { FormGroupDirective } from "@angular/forms";
 export class DisableControlDirective  {
   disabled: boolean;
   @Input() set disableControl( condition : boolean ) {
-    console.log(condition);
     this.disabled = condition;
     if(this.ngControl?.control){
       this.validationDisabled = condition;

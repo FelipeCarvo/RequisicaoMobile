@@ -112,7 +112,6 @@ export class RequestFormComponent implements OnInit {
   }
   sendForm(){
     this.sendLoading = true;
-    console.log(this.getForm)
     this.sendReq.emit(this.getForm)
   }
 }

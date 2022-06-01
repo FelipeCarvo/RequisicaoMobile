@@ -40,7 +40,7 @@ export class DocumentModalComponent implements OnInit {
   }
   async editDescription(id,i){
     let item = this.archives.find(a => a.id === id);
-    console.log(i);
+
     const descripition = await this.alertServices.alertDescription(item.descripition);
     this.archives[i].descripition = descripition;
   }

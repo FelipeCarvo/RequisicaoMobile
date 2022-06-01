@@ -37,7 +37,6 @@ export class ReservaInsumoPage implements OnInit {
 
   ngOnInit() {
     let {params} = this.route.snapshot;
-    console.log(params)
     this.itemObject ={
       complemento:params.complemento,
       empreendimento:parseInt(params.empreendimento),

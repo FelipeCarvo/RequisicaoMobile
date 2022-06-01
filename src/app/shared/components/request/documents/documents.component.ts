@@ -50,14 +50,13 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit() {
     this.getDocument()
-    console.log(this.versaoEsperada)
+
   }
   get archivesValid(){
     return this.archives.length > 0;
   }
   getDocument(){
     this.requestService.getDocument(this.requisicaoId).subscribe(async(res:any) =>{
-      console.log(res); 
       this.documentList = res;
       this.loadingDocument = true;
     })
@@ -73,12 +72,10 @@ export class DocumentsComponent implements OnInit {
       documentoId: item.id,
       descricao: descripition.fileName
     }
-    console.log(sendItem);
    this.putRequest(sendItem)
    }
   }
   async deleteItem(item){
-    console.log(this.versaoEsperada)
     this.loadButton = true;
     const sendItem = {
       id: item.entidadeId,
@@ -100,7 +97,6 @@ export class DocumentsComponent implements OnInit {
   }
 
   async changeListener(e) : Promise<void> {
-    console.log('change',e)
     this.loadButton = true;
     this.file = (e.target as HTMLInputElement).files[0];
     const {fileName,role} = await this.alertServices.alertDescription();
@@ -111,8 +107,6 @@ export class DocumentsComponent implements OnInit {
     if(!!fileName){
       this.file.fileName = fileName;
     }
-
-    console.log(fileName)
     this.sendArchive(this.file);
     
   }

@@ -48,20 +48,19 @@ export class homePage implements OnInit,OnDestroy{
     return this.store.selectSnapshot(ReqState.validReqId);
   }
   ionViewDidEnter(){
-    console.log('ionViewDidEnter')
+
     this.getReq()
   }
   ionViewWillEnter(){
-    console.log('ionViewWillEnter')
+
   
   }
   ngOnInit() {
-    console.log('init')
+
     this.getReq()
     this.$unsubscribe = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(this.observeUrlChanges);
   }
   observeUrlChanges(event: NavigationEnd) {
-    console.log('observeUrlChanges')
     try { 
       this.getReq();
     } catch (e) {}

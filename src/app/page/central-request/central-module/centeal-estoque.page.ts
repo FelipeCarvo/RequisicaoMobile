@@ -29,13 +29,4 @@ export class CentealEstoquePage implements OnInit {
   ngOnInit() {
     
   }
-  // getEstoque(){
-  //   const params = {
-  //     requisicaoId: this.requisicaoId,
-  //     opcaoConsulta: "CentralDeEstoque"
-  //   }
-  //   this.requestService.getEstoque(params).subscribe(res =>{
-  //     console.log(res)
-  //   })
-  // }
 }

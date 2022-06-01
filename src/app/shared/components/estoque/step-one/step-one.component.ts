@@ -41,7 +41,6 @@ export class StepOneComponent implements OnInit {
     this.initForm();
   }
   changeComplement() {
-    console.log(this.filterComplement)
     this.updateComplementoFilter.emit(this.filterComplement)
   }
   private initForm(): void {

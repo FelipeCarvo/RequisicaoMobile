@@ -21,12 +21,12 @@ export class DocumentItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('',this.item)
+
   }
   verDetalhes(entidadeId,id){
     this.loading.present();
     this.requestService.getDocumentByEntidadeId(entidadeId,id).subscribe(res => {{
-      console.log('res',res)
+
       this.loading.dismiss();
     }})
   }  

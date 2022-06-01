@@ -88,9 +88,7 @@ export class ModalFinishReqComponent implements OnInit {
     return this.formStatus.getRawValue();
   }
   ngOnInit() {
-    console.log(this.currentStatus)
     const currentStatusId = this.optionsSelect.find(o => o.enum === this.currentStatus).id
-    console.log(currentStatusId)
     this.formStatus = this.formBuilder.group({
       satusId:  new FormControl(currentStatusId, [Validators.required]),
     });
@@ -118,7 +116,6 @@ export class ModalFinishReqComponent implements OnInit {
     let {url} = this.optionsSelect.filter(el=> el.id === satusId)[0];
     let body = {}
     if(satusId != 1 && (url.includes('{id}')||url.includes('{versaoEsperada}'))){
-      console.log(this.versaoEsperada)
       url = url.replace('{id}',this.id).replace('{versaoEsperada}',this.versaoEsperada.toString())
     }else if(satusId ===1){
       body = {id:this.id,versaoEsperada:this.versaoEsperada,}

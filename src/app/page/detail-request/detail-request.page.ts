@@ -52,7 +52,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       if(this.reqItem.itens.length == 1) {
         this.reqItem.itens = this.reqItem.itens.filter(itens => itens.id !=="00000000-0000-0000-0000-000000000000")
       }
-      console.log(this.reqItem.itens.length)
       this.reqItem.dataHora = date.toLocaleDateString('PT-US',{ hour12: false,hour: "numeric", minute: "numeric"})
       setTimeout(()=>{
         this.load = true;

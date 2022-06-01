@@ -114,7 +114,6 @@ export class FilterReqComponent implements OnInit {
     this.inputAutoComplete.openPanel();
   }
   displayFn(value = this.hasValueEmpreendimento) {
-    console.log('display',this.listGroup);
     if(!!value && this.listGroup.length > 0){
       let desc =  this.listGroup.filter(option => option.descricao == value)[0]?.descricao
       return desc

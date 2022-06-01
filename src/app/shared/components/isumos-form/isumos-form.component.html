@@ -61,14 +61,14 @@
         <ion-row>
           <ion-col size="8" class="no-padding-left">
             <ion-label position="floating">Quantidade</ion-label>
-            <ion-input formControlName="quantidade" (emitFieldClean)="emitFieldClean($event)" numbersOnly type="number" placeholder="0"></ion-input>
+            <ion-input  min="0" formControlName="quantidade"class='customInput' (input)="changeQtd($event.target.value)" numbersOnly type="number" placeholder="0"   [class]="(!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null ) ? 'required' : ''"></ion-input>
           </ion-col>
           <ion-col size="4"class="no-padding-right">
             <ion-label position="floating">Unidade</ion-label>
             <ion-input [value]="insumoTypeUnidades" readonly ></ion-input>
           </ion-col>
           <ion-col size="12">
-            <div class="required-text" *ngIf="!!quantidadeInput.errors && !!quantidadeInput.errors.min">
+            <div class="required-text" *ngIf="(!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null )">
               <p>A quantidade deve ser maior que 0 </p>
             </div>
           </ion-col>
