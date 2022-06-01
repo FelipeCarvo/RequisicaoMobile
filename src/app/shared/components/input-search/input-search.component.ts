@@ -27,6 +27,7 @@ export class InputSearchComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
   @Output() setUnidadeType:EventEmitter<any> = new EventEmitter();
   @Output() setfalseUpdate:EventEmitter<any> = new EventEmitter();
+  @Output() emitFieldClean:EventEmitter<any> = new EventEmitter();
   @Input() label: string;
   @Input() placeholder: string;
   @Input() controlName: any;
@@ -77,7 +78,11 @@ export class InputSearchComponent implements OnInit {
     return disable
   } 
   displayFn(value = this.getValue) {
-    if(!!value && this.listGroup.length > 0){
+   
+    if(!!value){
+      if(this.listGroup.length  == 0){
+        this.getLoockups();
+      }
       let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
       if(this.controlName === "insumoId"){
         this.setUnidadeType.emit(desc)
@@ -88,6 +93,7 @@ export class InputSearchComponent implements OnInit {
  
   clearField(){
     this.parentForm.controls[this.controlName].setValue(null);
+    this.emitFieldClean.emit({[this.controlName]:null});
     if(this.controlName === "insumoId"){
       this.setUnidadeType.emit(null)
     }
@@ -122,6 +128,7 @@ export class InputSearchComponent implements OnInit {
           this.setfalseUpdate.emit()
         }
       }
+     
       if(this.formName == 'insumos' && this.controlName =="empresaId"){
         let value = this.listGroup[0].id;
         this.parentForm.controls[this.controlName].setValue(value);
@@ -135,8 +142,7 @@ export class InputSearchComponent implements OnInit {
         }),
       );
       setTimeout(()=>{
-        this.loading = false;
-        
+        this.loading = false;     
           this.refreshLoad = false;
           if(!!this.getValue){
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
@@ -144,14 +150,30 @@ export class InputSearchComponent implements OnInit {
               this.parentForm.controls[this.controlName].setValue('');
               this.inputAutoComplete.openPanel();
             }else{
-              this.parentForm.controls[this.controlName].setValue(this.getValue);
+              console.log(this.controlName )
+              if(this.controlName == 'insumoId'){
              
+                let filterValue:any = this._filter(this.getValue,this.listGroup)[0];
+                if(!!filterValue && !!filterValue.planoContasPadraoId){
+                  console.log('aqui')
+                  let {planoContasPadraoId} = filterValue
+                  let hasPlan = !!this.parentForm.controls['planoContasId'].value;
+                  console.log(hasPlan)
+                  if(!hasPlan){
+                    this.parentForm.controls['planoContasId'].setValue(planoContasPadraoId);
+                  }
+
+                }
+              }
+              this.parentForm.controls[this.controlName].setValue(this.getValue);
             }
           }
-
-
-        
       },300)
+  }
+  setPlans(val){
+
+    console.log(val);
+    console.log(this.controlName)
   }
   private _filter(value: string,res): string[] {
     let filter;

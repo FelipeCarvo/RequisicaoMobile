@@ -116,6 +116,14 @@ export class IsumosFormComponent implements OnInit {
     if(!!this.getFormField('etapaId')){
       this.getLoockupEtapa();
     }
+    this.reqFormInsumos.controls['etapaId'].valueChanges.subscribe(res =>{
+      let etapas = this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0];
+      if(!!etapas && !!etapas.planoContasId){
+        console.log(this.reqFormInsumos.controls['planoContasId'])
+        this.reqFormInsumos.controls['planoContasId'].setValue(etapas.planoContasId)
+     
+       }
+    })
   }
   setDateManual(val){
     this.diference = moment(new Date()).add(val, 'days').toISOString();
@@ -150,7 +158,18 @@ export class IsumosFormComponent implements OnInit {
 
         
   }
+  eventChanged(event){
+    console.log('changeEtapa');
+    if(event.type == 'cancel'){
+      this.reqFormInsumos.controls['etapaId'].setValue(null);
+    }
+    // this.reqFormInsumos.controls['insumoId'].setValue(null);
+
+    // if(!this.updateInsumos)this.updateInsumos = true;
+  }
   changeEtapa(){
+    console.log('changeEtapa');
+    console.log( this.reqFormInsumos.controls['etapaId'].value)
     this.reqFormInsumos.controls['insumoId'].setValue(null);
     this.reqFormInsumos.controls['etapaId'].setValue(null);
     if(!this.updateInsumos)this.updateInsumos = true;
@@ -184,21 +203,28 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
 
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
+      console.log("filterVal");
+      console.log(filterVal);
       filterVal.forEach(e =>{
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
-        if(e === 'etapaId' && formField != atualValue){
-          console.log(e)
-          this.updateInsumos = true;
-        }
+      
+        console.log("formField");
+        console.log(formField);
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
+          if(e === 'etapaId' && !!formField){
+            this.updateInsumos = true;
+          }
         }
       })
     })
+
   }
-  
+  emitFieldClean(formField){
+    this.setFormForStore.emit(formField);
+  }
   setfalseUpdate(){
     this.updateInsumos = false;
   }
@@ -229,6 +255,7 @@ export class IsumosFormComponent implements OnInit {
       if(!!selectedEtapa){
         let test = !!this.etapas.find(e => e.id == selectedEtapa);
         const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
+       
         if(!!insumoSubstituicaoId){
           this.reqFormInsumos.controls['insumoSubstituicaoId'].setValue(null)
         }
