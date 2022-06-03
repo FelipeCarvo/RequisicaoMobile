@@ -124,6 +124,7 @@ import { AuthUser } from '@core/store/state/auth.state';
     postReqTwo(params , type){
       const {requisicaoId,versaoEsperada} = this.getStore;
       const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
+      console.log(url)
       let req;
       if(type === 'POST'){
         req = this.http.post(url,params);
@@ -141,14 +142,21 @@ import { AuthUser } from '@core/store/state/auth.state';
           switchMap((postReRes:any) => {
             const resultado = postReRes;
             let res;
-            if(!!resultado && requisicaoId != resultado){
-              res = resultado;
-            }else if(!!requisicaoId && !resultado){
-              res = requisicaoId;
+            if(typeof resultado === "string"){
+              console.log(resultado,requisicaoId);
+              if(!!resultado  && requisicaoId != resultado){
+                res = resultado;
+              }else if(!!requisicaoId && !resultado){
+                res = requisicaoId;
+              }
+              if(!!res && res != requisicaoId){
+                console.log(typeof res === "string")
+                this.store.dispatch(new setReqFileds({requisicaoId:resultado}))
+              }
+            }else{
+              res = requisicaoId
             }
-            if(!!res && res != requisicaoId){
-              this.store.dispatch(new setReqFileds({requisicaoId:resultado}))
-            }
+
             if(!!res)
             return this.getVersion(res)
           })

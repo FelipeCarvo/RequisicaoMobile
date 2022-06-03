@@ -28,7 +28,9 @@ export class InputSearchComponent implements OnInit {
   @Output() setUnidadeType:EventEmitter<any> = new EventEmitter();
   @Output() setfalseUpdate:EventEmitter<any> = new EventEmitter();
   @Output() emitFieldClean:EventEmitter<any> = new EventEmitter();
+  @Output() changeQtdEtapa:EventEmitter<any> = new EventEmitter();
   @Input() label: string;
+  @Input() hasQtdOr:Boolean;
   @Input() placeholder: string;
   @Input() controlName: any;
   @Input() parentForm:FormGroup;
@@ -44,12 +46,16 @@ export class InputSearchComponent implements OnInit {
   noSearchResult = false;
   disablebuttonTest = false;
   filterDesc = false;
-  
   constructor(
     private loockupstService:LoockupstService,
     private cdr: ChangeDetectorRef
   ){
 
+  }
+  changeEtapa(ev){
+    if(ev?.detail){
+      this.changeQtdEtapa.emit(ev?.detail?.checked)
+    }
   }
   ngOnInit(): void {
     if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
@@ -148,7 +154,7 @@ export class InputSearchComponent implements OnInit {
               this.parentForm.controls[this.controlName].setValue('');
               this.inputAutoComplete.openPanel();
             }else{
-              let hasInsumos = !!this.parentForm.controls['insumoId'].value;
+              let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos){
                 this.parentForm.controls['insumoId'].setValue(null);
               }

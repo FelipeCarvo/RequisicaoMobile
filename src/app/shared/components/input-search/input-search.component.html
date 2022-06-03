@@ -4,7 +4,23 @@
 </ion-item>
 <ion-item lines="none" [formGroup]="parentForm">
   <ion-row >
-    <ion-label position="floating">{{label}}</ion-label>
+    <ion-label position="floating"  *ngIf="controlName != 'insumoId'">{{label}}</ion-label>
+  
+      <ion-row *ngIf="controlName == 'insumoId'">
+        <ion-col class="ion-no-padding">
+          <ion-item lines="none">
+            <ion-label position="floating" style="display: flex;align-items: center;" >{{label}}</ion-label>
+          </ion-item>
+
+        </ion-col>
+        <ion-col class="radio ion-no-padding">
+          <ion-item lines="none">
+            <ion-checkbox slot="start"   [(ngModel)]="hasQtdOr" (ionChange)="changeEtapa($event)" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+            <ion-label position="floating" style="display: flex;align-items: center; justify-content:end;">Calcular Quantidade</ion-label>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
     <ion-col size="9" class="no-padding-left">
       <div  matAutocompleteOrigin #origin="matAutocompleteOrigin" class="formInput">
         <input

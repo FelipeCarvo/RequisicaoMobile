@@ -45,6 +45,8 @@ export class IsumosFormComponent implements OnInit {
   savePlanoDeContas:boolean = false;
   saveEtapas:boolean = false;
   saveblocoId:boolean = false;
+  hasQtdOr:boolean = true;
+  qtdOrc:Number = 0;
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -68,6 +70,9 @@ export class IsumosFormComponent implements OnInit {
   ) {
    
    }
+   changeQtdEtapa(ev){
+     this.hasQtdOr = ev
+   }
    get disabledEtapa():boolean{
     let retorno;
     const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
@@ -80,12 +85,26 @@ export class IsumosFormComponent implements OnInit {
     }
     return retorno
   }
+  get hasInsumoId():boolean{
+    let valid = !!this.reqFormInsumos.get('insumoId').value;
+    let hasQtd = this.reqFormInsumos.get('quantidade').value > 0;
+    if(!valid && hasQtd){
+      this.reqFormInsumos.controls['quantidade'].setValue(0)
+    }
+    return valid
+  }
   get quantidadeInput() { 
     return this.reqFormInsumos.get('quantidade');
    }
   get etapaIdInput():String { return this.reqFormInsumos.get('etapaId').value; }
   get paramsInsumo(){
-    let obj:{empreendimentoId?:String,pesquisa?:String,etapaId?:String,somenteInsumosDaEtapa?:Boolean} = {empreendimentoId: this.empreendimentoId,pesquisa:''}
+    let obj:{
+      empreendimentoId?:String,
+      pesquisa?:String,
+      etapaId?:String,
+      somenteInsumosDaEtapa?:Boolean,
+      calcularQuantidade?:Boolean
+    } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr}
     if(!!this.etapaIdInput){
       obj.etapaId = this.etapaIdInput
       obj.somenteInsumosDaEtapa = true
@@ -125,10 +144,22 @@ export class IsumosFormComponent implements OnInit {
     this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
   setUnidadeType(desc: string){
-    if(!!desc){
-      this.insumoTypeUnidades = desc.split('-')[1]
+    if(!!desc && this.hasInsumoId){
+      let sub = desc.split(' - ')[1]
+      console.log(sub)
+      // this.insumoTypeUnidades = desc.split('-')[1].trim();
+      let s =  desc.split(' - ')[1]
+      console.log()
+      let trim = s.trim();
+      console.log(trim)
+      this.insumoTypeUnidades = trim.split(' ')[1];
+      let int = parseFloat(trim.split(' ')[0])
+      console.log(int,trim.split(' ')[0])
+      this.qtdOrc = !!int ? int : 0;
+        //this.insumoTypeUnidades = s.replace(`${this.insumoTypeUnidades}`,'');
     }else{
       this.insumoTypeUnidades = null
+      this.qtdOrc = 0;
     }
   }
   async openPop(){
@@ -276,7 +307,9 @@ export class IsumosFormComponent implements OnInit {
   getFormField(field){
     return this.reqFormInsumos.get(field).value
   }
-
+  te(){
+    console.log(this.hasQtdOr)
+  }
 
   async submit(){
    if(this.validForm){
@@ -285,6 +318,19 @@ export class IsumosFormComponent implements OnInit {
     this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
       this.sendLoading = false;
       let type = 'criado';
+      let qtd = this.getFormField('quantidade');
+      console.log(qtd);
+      console.log(this.qtdOrc)
+      if(this.hasQtdOr && this.qtdOrc > 0 && qtd > this.qtdOrc){
+        
+        const toast = await this.toastController.create({
+          message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${this.qtdOrc}<br />
+          Quantidade Pedida do Insumo para a Etapa : ${qtd}`,
+          duration: 4000,
+          position: 'top'
+        });
+        toast.present();
+      }
 
       if(this.metodSend === 'PUT'){
         type = 'editado'
@@ -325,7 +371,8 @@ export class IsumosFormComponent implements OnInit {
   }
   public resetForm(){
     this.onlyReset.emit();
-    this.insumoTypeUnidades = null
+    this.insumoTypeUnidades = null;
+    this.qtdOrc = 0;
     let empresaId = this.getFormField('empresaId')
     let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
     let insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
