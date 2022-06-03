@@ -42,12 +42,13 @@ export class ConfigComponent implements OnInit {
     async(error)=>{
       this.loadSendData = false;
       let msg;
-      if(error.status == 404){
+      console.log(error);
+      // if(error.status == 404){
         msg = "Configuração nao encontra"
-      }
-      else{
-        msg = error.title
-      }
+      // }
+      // else{
+      //   msg = error.title
+      // }
       const toast = await this.toastController.create({
         message: msg,
         duration: 2000

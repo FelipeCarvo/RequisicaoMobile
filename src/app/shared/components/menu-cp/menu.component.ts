@@ -25,6 +25,7 @@ export class MenuComponent {
   }
   exit(){
     this.menu.close()
+   
     setTimeout(() =>{
       this.store.dispatch(new ResetStateReq())
       this.store.dispatch(new ResetStateInsumos());

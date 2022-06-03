@@ -11,15 +11,16 @@ import {opacityAnimationT} from '@services/animation/custom-animation'
 export class LoginPage implements OnInit{
   hasUrl: boolean;
   constructor(public store: Store) {
-   this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
-  }
-  ngOnInit(){
-
-  }
-  updateCp(){
- 
     this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
   }
-
-
+  ngOnInit(){
+    console.log('aqui')
+   
+  }
+  updateCp(){
+    this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
+  }
+  ionViewDidEnter(){
+    this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
+  }
 }

@@ -234,7 +234,7 @@ ion-app{
             ion-input,.customInput,ion-select,ion-textarea,.calendar{
                 color: #828282;
                 font-weight: normal;
-                font-size: 16px;
+                font-size: 14px;
                 --placeholder-color: #BDBDBD;
                 opacity: 1!important;
                 --placeholder-opacity: 1;
@@ -247,8 +247,8 @@ ion-app{
                 border: 2px solid #EAECED!important;
                 box-sizing: border-box;
                 border-radius: 9px!important;
-                padding-inline-start: 11px;
-                --padding-start: 11px;
+                padding-inline-start: 10px;
+                --padding-start: 10px;
                 margin-top:4px;
                 min-height: 52px;
                 &:disabled{
@@ -258,7 +258,7 @@ ion-app{
             .calendar{
                 display: flex;
                 align-items: center;
-                padding-inline-end: 11px;
+                padding-inline-end: 10px;
                 ion-input{
                     margin: 0!important;
                     border: none!important;

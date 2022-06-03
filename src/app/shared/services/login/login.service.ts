@@ -49,6 +49,7 @@ import { AuthUser } from '@core/store/state/auth.state';
             observer.next(res);
           },
           error => {
+            console.log(error.error);
             observer.error(error);
           }
         )

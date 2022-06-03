@@ -30,13 +30,13 @@ export class FilterReqComponent implements OnInit {
   filterStatus = [
     {status:'Reprovada',id:1},
     {status:'Não Concluída',id:2},
-    {status:'Em Aprovação',id:3},
-    {status:'Aprovada para Cotação',id:4},
-    {status:'Aprovada para OF',id:5},
-    {status:'Cancelada',id:6},
-    {status:'Aprovação Cancelada',id:7},
-    {status:'Aprovada para OF Transferência',id:8},
-    {status:'Aprovada para BT',id:9}
+    // {status:'Em Aprovação',id:3},
+    // {status:'Aprovada para Cotação',id:4},
+    // {status:'Aprovada para OF',id:5},
+    // {status:'Cancelada',id:6},
+    // {status:'Aprovação Cancelada',id:7},
+    // {status:'Aprovada para OF Transferência',id:8},
+    // {status:'Aprovada para BT',id:9}
   ]
   constructor(
     private formBuilder: FormBuilder,
