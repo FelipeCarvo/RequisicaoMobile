@@ -55,7 +55,7 @@ import { AuthUser } from '@core/store/state/auth.state';
       })
     }
     public getAuthToken(refresh_token): Observable<any> {
-      let newUrl = this.store.selectSnapshot(AuthUser.geturlLogin);
+      const newUrl = this.store.selectSnapshot(AuthUser.geturlLogin);
       let {client_id,scope} = environment;
       let body = `client_id=${client_id}&refresh_token=${refresh_token}&grant_type=refresh_token&scope=${scope} offline_access`
       return this.http.post(`${newUrl}/connect/token`,body);

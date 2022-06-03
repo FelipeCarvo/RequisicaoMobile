@@ -135,6 +135,7 @@ export class InputSearchComponent implements OnInit {
         map((value) => {
           let filterValue = this._filter(value,this.listGroup);
           this.noSearchResult = filterValue.length == 0;
+          
           return filterValue
         }),
       );
@@ -147,6 +148,10 @@ export class InputSearchComponent implements OnInit {
               this.parentForm.controls[this.controlName].setValue('');
               this.inputAutoComplete.openPanel();
             }else{
+              let hasInsumos = !!this.parentForm.controls['insumoId'].value;
+              if(this.controlName == 'planoContasId' && hasInsumos){
+                this.parentForm.controls['insumoId'].setValue(null);
+              }
               if(this.controlName == 'insumoId'){
              
                 let filterValue:any = this._filter(this.getValue,this.listGroup)[0];

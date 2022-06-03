@@ -35,6 +35,11 @@ export class AuthUser {
     return !!state.token;
   }
   @Selector()
+  static noUrls(state: AuthUserStateModel) {
+    return !state.urlLogin || !state.urlAPISuprimentos || !state.urlAPISP7;
+  
+  }
+  @Selector()
   static isAuthenticatedURL(state: AuthUserStateModel) {
     return !!state.urlLogin;
   }

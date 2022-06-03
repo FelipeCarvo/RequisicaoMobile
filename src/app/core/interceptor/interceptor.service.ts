@@ -22,9 +22,9 @@ export class Interceptor implements HttpInterceptor {
   intercept( request: HttpRequest<any>, next: HttpHandler, ):Observable<HttpEvent<any>> {
     let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
-    let documentUrl  = request.url.includes('sieconwebsuprimentos/api/RequisicaoDocumentos');
+    let documentUrl  = request.url.includes('/api/RequisicaoDocumentos');
     let isAuthenticated = this.store.selectSnapshot(AuthUser.isAuthenticated);
-
+    
     if(tokenUrl){
       request = request.clone(
         {
@@ -41,6 +41,7 @@ export class Interceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       });
+      
     }
    
     else if(documentUrl  && isAuthenticated){
@@ -50,10 +51,17 @@ export class Interceptor implements HttpInterceptor {
            Accept: '*/*',
           Authorization: `Bearer ${token}`
         }
+        
       });
     }
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        let noContaisUrl = this.store.selectSnapshot(AuthUser.noUrls);
+        if(noContaisUrl){
+          this.store.dispatch(new Logout())
+          this.router.navigate([ `/tabs/login`]);
+          return throwError(`Error: ${error}`);
+        }
         if(error.status === 401){
           return this.handle401Error(request, next);
         }else{
@@ -73,12 +81,14 @@ export class Interceptor implements HttpInterceptor {
   }
   private handle401Error(request: HttpRequest<any>, next: HttpHandler):Observable<any> {
     let refresh_token = this.store.selectSnapshot(AuthUser.getRefreshToken);
+    let userName = this.store.selectSnapshot(AuthUser.getUserName);
     return this.loginService.getAuthToken(refresh_token).pipe(
       switchMap((res) =>{
         let {access_token,refresh_token} = res;
         let authData = {
           token:access_token,
           refreshToken:refresh_token,
+          userName
         }
         this.store.dispatch(new setAuthData(authData));
           const newRequest = request.clone({

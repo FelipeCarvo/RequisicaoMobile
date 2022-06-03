@@ -223,7 +223,10 @@ export class IsumosFormComponent implements OnInit {
   }
   changeQtd(ev){
     if(!ev){
-      this.reqFormInsumos.controls['quantidade'].setValue(0)
+      setTimeout(() => {
+        this.reqFormInsumos.controls['quantidade'].setValue(0)
+      })
+    
     }
   }
   async getLoockupEtapa(){
