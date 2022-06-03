@@ -54,7 +54,16 @@ export class InputSearchComponent implements OnInit {
   }
   changeEtapa(ev){
     if(ev?.detail){
-      this.changeQtdEtapa.emit(ev?.detail?.checked)
+      this.changeQtdEtapa.emit(ev?.detail?.checked);
+     let hasId = !!this.parentForm.get(this.controlName).value
+      if(hasId){
+        setTimeout(()=>{
+          this.refreshLoad = true;
+          this.getLoockups();
+        },100)
+
+      }
+
     }
   }
   ngOnInit(): void {
@@ -120,6 +129,7 @@ export class InputSearchComponent implements OnInit {
   async getLoockups(){
       this.loading = true;
       const params = this.pesquisa;
+      console.log('params')
       let enumName = this.controlName
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'

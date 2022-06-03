@@ -46,7 +46,7 @@ export class IsumosFormComponent implements OnInit {
   saveEtapas:boolean = false;
   saveblocoId:boolean = false;
   hasQtdOr:boolean = true;
-  qtdOrc:Number = 0;
+  qtdOrc:number = 0;
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -71,6 +71,10 @@ export class IsumosFormComponent implements OnInit {
    
    }
    changeQtdEtapa(ev){
+    let insumoId = this.reqFormInsumos?.get('insumoId').value;
+    if(!!insumoId){
+      this.updateInsumos = true;
+    }
      this.hasQtdOr = ev
    }
    get disabledEtapa():boolean{
@@ -145,18 +149,20 @@ export class IsumosFormComponent implements OnInit {
   }
   setUnidadeType(desc: string){
     if(!!desc && this.hasInsumoId){
-      let sub = desc.split(' - ')[1]
-      console.log(sub)
       // this.insumoTypeUnidades = desc.split('-')[1].trim();
       let s =  desc.split(' - ')[1]
-      console.log()
       let trim = s.trim();
       console.log(trim)
-      this.insumoTypeUnidades = trim.split(' ')[1];
-      let int = parseFloat(trim.split(' ')[0])
-      console.log(int,trim.split(' ')[0])
-      this.qtdOrc = !!int ? int : 0;
-        //this.insumoTypeUnidades = s.replace(`${this.insumoTypeUnidades}`,'');
+      this.insumoTypeUnidades = trim.split(' ')[0];
+      if(this.hasQtdOr){
+        this.insumoTypeUnidades = trim.split(' ')[1];
+        let int = parseFloat(trim.split(' ')[0])
+        console.log(this.qtdOrc)
+        if(this.qtdOrc == 0)
+        this.qtdOrc = !!int ? int : 0;
+      }else{
+        this.qtdOrc = 0;
+      }
     }else{
       this.insumoTypeUnidades = null
       this.qtdOrc = 0;
@@ -307,30 +313,27 @@ export class IsumosFormComponent implements OnInit {
   getFormField(field){
     return this.reqFormInsumos.get(field).value
   }
-  te(){
-    console.log(this.hasQtdOr)
-  }
-
   async submit(){
    if(this.validForm){
     this.sendLoading = true;
     const {id} = this.getFormForStore;
+    let qtd = this.getFormField('quantidade');
+    console.log(qtd);
+    console.log(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc)
+    if(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc){
+      
+      const toast = await this.toastController.create({
+        message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${this.qtdOrc}<br />
+        Quantidade Pedida do Insumo para a Etapa : ${qtd}`,
+        duration: 4000,
+        position: 'top'
+      });
+      toast.present();
+    }
     this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
       this.sendLoading = false;
       let type = 'criado';
-      let qtd = this.getFormField('quantidade');
-      console.log(qtd);
-      console.log(this.qtdOrc)
-      if(this.hasQtdOr && this.qtdOrc > 0 && qtd > this.qtdOrc){
-        
-        const toast = await this.toastController.create({
-          message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${this.qtdOrc}<br />
-          Quantidade Pedida do Insumo para a Etapa : ${qtd}`,
-          duration: 4000,
-          position: 'top'
-        });
-        toast.present();
-      }
+
 
       if(this.metodSend === 'PUT'){
         type = 'editado'
@@ -372,12 +375,29 @@ export class IsumosFormComponent implements OnInit {
   public resetForm(){
     this.onlyReset.emit();
     this.insumoTypeUnidades = null;
-    this.qtdOrc = 0;
-    let empresaId = this.getFormField('empresaId')
+
+    let empresaId = this.getFormField('empresaId');
+    let qtd:number = this.getFormField('quantidade');
     let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
     let insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
     let planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
     let blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
+    if(this.hasQtdOr && this.saveInsumos &&  this.qtdOrc != 0){
+      console.log('aqui',this.qtdOrc - qtd
+      )
+      if(this.qtdOrc < 0 ){
+        console.log('aqui')
+        let res = this.qtdOrc - qtd;
+
+        this.qtdOrc =res;
+      }
+      else{
+        this.qtdOrc = this.qtdOrc + qtd;
+      }
+    }
+    else{
+      this.qtdOrc = 0;
+    }
     let objForm = {
       empresaId:empresaId,
       etapaId:etapaId,
@@ -398,18 +418,11 @@ export class IsumosFormComponent implements OnInit {
       equipamentoId:null,
       observacoes:null  
     }
-   
-
+    this.reqFormInsumos.patchValue(objForm)
     setTimeout(()=>{
-      this.reqFormInsumos.patchValue(objForm)
-
-      // this.reqFormInsumos.controls['empresaId'].setValue(empresaId)
-      // this.reqFormInsumos.controls['etapaId'].setValue(etapaId)
-      // this.reqFormInsumos.controls['insumoId'].setValue(insumoId)
-      // this.reqFormInsumos.controls['planoContasId'].setValue(planoContasId)
-      // this.reqFormInsumos.controls['blocoId'].setValue(blocoId)
       this.cdr.detectChanges();
     })
+
    
 
     // const controlNames = ['nameOne', 'nameTwo'];
