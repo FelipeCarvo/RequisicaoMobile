@@ -321,10 +321,24 @@ export class IsumosFormComponent implements OnInit {
     console.log(qtd);
     console.log(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc)
     if(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc){
-      
+      let etapaId = this.getFormField('etapaId');
+      let insumoId =  this.getFormField('insumoId');
+      let insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
+      let obj = {
+        empreendimentoId:this.empreendimentoId,
+        insumoId,
+        etapaId,
+        insumoSubstituicaoId
+
+      }
+      let newObj = Object.keys(obj)
+      .filter((k) => obj[k] != null)
+      .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
+      let res:any = await this.insumosRequest.getValidacaoInsumoOrc(newObj);
+      let {quantidadePedida} = res;
       const toast = await this.toastController.create({
         message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${this.qtdOrc}<br />
-        Quantidade Pedida do Insumo para a Etapa : ${qtd}`,
+        Quantidade Pedida do Insumo para a Etapa : ${quantidadePedida}`,
         duration: 4000,
         position: 'top'
       });
@@ -362,6 +376,7 @@ export class IsumosFormComponent implements OnInit {
 
    }
   }
+  
   public dismiss(): void {
     this.navCtrl.back();
   }

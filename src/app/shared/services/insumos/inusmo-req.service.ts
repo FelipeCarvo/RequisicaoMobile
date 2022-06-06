@@ -131,6 +131,20 @@ export interface InsumoInterface {
         )
       })
     }
+    getValidacaoInsumoOrc(obj){
+      return new Promise((resolve, reject) => {
+
+        this.http.post(`${this.sieconwebwebapi}/orcamentos/Orcamento/ValidacaoInsumoOrcamento`,obj).subscribe(
+          async(res:any) => {
+            resolve(res);
+          },
+          error => {
+           
+            reject(error);
+          }
+        )
+      })
+    }
     getInsumoById(id){
       return new Promise((resolve, reject) => {
 

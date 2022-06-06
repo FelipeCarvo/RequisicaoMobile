@@ -69,7 +69,7 @@
           </ion-col>
           <ion-col size="12">
             <div *ngIf="hasInsumoId && qtdOrc">
-              <p class="totalQtd">Quantidade disponivel em estoque {{qtdOrc}}</p>
+              <p class="totalQtd">Quantidade orçada {{qtdOrc}}</p>
             </div>
             <div class="required-text" *ngIf="!hasInsumoId || (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null )">
               <p *ngIf="!hasInsumoId">Insumo obrigatório </p>
