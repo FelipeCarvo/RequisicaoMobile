@@ -318,9 +318,7 @@ export class IsumosFormComponent implements OnInit {
     this.sendLoading = true;
     const {id} = this.getFormForStore;
     let qtd = this.getFormField('quantidade');
-    console.log(qtd);
-    console.log(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc)
-    if(this.hasQtdOr && this.qtdOrc != 0 && qtd > this.qtdOrc){
+    if(this.hasQtdOr){
       let etapaId = this.getFormField('etapaId');
       let insumoId =  this.getFormField('insumoId');
       let insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
@@ -335,14 +333,17 @@ export class IsumosFormComponent implements OnInit {
       .filter((k) => obj[k] != null)
       .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
       let res:any = await this.insumosRequest.getValidacaoInsumoOrc(newObj);
-      let {quantidadePedida} = res;
-      const toast = await this.toastController.create({
-        message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${this.qtdOrc}<br />
-        Quantidade Pedida do Insumo para a Etapa : ${quantidadePedida}`,
-        duration: 4000,
-        position: 'top'
-      });
-      toast.present();
+      let {quantidadePedida,quantidadeOrcada} = res;
+      let total = quantidadePedida + qtd;
+      if(total > quantidadeOrcada){
+        const toast = await this.toastController.create({
+          message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${quantidadeOrcada}<br />
+          Quantidade Pedida do Insumo para a Etapa : ${total}`,
+          duration: 4000,
+          position: 'top'
+        });
+        toast.present();
+      }
     }
     this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
       this.sendLoading = false;

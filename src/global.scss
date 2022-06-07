@@ -122,15 +122,17 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             }
             .action-sheet-button{  
                 font-weight: 500;
-                font-size: 11px;
+                font-size: 9px;
                 min-height: 60px;
-                line-height: 15px;
+                line-height: 13px;
+                text-transform:lowercase;
             }
             &:first-child{
                 border-radius:9px 9px 0px 0px;
                
             }.action-sheet-cancel{
-                color: var(--ion-color-danger, #eb445a);;
+                color: var(--ion-color-danger, #eb445a);
+                text-transform:uppercase;
             }
 
         }
