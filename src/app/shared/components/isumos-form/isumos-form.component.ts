@@ -137,9 +137,9 @@ export class IsumosFormComponent implements OnInit {
       this.getLoockupEtapa();
     }
     this.reqFormInsumos.controls['etapaId'].valueChanges.subscribe(res =>{
-      let etapas = this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0];
-      if(!!etapas && !!etapas.planoContasId){
-        this.reqFormInsumos.controls['planoContasId'].setValue(etapas.planoContasId)
+      let etapa = this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0];
+      if(!!etapa && !!etapa.planoContasId){
+        this.reqFormInsumos.controls['planoContasId'].setValue(etapa.planoContasId)
      
        }
     })
@@ -152,14 +152,17 @@ export class IsumosFormComponent implements OnInit {
       // this.insumoTypeUnidades = desc.split('-')[1].trim();
       let s =  desc.split(' - ')[1]
       let trim = s.trim();
-      console.log(trim)
+      console.log( trim.split(' ').length)
       this.insumoTypeUnidades = trim.split(' ')[0];
-      if(this.hasQtdOr){
+      if(this.hasQtdOr && trim.split(' ').length > 1){
         this.insumoTypeUnidades = trim.split(' ')[1];
         let int = parseFloat(trim.split(' ')[0])
         console.log(this.qtdOrc)
         if(this.qtdOrc == 0)
         this.qtdOrc = !!int ? int : 0;
+      }
+      else if(this.hasQtdOr && trim.split(' ').length == 1){
+        this.insumoTypeUnidades = trim;
       }else{
         this.qtdOrc = 0;
       }
@@ -187,9 +190,7 @@ export class IsumosFormComponent implements OnInit {
       }else{
         this.closeModal = false 
       }
-    },200)
-
-        
+    },200)  
   }
   eventChanged(event){
     let{type} = event
@@ -231,14 +232,11 @@ export class IsumosFormComponent implements OnInit {
     this.loadForm = true;
     await this.setValform();
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
-
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
-
       filterVal.forEach(e =>{
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
-
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
           if(e === 'etapaId' && !!formField){
@@ -263,7 +261,6 @@ export class IsumosFormComponent implements OnInit {
       setTimeout(() => {
         this.reqFormInsumos.controls['quantidade'].setValue(0)
       })
-    
     }
   }
   async getLoockupEtapa(){
@@ -289,9 +286,6 @@ export class IsumosFormComponent implements OnInit {
       const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
       let planoContasId = this.reqFormInsumos.controls['planoContasId'].value
       this.etapas = res;
-      if(!!planoContasId){
-        this.etapas = this.etapas.filter(el=>el.planoContasId == planoContasId)
-      }
       if(!!selectedEtapa){
         let test = !!this.etapas.find(e => e.id == selectedEtapa);
         const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
@@ -317,17 +311,46 @@ export class IsumosFormComponent implements OnInit {
    if(this.validForm){
     this.sendLoading = true;
     const {id} = this.getFormForStore;
-    let qtd = this.getFormField('quantidade');
+   
     if(this.hasQtdOr){
-      let etapaId = this.getFormField('etapaId');
-      let insumoId =  this.getFormField('insumoId');
-      let insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
+      await this.qtdInsumoMsg();
+    }
+    this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
+      this.sendLoading = false;
+      let type = 'criado';
+      if(this.metodSend === 'PUT'){
+        type = 'editado'
+        this.resetAndBack.emit();
+      }else{
+        this.resetForm();
+        this.scrollToElement();
+      }
+      const toast = await this.toastController.create({
+        message: `Insumo ${type} com sucesso`,
+        duration: 3000
+      });
+      toast.present();
+    },async(error) =>{
+      this.sendLoading = false;
+      const toast = await this.toastController.create({
+        message: error,
+        duration: 2000
+      });
+      toast.present();
+    })
+   }
+  }
+  async qtdInsumoMsg(){
+    let qtd = this.getFormField('quantidade');
+    let etapaId = this.getFormField('etapaId');
+    let insumoId =  this.getFormField('insumoId');
+    let insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
+    if( !!etapaId){
       let obj = {
         empreendimentoId:this.empreendimentoId,
         insumoId,
         etapaId,
         insumoSubstituicaoId
-
       }
       let newObj = Object.keys(obj)
       .filter((k) => obj[k] != null)
@@ -344,40 +367,8 @@ export class IsumosFormComponent implements OnInit {
         });
         toast.present();
       }
-    }
-    this.insumosRequest.sendNewInsumo(this.getForm,this.metodSend,id).subscribe(async(response) =>{
-      this.sendLoading = false;
-      let type = 'criado';
-
-
-      if(this.metodSend === 'PUT'){
-        type = 'editado'
-        this.resetAndBack.emit();
-      }else{
-
-        this.resetForm();
-        
-        
-        this.scrollToElement();
-       
-      }
-      const toast = await this.toastController.create({
-        message: `Insumo ${type} com sucesso`,
-        duration: 3000
-      });
-      toast.present();
-    },async(error) =>{
-      this.sendLoading = false;
-      const toast = await this.toastController.create({
-        message: error,
-        duration: 2000
-      });
-      toast.present();
-    })
-
-   }
+    } 
   }
-  
   public dismiss(): void {
     this.navCtrl.back();
   }
@@ -391,7 +382,6 @@ export class IsumosFormComponent implements OnInit {
   public resetForm(){
     this.onlyReset.emit();
     this.insumoTypeUnidades = null;
-
     let empresaId = this.getFormField('empresaId');
     let qtd:number = this.getFormField('quantidade');
     let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
@@ -399,12 +389,8 @@ export class IsumosFormComponent implements OnInit {
     let planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
     let blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
     if(this.hasQtdOr && this.saveInsumos &&  this.qtdOrc != 0){
-      console.log('aqui',this.qtdOrc - qtd
-      )
       if(this.qtdOrc < 0 ){
-        console.log('aqui')
         let res = this.qtdOrc - qtd;
-
         this.qtdOrc =res;
       }
       else{

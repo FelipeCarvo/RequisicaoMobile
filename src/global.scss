@@ -122,9 +122,9 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             }
             .action-sheet-button{  
                 font-weight: 500;
-                font-size: 9px;
+                font-size: 14px;
                 min-height: 60px;
-                line-height: 13px;
+                line-height: 20px;
                 text-transform:lowercase;
             }
             &:first-child{
@@ -143,6 +143,15 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
 
     }
 
+  }
+  @media (-webkit-min-device-pixel-ratio: 4) {
+    .action-sheet-button{  
+        font-weight: 500;
+        font-size: 9px;
+        min-height: 60px;
+        line-height: 13px;
+        text-transform:lowercase;
+    }
   }
 ion-app{
     app-input-search{
