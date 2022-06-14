@@ -46,6 +46,7 @@ export class InputSearchComponent implements OnInit {
   noSearchResult = false;
   disablebuttonTest = false;
   filterDesc = false;
+  firstLoad = false;
   constructor(
     private loockupstService:LoockupstService,
     private cdr: ChangeDetectorRef
@@ -66,10 +67,11 @@ export class InputSearchComponent implements OnInit {
 
     }
   }
-  ngOnInit(): void {
+  async ngOnInit() {
     if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
       this.refreshLoad = true;
-      this.getLoockups();
+      await this.getLoockups();
+      this.firstLoad = true;
     }
   }
   get getRequerid():boolean{
@@ -92,14 +94,21 @@ export class InputSearchComponent implements OnInit {
   } 
   displayFn(value = this.getValue) {
    
-    if(!!value){
+    if(!!value && this.firstLoad){
       if(this.listGroup.length  == 0){
+        console.log('igual',this.controlName)
         this.getLoockups();
       }
+      if(this.listGroup.length  > 0){
+        console.log('maior',this.controlName)
+
+      }
+     
       let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
       if(this.controlName === "insumoId"){
         this.setUnidadeType.emit(desc)
       }
+      console.log(desc)
       return desc
     }
   }
@@ -162,11 +171,13 @@ export class InputSearchComponent implements OnInit {
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
+              console.log('aqui1')
               this.inputAutoComplete.openPanel();
             }else{
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos){
-                this.parentForm.controls['insumoId'].setValue(null);
+                console.log('aqui')
+                // this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
              
