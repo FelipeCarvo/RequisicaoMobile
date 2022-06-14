@@ -127,8 +127,8 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
                 contain: content;
                 line-height: 20px;
                 text-transform:lowercase;
-                margin-bottom: 5px;
-                margin-top: 5px;
+                margin-bottom: 7px;
+                margin-top: 7px;
             }
             &:first-child{
                 border-radius:9px 9px 0px 0px;
@@ -147,6 +147,18 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
     }
 
   }
+  @media (max-width: 393px) {
+    .action-sheet-button{  
+        font-weight:400;
+        font-size: 10px;
+        height: auto;
+        contain: content;
+        line-height: 13px;
+        text-transform:lowercase;
+        margin-bottom: 7px;
+        margin-top: 7px;
+    }
+  }
   @media (-webkit-min-device-pixel-ratio: 4) {
     .action-sheet-button{  
         font-weight:400;
@@ -155,8 +167,8 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
         contain: content;
         line-height: 13px;
         text-transform:lowercase;
-        margin-bottom: 5px;
-        margin-top: 5px;
+        margin-bottom: 7px;
+        margin-top: 7px;
     }
   }
 ion-app{

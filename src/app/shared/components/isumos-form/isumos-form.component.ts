@@ -152,19 +152,23 @@ export class IsumosFormComponent implements OnInit {
       // this.insumoTypeUnidades = desc.split('-')[1].trim();
       let s =  desc.split(' - ')[1]
       let trim = s.trim();
-      console.log( trim.split(' ').length)
+   
       this.insumoTypeUnidades = trim.split(' ')[0];
-      if(this.hasQtdOr && trim.split(' ').length > 1){
-        this.insumoTypeUnidades = trim.split(' ')[1];
-        let int = parseFloat(trim.split(' ')[0])
-        console.log(this.qtdOrc)
-        if(this.qtdOrc == 0)
-        this.qtdOrc = !!int ? int : 0;
+      if(this.hasQtdOr){
+        if(trim.split(' ').length > 1){
+          this.insumoTypeUnidades = trim.split(' ')[1];
+          let int = parseFloat(trim.split(' ')[0])
+          if(this.qtdOrc == 0)
+          this.qtdOrc = !!int ? int : 0;
+        }
+        else if(trim.split(' ').length == 1){
+          this.insumoTypeUnidades = trim;
+        }else{
+          this.qtdOrc = 0;
+        }
       }
-      else if(this.hasQtdOr && trim.split(' ').length == 1){
-        this.insumoTypeUnidades = trim;
-      }else{
-        this.qtdOrc = 0;
+      else{
+        this.insumoTypeUnidades = trim.split(' ').length > 1 ? trim.split(' ')[1] : trim
       }
     }else{
       this.insumoTypeUnidades = null
