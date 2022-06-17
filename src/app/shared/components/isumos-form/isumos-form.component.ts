@@ -268,8 +268,10 @@ export class IsumosFormComponent implements OnInit {
     this.updateInsumos = false;
   }
   async setValform(){
-    console.log(this.getFormForStore)
     await this.reqFormInsumos.patchValue(this.getFormForStore);
+    if(this.getFormForStore.status === 0){
+      this.reqFormInsumos.controls['status'].setValue('Ativo')
+    }
   }
   changeQtd(ev){
     if(!ev){
