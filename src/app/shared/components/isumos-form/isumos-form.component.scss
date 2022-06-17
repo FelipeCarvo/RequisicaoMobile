@@ -71,21 +71,27 @@ ion-checkbox{
     margin-top: 1px;
 }
 .status{
-
+    ion-radio{
+        margin-inline-end: 9px!important;
+        --border-width:3px;
+        --color:#C4C4C4;
+        --color-checked:#C4C4C4;
+        
+    }
     ion-label{
-        color: #023A51 !important;
+        // color: #023A51 !important;
         font-size: 16px !important;
         line-height: 20px!important;
-        letter-spacing: -0.02em!important;
-        font-weight: 400 !important;
+        // letter-spacing: -0.02em!important;
+        font-weight: 600 !important;
     }
-    .aprovado{
+    .Ativo{
         color: #2CBC63!important;
     }
-    .suspenso{
+    .Suspenso{
         color: #F2994A!important;
     }
-    .cancelado{
+    .Cancelado{
         color: #EB5757!important;
     }
 }

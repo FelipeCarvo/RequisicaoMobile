@@ -158,6 +158,15 @@
           <ion-toggle formControlName="gerarAtivoImobilizado"></ion-toggle>
         </ion-item>
       </ion-list>
+      <ion-item  lines="none" class="box  ion-margin-vertical" *ngIf="metodSend ==='PUT'">
+        <ion-label position="floating">Status</ion-label>
+        <ion-radio-group formControlName="status"  (ionChange)="updateStatusPut($event.target.value)">
+          <ion-item  class="status" *ngFor="let s of status" lines="none">
+            <ion-label [class]="s.label">{{s.label}}</ion-label>
+            <ion-radio  slot="start" [value]="s.label" slot="start" ></ion-radio>
+          </ion-item>
+        </ion-radio-group>   
+      </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical" >
         <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Bloco"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" [parentForm]="reqFormInsumos"   controlName="blocoId" ngDefaultControl></app-input-search>
 

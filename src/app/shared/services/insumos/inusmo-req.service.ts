@@ -92,10 +92,11 @@ export interface InsumoInterface {
       let req;
       let params = this.getObject(form);
       if(metod == 'POST'){
+        delete params['status'];
         req = this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
       }else{
         params.itemId =id;
-        params.status = 'Ativo';
+       
         req = this.http.put(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
       }
      

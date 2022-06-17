@@ -47,6 +47,11 @@ export class IsumosFormComponent implements OnInit {
   saveblocoId:boolean = false;
   hasQtdOr:boolean = true;
   qtdOrc:number = 0;
+  status:any =[
+    {id: '1',label: 'Ativo'},
+    {id: '2',label: 'Suspenso'},
+    {id: '3',label: 'Cancelado'},
+  ]
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -69,6 +74,9 @@ export class IsumosFormComponent implements OnInit {
 
   ) {
    
+   }
+   updateStatusPut(status){
+     console.log(this.getFormField('status'))
    }
    changeQtdEtapa(ev){
     let insumoId = this.reqFormInsumos?.get('insumoId').value;
@@ -196,6 +204,7 @@ export class IsumosFormComponent implements OnInit {
       }
     },200)  
   }
+
   eventChanged(event){
     let{type} = event
     if(type == 'cancel' || type == 'ionCancel'){
@@ -231,6 +240,7 @@ export class IsumosFormComponent implements OnInit {
       ordemServicoId:new FormControl(null),
       equipamentoId:new FormControl(null),
       observacoes:new FormControl(null),
+      status:new FormControl('Ativo'),
      
     });
     this.loadForm = true;
@@ -258,6 +268,7 @@ export class IsumosFormComponent implements OnInit {
     this.updateInsumos = false;
   }
   async setValform(){
+    console.log(this.getFormForStore)
     await this.reqFormInsumos.patchValue(this.getFormForStore);
   }
   changeQtd(ev){
@@ -422,7 +433,8 @@ export class IsumosFormComponent implements OnInit {
       unidadeId:null,
       ordemServicoId:null,
       equipamentoId:null,
-      observacoes:null  
+      observacoes:null,
+      status:'Ativo'  
     }
     this.reqFormInsumos.patchValue(objForm)
     setTimeout(()=>{
