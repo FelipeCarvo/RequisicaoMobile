@@ -94,16 +94,10 @@ export class InputSearchComponent implements OnInit {
   } 
   displayFn(value = this.getValue) {
    
-    if(!!value && this.firstLoad){
-      if(this.listGroup.length  == 0){
-        console.log('igual',this.controlName)
+    if(!!value){
+      if(this.listGroup.length == 0){
         this.getLoockups();
       }
-      if(this.listGroup.length  > 0){
-        console.log('maior',this.controlName)
-
-      }
-     
       let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
       if(this.controlName === "insumoId"){
         this.setUnidadeType.emit(desc)
@@ -175,7 +169,7 @@ export class InputSearchComponent implements OnInit {
               this.inputAutoComplete.openPanel();
             }else{
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
-              if(this.controlName == 'planoContasId' && hasInsumos){
+              if(this.controlName == 'planoContasId' && hasInsumos &&  this.firstLoad){
                 console.log('aqui')
                 // this.parentForm.controls['insumoId'].setValue(null);
               }

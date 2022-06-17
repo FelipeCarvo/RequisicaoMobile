@@ -1,7 +1,7 @@
 {
-  "name": "poliview",
+  "name": "siecon-req",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Fasters",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,7 @@
     "build": "ng build",
     "generate_apk:ios": "npm run build && ionic cap sync ios && npm run resources:ios && ionic cap open ios",
     "generate_apk:android": "npm run build && ionic cap sync android && npm run resources:android && cd android && ./gradlew assembleDebug",
-    "only_apk": "npm run build && ionic cap sync android && cd android && ./gradlew assembleDebug",
+    "only_apk": "cd android && ./gradlew assembleDebug",
     "resources:ios": "capacitor-resources -p ios --transform-splash cover && node resources.js ios",
     "resources:android": "capacitor-resources -p android --transform-splash cover && node resources.js android",
     "test": "ng test",

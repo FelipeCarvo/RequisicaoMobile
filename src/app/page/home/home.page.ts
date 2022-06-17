@@ -124,8 +124,9 @@ export class homePage implements OnInit,OnDestroy{
       retificada: "Todos",
       vistada: "Todos",
       situacao: "Todas",
+      comTodosOsItensCancelados:true,
       statusRequisicao:this.statusRequisicao,
-      filtrarComprador: true,
+      filtrarComprador: false,
       exportadoConstruCompras: "Todos"
       
     }

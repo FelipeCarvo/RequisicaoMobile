@@ -9,7 +9,11 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { Platform } from '@ionic/angular';
 import { File } from '@ionic-native/file/ngx';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-
+function getFileReader(): FileReader {
+  const fileReader = new FileReader();
+  const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
+  return zoneOriginalInstance || fileReader;
+}
 export default interface archivesInterface {
   name:String;
   id:Number;
@@ -182,11 +186,13 @@ export class DocumentsComponent implements OnInit {
     })
   }
   async writeAndOpenFile(data: Blob, fileName: string) {
-    var reader = new FileReader();
+    var reader = getFileReader();
+    console.log('data')
+    console.log(data);
     reader.readAsDataURL(data);
     reader.onloadend = async function () {
         var base64data = reader.result;
-      
+        console.log('aqui')
         try {
             const result = await Filesystem.writeFile({
                 path: fileName,

@@ -27,7 +27,8 @@ export interface InsumoInterface {
   ordemServicoId: String,
   equipamentoId: String,
   versaoEsperada: number,
-  gerarAtivoImobilizado: Boolean
+  gerarAtivoImobilizado: Boolean,
+  status?:String,
 }
 @Injectable({
     providedIn: 'root'
@@ -94,6 +95,7 @@ export interface InsumoInterface {
         req = this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
       }else{
         params.itemId =id;
+        params.status = 'Ativo';
         req = this.http.put(`${this.sieconwebsuprimentos}/ItemRequisicao`,params)
       }
      

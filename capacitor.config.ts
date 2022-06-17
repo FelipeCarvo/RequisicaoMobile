@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'poliview',
+  appId: 'com.siecon.req.app',
+  appName: 'siecon-req',
   webDir: 'www',
   bundledWebRuntime: false,
   
