@@ -13,7 +13,7 @@ import { AuthUser } from '@core/store/state/auth.state';
     constructor(private http:HttpClient, private store:Store){}
     login(obj){
       let {grantTypeLogin,client_id,scope} = environment;
-      let body = `userName=${obj.userName}&Password=${obj.password}&grant_type=${grantTypeLogin}&scope=${scope} offline_access&client_id=${client_id}`
+      let body = `username=${obj.userName}&password=${obj.password}&grant_type=${grantTypeLogin}&scope=${scope} offline_access&client_id=${client_id}`
       
       let newUrl = this.store.selectSnapshot(AuthUser.geturlLogin);
 
