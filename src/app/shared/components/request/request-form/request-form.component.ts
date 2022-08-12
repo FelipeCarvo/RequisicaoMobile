@@ -110,8 +110,9 @@ export class RequestFormComponent implements OnInit {
       delete res[e];
     })
   }
-  sendForm(){
+  async sendForm(){
     this.sendLoading = true;
-    this.sendReq.emit(this.getForm)
+    await this.sendReq.emit(this.getForm);
+    this.sendLoading = false;
   }
 }

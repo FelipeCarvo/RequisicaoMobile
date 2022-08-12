@@ -219,6 +219,7 @@ export class RequestPage implements OnInit,OnDestroy {
       },
       async(error) =>{
         msg = error?.Mensagem
+        
         await this.showMsg(msg)
         this.loading.dismiss();
         this.step = this.step;
