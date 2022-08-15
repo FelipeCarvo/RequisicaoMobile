@@ -10,7 +10,7 @@ import {LookupsEndPoints} from '../utils/enums/EnumLockup'
   export class LoockupstService {
     sieconwebwebapi = `${environment.sieconwebwebapi}`;
 
-    constructor(private http:HttpClient, private store:Store){}
+    constructor(private http:HttpClient, private store:Store,){}
     filterLockup(el){
       el = el.split(" ")[0];
       el = el.replace(/[^0-9]/g,'');

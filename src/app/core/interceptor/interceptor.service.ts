@@ -16,9 +16,10 @@ import { AuthUser } from '@core/store/state/auth.state';
 import {setAuthData,Logout} from '@core/store/actions/auth.actions';
 import { Router } from '@angular/router';
 import {LoginService} from '@services/login/login.service'
+import { ToastController } from '@ionic/angular';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
-  constructor(private store: Store,private http:HttpClient,private router:Router,private loginService:LoginService){}
+  constructor(private store: Store,private http:HttpClient,private router:Router,private loginService:LoginService,private toastController:ToastController){}
   intercept( request: HttpRequest<any>, next: HttpHandler, ):Observable<HttpEvent<any>> {
     let errorMsg = '';
     let tokenUrl = request.url.includes('/connect/token');
@@ -74,9 +75,9 @@ export class Interceptor implements HttpInterceptor {
             const err = error.error
             let msg = err.message? err.message: 'erro interno'
             errorMsg = `${err?.error_description ? err.error_description : msg}`;
-            console.log(error)
+            console.log(errorMsg)
           }
-          return throwError(error);
+          return throwError(errorMsg);
         }
       })
     );
@@ -100,9 +101,20 @@ export class Interceptor implements HttpInterceptor {
         });
         return next.handle(newRequest);
       }),
-      catchError((error: HttpErrorResponse) => {
-        this.store.dispatch(new Logout())
-        this.router.navigate([ `/tabs/login`]);
+      catchError(async(err: HttpErrorResponse) => {
+        console.log('aqui')
+        const {error} = err;
+        console.log(error)
+        const toast = await this.toastController.create({
+          message: error.Mensagem,
+          duration: 2000
+        });
+        toast.present();
+        setTimeout(()=>{
+          this.store.dispatch(new Logout())
+          this.router.navigate([ `/tabs/login`]);
+        },1000)
+
         return throwError(`Error: ${error}`);
       })
     )

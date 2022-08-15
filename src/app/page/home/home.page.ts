@@ -149,6 +149,7 @@ export class homePage implements OnInit,OnDestroy{
         }
       },200)
     },async(error)=>{
+      console.log(error)
       this.load = true;
     })
   }

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       let msg = error_description == 'invalid_username_or_password' ? 'Usuário ou senha invalido': error_description;
       console.log(error);
       const toast = await this.toastController.create({
-        message: msg,
+        message: error,
         duration: 2000
       });
       toast.present();
