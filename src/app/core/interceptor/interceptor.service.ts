@@ -73,7 +73,7 @@ export class Interceptor implements HttpInterceptor {
           else {
             console.log('this is server side error',error);
             const err = error.error
-            let msg = err.message? err.message: 'erro interno'
+            let msg = err.Mensagem? err.Mensagem: 'erro interno'
             errorMsg = `${err?.error_description ? err.error_description : msg}`;
             console.log(errorMsg)
           }
