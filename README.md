@@ -27,7 +27,8 @@ cd POLIVIEW/
 ### - Android ###
 * `npm run generate_apk:android`
 * Pegar apk no output em ``/android/app/build/outputs/apk``
-* :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk``
+### - Warning: ###
+* :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk`` e gerar splashScreen com capacitor-resources
 
 ## Branch(Main)
     .
