@@ -5,7 +5,7 @@
 
 Clone this repository
 ```sh
-git clone https://github.com/tavinho17/poliview.git
+git clone https://github.com/fastersbrazil/sieconApp.git
 cd POLIVIEW/
 'npm i' or 'yarn'
 'npm install @capacitor/core @capacitor/cli'
