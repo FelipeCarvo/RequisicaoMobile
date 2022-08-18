@@ -30,3 +30,8 @@ cd POLIVIEW/
 
 ## :warning: Warning ##
 Gerar splashScreen com capacitor-resources
+
+## Branch(Develop)
+    .
+    ├── Main                    # Prod branch
+    ├── Develop                 # Dev branch
