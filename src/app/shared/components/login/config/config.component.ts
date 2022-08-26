@@ -1,18 +1,18 @@
 import { Component, OnInit ,Output,EventEmitter  } from '@angular/core';
 import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-config-cp',
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.scss'],
 })
 export class ConfigComponent implements OnInit {
-  public configForm: FormGroup;
+  public configForm: UntypedFormGroup;
   public loadSendData:Boolean;
   @Output() updateCp: EventEmitter<any> = new EventEmitter<void>();
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loginService:LoginService,
     private toastController:ToastController,
   ) {

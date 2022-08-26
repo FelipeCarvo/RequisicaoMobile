@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import {LoadingService} from '@services/loading/loading-service';
 import {ActivatedRoute} from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import { ToastController } from '@ionic/angular';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-justificativa.page.scss'],
 })
 export class EditJustificativaPage implements OnInit {
-  public formJus: FormGroup;
+  public formJus: UntypedFormGroup;
   justificativaId: string;
   versaoEsperada:Number
   justificativa:{};  
@@ -23,7 +23,7 @@ export class EditJustificativaPage implements OnInit {
     private requestService:RequestService,
     public loading: LoadingService,
     private route:ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private store:Store,
     private toastController:ToastController,
     private router:Router

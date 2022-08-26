@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';;
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-step-one',
@@ -18,9 +18,9 @@ export class StepOneComponent implements OnInit {
     {name:'Central de Estoque',value:true,param:'CentralDeEstoque'},
     {name:'Demais Empreendimentos',value:false,param:'DemaisEmpreendimentos'}
   ]
-  public formEstoque: FormGroup;
+  public formEstoque: UntypedFormGroup;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) { }
   public get disabledButton(){
     return this.formEstoque.controls['saldoEstoque'].value == 0 && !this.centralEstoque;

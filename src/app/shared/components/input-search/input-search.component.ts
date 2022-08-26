@@ -1,5 +1,5 @@
 import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith} from 'rxjs/operators';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -33,7 +33,7 @@ export class InputSearchComponent implements OnInit {
   @Input() hasQtdOr:Boolean;
   @Input() placeholder: string;
   @Input() controlName: any;
-  @Input() parentForm:FormGroup;
+  @Input() parentForm:UntypedFormGroup;
   @Input() listItemFilter:any;
   @Input() pesquisa:any;
   @Input() disabledCondition:any;

@@ -1,7 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
-import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
 import { Store } from '@ngxs/store';
@@ -19,7 +19,7 @@ export class ModalFinishReqComponent implements OnInit {
   @Input() versaoEsperada:number;
   @Input() currentStatus:String
   hasFinish = false;
-  public formStatus: FormGroup;
+  public formStatus: UntypedFormGroup;
   sendLoading: boolean = false;
   optionsSelect = [
     {
@@ -74,7 +74,7 @@ export class ModalFinishReqComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     private updateRequestStatus: UpdateRequestStatus,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private toastController:ToastController,
     private store:Store,
     private router:Router
@@ -90,7 +90,7 @@ export class ModalFinishReqComponent implements OnInit {
   ngOnInit() {
     const currentStatusId = this.optionsSelect.find(o => o.enum === this.currentStatus).id
     this.formStatus = this.formBuilder.group({
-      satusId:  new FormControl(currentStatusId, [Validators.required]),
+      satusId:  new UntypedFormControl(currentStatusId, [Validators.required]),
     });
   }
   public dismiss(): void {

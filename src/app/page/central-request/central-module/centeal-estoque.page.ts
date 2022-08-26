@@ -6,7 +6,7 @@ import { NavController } from '@ionic/angular';
 import {RequestService} from '@services/request/request.service';
 import {LoadingService} from '@services/loading/loading-service';
 import {ActivatedRoute} from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-centeal-estoque',
   templateUrl: './centeal-estoque.page.html',
@@ -19,7 +19,7 @@ export class CentealEstoquePage implements OnInit {
     private requestService:RequestService,
     public loading: LoadingService,
     private route:ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private store:Store,
     private toastController:ToastController,
   ) { }

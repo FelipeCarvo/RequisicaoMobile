@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,Output,EventEmitter, OnChanges, SimpleChanges,ViewChild} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
   styleUrls: ['./filter-req.component.scss']
 })
 export class FilterReqComponent implements OnInit {
-  public filterForm: FormGroup;
+  public filterForm: UntypedFormGroup;
   @Input() statusRequisicao: Number;
   @Input() dataInicial:any;
   @Input() dataFinal:any;
@@ -39,7 +39,7 @@ export class FilterReqComponent implements OnInit {
     // {status:'Aprovada para BT',id:9}
   ]
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loockupstService:LoockupstService,
   ) { 
     

@@ -1,6 +1,6 @@
 import { Component, OnInit,Output ,Input,EventEmitter} from '@angular/core';
 import {LoockupstService} from '@services/lookups/lookups.service';
-import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
 import {translateAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
@@ -20,7 +20,7 @@ export class RequestFormComponent implements OnInit {
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   sendLoading: boolean = false;
-  public reqForm: FormGroup;
+  public reqForm: UntypedFormGroup;
   private loadForm:boolean = false
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
@@ -31,7 +31,7 @@ export class RequestFormComponent implements OnInit {
   load = false;
   constructor(
     private loockupstService:LoockupstService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.initForm();
   }
@@ -65,11 +65,11 @@ export class RequestFormComponent implements OnInit {
   }
   initForm(){
     this.reqForm = this.formBuilder.group({
-      empreendimentoId:  new FormControl({value:null,disabled:false}, [Validators.required]),
-      motivoId: new FormControl({ value: null,disabled: false}),
-      OFsDescontoMaterial: new FormControl({ value: null,disabled: false}),
-      aprovador: new FormControl({ value: null,disabled: false}),
-      observacao:new FormControl({value:null,disabled:false})
+      empreendimentoId:  new UntypedFormControl({value:null,disabled:false}, [Validators.required]),
+      motivoId: new UntypedFormControl({ value: null,disabled: false}),
+      OFsDescontoMaterial: new UntypedFormControl({ value: null,disabled: false}),
+      aprovador: new UntypedFormControl({ value: null,disabled: false}),
+      observacao:new UntypedFormControl({value:null,disabled:false})
     });
     this.loadForm = true;
   }

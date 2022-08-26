@@ -2,7 +2,7 @@ import { Component, OnInit,Injectable ,Output ,Input,EventEmitter,ViewChild,Chan
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {LoockupstService} from '@services/lookups/lookups.service';
-import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
@@ -27,7 +27,7 @@ export class IsumosFormComponent implements OnInit {
   @ViewChild('popTwo') popTwo;
   @ViewChild('scrollTarget') scrollTarget;
   empreendimentoId:String = null;
-  public reqFormInsumos: FormGroup;
+  public reqFormInsumos: UntypedFormGroup;
   public etapas:any= [];
   public metodSend: String = 'POST'
   public sendLoading: boolean = false;
@@ -66,7 +66,7 @@ export class IsumosFormComponent implements OnInit {
     private loockupstService:LoockupstService,
     public navCtrl:NavController,
     private router:Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private store:Store,
     private insumosRequest:InsumosRequest,
     private toastController:ToastController,
@@ -222,25 +222,25 @@ export class IsumosFormComponent implements OnInit {
     const{empreendimentoId,requisicaoId}=this.store.selectSnapshot(ReqState.getReq);
     this.empreendimentoId = empreendimentoId;
     this.reqFormInsumos = this.formBuilder.group({
-      empresaId:  new FormControl(null, [Validators.required]),
-      etapaId:new FormControl(null),
-      somenteInsumosDaEtapa:new FormControl(false),
-      planoContasId:new FormControl(null, [Validators.required]),
-      insumoSubstituicaoId:new FormControl(null),
-      servicoId: new FormControl(null),
-      insumoId:new FormControl(null, [Validators.required]),
-      quantidade:new FormControl(0, [Validators.required,Validators.pattern(/[0-9]/),Validators.min(1)]),
-      prazo:new FormControl(0, [Validators.required]),
-      prazoDevolucao:new FormControl(null),
-      complemento:new FormControl('S/ COMPLEMENTO', [Validators.required]),
-      estoque:new FormControl(false, [Validators.required]),
-      gerarAtivoImobilizado:new FormControl(false, [Validators.required]),
-      blocoId:new FormControl(null),
-      unidadeId:new FormControl(null),
-      ordemServicoId:new FormControl(null),
-      equipamentoId:new FormControl(null),
-      observacoes:new FormControl(null),
-      status:new FormControl('Ativo'),
+      empresaId:  new UntypedFormControl(null, [Validators.required]),
+      etapaId:new UntypedFormControl(null),
+      somenteInsumosDaEtapa:new UntypedFormControl(false),
+      planoContasId:new UntypedFormControl(null, [Validators.required]),
+      insumoSubstituicaoId:new UntypedFormControl(null),
+      servicoId: new UntypedFormControl(null),
+      insumoId:new UntypedFormControl(null, [Validators.required]),
+      quantidade:new UntypedFormControl(0, [Validators.required,Validators.pattern(/[0-9]/),Validators.min(1)]),
+      prazo:new UntypedFormControl(0, [Validators.required]),
+      prazoDevolucao:new UntypedFormControl(null),
+      complemento:new UntypedFormControl('S/ COMPLEMENTO', [Validators.required]),
+      estoque:new UntypedFormControl(false, [Validators.required]),
+      gerarAtivoImobilizado:new UntypedFormControl(false, [Validators.required]),
+      blocoId:new UntypedFormControl(null),
+      unidadeId:new UntypedFormControl(null),
+      ordemServicoId:new UntypedFormControl(null),
+      equipamentoId:new UntypedFormControl(null),
+      observacoes:new UntypedFormControl(null),
+      status:new UntypedFormControl('Ativo'),
      
     });
     this.loadForm = true;

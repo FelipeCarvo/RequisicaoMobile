@@ -1,5 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
@@ -10,11 +10,11 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
   public loadSendData = false;
   public typePassword = "password";
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router:Router,
     private loginService:LoginService,
     private toastController:ToastController,
