@@ -19,31 +19,28 @@ import { File } from '@ionic-native/file/ngx';
 import {sharedModules} from '@components/components.module';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    ReactiveFormsModule,
-    HttpClientModule,
-    InterceptorModule,
-    FormsModule,
-    BrowserModule, 
-    BrowserAnimationsModule,
-    sharedModules,
-    IonicModule.forRoot(
-      {
-        rippleEffect: true,
-        animated:true,
-        mode: 'md'
-      }
-    ), 
-    AppRoutingModule,
-    MenuComponentComponentModule,
-    NgxsModule.forRoot([AuthUser,ReqState,InsumoState], { developmentMode: !environment.production }),
-    NgxsStoragePluginModule.forRoot({
-      key: ['AuthUser','ReqState','InsumoState']
-    }),
-  ],
-  providers: [File,FileOpener,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        ReactiveFormsModule,
+        HttpClientModule,
+        InterceptorModule,
+        FormsModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        sharedModules,
+        IonicModule.forRoot({
+            rippleEffect: true,
+            animated: true,
+            mode: 'md'
+        }),
+        AppRoutingModule,
+        MenuComponentComponentModule,
+        NgxsModule.forRoot([AuthUser, ReqState, InsumoState], { developmentMode: !environment.production }),
+        NgxsStoragePluginModule.forRoot({
+            key: ['AuthUser', 'ReqState', 'InsumoState']
+        }),
+    ],
+    providers: [File, FileOpener, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
