@@ -1,5 +1,5 @@
 # siecon-req
-![](https://img.shields.io/badge/Ionic-v6.xx-blue) ![](https://img.shields.io/badge/Capacitor-v3.xx-black) ![](https://img.shields.io/badge/Angular-v12.xx-red) ![](https://img.shields.io/badge/Node-v12.xx-green)
+![](https://img.shields.io/badge/Ionic-v6.20.1-blue) ![](https://img.shields.io/badge/Capacitor-v3.5.1-black) ![](https://img.shields.io/badge/Angular-14.2.0-red) ![](https://img.shields.io/badge/Node-v16.16.0-green)
 
 ## :electric_plug: Getting Started ##
 
@@ -36,7 +36,7 @@ cd POLIVIEW/
     ├── Develop                 # Dev branch
 
 
-###  Dependences ###
+## :hammer: Dependences ##
 ```sh
 
 Package                         Version
@@ -44,7 +44,6 @@ Package                         Version
 Angular                         CLI: 14.2.0
 Node:                           16.16.0
 Package Manager:                npm 8.11.0 
-Angular:                        14.2.0
 @angular-devkit/architect       0.1402.0
 @angular-devkit/build-angular   14.2.0
 @angular-devkit/core            14.2.0
