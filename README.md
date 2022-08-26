@@ -34,3 +34,24 @@ cd POLIVIEW/
     .
     ├── Main                    # Prod branch
     ├── Develop                 # Dev branch
+
+
+###  Dependences ###
+```sh
+
+Package                         Version
+---------------------------------------------------------
+Angular                         CLI: 14.2.0
+Node:                           16.16.0
+Package Manager:                npm 8.11.0 
+Angular:                        14.2.0
+@angular-devkit/architect       0.1402.0
+@angular-devkit/build-angular   14.2.0
+@angular-devkit/core            14.2.0
+@angular-devkit/schematics      14.2.0
+@angular/cdk                    13.3.9
+@angular/material               13.3.9
+@schematics/angular             14.2.0
+rxjs                            6.6.7
+typescript                      4.6.4
+```
