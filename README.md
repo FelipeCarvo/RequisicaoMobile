@@ -34,7 +34,7 @@ cd POLIVIEW/
     .
     ├── Main                    # Prod branch
     ├── Develop                 # Dev branch
-
+    ├── old_version_node        # Branch com backup
 
 ## :hammer: Dependences ##
 ```sh
