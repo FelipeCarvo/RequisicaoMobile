@@ -63,31 +63,6 @@ export interface InsumoInterface {
       }
       return params;
     }
-    // sendNewInsumo(form){
-    //   return new Promise((resolve, reject) => {
-    //     const params = this.getObject(form);
-    //     this.http.post(`${this.sieconwebsuprimentos}/ItemRequisicao`,params).subscribe(
-    //       async(res:any) => {
-    //         resolve(res);
-    //       },
-    //       error => {
-    //         let errorMsg:string = ''
-    //         const {camposComErro,Mensagem} = error;
-    //         console.log(error)
-    //         if(!!camposComErro && !Mensagem){
-    //           camposComErro.forEach((el,i) =>{
-    //             let msg = el.mensagem;
-    //             errorMsg = errorMsg + `${msg}${ i < camposComErro.length - 1 ? ',':''} `;
-    //           })
-    //         }
-    //         else{
-    //           errorMsg = Mensagem;
-    //         }
-    //         reject(errorMsg);
-    //       }
-    //     )
-    //   })
-    // }
     sendNewInsumo(form,metod,id = null){
       let req;
       let params = this.getObject(form);
@@ -117,19 +92,7 @@ export interface InsumoInterface {
             observer.next(res);
           },
           error => {
-            let errorMsg:string = ''
-            const {camposComErro,Mensagem} = error;
-            console.log(error)
-            if(!!camposComErro && !Mensagem){
-              camposComErro.forEach((el,i) =>{
-                let msg = el.mensagem;
-                errorMsg = errorMsg + `${msg}${ i < camposComErro.length - 1 ? ',':''} `;
-              })
-            }
-            else{
-              errorMsg = Mensagem;
-            }
-            observer.error(errorMsg);
+            observer.error(error);
           }
         )
       })
