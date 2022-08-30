@@ -25,12 +25,11 @@ cd POLIVIEW/
 * Confirmar dispositivo como any ios Device (arm64)
 * fazer o archive e upload pra App Store
 ### - Android ###
-* `npm run generate_apk:android`
+* `npm generate_apk:android`
 * Pegar apk no output em ``/android/app/build/outputs/apk``
 ### - Warning: ###
 * :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk`` e gerar splashScreen com capacitor-resources
 
-<<<<<<< HEAD
 ## Branch(Develop)
     .
     ├── Main                    # Prod branch
@@ -56,9 +55,3 @@ Package Manager:                npm 8.11.0
 rxjs                            6.6.7
 typescript                      4.6.4
 ```
-=======
-## Branch(Main)
-    .
-    ├── Main                    # Prod branch
-    ├── Develop                 # Dev branch
->>>>>>> main
