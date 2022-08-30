@@ -44,6 +44,7 @@ Package                         Version
 Angular                         CLI: 14.2.0
 Node:                           16.16.0
 Package Manager:                npm 8.11.0 
+@angular-eslint/eslint-plugin   14.0.3,
 @angular-devkit/architect       0.1402.0
 @angular-devkit/build-angular   14.2.0
 @angular-devkit/core            14.2.0
