@@ -55,3 +55,42 @@ Package Manager:                npm 8.11.0
 rxjs                            6.6.7
 typescript                      4.6.4
 ```
+
+#### DevDependencies
+
+```json
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.2.0",
+    "@angular-eslint/builder": "^14.0.3",
+    "@angular-eslint/eslint-plugin": "^14.0.3",
+    "@angular-eslint/eslint-plugin-template": "~14.0.3",
+    "@angular-eslint/template-parser": "~14.0.3",
+    "@angular/cli": "^14.2.0",
+    "@angular/compiler": "^14.2.0",
+    "@angular/compiler-cli": "^14.2.0",
+    "@angular/language-service": "^14.2.0",
+    "@capacitor/cli": "3.4.1",
+    "@ionic/angular-toolkit": "^4.0.0",
+    "@types/jasmine": "~3.6.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "jasmine-core": "~3.8.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "jetifier": "^2.0.0",
+    "karma": "~6.3.2",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.0.3",
+    "karma-coverage-istanbul-reporter": "~3.0.2",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "^1.5.0",
+    "protractor": "~7.0.0",
+    "ts-node": "~8.3.0",
+    "typescript": "~4.6.4"
+  }
+```
