@@ -121,6 +121,7 @@ export class IsumosFormComponent implements OnInit {
   }
   async ngOnInit() {
     const {id} = this.getFormForStore;
+    console.log(this.getFormForStore)
     if(!!id){
       this.metodSend = 'PUT';
       this.sendMsg = 'Editar Insumos';

@@ -41,7 +41,7 @@
       <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" (selectionChange)="setPlans($event.value)">
         <mat-option value="null" *ngIf="noSearchResult">Nenhum valor encontrado</mat-option>
         <mat-option *ngFor="let option of listItemFilter | async" [value]="option.id" [style.fontSize]="formName == 'insumos' ? '12px':'14px'">
-          {{option.descricao | filterType:controlName:filterDesc}}
+          {{option.descricao.trim() | filterType:controlName:filterDesc}}
         </mat-option>
       </mat-autocomplete>
     </ion-col>
