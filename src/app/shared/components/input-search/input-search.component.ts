@@ -164,7 +164,6 @@ export class InputSearchComponent implements OnInit {
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
-              console.log('aqui1')
               this.inputAutoComplete.openPanel();
             }else{
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
@@ -187,6 +186,9 @@ export class InputSearchComponent implements OnInit {
               }
               this.parentForm.controls[this.controlName].setValue(this.getValue);
             }
+          }
+          if(this.formName == 'insumos' && this.controlName == 'empresaId'){
+           console.log(!!this.getValue)
           }
       },300)
   }
