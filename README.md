@@ -55,9 +55,7 @@ Package Manager:                npm 8.11.0
 rxjs                            6.6.7
 typescript                      4.6.4
 ```
-
-#### DevDependencies
-
+### - DevDependencies
 ```json
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.0",
@@ -93,4 +91,19 @@ typescript                      4.6.4
     "ts-node": "~8.3.0",
     "typescript": "~4.6.4"
   }
+```
+
+## :fearful: Problems and Solutions(macOs m1) ##
+### - IOS ###
+Pod install - failed!
+```sh
+$ sudo arch -x86_64 gem install ffi
+$ arch -x86_64 pod install
+```
+### - Android ###
+package android.support.v4.content does not exist!
+```sh
+npm install jetifier
+npx jetify
+npx cap sync android
 ```
