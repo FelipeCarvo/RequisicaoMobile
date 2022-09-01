@@ -68,7 +68,7 @@ export class InputSearchComponent implements OnInit {
     }
   }
   async ngOnInit() {
-    if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
+    if(!!this.getValue ){
       this.refreshLoad = true;
       await this.getLoockups();
       this.firstLoad = true;
@@ -144,11 +144,10 @@ export class InputSearchComponent implements OnInit {
           this.setfalseUpdate.emit()
         }
       }
-     
-      if(this.formName == 'insumos' && this.controlName =="empresaId"){
-        let value = this.listGroup[0].id;
-        this.parentForm.controls[this.controlName].setValue(value);
-      }
+      // if(this.formName == 'insumos' && this.controlName =="empresaId"){
+      //   let value = this.listGroup[0].id;
+      //   this.parentForm.controls[this.controlName].setValue(value);
+      // }
       this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
         startWith(''),
         map((value) => {
@@ -196,7 +195,7 @@ export class InputSearchComponent implements OnInit {
   }
   private _filter(value: string,res): string[] {
     let filter;
-    if(!!value){
+    if(!!value && this.controlName !="empresaId"){
       filter =this.listGroup.filter(option => 
         option.descricao.toLowerCase().includes(value.toLocaleLowerCase()) || option.id === value);
     }else{

@@ -75,16 +75,6 @@ export class IsumosFormComponent implements OnInit {
   ) {
    
    }
-   updateStatusPut(status){
-     console.log(this.getFormField('status'))
-   }
-   changeQtdEtapa(ev){
-    let insumoId = this.reqFormInsumos?.get('insumoId').value;
-    if(!!insumoId){
-      this.updateInsumos = true;
-    }
-     this.hasQtdOr = ev
-   }
    get disabledEtapa():boolean{
     let retorno;
     const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
@@ -155,12 +145,20 @@ export class IsumosFormComponent implements OnInit {
   setDateManual(val){
     this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
+  updateStatusPut(status){
+    console.log(this.getFormField('status'))
+  }
+  changeQtdEtapa(ev){
+   let insumoId = this.reqFormInsumos?.get('insumoId').value;
+   if(!!insumoId){
+     this.updateInsumos = true;
+   }
+    this.hasQtdOr = ev
+  }
   setUnidadeType(desc: string){
     if(!!desc && this.hasInsumoId){
-      // this.insumoTypeUnidades = desc.split('-')[1].trim();
       let s =  desc.split(' - ')[1]
       let trim = s.trim();
-   
       this.insumoTypeUnidades = trim.split(' ')[0];
       if(this.hasQtdOr){
         if(trim.split(' ').length > 1){
@@ -301,12 +299,9 @@ export class IsumosFormComponent implements OnInit {
       this.loadedEtapas = true;
       const selectedEtapa = this.getFormField('etapaId');
       const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
-      let planoContasId = this.reqFormInsumos.controls['planoContasId'].value
       this.etapas = res;
       if(!!selectedEtapa){
         let test = !!this.etapas.find(e => e.id == selectedEtapa);
-        const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
-       
         if(!!insumoSubstituicaoId){
           this.reqFormInsumos.controls['insumoSubstituicaoId'].setValue(null)
         }
@@ -328,7 +323,6 @@ export class IsumosFormComponent implements OnInit {
    if(this.validForm){
     this.sendLoading = true;
     const {id} = this.getFormForStore;
-   
     if(this.hasQtdOr){
       await this.qtdInsumoMsg();
     }

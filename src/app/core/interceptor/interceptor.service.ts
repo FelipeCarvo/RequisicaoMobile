@@ -59,14 +59,25 @@ export class Interceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let noContaisUrl = this.store.selectSnapshot(AuthUser.noUrls);
         if(noContaisUrl){
-          this.store.dispatch(new Logout())
-          this.router.navigate([ `/tabs/login`]);
+         this.redirecToLogin(error.error.error_description).then();
           return throwError(`Error: ${error}`);
         }
+      
         if(error.status === 401){
-          return this.handle401Error(request, next);
+  
+          return this.handle401Error(request, next)
         }else{
-          if (error.error instanceof ErrorEvent) {
+          'error_description'
+          let invalidToken = error.status && error?.error.error == 'invalid_grant';
+          console.log(isAuthenticated)
+          if(invalidToken){
+            if(error.error.error_description !='Usuário ou senha inválidos!' && isAuthenticated){
+              this.redirecToLogin(error.error.error_description).then();
+            }
+
+            errorMsg = error.error.error_description;
+          }
+          else if (error.error instanceof ErrorEvent) {
             console.log('this is client side error');
             errorMsg = `Error: ${error.error.message}`;
           }
@@ -85,6 +96,7 @@ export class Interceptor implements HttpInterceptor {
   private handle401Error(request: HttpRequest<any>, next: HttpHandler):Observable<any> {
     let refresh_token = this.store.selectSnapshot(AuthUser.getRefreshToken);
     let userName = this.store.selectSnapshot(AuthUser.getUserName);
+    console.log('oii')
     return this.loginService.getAuthToken(refresh_token).pipe(
       switchMap((res) =>{
         let {access_token,refresh_token} = res;
@@ -99,24 +111,28 @@ export class Interceptor implements HttpInterceptor {
             Authorization: `Bearer ${access_token}`
           }
         });
+        console.log(newRequest)
         return next.handle(newRequest);
       }),
       catchError(async(err: HttpErrorResponse) => {
         console.log('aqui')
         const {error} = err;
-        console.log(error)
-        const toast = await this.toastController.create({
-          message: error.Mensagem,
-          duration: 2000
-        });
-        toast.present();
-        setTimeout(()=>{
-          this.store.dispatch(new Logout())
-          this.router.navigate([ `/tabs/login`]);
-        },1000)
+        console.log(err)
+        await this.redirecToLogin(error.Mensagem)
 
         return throwError(`Error: ${error}`);
       })
     )
+  }
+  async redirecToLogin(msg){
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
+    setTimeout(()=>{
+      this.store.dispatch(new Logout())
+      this.router.navigate([ `/tabs/login`]);
+    },1000)
   }
 }
