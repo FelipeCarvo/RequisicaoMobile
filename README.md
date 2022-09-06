@@ -67,7 +67,7 @@ typescript                      4.6.4
     "@angular/compiler": "^14.2.0",
     "@angular/compiler-cli": "^14.2.0",
     "@angular/language-service": "^14.2.0",
-    "@capacitor/cli": "3.4.1",
+    "@capacitor/cli": "^4.1.0",
     "@ionic/angular-toolkit": "^4.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
