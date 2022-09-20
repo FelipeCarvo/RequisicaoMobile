@@ -12,6 +12,7 @@
     "only_apk": "cd android && ./gradlew assembleDebug",
     "resources:ios": "capacitor-resources -p ios --transform-splash cover && node resources-ios.js",
     "resources:android": "capacitor-resources -p android --transform-splash cover && node resources-android.js",
+    "pos_build_android":"sh pos_build_android.sh",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
