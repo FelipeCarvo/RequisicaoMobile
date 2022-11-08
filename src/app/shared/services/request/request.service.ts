@@ -84,7 +84,6 @@ import { AuthUser } from '@core/store/state/auth.state';
       return new Observable((observer) => {
         this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
           async(res:any) => {
-            console.log('aqui',res)
             this.store.dispatch(new setReqFileds({versaoEsperada:res.version,codigoExterno:res.codigoExterno,status:res.status}))
             observer.next(res.version);
           },
@@ -144,7 +143,6 @@ import { AuthUser } from '@core/store/state/auth.state';
             const resultado = postReRes;
             let res;
             if(typeof resultado === "string"){
-              console.log(resultado,requisicaoId);
               if(!!resultado  && requisicaoId != resultado){
                 res = resultado;
               }else if(!!requisicaoId && !resultado){

@@ -187,12 +187,10 @@ export class DocumentsComponent implements OnInit {
   }
   async writeAndOpenFile(data: Blob, fileName: string) {
     var reader = getFileReader();
-    console.log('data')
-    console.log(data);
+
     reader.readAsDataURL(data);
     reader.onloadend = async function () {
         var base64data = reader.result;
-        console.log('aqui')
         try {
             const result = await Filesystem.writeFile({
                 path: fileName,
@@ -200,7 +198,6 @@ export class DocumentsComponent implements OnInit {
                 directory: Directory.Data,
                 recursive: true
             });
-            console.log(data)
             let fileOpener: FileOpener = new FileOpener();
             fileOpener.open(result.uri, data.type)
                 .then(() => console.log('File is opened'))

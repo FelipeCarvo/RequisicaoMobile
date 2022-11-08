@@ -107,7 +107,9 @@ export class IsumosFormComponent implements OnInit {
       somenteInsumosDaEtapa?:Boolean,
       calcularQuantidade?:Boolean
     } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr}
-    if(!!this.etapaIdInput){
+    let hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    // let hasEtapa = !!this.etapaIdInput
+    if(hasEtapa){
       obj.etapaId = this.etapaIdInput
       obj.somenteInsumosDaEtapa = true
     }
@@ -121,7 +123,6 @@ export class IsumosFormComponent implements OnInit {
   }
   async ngOnInit() {
     const {id} = this.getFormForStore;
-    console.log(this.getFormForStore)
     if(!!id){
       this.metodSend = 'PUT';
       this.sendMsg = 'Editar Insumos';
@@ -147,7 +148,6 @@ export class IsumosFormComponent implements OnInit {
     this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
   updateStatusPut(status){
-    console.log(this.getFormField('status'))
   }
   changeQtdEtapa(ev){
    let insumoId = this.reqFormInsumos?.get('insumoId').value;
@@ -343,6 +343,7 @@ export class IsumosFormComponent implements OnInit {
       });
       toast.present();
     },async(error) =>{
+      console.log(error)
       this.sendLoading = false;
       const toast = await this.toastController.create({
         message: error,
