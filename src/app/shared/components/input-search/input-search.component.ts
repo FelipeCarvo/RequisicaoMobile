@@ -98,6 +98,7 @@ export class InputSearchComponent implements OnInit {
       if(this.listGroup.length == 0){
         this.getLoockups();
       }
+      console.log( this.listGroup,this.listItemFilter)
       let filtredList = this.listGroup.find(option => option.id == value)
       let desc =  !!filtredList ? filtredList.descricao : '';
       if(this.controlName === "insumoId"){
@@ -129,6 +130,7 @@ export class InputSearchComponent implements OnInit {
     }
   }
   async getLoockups(){
+    console.log('ENTROU')
       this.loading = true;
       const params = this.pesquisa;
       let enumName = this.controlName
@@ -160,7 +162,6 @@ export class InputSearchComponent implements OnInit {
         distinctUntilChanged(),
         switchMap(val => {
           let filterValue = this.filter(val || '');
-          this.inputAutoComplete.openPanel();
           return filterValue
         })       
       );
@@ -180,7 +181,8 @@ export class InputSearchComponent implements OnInit {
                 this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
-                let filterValue:any = this._filter(this.getValue,this.listGroup)[0];
+                let filterValue:any = this.listGroup.filter(o =>o.id == this.getValue)
+                console.log('aqui',this.getValue)
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
                   let {planoContasPadraoId} = filterValue
                   let hasPlan = !!this.parentForm.controls['planoContasId'].value;
@@ -216,6 +218,7 @@ export class InputSearchComponent implements OnInit {
     return this.loockupstService.getLookUpOb(this.pesquisa,enumName)
      .pipe(
        map(response => {
+        this.listGroup = response;
         this.noSearchResult = response.length == 0
         return response
       })
