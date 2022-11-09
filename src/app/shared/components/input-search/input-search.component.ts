@@ -129,21 +129,29 @@ export class InputSearchComponent implements OnInit {
     }
   }
   async getLoockups(){
-    console.log('ENTROU')
+
       this.loading = true;
+      let enumName = this.controlName;
+      let hasValue = !!this.getValue;
+      if(hasValue){
+        this.pesquisa.valorSelecionado = this.getValue
+      }
       const params = this.pesquisa;
-      let enumName = this.controlName
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
-        if(!!this.updateInsumos) this.listGroup = []
-        this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+        if(!!this.updateInsumos) this.listGroup = [];
+          if(hasValue){
+            this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+          }
+        
+          console.log(params)
         if(this.updateInsumos){
           this.setfalseUpdate.emit()
         }
       }
-      let hasValue = !!this.parentForm.get(this.controlName).value;
+      
       if(this.formName == 'insumos' && this.controlName =="empresaId" && !hasValue){
         let vigente = this.listGroup.filter(list => !!list.vigente);
         let value;
@@ -169,18 +177,19 @@ export class InputSearchComponent implements OnInit {
         this.loading = false;     
           this.refreshLoad = false;
           if(!!this.getValue){
+            
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
+
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
-              this.inputAutoComplete.openPanel();
+              // this.inputAutoComplete.openPanel();
             }else{
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
-                this.parentForm.controls['insumoId'].setValue(null);
+                // this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
                 let filterValue:any = this.listGroup.filter(o =>o.id == this.getValue)
-                console.log('aqui',this.getValue)
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
                   let {planoContasPadraoId} = filterValue
                   let hasPlan = !!this.parentForm.controls['planoContasId'].value;
@@ -200,6 +209,10 @@ export class InputSearchComponent implements OnInit {
   filter(val: string): Observable<any[]> {
     let enumName = this.controlName;
     this.pesquisa.pesquisa = val;
+    let hasValue = !!this.getValue;
+    if(hasValue && this.getValue !=val){
+      this.pesquisa.valorSelecionado = this.getValue
+    }
     if(this.formName == 'insumos' && this.controlName == 'empresaId'){
       enumName = 'EmpresasDoEmpreendimento'
     }

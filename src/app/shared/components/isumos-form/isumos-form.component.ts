@@ -123,6 +123,7 @@ export class IsumosFormComponent implements OnInit {
   }
   async ngOnInit() {
     const {id} = this.getFormForStore;
+    console.log(this.getFormForStore)
     if(!!id){
       this.metodSend = 'PUT';
       this.sendMsg = 'Editar Insumos';
@@ -245,6 +246,7 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
+        console.log(e)
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
@@ -436,10 +438,5 @@ export class IsumosFormComponent implements OnInit {
     setTimeout(()=>{
       this.cdr.detectChanges();
     })
-
-   
-
-    // const controlNames = ['nameOne', 'nameTwo'];
-    // controlNames.map((value: string) => this.reqFormInsumos.get(value).setValue(null));
   }
 }
