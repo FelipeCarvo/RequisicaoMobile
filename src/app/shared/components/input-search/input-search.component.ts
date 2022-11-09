@@ -98,7 +98,6 @@ export class InputSearchComponent implements OnInit {
       if(this.listGroup.length == 0){
         this.getLoockups();
       }
-      console.log( this.listGroup,this.listItemFilter)
       let filtredList = this.listGroup.find(option => option.id == value)
       let desc =  !!filtredList ? filtredList.descricao : '';
       if(this.controlName === "insumoId"){
@@ -171,13 +170,12 @@ export class InputSearchComponent implements OnInit {
           this.refreshLoad = false;
           if(!!this.getValue){
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
-
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
               this.inputAutoComplete.openPanel();
             }else{
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
-              if(this.controlName == 'planoContasId' && hasInsumos &&  this.firstLoad){
+              if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
                 this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
@@ -198,15 +196,6 @@ export class InputSearchComponent implements OnInit {
   }
   setPlans(val){
 
-  }
-   private async _filter(value: string,enumName:string): Promise<any> {
-    let filter:any;
-    if(!!value && this.controlName !="empresaId"){
-      this.pesquisa.pesquisa = value
-      this.listGroup = await this.loockupstService.getLookUp(this.pesquisa,enumName)
-    }
-    filter = this.listGroup;
-    return filter;
   }
   filter(val: string): Observable<any[]> {
     let enumName = this.controlName;

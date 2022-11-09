@@ -147,8 +147,6 @@ export class IsumosFormComponent implements OnInit {
   setDateManual(val){
     this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
-  updateStatusPut(status){
-  }
   changeQtdEtapa(ev){
    let insumoId = this.reqFormInsumos?.get('insumoId').value;
    if(!!insumoId){

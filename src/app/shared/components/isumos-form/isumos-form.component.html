@@ -160,7 +160,7 @@
       </ion-list>
       <ion-item  lines="none" class="box  ion-margin-vertical" *ngIf="metodSend ==='PUT'">
         <ion-label position="floating">Status</ion-label>
-        <ion-radio-group formControlName="status"  (ionChange)="updateStatusPut($event.target.value)">
+        <ion-radio-group formControlName="status" >
           <ion-item  class="status" *ngFor="let s of status" lines="none">
             <ion-label [class]="s.label">{{s.label}}</ion-label>
             <ion-radio  slot="start" [value]="s.label" slot="start" ></ion-radio>
