@@ -34,7 +34,7 @@
       </ion-item>
       <ion-item class="box radio"> 
         <ion-label>Apenas Etapas do Insumo</ion-label>
-        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa" ></ion-checkbox>
+        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa"  (ionChange)="changeEtapa($event)"></ion-checkbox>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
         <ion-label  position="floating">Etapa</ion-label>
