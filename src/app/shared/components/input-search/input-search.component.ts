@@ -3,7 +3,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith,debounceTime,distinctUntilChanged,switchMap} from 'rxjs/operators';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable,} from 'rxjs';
+import { Observable, of,} from 'rxjs';
 import { 
   ControlValueAccessor, 
   NG_VALUE_ACCESSOR, 
@@ -133,26 +133,33 @@ export class InputSearchComponent implements OnInit {
       this.loading = true;
       let enumName = this.controlName;
       let hasValue = !!this.getValue;
-      if(hasValue){
-        this.pesquisa.valorSelecionado = this.getValue
-      }
-      const params = this.pesquisa;
+      let params = this.pesquisa;
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
+       
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
-        if(!!this.updateInsumos) this.listGroup = [];
-          if(hasValue){
-            this.listGroup = await this.loockupstService.getLookUp(params,enumName);
-          }
-        
-          console.log(params)
+        if(!!this.updateInsumos)
+        { 
+          this.listGroup = []
+        };
+     
         if(this.updateInsumos){
           this.setfalseUpdate.emit()
         }
       }
-      
+      if(this.listGroup.length == 0){
+        if(hasValue){
+          params.valorSelecionado = this.getValue
+        }
+        this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+        if(!! params.valorSelecionado){
+          params.valorSelecionado = '';
+        }
+
+      }
       if(this.formName == 'insumos' && this.controlName =="empresaId" && !hasValue){
+       
         let vigente = this.listGroup.filter(list => !!list.vigente);
         let value;
         if(vigente.length > 0){
@@ -208,16 +215,17 @@ export class InputSearchComponent implements OnInit {
   }
   filter(val: string): Observable<any[]> {
     let enumName = this.controlName;
-    this.pesquisa.pesquisa = val;
-    let hasValue = !!this.getValue;
-    if(hasValue && this.getValue !=val){
-      this.pesquisa.valorSelecionado = this.getValue
-    }
     if(this.formName == 'insumos' && this.controlName == 'empresaId'){
       enumName = 'EmpresasDoEmpreendimento'
     }
+    let find = this.listGroup.find(el =>el.id == val);
+    if(this.listGroup.length > 0 && !!find){
+     return of(this.listGroup)
+    }
+    let searh = this.pesquisa;
+    searh.pesquisa = val;
     // call the service which makes the http-request
-    return this.loockupstService.getLookUpOb(this.pesquisa,enumName)
+    return this.loockupstService.getLookUpOb(searh,enumName)
      .pipe(
        map(response => {
         this.listGroup = response;

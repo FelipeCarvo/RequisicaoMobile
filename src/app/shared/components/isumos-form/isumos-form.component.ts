@@ -123,7 +123,6 @@ export class IsumosFormComponent implements OnInit {
   }
   async ngOnInit() {
     const {id} = this.getFormForStore;
-    console.log(this.getFormForStore)
     if(!!id){
       this.metodSend = 'PUT';
       this.sendMsg = 'Editar Insumos';
@@ -246,7 +245,6 @@ export class IsumosFormComponent implements OnInit {
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
       let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-        console.log(e)
         let val = this.getFormField(e);
         let formField = {[e]:val};
         let atualValue = this.getFormForStore[e];
@@ -343,7 +341,6 @@ export class IsumosFormComponent implements OnInit {
       });
       toast.present();
     },async(error) =>{
-      console.log(error)
       this.sendLoading = false;
       const toast = await this.toastController.create({
         message: error,
