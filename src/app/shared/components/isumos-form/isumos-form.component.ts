@@ -107,7 +107,7 @@ export class IsumosFormComponent implements OnInit {
       somenteInsumosDaEtapa?:Boolean,
       calcularQuantidade?:Boolean
     } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr}
-    let hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    let hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value || !!this.etapaIdInput;
     // let hasEtapa = !!this.etapaIdInput
     if(hasEtapa){
       obj.etapaId = this.etapaIdInput
@@ -143,6 +143,10 @@ export class IsumosFormComponent implements OnInit {
      
        }
     })
+  }
+  changeNewEtapa(ev){
+    this.reqFormInsumos.controls['insumoId'].setValue(null);
+    if(!this.updateInsumos)this.updateInsumos = true;
   }
   setDateManual(val){
     this.diference = moment(new Date()).add(val, 'days').toISOString();
