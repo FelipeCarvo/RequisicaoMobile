@@ -183,6 +183,7 @@ export class InputSearchComponent implements OnInit {
       setTimeout(()=>{
         this.loading = false;     
           this.refreshLoad = false;
+          console.log('aqui')
           if(!!this.getValue){
             
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
@@ -190,23 +191,25 @@ export class InputSearchComponent implements OnInit {
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
               // this.inputAutoComplete.openPanel();
-            }else{
+            }
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
-                // this.parentForm.controls['insumoId'].setValue(null);
+                this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
-                let filterValue:any = this.listGroup.filter(o =>o.id == this.getValue)
+                console.log('aqui2')
+                let filterValue:any = this.listGroup.find(o =>o.id == this.getValue);
+                console.log(!!filterValue.planoContasPadraoId)
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
-                  let {planoContasPadraoId} = filterValue
-                  let hasPlan = !!this.parentForm.controls['planoContasId'].value;
-                  if(!hasPlan){
+                  let {planoContasPadraoId} = filterValue;
+                  console.log('aqui3')
+                  if(!!planoContasPadraoId){
                     this.parentForm.controls['planoContasId'].setValue(planoContasPadraoId);
                   }
                 }
               }
               this.parentForm.controls[this.controlName].setValue(this.getValue);
-            }
+            
           }
       },300)
   }
