@@ -114,8 +114,9 @@ export class Interceptor implements HttpInterceptor {
         return next.handle(newRequest);
       }),
       catchError(async(err: HttpErrorResponse) => {
-        const {error} = err;
-        await this.redirecToLogin(error.mensagem ?? error)
+        let {error} = err;
+        let msg = error.mensagem ??  error.Mensagem
+        await this.redirecToLogin(msg ?? error)
 
         return throwError(`Error: ${error}`);
       })

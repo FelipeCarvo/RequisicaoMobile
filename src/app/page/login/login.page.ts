@@ -14,7 +14,7 @@ export class LoginPage implements OnInit{
     this.hasUrl = this.store.selectSnapshot(AuthUser.isAuthenticatedURL)
   }
   ngOnInit(){
-    console.log('aqui')
+
    
   }
   updateCp(){

@@ -30,6 +30,7 @@ export class InputSearchComponent implements OnInit {
   @Output() setfalseUpdate:EventEmitter<any> = new EventEmitter();
   @Output() emitFieldClean:EventEmitter<any> = new EventEmitter();
   @Output() changeQtdEtapa:EventEmitter<any> = new EventEmitter();
+  @Input() DisabledInput:boolean = false;
   @Input() label: string;
   @Input() hasQtdOr:Boolean;
   @Input() placeholder: string;
@@ -91,7 +92,7 @@ export class InputSearchComponent implements OnInit {
        disable = Object.values(o).filter(e => e!=null && e!=``).length == 0
      
      }
-    return disable
+    return disable || this.DisabledInput;
   } 
   displayFn(value = this.getValue) {
     if(!!value){
@@ -183,11 +184,8 @@ export class InputSearchComponent implements OnInit {
       setTimeout(()=>{
         this.loading = false;     
           this.refreshLoad = false;
-          console.log('aqui')
           if(!!this.getValue){
-            
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
-
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
               // this.inputAutoComplete.openPanel();
@@ -197,12 +195,9 @@ export class InputSearchComponent implements OnInit {
                 this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
-                console.log('aqui2')
                 let filterValue:any = this.listGroup.find(o =>o.id == this.getValue);
-                console.log(!!filterValue.planoContasPadraoId)
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
                   let {planoContasPadraoId} = filterValue;
-                  console.log('aqui3')
                   if(!!planoContasPadraoId){
                     this.parentForm.controls['planoContasId'].setValue(planoContasPadraoId);
                   }

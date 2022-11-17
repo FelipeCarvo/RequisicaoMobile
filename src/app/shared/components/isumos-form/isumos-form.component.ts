@@ -19,7 +19,7 @@ import * as moment from 'moment';
 
 })
 export class IsumosFormComponent implements OnInit {
-  @Input()getFormForStore:any;
+  @Input() getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Output() onlyReset:EventEmitter<any> = new EventEmitter();
   @Output() resetAndBack:EventEmitter<any> = new EventEmitter();

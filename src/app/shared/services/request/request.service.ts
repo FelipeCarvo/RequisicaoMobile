@@ -149,7 +149,6 @@ import { AuthUser } from '@core/store/state/auth.state';
                 res = requisicaoId;
               }
               if(!!res && res != requisicaoId){
-                console.log(typeof res === "string")
                 this.store.dispatch(new setReqFileds({requisicaoId:resultado}))
               }
             }else{

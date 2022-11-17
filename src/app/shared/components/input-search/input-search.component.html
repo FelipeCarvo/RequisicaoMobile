@@ -35,7 +35,7 @@
           [class]="getRequerid ? 'required' : ''"
           [matAutocompleteConnectedTo]="origin" 
           style="padding-inline-end: 30px;">
-          <ion-icon name="close-outline" *ngIf="!!getValue" (click)="clearField(); openPanel()"></ion-icon>
+          <ion-icon name="close-outline" *ngIf="!!getValue && !setDisableButton" (click)="clearField(); openPanel()"></ion-icon>
       </div>
   
       <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" (selectionChange)="setPlans($event.value)">

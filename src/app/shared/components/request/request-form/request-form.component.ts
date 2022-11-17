@@ -15,7 +15,8 @@ import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
   animations: [translateAnimation()]
 })
 export class RequestFormComponent implements OnInit {
-  @Input()getFormForStore:any;
+  @Input() getFormForStore :any;
+  @Input() validReqId: boolean;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
@@ -46,6 +47,8 @@ export class RequestFormComponent implements OnInit {
   }
   async ngOnInit() {
     this.getLoockupMotivo();
+   this.validReqId;
+    console.log( this.validReqId)
     await this.setValform();
     // this.reqForm.valueChanges.subscribe(selectedValue  => {
     //   let filterVal =Object.keys(selectedValue).filter(e => this.getFormForStore[e] != selectedValue[e]);
