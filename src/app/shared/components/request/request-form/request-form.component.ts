@@ -47,21 +47,8 @@ export class RequestFormComponent implements OnInit {
   }
   async ngOnInit() {
     this.getLoockupMotivo();
-   this.validReqId;
-    console.log( this.validReqId)
+    this.validReqId;
     await this.setValform();
-    // this.reqForm.valueChanges.subscribe(selectedValue  => {
-    //   let filterVal =Object.keys(selectedValue).filter(e => this.getFormForStore[e] != selectedValue[e]);
-    //   filterVal.forEach(e =>{
-    //     let val = this.getFormField(e);
-    //     let formField = {[e]:val};
-    //     let atualValue = this.getFormForStore[e];
-    //     if(formField != atualValue){
-    //       this.setFormForStore.emit(formField);
-    //       this.UpdateForm.emit(true);
-    //     }
-    //   })
-    // })
   }
   get getForm(){
     return this.reqForm.getRawValue();

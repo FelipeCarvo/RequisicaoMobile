@@ -6,6 +6,9 @@ import { Store } from '@ngxs/store';
 import {setAuthData,setAuthUrl} from '@core/store/actions/auth.actions'
 
 import { AuthUser } from '@core/store/state/auth.state';
+type IurlDTOS ={
+  urlLogin:string;urlAPISuprimentos:string;urlAPISP7:string
+}
 @Injectable({
     providedIn: 'root'
   })
@@ -44,7 +47,7 @@ import { AuthUser } from '@core/store/state/auth.state';
             let urlLogin = itens.find(item => item.nome == 'urlLogin').valor;
             let urlAPISuprimentos = itens.find(item => item.nome == 'urlAPISuprimentos').valor;
             let urlAPISP7 = itens.find(item => item.nome == 'urlAPISP7').valor;
-            let data = {urlLogin,urlAPISuprimentos,urlAPISP7}
+            let data = this.sliceUrl({urlLogin,urlAPISuprimentos,urlAPISP7})
             await this.store.dispatch(new setAuthUrl(data));
             observer.next(res);
           },
@@ -54,6 +57,15 @@ import { AuthUser } from '@core/store/state/auth.state';
           }
         )
       })
+    }
+    sliceUrl(data:IurlDTOS){
+      let newObj = {}
+      for (const [key, value] of Object.entries(data)) {
+        let valueRemovedLastChar = value.substring(0, value.lastIndexOf('/'));
+        let treatString:boolean = value.substring(value.length-1) == '/'
+        newObj[key] = treatString ? valueRemovedLastChar:value;
+      }
+      return newObj
     }
     public getAuthToken(refresh_token): Observable<any> {
       const newUrl = this.store.selectSnapshot(AuthUser.geturlLogin);

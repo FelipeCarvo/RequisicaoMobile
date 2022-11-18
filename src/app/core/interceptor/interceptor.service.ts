@@ -62,9 +62,10 @@ export class Interceptor implements HttpInterceptor {
          this.redirecToLogin(error.error.error_description).then();
           return throwError(`Error: ${error}`);
         }
-      
+        if(error.status ===404){
+          return throwError('url nao encontrada');
+        }
         if(error.status === 401){
-  
           return this.handle401Error(request, next)
         }else{
           'error_description'
