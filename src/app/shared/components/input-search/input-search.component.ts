@@ -192,6 +192,7 @@ export class InputSearchComponent implements OnInit {
             }
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
+                // não sei o motivo dessa linha, mas deixa o insumo vazio na edição
                 //this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
