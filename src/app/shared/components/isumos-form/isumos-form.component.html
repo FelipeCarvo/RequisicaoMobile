@@ -1,5 +1,5 @@
 <form id="requestForm" style="margin-top:0!important;" [formGroup]="reqFormInsumos" style="margin:0!important" appMousePosition #scrollTarget>
-  <ion-row class="ion-justify-content-center"> 
+  <ion-row class="ion-justify-content-center">
     <ion-col size="11" class="no-padding-top" >
       <ion-list>
         <ion-radio-group>
@@ -9,7 +9,7 @@
                 <ion-label>Insumo</ion-label>
                 <ion-checkbox slot="start"   [(ngModel)]="saveInsumos"  [ngModelOptions]="{standalone: true}"></ion-checkbox>
               </ion-item>
-          
+
               <ion-item lines="none"  class="radio">
                 <ion-label>Etapa</ion-label>
                 <ion-checkbox  [(ngModel)]="saveEtapas" slot="start"  [ngModelOptions]="{standalone: true}"> </ion-checkbox>
@@ -28,21 +28,19 @@
           </ion-row>
         </ion-radio-group>
       </ion-list>
-      
+
       <ion-item lines="none" class="box ion-margin-vertical">
         <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Código da Empresa" formName="insumos" [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoId}" [listItemFilter]="listItemFilter.EmpresasDoEmpreendimento" [parentForm]="reqFormInsumos" controlName="empresaId" ngDefaultControl></app-input-search>
       </ion-item>
-      <ion-item class="box radio"> 
+      <ion-item class="box radio">
         <ion-label>Apenas Etapas do Insumo</ion-label>
         <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa"  (ionChange)="changeEtapa($event)"></ion-checkbox>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
-        <ion-label  position="floating">Etapa</ion-label>
-        <ion-select placeholder="Todos" (ionCancel)="eventChanged($event)" (ionChange)="changeNewEtapa($event)" (click)="getLoockupEtapa()" formControlName="etapaId" [disabled]="loadForm && disabledEtapa"  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" cancel-text="cancelar" interface="action-sheet" [selectedText]="selectedTextOption()">
-          <ion-select-option *ngIf="etapas.length == 0 && loadedEtapas" [disabled]="true">Nenhuma etapa disponivel</ion-select-option>
-          <ion-select-option *ngFor="let item of etapas" [value]="item?.id" >{{ item?.descricao}}</ion-select-option>
-        </ion-select>
-       
+          <app-input-search label="Etapa" formName="insumos" (emitFieldClean)="emitFieldClean($event)"
+                  [pesquisa]="parametrosLookupEtapa"                  [listItemFilter]="listItemFilter.filteredOptionsEtapas" [parentForm]="reqFormInsumos"
+                  #etapaId controlName="etapaId" ngDefaultControl></app-input-search>
+
           <div class="required-text"  *ngIf="disabledEtapa">
             <p>Insumo é um campo obrigatório</p>
           </div>
@@ -76,7 +74,7 @@
               <p *ngIf="hasInsumoId && (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null )">A quantidade deve ser maior que 0 </p>
             </div>
           </ion-col>
-        </ion-row>    
+        </ion-row>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-row >
@@ -90,19 +88,19 @@
           <ion-col size="8"  class="no-padding ion-no-margin">
             <p class="diasUteis">Dias Uteis</p>
           </ion-col>
-        </ion-row>    
+        </ion-row>
       </ion-item>
       <div #diaUtil id="open-date-input-diff"  style="height: 0;">
         <ion-col size="12">
           <ion-popover  #popOne trigger="open-date-input-diff" alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
-              <ion-datetime 
-               
-                presentation="date" locale="pt-BR"  
-                [value]="currentDay" 
-                picker-format="MMMM DD, YYYY" 
-                display-format="MM/DD/YYYY" 
-                [min]="currentyear" 
+              <ion-datetime
+
+                presentation="date" locale="pt-BR"
+                [value]="currentDay"
+                picker-format="MMMM DD, YYYY"
+                display-format="MM/DD/YYYY"
+                [min]="currentyear"
                 done-text="Confirmar"
                 cancel-text="cancelar"
                 [(ngModel)]="diference"
@@ -110,7 +108,7 @@
                 [ngModelOptions]="{standalone: true}"
                 >
               </ion-datetime>
-            </ng-template> 
+            </ng-template>
           </ion-popover>
         </ion-col>
       </div>
@@ -123,26 +121,26 @@
               <ion-icon src="../../assets/icon/calendar.svg" slot="end"></ion-icon>
             </div>
           </ion-col>
-        </ion-row>    
+        </ion-row>
       </ion-item>
       <div id="open-date-input" #prazoDate style="height: 0;">
         <ion-col size="12">
           <ion-popover  #popTwo trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
-              <ion-datetime presentation="date" locale="pt-BR" 
-                [value]="currentDay" picker-format="MMMM DD, YYYY" 
-                display-format="MM/DD/YYYY" [min]="currentyear" 
+              <ion-datetime presentation="date" locale="pt-BR"
+                [value]="currentDay" picker-format="MMMM DD, YYYY"
+                display-format="MM/DD/YYYY" [min]="currentyear"
                 (ionChange)="setPopTwo($event)"
                 formControlName="prazoDevolucao" done-text="Confirmar"
                 cancel-text="cancelar">
               </ion-datetime>
-            </ng-template> 
+            </ng-template>
           </ion-popover>
         </ion-col>
 
       </div>
       <ion-item  lines="none" class="box" *ngIf="!!getFormField('etapaId')">
-        <app-input-search  (emitFieldClean)="emitFieldClean($event)" label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>  
+        <app-input-search  (emitFieldClean)="emitFieldClean($event)" label="Insumo de Substituição"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId,somenteInsumosDaEtapa:true,etapaId:getFormField('etapaId')}" [listItemFilter]="listItemFilter.filteredOptionsInsumos" [parentForm]="reqFormInsumos" controlName="insumoSubstituicaoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <ion-label position="floating">Complemento</ion-label>
@@ -165,7 +163,7 @@
             <ion-label [class]="s.label">{{s.label}}</ion-label>
             <ion-radio  slot="start" [value]="s.label" slot="start" ></ion-radio>
           </ion-item>
-        </ion-radio-group>   
+        </ion-radio-group>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical" >
         <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Bloco"  formName="insumos"  [pesquisa]="{pesquisa:'',empreendimentoId: empreendimentoId}" [listItemFilter]="listItemFilter.filteredOptionsBloco" [parentForm]="reqFormInsumos"   controlName="blocoId" ngDefaultControl></app-input-search>
@@ -174,14 +172,14 @@
       <ion-item  lines="none" class="box"  *ngIf="!!getFormField('blocoId')">
         <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Unidade"  formName="insumos"  [pesquisa]="{pesquisa:'',blocoId: getFormField('blocoId')}" [listItemFilter]="listItemFilter.filteredOptionsUnidade"  [parentForm]="reqFormInsumos" controlName="unidadeId" ngDefaultControl></app-input-search>
       </ion-item>
-      <ion-item class="box  ion-margin-vertical"> 
+      <ion-item class="box  ion-margin-vertical">
         <ion-label class="gestao">Gestão de Frota</ion-label>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Ordem de Serviço"  formName="insumos"  [pesquisa]="{pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsOrdemServico"  [parentForm]="reqFormInsumos" controlName="ordemServicoId" ngDefaultControl></app-input-search> 
+        <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Ordem de Serviço"  formName="insumos"  [pesquisa]="{pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsOrdemServico"  [parentForm]="reqFormInsumos" controlName="ordemServicoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
-        <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Gerar OS para Equipamento"  formName="insumos"  [pesquisa]="{pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsEquipamento" [parentForm]="reqFormInsumos" controlName="equipamentoId" ngDefaultControl></app-input-search> 
+        <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Gerar OS para Equipamento"  formName="insumos"  [pesquisa]="{pesquisa:''}" [listItemFilter]="listItemFilter.filteredOptionsEquipamento" [parentForm]="reqFormInsumos" controlName="equipamentoId" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item lines="none" class="box">
         <ion-label position="floating">Observações</ion-label>

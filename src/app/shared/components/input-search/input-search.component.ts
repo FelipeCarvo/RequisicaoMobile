@@ -4,12 +4,12 @@ import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith,debounceTime,distinctUntilChanged,switchMap} from 'rxjs/operators';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable, of,} from 'rxjs';
-import { 
-  ControlValueAccessor, 
-  NG_VALUE_ACCESSOR, 
-  NG_VALIDATORS, 
-  FormControl, 
-  Validator 
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  FormControl,
+  Validator
 } from '@angular/forms';
 @Component({
   selector: 'app-input-search',
@@ -77,10 +77,10 @@ export class InputSearchComponent implements OnInit {
     }
   }
   get getRequerid():boolean{
-    return !!this.parentForm.get(this.controlName).errors?.required 
+    return !!this.parentForm.get(this.controlName).errors?.required
   }
   get getValue(){
-    return this.parentForm.get(this.controlName).value 
+    return this.parentForm.get(this.controlName).value
   }
   get setDisableButton():boolean{
     let disable = false;
@@ -90,10 +90,10 @@ export class InputSearchComponent implements OnInit {
        .filter((a,k) => obj[k] == null && a !='pesquisa')
        .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
        disable = Object.values(o).filter(e => e!=null && e!=``).length == 0
-     
+
      }
     return disable || this.DisabledInput;
-  } 
+  }
   displayFn(value = this.getValue) {
     if(!!value){
       if(this.listGroup.length == 0){
@@ -107,7 +107,7 @@ export class InputSearchComponent implements OnInit {
       return desc.trim()
     }
   }
- 
+
   clearField(){
     this.parentForm.controls[this.controlName].setValue(null);
     this.emitFieldClean.emit({[this.controlName]:null});
@@ -137,14 +137,14 @@ export class InputSearchComponent implements OnInit {
       let params = this.pesquisa;
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
-       
+
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
         if(!!this.updateInsumos)
-        { 
+        {
           this.listGroup = []
         };
-     
+
         if(this.updateInsumos){
           this.setfalseUpdate.emit()
         }
@@ -160,7 +160,7 @@ export class InputSearchComponent implements OnInit {
 
       }
       if(this.formName == 'insumos' && this.controlName =="empresaId" && !hasValue){
-       
+
         let vigente = this.listGroup.filter(list => !!list.vigente);
         let value;
         if(vigente.length > 0){
@@ -178,11 +178,11 @@ export class InputSearchComponent implements OnInit {
         switchMap(val => {
           let filterValue = this.filter(val || '');
           return filterValue
-        })       
+        })
       );
 
       setTimeout(()=>{
-        this.loading = false;     
+        this.loading = false;
           this.refreshLoad = false;
           if(!!this.getValue){
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
@@ -192,7 +192,7 @@ export class InputSearchComponent implements OnInit {
             }
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
               if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
-                this.parentForm.controls['insumoId'].setValue(null);
+                //this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
                 let filterValue:any = this.listGroup.find(o =>o.id == this.getValue);
@@ -204,7 +204,7 @@ export class InputSearchComponent implements OnInit {
                 }
               }
               this.parentForm.controls[this.controlName].setValue(this.getValue);
-            
+
           }
       },300)
   }
@@ -231,6 +231,16 @@ export class InputSearchComponent implements OnInit {
         return response
       })
      )
-   } 
+   }
+
+   public objetoSelecionado()
+   {
+     let selecionado = this.getValue;
+     if (!selecionado)
+       return null;
+     let obj = this.listGroup.find(item => item.id === selecionado);
+     return obj;
+
+   }
 
 }
