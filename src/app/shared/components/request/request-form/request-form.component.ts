@@ -25,7 +25,7 @@ export class RequestFormComponent implements OnInit {
   private loadForm:boolean = false
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
-    filteredOptionsOFsDescontoMaterial:null,
+    filteredOptionsOfDescontoMaterial:null,
     filteredOptionsUsuarios:null
   };
   motivos:any;
@@ -57,7 +57,7 @@ export class RequestFormComponent implements OnInit {
     this.reqForm = this.formBuilder.group({
       empreendimentoId:  new UntypedFormControl({value:null,disabled:false}, [Validators.required]),
       motivoId: new UntypedFormControl({ value: null,disabled: false}),
-      OFsDescontoMaterial: new UntypedFormControl({ value: null,disabled: false}),
+      ofDescontoMaterial: new UntypedFormControl({ value: null,disabled: false}),
       aprovador: new UntypedFormControl({ value: null,disabled: false}),
       observacao:new UntypedFormControl({value:null,disabled:false})
     });

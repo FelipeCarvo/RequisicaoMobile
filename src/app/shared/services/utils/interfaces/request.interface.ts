@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 export interface FilterRequestFields {
     filteredOptionsEmpreendimento?: Observable<string[]>,
-    filteredOptionsOFsDescontoMaterial?: Observable<string[]>,
+    filteredOptionsOfDescontoMaterial?: Observable<string[]>,
     filteredOptionsUsuarios?:Observable<string[]>,
     filteredOptionsEmpresasInsumos?: Observable<string[]>,
     EmpresasDoEmpreendimento?: Observable<string[]>,
