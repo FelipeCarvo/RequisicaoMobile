@@ -39,6 +39,6 @@ export class filterType implements PipeTransform {
      }
     }
 
-    return retorno
+    return !!retorno ?retorno.trim() : ''
   }
 }

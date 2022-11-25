@@ -1,7 +1,7 @@
 export enum LookupsEndPoints{
   'empreendimentoId'= '/cadastros/Lookups/Empreendimentos',
   'motivoId' = '/suprimentos/Lookups/Motivos',
-  'OFsDescontoMaterial'= '/suprimentos/Lookups/OFsDescontoMaterial',
+  'ofDescontoMaterial'= '/suprimentos/Lookups/OFsDescontoMaterial',
   'aprovador'='/cadastros/Lookups/Usuarios',
   'empresaId' = '/cadastros/Lookups/Empresas',
   'planoContasId' = '/cadastros/Lookups/PlanoContasDespesas',
