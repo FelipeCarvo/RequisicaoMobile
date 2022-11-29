@@ -107,3 +107,45 @@ npm install jetifier
 npx jetify
 npx cap sync android
 ```
+
+### Publicar Apps
+
+#### Android
+
+Após os comandos acima:
+
+```
+npx cap sync
+npm run generate_apk:android
+npm run pos_build_android
+npx cap open android
+```
+
+Dentro do Android Studio procure pelo arquivo **"build.gradle"** módulo android.app (android/app/build.gradle).
+
+Procure por **versionName** e modifique de acordo com a versão atual como o usuário enxerga.
+
+Procure por **versionCode** e modifique de acordo com a versão atual, mas de forma que o site do google enxerga.
+
+Depois acesse o menu Build->"Generate Signed Bundle / APK"
+
+Siga os passos na tela.
+
+O arquivo será gerado na pasta {raizdoprojeto}/android/app/release
+
+#### IOS
+
+Após os comandos acima:
+
+```
+npx cap sync
+npm run generate_apk:ios
+npx cap open ios
+```
+
+Selecione a opção "Any IOS Device" na lista dos dispositivos.
+
+No lado esquerdo clique duplo em App, na aba **"General"**, procure por **Version** e **Build** esses dois campos devem ser únicos em relação ao site da Apple. 
+
+Depois selecione o menu Product->Archive, siga os passos na tela.
+
