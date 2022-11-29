@@ -15,7 +15,8 @@ import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
   animations: [translateAnimation()]
 })
 export class RequestFormComponent implements OnInit {
-  @Input()getFormForStore:any;
+  @Input() getFormForStore :any;
+  @Input() validReqId: boolean;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
@@ -24,7 +25,7 @@ export class RequestFormComponent implements OnInit {
   private loadForm:boolean = false
   listItemFilter:FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
-    filteredOptionsOFsDescontoMaterial:null,
+    filteredOptionsOfDescontoMaterial:null,
     filteredOptionsUsuarios:null
   };
   motivos:any;
@@ -46,19 +47,8 @@ export class RequestFormComponent implements OnInit {
   }
   async ngOnInit() {
     this.getLoockupMotivo();
+    this.validReqId;
     await this.setValform();
-    // this.reqForm.valueChanges.subscribe(selectedValue  => {
-    //   let filterVal =Object.keys(selectedValue).filter(e => this.getFormForStore[e] != selectedValue[e]);
-    //   filterVal.forEach(e =>{
-    //     let val = this.getFormField(e);
-    //     let formField = {[e]:val};
-    //     let atualValue = this.getFormForStore[e];
-    //     if(formField != atualValue){
-    //       this.setFormForStore.emit(formField);
-    //       this.UpdateForm.emit(true);
-    //     }
-    //   })
-    // })
   }
   get getForm(){
     return this.reqForm.getRawValue();
@@ -67,7 +57,7 @@ export class RequestFormComponent implements OnInit {
     this.reqForm = this.formBuilder.group({
       empreendimentoId:  new UntypedFormControl({value:null,disabled:false}, [Validators.required]),
       motivoId: new UntypedFormControl({ value: null,disabled: false}),
-      OFsDescontoMaterial: new UntypedFormControl({ value: null,disabled: false}),
+      ofDescontoMaterial: new UntypedFormControl({ value: null,disabled: false}),
       aprovador: new UntypedFormControl({ value: null,disabled: false}),
       observacao:new UntypedFormControl({value:null,disabled:false})
     });

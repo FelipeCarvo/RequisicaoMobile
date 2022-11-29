@@ -46,9 +46,15 @@ export class LoginComponent implements OnInit {
     },
     async(error)=>{
       this.loadSendData = !this.loadSendData;
-      let {error_description}= error;
-      let msg = error_description == 'invalid_username_or_password' ? 'Usuário ou senha invalido': error_description;
-      console.log(error);
+      let msg;
+      if(typeof error == 'string'){
+        msg = error
+      }else{
+        let {error_description}= error;
+        msg = error_description == 'invalid_username_or_password' ? 'Usuário ou senha invalido': error_description;
+      }
+
+      console.log(typeof error);
       const toast = await this.toastController.create({
         message: error,
         duration: 2000

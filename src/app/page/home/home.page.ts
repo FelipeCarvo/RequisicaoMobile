@@ -1,5 +1,5 @@
-import { Component,OnInit,ChangeDetectorRef,OnDestroy,HostListener } from '@angular/core';
-import { Router,ActivatedRoute,NavigationEnd,NavigationStart } from '@angular/router';
+import { Component,OnInit} from '@angular/core';
+import { Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service'
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation'
@@ -8,9 +8,7 @@ import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {ResetStateReq} from '@core/store/actions/req.actions'
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
-import { Subscription } from 'rxjs';
-import { Subject } from 'rxjs/internal/Subject';
-import { filter } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['home.page.scss'],
   animations: [translateAnimation(),rotateAnimation()]
 })
-export class homePage implements OnInit,OnDestroy{
+export class homePage {
   listReq: Array<any> = [];
   load = false;
   showFIlters:Boolean = false;
@@ -29,62 +27,40 @@ export class homePage implements OnInit,OnDestroy{
   empreendimentoDescricao:any = '';
   dataInicial = new Date(Date.now()  - 10 * 24 * 60 * 60 * 1000);
   dataFinal = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
-  routerEventSubscription: any;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private $unsubscribe: Subscription;
   constructor(
     private router:Router,
     private rquestService:RequestService,
     private store:Store,
-    private cdr: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute
-   ) {
-  
-    // this.$unsubscribe = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(this.observeUrlChanges);
-    // this.mySubscription.unsubscribe()
-   }
 
+   ) {
+   }
    get validReqId(){
     return this.store.selectSnapshot(ReqState.validReqId);
   }
   ionViewDidEnter(){
-
+    console.log('ionViewDidEnter')
     this.getReq()
   }
   ionViewWillEnter(){
-
+    console.log('ionViewWillEnter')
   
   }
   ngOnInit() {
+    console.log('ngOnInit')
+    // this.getReq()
 
-    this.getReq()
-    this.$unsubscribe = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(this.observeUrlChanges);
-  }
-  observeUrlChanges(event: NavigationEnd) {
-    try { 
-      this.getReq();
-    } catch (e) {}
   }
 
-  ngOnDestroy(): void {
-    console.log('ngOnDestroy')
-
-    this.routerEventSubscription.unsubscribe();
-    this.destroy$.next(true);
-  }
   newRequest(){
     if(this.validReqId){
       this.store.dispatch(new ResetStateInsumos());
       this.store.dispatch(new ResetStateReq());
     }
-
     this.router.navigate(['tabs/central-req/nova-req']);
     
   }
   viewAllRequest(){
     this.router.navigate(['tabs/all-request']);
-    this.ngOnDestroy()
-    
   }
   setParams(params){
     this.showFIlters = false;

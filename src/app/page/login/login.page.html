@@ -2,24 +2,21 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
+
     <ion-row class="ion-justify-content-center" style="overflow: hidden;">
+      <ion-col size="11" class="col-icon" *ngIf="hasUrl"  @hideShowAnimator>
+        <ion-icon name="arrow-back-outline"  (click)="backStep()"></ion-icon>
+      </ion-col>
       <ion-col size="11">
         <div class="logo">
           <img id="logo-login" src="../../assets/whiteLogo.svg" />
         </div>
       </ion-col>
-   
       <ion-col class="align-self-center" size="11" @hideShowAnimator *ngIf="!hasUrl">
-        <app-config-cp  (updateCp)="updateCp()"  ></app-config-cp>
-        <!-- <app-login-cp   [@hideShowAnimator]="hasUrl">
-
-        </app-login-cp> -->
+        <app-config-cp (updateCp)="updateCp()"></app-config-cp>
       </ion-col>
       <ion-col class="align-self-center" size="11" @hideShowAnimator  *ngIf="hasUrl">
-     
-        <app-login-cp   >
-
-        </app-login-cp>
+        <app-login-cp></app-login-cp>
       </ion-col>
     </ion-row>  
   </ion-grid>

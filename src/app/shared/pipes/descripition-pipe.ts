@@ -32,13 +32,13 @@ export class filterType implements PipeTransform {
     else{
      if(Hasfilter){
       retorno = content.split('-')[0];
-       console.log(retorno);
+
      }
      else{
       retorno = content
      }
     }
 
-    return retorno
+    return !!retorno ?retorno.trim() : ''
   }
 }

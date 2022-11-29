@@ -6,9 +6,10 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} f
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {InsumosRequest} from '@services/insumos/inusmo-req.service'
+import {InsumosRequest} from '@services/insumos/inusmo-req.service';
 import { ToastController } from '@ionic/angular';
 import * as moment from 'moment';
+import { InputSearchComponent } from '@components/input-search/input-search.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,16 +20,16 @@ import * as moment from 'moment';
 
 })
 export class IsumosFormComponent implements OnInit {
-  @Input()getFormForStore:any;
+  @Input() getFormForStore:any;
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Output() onlyReset:EventEmitter<any> = new EventEmitter();
   @Output() resetAndBack:EventEmitter<any> = new EventEmitter();
   @ViewChild('popOne') popOne;
   @ViewChild('popTwo') popTwo;
   @ViewChild('scrollTarget') scrollTarget;
+  @ViewChild('etapaId') etapaIdComponent: InputSearchComponent;
   empreendimentoId:String = null;
   public reqFormInsumos: UntypedFormGroup;
-  public etapas:any= [];
   public metodSend: String = 'POST'
   public sendLoading: boolean = false;
   public insumoTypeUnidades:String = null;
@@ -37,7 +38,6 @@ export class IsumosFormComponent implements OnInit {
   currentyear = new Date().toISOString();
   closeModal = false;
   sendMsg:String = 'Adicionar Insumos';
-  loadedEtapas = false;
   loadForm: boolean = false;
   hasLoaded:boolean = false;
   updateInsumos:boolean = false;
@@ -60,7 +60,8 @@ export class IsumosFormComponent implements OnInit {
     filteredOptionsBloco:null,
     filteredOptionsUnidade:null,
     filteredOptionsOrdemServico:null,
-    filteredOptionsEquipamento:null
+    filteredOptionsEquipamento:null,
+    filteredOptionsEtapas: null
   };
   constructor(
     private loockupstService:LoockupstService,
@@ -73,17 +74,7 @@ export class IsumosFormComponent implements OnInit {
     private cdr: ChangeDetectorRef
 
   ) {
-   
-   }
-   updateStatusPut(status){
-     console.log(this.getFormField('status'))
-   }
-   changeQtdEtapa(ev){
-    let insumoId = this.reqFormInsumos?.get('insumoId').value;
-    if(!!insumoId){
-      this.updateInsumos = true;
-    }
-     this.hasQtdOr = ev
+
    }
    get disabledEtapa():boolean{
     let retorno;
@@ -105,7 +96,7 @@ export class IsumosFormComponent implements OnInit {
     }
     return valid
   }
-  get quantidadeInput() { 
+  get quantidadeInput() {
     return this.reqFormInsumos.get('quantidade');
    }
   get etapaIdInput():String { return this.reqFormInsumos.get('etapaId').value; }
@@ -117,7 +108,8 @@ export class IsumosFormComponent implements OnInit {
       somenteInsumosDaEtapa?:Boolean,
       calcularQuantidade?:Boolean
     } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr}
-    if(!!this.etapaIdInput){
+    let hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value || !!this.etapaIdInput;
+    if(hasEtapa){
       obj.etapaId = this.etapaIdInput
       obj.somenteInsumosDaEtapa = true
     }
@@ -140,27 +132,36 @@ export class IsumosFormComponent implements OnInit {
 
       this.setDif(null);
     }
-    
-    if(!!this.getFormField('etapaId')){
-      this.getLoockupEtapa();
-    }
+
     this.reqFormInsumos.controls['etapaId'].valueChanges.subscribe(res =>{
-      let etapa = this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0];
-      if(!!etapa && !!etapa.planoContasId){
-        this.reqFormInsumos.controls['planoContasId'].setValue(etapa.planoContasId)
-     
-       }
-    })
+      const comp = this.etapaIdComponent;
+      if (comp) {
+        const etapa = comp.objetoSelecionado();
+        if (!!etapa && !!etapa.planoContasId) {
+          this.reqFormInsumos.controls['planoContasId'].setValue(etapa.planoContasId);
+        }
+      }
+      const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
+      if (!!insumoSubstituicaoId) {
+        this.reqFormInsumos.controls['insumoSubstituicaoId'].setValue(null);
+      }
+    });
   }
+
   setDateManual(val){
     this.diference = moment(new Date()).add(val, 'days').toISOString();
   }
+  changeQtdEtapa(ev){
+   let insumoId = this.reqFormInsumos?.get('insumoId').value;
+   if(!!insumoId){
+     this.updateInsumos = true;
+   }
+    this.hasQtdOr = ev
+  }
   setUnidadeType(desc: string){
     if(!!desc && this.hasInsumoId){
-      // this.insumoTypeUnidades = desc.split('-')[1].trim();
       let s =  desc.split(' - ')[1]
       let trim = s.trim();
-   
       this.insumoTypeUnidades = trim.split(' ')[0];
       if(this.hasQtdOr){
         if(trim.split(' ').length > 1){
@@ -200,9 +201,9 @@ export class IsumosFormComponent implements OnInit {
         await this.popOne.dismiss();
         this.closeModal = true
       }else{
-        this.closeModal = false 
+        this.closeModal = false
       }
-    },200)  
+    },200)
   }
 
   eventChanged(event){
@@ -241,7 +242,7 @@ export class IsumosFormComponent implements OnInit {
       equipamentoId:new UntypedFormControl(null),
       observacoes:new UntypedFormControl(null),
       status:new UntypedFormControl('Ativo'),
-     
+
     });
     this.loadForm = true;
     await this.setValform();
@@ -280,45 +281,24 @@ export class IsumosFormComponent implements OnInit {
       })
     }
   }
-  async getLoockupEtapa(){
-    let params;
-    let somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
-    let insumoId = this.reqFormInsumos?.get('insumoId').value;
+  get parametrosLookupEtapa()
+  {
+
+    const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
+    const insumoId = this.reqFormInsumos?.get('insumoId').value;
+    let insumoPesquisa = null;
     if(somenteInsumosDaEtapa){
       if(!!insumoId){
-        params = {pesquisa: '',empreendimentoId:this.empreendimentoId,insumoId:insumoId,mostrarDI: true,};
-        if(!!this.etapaIdInput){
-          this.changeEtapa()
-        }
-      }else{
-        this.etapas = [];
-        return
+        insumoPesquisa = insumoId;
       }
-    }else{
-      params = {pesquisa: '',empreendimentoId:this.empreendimentoId};
     }
-    this.loockupstService.getLookUp(params,'etapaId').then(res =>{
-      this.loadedEtapas = true;
-      const selectedEtapa = this.getFormField('etapaId');
-      const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
-      let planoContasId = this.reqFormInsumos.controls['planoContasId'].value
-      this.etapas = res;
-      if(!!selectedEtapa){
-        let test = !!this.etapas.find(e => e.id == selectedEtapa);
-        const insumoSubstituicaoId = this.getFormField('insumoSubstituicaoId');
-       
-        if(!!insumoSubstituicaoId){
-          this.reqFormInsumos.controls['insumoSubstituicaoId'].setValue(null)
-        }
-        if(!test){
-          this.reqFormInsumos.controls['etapaId'].setValue(null)
-        }
-      }
-    });
-  }
-  selectedTextOption() {
-    if(!!this.etapas)
-    return this.etapas.filter(option => option.id == this.getFormField('etapaId'))[0]?.descricao
+    return {
+      pesquisa:'',
+      empreendimentoId: this.empreendimentoId,
+      insumoId: insumoPesquisa,
+      mostrarDI: true
+    };
+
   }
 
   getFormField(field){
@@ -328,7 +308,6 @@ export class IsumosFormComponent implements OnInit {
    if(this.validForm){
     this.sendLoading = true;
     const {id} = this.getFormForStore;
-   
     if(this.hasQtdOr){
       await this.qtdInsumoMsg();
     }
@@ -384,7 +363,7 @@ export class IsumosFormComponent implements OnInit {
         });
         toast.present();
       }
-    } 
+    }
   }
   public dismiss(): void {
     this.navCtrl.back();
@@ -436,16 +415,11 @@ export class IsumosFormComponent implements OnInit {
       ordemServicoId:null,
       equipamentoId:null,
       observacoes:null,
-      status:'Ativo'  
+      status:'Ativo'
     }
     this.reqFormInsumos.patchValue(objForm)
     setTimeout(()=>{
       this.cdr.detectChanges();
     })
-
-   
-
-    // const controlNames = ['nameOne', 'nameTwo'];
-    // controlNames.map((value: string) => this.reqFormInsumos.get(value).setValue(null));
   }
 }

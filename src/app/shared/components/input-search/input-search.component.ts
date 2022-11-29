@@ -1,14 +1,15 @@
 import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith,debounceTime,distinctUntilChanged,switchMap} from 'rxjs/operators';
 import { MatAutocomplete,MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { 
-  ControlValueAccessor, 
-  NG_VALUE_ACCESSOR, 
-  NG_VALIDATORS, 
-  FormControl, 
-  Validator 
+import { Observable, of,} from 'rxjs';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  FormControl,
+  Validator
 } from '@angular/forms';
 @Component({
   selector: 'app-input-search',
@@ -29,6 +30,7 @@ export class InputSearchComponent implements OnInit {
   @Output() setfalseUpdate:EventEmitter<any> = new EventEmitter();
   @Output() emitFieldClean:EventEmitter<any> = new EventEmitter();
   @Output() changeQtdEtapa:EventEmitter<any> = new EventEmitter();
+  @Input() DisabledInput:boolean = false;
   @Input() label: string;
   @Input() hasQtdOr:Boolean;
   @Input() placeholder: string;
@@ -56,7 +58,7 @@ export class InputSearchComponent implements OnInit {
   changeEtapa(ev){
     if(ev?.detail){
       this.changeQtdEtapa.emit(ev?.detail?.checked);
-     let hasId = !!this.parentForm.get(this.controlName).value
+      let hasId = !!this.parentForm.get(this.controlName).value
       if(hasId){
         setTimeout(()=>{
           this.refreshLoad = true;
@@ -64,21 +66,21 @@ export class InputSearchComponent implements OnInit {
         },100)
 
       }
-
     }
   }
   async ngOnInit() {
     if(!!this.getValue || this.formName == 'insumos' && this.controlName == 'empresaId'){
+
       this.refreshLoad = true;
       await this.getLoockups();
       this.firstLoad = true;
     }
   }
   get getRequerid():boolean{
-    return !!this.parentForm.get(this.controlName).errors?.required 
+    return !!this.parentForm.get(this.controlName).errors?.required
   }
   get getValue(){
-    return this.parentForm.get(this.controlName).value 
+    return this.parentForm.get(this.controlName).value
   }
   get setDisableButton():boolean{
     let disable = false;
@@ -88,25 +90,24 @@ export class InputSearchComponent implements OnInit {
        .filter((a,k) => obj[k] == null && a !='pesquisa')
        .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
        disable = Object.values(o).filter(e => e!=null && e!=``).length == 0
-     
+
      }
-    return disable
-  } 
+    return disable || this.DisabledInput;
+  }
   displayFn(value = this.getValue) {
-   
     if(!!value){
       if(this.listGroup.length == 0){
         this.getLoockups();
       }
-      let desc =  this.listGroup.filter(option => option.id == value)[0]?.descricao
+      let filtredList = this.listGroup.find(option => option.id == value)
+      let desc =  !!filtredList ? filtredList.descricao : '';
       if(this.controlName === "insumoId"){
         this.setUnidadeType.emit(desc)
       }
-      console.log(desc)
-      return desc
+      return desc.trim()
     }
   }
- 
+
   clearField(){
     this.parentForm.controls[this.controlName].setValue(null);
     this.emitFieldClean.emit({[this.controlName]:null});
@@ -118,10 +119,9 @@ export class InputSearchComponent implements OnInit {
     setTimeout(()=>{
       this.inputAutoComplete.openPanel();
     },200)
- 
+
   }
   ngAfterViewChecked(){
-    //your code to update the model
     this.cdr.detectChanges();
  }
   focusout(){
@@ -130,79 +130,118 @@ export class InputSearchComponent implements OnInit {
     }
   }
   async getLoockups(){
+
       this.loading = true;
-      const params = this.pesquisa;
-      console.log('params')
-      let enumName = this.controlName
+      let enumName = this.controlName;
+      let hasValue = !!this.getValue;
+      let params = this.pesquisa;
       if(this.formName == 'insumos' && this.controlName == 'empresaId'){
         enumName = 'EmpresasDoEmpreendimento'
+
       }
       if(this.listGroup.length == 0 || this.updateInsumos){
-        if(!!this.updateInsumos) this.listGroup = []
-        this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+        if(!!this.updateInsumos)
+        {
+          this.listGroup = []
+        };
+
         if(this.updateInsumos){
           this.setfalseUpdate.emit()
         }
       }
-     
-      if(this.formName == 'insumos' && this.controlName =="empresaId"){
-        let value = this.listGroup[0].id;
+      if(this.listGroup.length == 0){
+        if(hasValue){
+          params.valorSelecionado = this.getValue
+        }
+        this.listGroup = await this.loockupstService.getLookUp(params,enumName);
+        if(!! params.valorSelecionado){
+          params.valorSelecionado = '';
+        }
+
+      }
+      if(this.formName == 'insumos' && this.controlName =="empresaId" && !hasValue){
+
+        let vigente = this.listGroup.filter(list => !!list.vigente);
+        let value;
+        if(vigente.length > 0){
+          value = vigente[0].id;
+        }else{
+          value = this.listGroup[0].id;
+        }
         this.parentForm.controls[this.controlName].setValue(value);
       }
-      this.listItemFilter = this.parentForm.get(this.controlName).valueChanges.pipe(
+      this.listItemFilter = this.parentForm.get(this.controlName).valueChanges
+      .pipe(
         startWith(''),
-        map((value) => {
-          let filterValue = this._filter(value,this.listGroup);
-          this.noSearchResult = filterValue.length == 0;
-          
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(val => {
+          let filterValue = this.filter(val || '');
           return filterValue
-        }),
+        })
       );
+
       setTimeout(()=>{
-        this.loading = false;     
+        this.loading = false;
           this.refreshLoad = false;
           if(!!this.getValue){
             let testValidation = !!this.listGroup.find(e => e.id == this.getValue);
             if(!testValidation){
               this.parentForm.controls[this.controlName].setValue('');
-              console.log('aqui1')
-              this.inputAutoComplete.openPanel();
-            }else{
+              // this.inputAutoComplete.openPanel();
+            }
               let hasInsumos = !!this.parentForm.controls['insumoId']?.value;
-              if(this.controlName == 'planoContasId' && hasInsumos &&  this.firstLoad){
-                console.log('aqui')
-                // this.parentForm.controls['insumoId'].setValue(null);
+              if(this.controlName == 'planoContasId' && hasInsumos && this.firstLoad){
+                // não sei o motivo dessa linha, mas deixa o insumo vazio na edição
+                //this.parentForm.controls['insumoId'].setValue(null);
               }
               if(this.controlName == 'insumoId'){
-             
-                let filterValue:any = this._filter(this.getValue,this.listGroup)[0];
+                let filterValue:any = this.listGroup.find(o =>o.id == this.getValue);
                 if(!!filterValue && !!filterValue.planoContasPadraoId){
-                 
-                  let {planoContasPadraoId} = filterValue
-                  let hasPlan = !!this.parentForm.controls['planoContasId'].value;
-                  if(!hasPlan){
+                  let {planoContasPadraoId} = filterValue;
+                  if(!!planoContasPadraoId){
                     this.parentForm.controls['planoContasId'].setValue(planoContasPadraoId);
                   }
-
                 }
               }
               this.parentForm.controls[this.controlName].setValue(this.getValue);
-            }
+
           }
       },300)
   }
   setPlans(val){
 
   }
-  private _filter(value: string,res): string[] {
-    let filter;
-    if(!!value){
-      filter =this.listGroup.filter(option => 
-        option.descricao.toLowerCase().includes(value.toLocaleLowerCase()) || option.id === value);
-    }else{
-      filter = this.listGroup;
+  filter(val: string): Observable<any[]> {
+    let enumName = this.controlName;
+    if(this.formName == 'insumos' && this.controlName == 'empresaId'){
+      enumName = 'EmpresasDoEmpreendimento'
     }
-    return filter;
-  }
+    let find = this.listGroup.find(el =>el.id == val);
+    if(this.listGroup.length > 0 && !!find){
+     return of(this.listGroup)
+    }
+    let searh = this.pesquisa;
+    searh.pesquisa = val;
+    // call the service which makes the http-request
+    return this.loockupstService.getLookUpOb(searh,enumName)
+     .pipe(
+       map(response => {
+        this.listGroup = response;
+        this.noSearchResult = response.length == 0
+        return response
+      })
+     )
+   }
+
+   public objetoSelecionado()
+   {
+     let selecionado = this.getValue;
+     if (!selecionado)
+       return null;
+     let obj = this.listGroup.find(item => item.id === selecionado);
+     return obj;
+
+   }
 
 }

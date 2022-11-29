@@ -41,7 +41,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     this.unsubscribe$.unsubscribe();
   }
   public dismiss(): void {
-    // console.log(this.navCtrl)
     this.navCtrl.back();
   }
   getReq(id){

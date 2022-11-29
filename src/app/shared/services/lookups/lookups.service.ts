@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
 import {LookupsEndPoints} from '../utils/enums/EnumLockup'
+import { Observable,} from 'rxjs';
 import { AuthUser } from '@core/store/state/auth.state';
   @Injectable({
     providedIn: 'root'
@@ -23,7 +24,6 @@ import { AuthUser } from '@core/store/state/auth.state';
     }  
     getLookUp(params = null, endPoint = 'Empreendimentos'){
       return new Promise((resolve, reject) => {
-     
         this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
           async(res:any) => {
             let result = res
@@ -32,6 +32,21 @@ import { AuthUser } from '@core/store/state/auth.state';
           error => {
             console.log(error)
            reject(error);
+          }
+        )
+      })
+    }
+    getLookUpOb(params = null, endPoint = 'Empreendimentos'):Observable<any>{
+      return new Observable((observer) => {
+        this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
+          async(res:any) => {
+            let result = res
+            console.log(result)
+            observer.next(res);
+          },
+          error => {
+            console.log(error)
+            observer.error(error);
           }
         )
       })
