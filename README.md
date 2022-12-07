@@ -108,11 +108,9 @@ npx jetify
 npx cap sync android
 ```
 
-### Publicar Apps
+## Publicar Apps
 
 #### Android
-
-Após os comandos acima:
 
 ```
 npx cap sync
@@ -135,13 +133,17 @@ O arquivo será gerado na pasta {raizdoprojeto}/android/app/release
 
 #### IOS
 
-Após os comandos acima:
-
 ```
 npx cap sync
 npm run generate_apk:ios
 npx cap open ios
 ```
+
+Após abrir o xcode garantir que as permissões abaixo estão na lista do arquivo Info.plist. [Clique aqui para ver como chegar lá](https://capacitorjs.com/docs/ios/configuration)
+
+* NSCameraUsageDescription (Privacy - Camera Usage Description)
+* NSPhotoLibraryAddUsageDescription (Privacy - Photo Library Additions Usage Description)
+* NSPhotoLibraryUsageDescription (Privacy - Photo Library Usage Description)
 
 Selecione a opção "Any IOS Device" na lista dos dispositivos.
 
