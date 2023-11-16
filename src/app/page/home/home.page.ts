@@ -9,7 +9,7 @@ import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {ResetStateReq} from '@core/store/actions/req.actions';
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
-import { BarcodeScanner, SupportedFormat}  from '@capacitor-community/barcode-scanner';
+
 import jsQR from 'jsqr';
 
 @Injectable({
