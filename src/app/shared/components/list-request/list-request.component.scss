@@ -1,0 +1,67 @@
+    .boxWhite{
+        background-color: #ffff;
+        border: 1px solid rgba(205, 232, 255, 1);
+        .status{
+            .dataStatus{
+                color: rgba(160, 160, 174, 1);
+            }
+           
+        }
+        h3{
+            color: rgba(160, 160, 174, 1);
+        }
+    }
+    .boxblue{
+        background: #02435E;
+        .status{
+            .dataStatus{
+                color:  #EAECED;
+            }
+        }
+        h3{
+            color: #EAECED;
+        }
+    }
+    .box{
+        border-radius: 9px;
+        .status{
+            border-bottom: 1px solid #023A51;
+            .d-flex{
+                display: flex;
+                justify-content: end;
+                align-items: center;
+            }
+           .dataStatus{
+               
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 18px;
+                ion-icon{
+                    margin-right: 9px;
+                    font-size: 20px;
+                }
+            }
+          
+        }
+        .details{
+            color: #2CBC63;
+            font-size: 18px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;  
+            span{
+                color: #EAECED;
+            }
+            .obser{
+                font-weight: normal!important;
+                color: #A0A0AE!important;
+            }
+           
+        }
+        h3{
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 18px;
+           
+        }
+    }

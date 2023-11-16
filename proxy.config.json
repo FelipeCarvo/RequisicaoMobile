@@ -1,0 +1,13 @@
+
+{
+  "/angular": {
+     "target":  {
+       "host": "demo.poliview.com.br:21000",
+       "protocol": "https:",
+       "port": 443
+     },
+     "secure": false,
+     "changeOrigin": true,
+     "logLevel": "info"
+  }
+}

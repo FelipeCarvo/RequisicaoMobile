@@ -1,0 +1,64 @@
+<form id="requestForm">
+  <app-spinner [showSpinner]="!loadingDocument"  *ngIf="!loadingDocument"></app-spinner>
+
+  <ion-row class="ion-justify-content-center" *ngIf="loadingDocument">
+   <ion-col size="11">
+      <ion-item class="ion-margin-vertical">
+        Anexar arquivo Junto
+      </ion-item>
+      <ion-item [lines]="!archivesValid ? 'none':'full'">
+        <ion-row class="ion-justify-content-center"  style="width:100%" >
+          <input class="ion-hide" #f type="file" (change)="changeListener($event)" id="file-input">
+          <ion-col size="9"class="ion-margin-vertical">
+            <ion-button  (click)="f.click()" class="btnRedondo btnVoltar" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Anexar Arquivo</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-col>
+
+    <ion-col size="11"*ngIf="!!documentList && documentList.length > 0">
+      <ion-item  lines="none">
+        <ion-label>Documentos em anexo</ion-label>
+      </ion-item>
+      <ion-item  lines="none" *ngFor="let item of documentList;let i = index" class="archive-item">
+        <ion-row style="width: 100%;" class="ion-align-items-center ion-justify-content-center">
+
+          <ion-col size="11" class="box-desc ion-padding">
+            <div class="icons">
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                <ion-col size="4" class="icon ion-text-right" >
+                  <ion-icon name="eye-outline"  (click)="viewDocument(item)"></ion-icon>
+                 
+                </ion-col>
+                <ion-col size="4" class="icon ion-text-left">
+                  <ion-icon name="create-outline" class="edit" (click)="editDescription(item,i)"></ion-icon>
+                </ion-col>
+                <ion-col size="4" class="icon ion-text-right" >
+                  <ion-icon name="trash-outline"  (click)="deleteItem(item)"></ion-icon>
+                </ion-col>
+
+              </ion-row>
+            </div>
+            <p class="date ion-no-margin">{{item.dataHora|momentPipe}}</p>
+            <p class="title">{{item.descricao}}</p>
+            <p class="size ion-no-margin">
+             
+              usuário - {{item.usuario}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-col>
+    <ion-row  class="ion-justify-content-center"  *ngIf="!!documentList && documentList.length == 0">
+      <ion-col size="7" class="ion-margin-top" > 
+        <div class="imgDiv" >
+          <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+        </div>
+      </ion-col>
+      <ion-col size="11">
+        <h2 class="titleNoInsumos">Nenhum documento
+          adicionado nesta requisição.</h2>
+      </ion-col>
+    </ion-row>
+  </ion-row>
+ 
+</form>

@@ -1,0 +1,25 @@
+
+
+<ion-card >
+  <ion-card-header >
+    <ion-row>
+      <ion-col size="3">
+        <ion-card-title>Codigo</ion-card-title>
+        <ion-card-subtitle>{{item.empreendimento}}</ion-card-subtitle>
+      </ion-col>
+      <ion-col siz="9">
+        <ion-card-title>Descrição</ion-card-title>
+        <ion-card-subtitle>{{item.empreendimentoDescricao}}</ion-card-subtitle>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-col>
+      <ion-label>Em estoque</ion-label>
+      <p>{{item.quantidadeEstoque}}   {{item.unidade}}</p>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="goToInsumoEmpreendimento.emit(item)" [disabled]="disabled">Reservar</ion-button>
+    </ion-col>
+  </ion-card-content>
+</ion-card>

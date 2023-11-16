@@ -1,0 +1,32 @@
+<form id="requestForm">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="9"  *ngIf="!!listInsumos && listInsumos.length == 0" [@hideShowAnimator]="loading" style="margin-top: 35px;">
+      <ion-button class="btnRedondo btnVoltar" (click)="presentModal()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
+    </ion-col>
+    <ion-col size="11" class="ion-margin-vertical">
+      <ion-item>
+        Insumos Adicionados
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <app-spinner [showSpinner]="!loading" *ngIf="!loading"></app-spinner>
+  <ion-row  class="ion-justify-content-center" *ngIf="loading && !!listInsumos && listInsumos.length == 0" @hideShowAnimator>
+    <ion-col size="7" class="ion-margin-top" > 
+      <div class="imgDiv" >
+        <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+      </div>
+    </ion-col>
+    <ion-col size="11">
+      <h2 class="titleNoInsumos">Nenhum insumo
+        adicionado nesta requisição.</h2>
+    </ion-col>
+  </ion-row>
+  <div *ngIf="loading && !!listInsumos && listInsumos.length > 0"  @hideShowAnimator>
+    <app-list-insumos-by-req *ngFor="let item of listInsumos" (excludeInsumo)="excludeInsumo($event)"  (editInsumo)="editInsumo($event)" [item]="item"></app-list-insumos-by-req>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="9">
+        <ion-button class="btnRedondo btnVoltar" (click)="presentModal()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar Insumos</ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+</form>

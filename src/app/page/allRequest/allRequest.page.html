@@ -1,0 +1,18 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="onBack()"></ion-icon>  
+    <ion-title class="ion-text-center">
+     Todas Requisições
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-grid class="principalDiv">
+    <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" *ngFor="let item of listReq; let i = index">
+        <list-request-component [item]="item" [loaded]="load"></list-request-component>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

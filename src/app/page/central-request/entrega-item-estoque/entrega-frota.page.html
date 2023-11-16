@@ -1,0 +1,158 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
+    <ion-title class="ion-text-center">
+      Itens do Termo para  {{rota === 'req' || rota === 'epi' ? 'Entrega' : 'Devoluçao'}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="background-color: white;">
+
+  <form id="requestForm"  [@hideShowAnimator]="load" style="background-color: white;">
+    <ion-row class="ion-justify-content-center corpo" *ngIf="load && !error ">
+      <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+      <ion-col size=11>
+        <div class="statusDiv">
+          <p><span>Confirmar {{rota === 'req' || rota === 'epi' ? 'entrega' : 'devoluçao'}} {{reqItem.itens.length>1?'TOTAL':''}}</span></p>
+        </div>
+      </ion-col>
+      <ion-col  size="11" >
+        <ion-item class="desc">
+          Itens do termo
+        </ion-item>
+        <div *ngIf="rota ==='req' || rota ==='dev' ">
+          <ion-card *ngFor="let item of reqItem.itens">
+            <ion-card-header>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-col size="12" style="padding: 0;">
+              <ion-row class="borded">
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Item:</ion-label>
+                    <p>{{item.equipamentoCod}}-{{item.equipamentoModelo}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-no-padding">
+                <ion-col size="6">
+                  <ion-item  lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Quantidade:</ion-label>
+                      <ion-input label="quantidade" name="qtdGeral" id="quantidade"
+                      *ngIf="rota === 'dev' && itemId !== 'all'"
+                      formName="req" type="number" formControlName="quantidade"
+                      placeholder="Quantidade" value="{{item.quantidade}}"
+                      [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
+                    <span *ngIf="rota !== 'dev'" ><p>{{item.quantidade}}</p></span>
+                  </ion-item>
+                </ion-col>
+                <ion-col  size="6">
+                  <ion-item lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Status:</ion-label>
+                    <p>{{item.statusDevolucaoDescricao}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-no-padding">
+                <ion-col size="6">
+                  <ion-item  lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Usuário solicitante:</ion-label>
+                    <p>{{item.usuarioCadastrou}}</p>
+                  </ion-item>
+                </ion-col>
+                <ion-col  size="6">
+                  <ion-item lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Data solicitação:</ion-label>
+                    <p>{{item.usuarioCadastrouData | momentPipe}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div *ngIf="rota ==='epi' ">
+          <ion-card *ngFor="let item of reqItem.itens">
+            <ion-card-header>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-col size="12" style="padding: 0;">
+              <ion-row class="borded">
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Item:</ion-label>
+                    <p>{{item.itemCodigo}}-{{item.insumoDescricao}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-no-padding">
+                <ion-col size="6">
+                  <ion-item  lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Quantidade:</ion-label>
+                    <!--<ion-input label="quantidade" name="qtdGeral" id="quantidade" *ngIf="itemId !== 'all'"
+                      formName="req" type="number" formControlName="quantidade"
+                      placeholder="Quantidade" value="{{item.quantidadeItemBaixa}}"
+                      [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>-->
+                    <span ><p >{{item.quantidadeItemBaixa}}</p></span>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+      <ion-col size="11">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <ion-button id="open-modal" class="btnRedondo btnConfirmar" expand="block">Confirmar</ion-button>
+            <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar>
+                    <ion-title style="text-align: center;">Atenção</ion-title>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
+                      <div class="block" style="background-color: white;padding: 10%;"> Você realmente deseja confirmar a entrega {{reqItem.itens.length>1?'dos itens':'do item'}} desta reserva?</div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                      <ion-button color="medium"  class="btnRedondo" (click)="cancel()">Não</ion-button>
+                    </ion-col>
+                    <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                      <ion-button (click)="confirm()"  class="btnRedondo btnExcluir" [strong]="true">Sim</ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ng-template>
+            </ion-modal>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar</ion-button>
+          </ion-col>
+          <ion-col size="10" *ngIf="reqItem.statusDescricao === 'Nao Concluido'">
+            <ion-button class="btnRedondo btnVoltar" (click)="editReq()"  expand="block" [disabled]="loadButton">
+              <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+              <ion-spinner name="crescent" *ngIf="loadButton"></ion-spinner>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row  class="ion-justify-content-center" *ngIf="load && error" style="height: 100%; align-items: center;">
+      <ion-col size="5" class="ion-margin-top" >
+        <div class="imgDiv" >
+          <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+        </div>
+        <h2 class="titleNoInsumos">Algo deu errado</h2>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>

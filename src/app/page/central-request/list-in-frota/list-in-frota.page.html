@@ -1,0 +1,103 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
+    <ion-title class="ion-text-center">
+      Itens dispnoveis
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<form id="requestForm" [formGroup]="reqForm"  style="height: 100%;background-color: white;justify-content: center;" >
+  <div class="statusDiv">
+    <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
+  </div>
+  <div>
+    <ion-button expand="full" (click)="startScan()">
+      <ion-icon slot="start" name="qr-scanner"></ion-icon>
+      Escaneia o QRCODE
+    </ion-button>
+
+    <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
+      <ion-icon slot="start" name="refresh"></ion-icon>
+      Reset
+    </ion-button>
+
+    <!-- Shows our camera stream -->
+    <video #video [hidden]="!scanActive" width="100%"></video>
+
+    <!-- Used to render the camera stream images -->
+    <canvas #canvas hidden></canvas>
+
+    <!-- Stop our scanner preview if active -->
+    <!--<ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
+      <ion-icon slot="start" name="close"></ion-icon>
+      Stop scan
+    </ion-button>-->
+
+    <!--<ion-card *ngIf="scanResult">
+      <ion-card-header>
+        <ion-card-title>QR Code</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ scanResult }}
+      </ion-card-content>
+    </ion-card>-->
+ </div>
+  <ion-grid  class="no-padding-bottom no-padding-top" style="justify-content: center;">
+    <ion-row class="ion-justify-content-center corpo"  *ngIf="load && !error ">
+        <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+        <!--<ion-col size=11>
+          <div class="statusDiv">
+            <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
+          </div>
+        </ion-col>-->
+        <ion-col  size="11" >
+          <ion-item class="desc">
+            Quantidade de itens dispnoveis: {{qtdListInsumos}}
+          </ion-item>
+          <ion-row class="desc">
+
+      </ion-row>
+          <ion-list [inset]="true" style="background-color: white; max-height: 300px; overflow-y: scroll;">
+           <ion-radio-group value="itensTermo" (ionChange)="radioGroupChange($event)" name="radio-group" #radioGroup>
+              <ion-item *ngFor="let item of listInsumos" >
+                <ion-radio [value]="rota === 'req' ? item.id:item.itemCodigo" slot="start" name="{{rota === 'req' ? item.id:item.itemCodigo}}"></ion-radio>
+                <ion-col size="11">
+                  <b style="font-size: 12px;">{{rota === 'req' ? item.descricao:item.insumoDescricao}}
+                    <br/>
+                    <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{rota === 'req' ? item.saldoEquipamento:item.quantidadeEstoque}}</span>
+                  </b>
+                </ion-col>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+        </ion-col>
+        <ion-row >
+          <ion-col  size="4" style="align-self: end" ><span >Quantidade:</span></ion-col>
+          <ion-col  size="3" >
+            <ion-item style=" text-align: center; color: black; border-top-width: 200px;  ">
+              <ion-input label="quantidade" name="qtdGeral"
+                style="background: #fff;
+                      color: #000000;
+                      --placeholder-color: #ddd;
+                      --border-color: #9d2525;
+                      --border-style:dashed;
+                      --border-width: 10px;"
+
+                formName="req" type="number" formControlName="quantidade"
+                [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-col size="11">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="10">
+              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem($event)"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</form>
+

@@ -1,0 +1,17 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>  
+    <ion-title class="ion-text-center">
+      Consulta de Estoque
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <app-step-one *ngIf="initLoad && step == 0" [filtrarComplemento]="filtrarComplemento" [opcaoConsulta]="opcaoConsulta" (updateEstoque)="updateEstoque($event)" [insumoEstoque]="insumoEstoque" (consultEstoque)="consultEstoque($event)"  (updateComplementoFilter)="updateComplementoFilter($event)"></app-step-one>
+  <app-step-two *ngIf="step == 1" [itemSelect]="itemSelect" [itemEstoque]="itemEstoque" (sendEstoque)="sendEstoque($event)"></app-step-two>
+    <ion-row class="ion-justify-content-center corpo">
+      <ion-col size="6">
+        <ion-button class="btnRedondo btnVoltar" *ngIf="initLoad && step == 0" (click)="dismiss()" type="submit" expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar</ion-button>
+      </ion-col> 
+    </ion-row>
+</ion-content>

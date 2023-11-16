@@ -1,0 +1,44 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon name="arrow-back-outline" class="ion-padding" slot="start" (click)="onBack()"></ion-icon>
+    <ion-title>
+      Meu Perfil
+    </ion-title>
+    <!-- <ion-icon name="create-sharp" class="ion-padding" slot="end" (click)="setEdit()"></ion-icon> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid class="ion-margin-top" >
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" *ngIf="hasEditProfile; else divEdit">
+        <ion-item >
+          <ion-label position="stacked"> Nome de usuario</ion-label>
+          <ion-input value="leo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Cargo/Função</ion-label>
+          <ion-input value="Padeiro"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ng-template #divEdit>
+        <ion-col size="11" >
+          <ion-item lines="none" class="editInput">
+            <ion-label position="stacked"> Nome de usuario</ion-label>
+            <ion-input [value]="userName" disabled></ion-input>
+          </ion-item>
+          <!-- <ion-item  lines="none" class="editInput">
+            <ion-label position="stacked">Cargo/Função</ion-label>
+            <ion-input value="Padeiro"></ion-input>
+          </ion-item> -->
+        </ion-col>
+    </ng-template>
+      <ion-col size="6" class="ion-align-self-end">
+        <ion-button class="btnRedondo" type="submit" expand="block"  (click)="onBack()" [ngClass]="hasEditProfile  ? 'btnEdit' : 'btnVoltar'"
+          ><ion-ripple-effect type="unbounded"></ion-ripple-effect>{{hasEditProfile ? 'Salvar': 'Voltar'}}
+        </ion-button>
+    </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,44 @@
+
+ <ion-header >
+  <ion-toolbar lines="none">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="7">
+          <div class="logo">
+            <img id="logo-login" src="../../assets/whiteLogo.svg" />
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" >
+  <div style="height: 80px;margin-top:10%;">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="5" >
+          <ion-button style="font-size: 15px; " class="btnGreen " (click)="newRequest('req')">Requisição <br/>de Equipamento</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div style="height: 80px;margin-top: 5%;">
+    <ion-grid  class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="5" >
+          <ion-button style="font-size: 15px;" class="btnGreen" (click)="newRequestFrotaBt()">Devolução <br/>de Equipamento</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div style="height: 80px;margin-top: 5%;">
+    <ion-grid  class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="5">
+          <ion-button style="font-size: 15px; " class="btnGreen " (click)="newRequest('epi')">Requisição <br/>de EPI</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+

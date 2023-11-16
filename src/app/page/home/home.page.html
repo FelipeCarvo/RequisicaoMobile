@@ -1,0 +1,86 @@
+
+ <ion-header >
+  <ion-toolbar lines="none">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="7">
+          <div class="logo">
+            <img id="logo-login" src="../../assets/whiteLogo.svg" />
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <div>
+       <!-- Fallback for iOS PWA -->
+        <!--<input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">-->
+
+
+        <!-- <ion-button expand="full" (click)="startScan()">
+          <ion-icon slot="start" name="qr-scanner"></ion-icon>
+          Start scan
+        </ion-button>
+
+        <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
+          <ion-icon slot="start" name="refresh"></ion-icon>
+          Reset
+        </ion-button>-->
+
+        <!-- Shows our camera stream -->
+        <video #video [hidden]="!scanActive" width="100%"></video>
+
+        <!-- Used to render the camera stream images -->
+        <canvas #canvas hidden></canvas>
+
+        <!-- Stop our scanner preview if active -->
+        <ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
+          <ion-icon slot="start" name="close"></ion-icon>
+          Stop scan
+        </ion-button>
+
+        <ion-card *ngIf="scanResult">
+          <ion-card-header>
+            <ion-card-title>QR Code</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{ scanResult }}
+          </ion-card-content>
+        </ion-card>
+  </div>
+  <ion-grid class="ion-no-padding position-relative" style="height: 80px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="5" style="padding-right: 10px;">
+        <ion-button style="font-size: 15px; " class="btnGreen ion-text-capitalize" (click)="newRequest()">Nova <br/>Requisição</ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-header>
+<ion-content [fullscreen]="true" >
+  <div style="height: 80px;"></div>
+  <ion-grid class="principalDiv">
+    <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+    <ion-row class="ion-justify-content-center" >
+      <ion-col size="11" @hideShowAnimator *ngIf="load">
+        <ion-row>
+          <ion-col size="9" *ngIf="listReq.length > 0">
+            <p class="ion-margin-vertical" >{{statusRequisicao | statusMoment}}</p>
+          </ion-col>
+          <ion-col size="3" >
+            <p class="ion-margin-vertical ion-text-right filter-p" (click)="showFIlters = !showFIlters">Filtros <ion-icon name="chevron-down-outline" [@rotatedState]="showFIlters"></ion-icon></p>
+          </ion-col>
+          <ion-col size="12" *ngIf="listReq.length === 0">
+            <p class="ion-margin-vertical">Nenhuma requisição encontrada</p>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="11" @hideShowAnimator *ngIf="showFIlters && (load && !!listReq)">
+        <app-filter-req [empreendimentoDescricao]="empreendimentoDescricao"[statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
+      </ion-col>
+      <ion-col size="11" *ngIf="!showFIlters && load">
+        <list-request-component [item]="item" [loaded]="load"  *ngFor="let item of listReq; let i = index"></list-request-component>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

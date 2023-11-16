@@ -1,0 +1,24 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" style="color: white;" (click)="redirect(home)">
+      <ion-icon name="home"></ion-icon>
+      Requisição de compra
+    </ion-tab-button>
+    <!--<ion-tab-button tab="radio" style="color: white;">
+      <ion-icon name="radio"></ion-icon>
+      Radio
+    </ion-tab-button>-->
+    <ion-tab-button (click)="redirect(new-home)" style="color: white;">
+        <ion-icon name="home"></ion-icon>
+        Home
+    </ion-tab-button>
+    <ion-tab-button tab="library" style="color: white;">
+      <ion-icon name="library"></ion-icon>
+      Library
+    </ion-tab-button>
+    <!--<ion-tab-button tab="search" style="color: white;">
+      <ion-icon name="search"></ion-icon>
+      Search
+    </ion-tab-button>-->
+  </ion-tab-bar>
+</ion-tabs>

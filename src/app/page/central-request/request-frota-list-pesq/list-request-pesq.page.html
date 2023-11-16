@@ -1,0 +1,106 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
+    <ion-title class="ion-text-center">
+      {{rota === 'epi'?'Lista de solicitações pesquisadas' : 'Lista de Termos Pesquisados'}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+    <ion-row *ngIf="qtdItens > 0">
+      <ion-col size="12" *ngFor="let item of listInsumos; let i = index" >
+        <ion-card style="border:3px solid #CDE8FF; border-radius: 10px;">
+          <ion-card-header style="background-color: #CDE8FF;">
+              <ion-card-title *ngIf="rota === 'req' ||rota === 'dev'" style="color:black;">Código do termo: {{item.termoResponsabilidadeCod}}</ion-card-title>
+              <ion-card-title *ngIf="rota === 'epi'" style="color:black;">Código da baixa: {{item.baixaCodigo}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="rota === 'req' ||rota === 'dev'">
+            <ion-grid>
+              <ion-row>
+                <ion-col style="color: black;">Empreendimento:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>{{item.empreendimentoCod}}-{{item.empreendimentoDescricao}}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="color: black;">Data da Requisição:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  {{item.documentoData|momentPipe }}
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="color: black;">Status:</ion-col>
+                <ion-col style="color: black;">Status da devolução:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  {{item.documentoStatusDescricao }}
+                </ion-col>
+                <ion-col>
+                  {{item.statusDevolucaoDescricao }}
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="color: black;">Colaborador:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>{{item.colaboradorNome}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+          <ion-card-content *ngIf="rota === 'epi'">
+            <ion-grid>
+              <ion-row>
+                <ion-col style="color: black;">Empreendimento:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>{{item.empreendimentoCod}}-{{item.empreendimentoDescricao}}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="color: black;">Data da baixa:</ion-col>
+                <ion-col style="color: black;">Status:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>{{item.baixaData|momentPipe }}</ion-col>
+                <ion-col>{{item.baixaStatusDescricao }}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="color: black;">Colaborador:</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>{{item.colaboradorNome}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+          <ion-card-content>
+            <ion-button *ngIf="rota === 'req' ||rota === 'dev'"
+              fill="clear" (click)="navInsertItens(item.termoResponsabilidadeId)"
+              class="btnRedondo btnVoltar">
+                {{habilitaDev===true ? 'Realizar devolução' : 'Editar solicitação'}}
+            </ion-button>
+            <ion-button *ngIf="rota === 'epi'"
+              fill="clear" (click)="navInsertItens(item.baixaId)"
+              class="btnRedondo btnVoltar">
+                {{habilitaDev===true ? 'Realizar devolução' : 'Editar solicitação'}}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row  class="ion-justify-content-center" *ngIf="qtdItens === 0" >
+      <ion-col size="5" class="ion-margin-top" >
+        <div class="imgDiv" >
+          <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+        </div>
+      </ion-col>
+      <ion-col size="11">
+        <h2 class="titleNoInsumos">Nenhuma Requisição encontrada.</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

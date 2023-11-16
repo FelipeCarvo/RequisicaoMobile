@@ -1,0 +1,123 @@
+<form id="requestForm" [formGroup]="reqForm"  #formDirective="ngForm" style="background-color: white;">
+ <!-- <ion-button id="click-trigger">Left-Click Me</ion-button>
+<ion-popover trigger="click-trigger" triggerAction="click">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-button id="context-menu-trigger">Right-Click Me</ion-button>
+<ion-popover trigger="context-menu-trigger" triggerAction="context-menu">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-button id="hover-trigger">Hover Over Me</ion-button>
+<ion-popover trigger="hover-trigger" triggerAction="hover">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>-->
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" class="no-padding-top">
+      <ion-item  lines="none" class="box">
+        <app-input-search
+            label="Empreendimentos"
+            [DisabledInput]="validReqId"
+            formName="req"
+            [pesquisa]="{pesquisa: ''}"
+            [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento"
+            placeholder="Código da obra"
+            [parentForm]="reqForm"
+            controlName="empreendimentoId" ngDefaultControl></app-input-search>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row class="ion-justify-content-center" *ngIf="rota !== 'dev'">
+    <ion-col size="11" class="no-padding-top" style="background: white;">
+      <ion-label style="width: 100%;font-weight: 600;font-size: 14px;line-height: 17px;letter-spacing: -0.01em;transform: initial;color: #4682B4;" position="floating">Status</ion-label>
+      <ion-item  lines="none" class="box" style="background: white;">
+          <ion-select aria-label="Status" formName="req" (ionChange)="handleChange($event)"
+                  [parentForm]="reqForm" [placeholder]="strStatusPadrao" formControlName="statusId"
+                  [value]="codStatusPadrao" style="background: white;" interface="action-sheet"
+                  [interfaceOptions]="{ cssClass: 'my-custom-interface' }" >
+              <ion-select-option  [value]="item.id" style="color: white;" *ngFor="let item of listStatus">{{item.descricao}}</ion-select-option>
+          </ion-select>
+      </ion-item>
+    </ion-col>
+
+  </ion-row>
+  <ion-row>
+
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" class="no-padding-top"  >
+      <ion-item lines="none">
+        <ion-label  position="floating">Data Inicial</ion-label>
+        <div class="calendar grid-item" (click)="dataInicial.click()" style="width: 100%;">
+          <ion-input [value]="_dataInicio | momentPipe"  formName="req" [parentForm]="reqForm"
+              readonly  style="text-align: left;"></ion-input>
+          <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
+        </div>
+      </ion-item>
+      <div id="date-inicio" #dataInicial >
+        <ion-popover trigger="date-inicio" alignment="center" :show-backdrop="true" size="cover" side="top">
+          <ng-template>
+            <ion-datetime presentation="date" locale="pt-BR"  [showDefaultButtons]="true"
+              [value]="currentDay" picker-format="MMMM DD, YYYY"
+              display-format="MM/DD/YYYY" [max]="currentDay" [parentForm]="reqForm"
+              formControlName="dataInicio" done-text="Confirmar"
+              cancel-text="cancelar">
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" class="no-padding-top">
+      <ion-item lines="none">
+        <ion-label  position="floating">Data Final</ion-label>
+        <div class="calendar grid-item" (click)="dataFim.click()" style="width: 100%;">
+          <ion-input [value]="_dataFinal | momentPipe"  formName="req"  readonly  style="text-align: left;"></ion-input>
+          <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
+        </div>
+      </ion-item>
+      <div id="date-fim" #dataFim >
+        <ion-popover trigger="date-fim" alignment="center" :show-backdrop="true" size="cover" side="top">
+          <app-header [openAddLocation]="openAddLocation"></app-header>
+          <ng-template>
+            <ion-datetime presentation="date" locale="pt-BR" [showDefaultButtons]="true"
+              [value]="currentDay" picker-format="MMMM DD, YYYY"
+              display-format="MM/DD/YYYY" [max]="currentDay"
+              formControlName="dataFinal" done-text="Confirmar"
+              cancel-text="cancelar">
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" class="no-padding-top">
+      <ion-item  lines="none" class="box">
+        <app-input-search label="Colaborador"  formName="req" [pesquisa]="{pesquisa: ''}"  placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="11" >
+      <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="sendForm()" [disabled]="!hasValidForm || sendLoading">
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+        <ion-spinner name="crescent" *ngIf="sendLoading"></ion-spinner>
+        {{!sendLoading ? 'Pesquisar' :'' }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</form>
