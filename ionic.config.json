@@ -1,7 +1,0 @@
-{
-  "name": "poliview",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
