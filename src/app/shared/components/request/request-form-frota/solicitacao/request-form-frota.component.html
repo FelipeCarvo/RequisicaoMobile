@@ -12,7 +12,10 @@
     </ion-col>
     <ion-col size="11" class="no-padding-top">
       <ion-item  lines="none" class="box">
-        <app-input-search label="Colaborador" [DisabledInput]="validReqId" formName="req" [pesquisa]="{pesquisa: ''}"  placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
+        <app-input-search label="Colaborador" [DisabledInput]="validReqId" formName="req"
+        (emitFieldClean)="emitFieldClean($event)"
+        [pesquisa]="{pesquisa: '',colaboradorCod:colaboradorCod}"
+        placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
     <ion-col size="11" class="no-padding-top" *ngIf="rota !== 'epi'" >
@@ -23,6 +26,8 @@
           <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
         </div>
       </ion-item>
+
+
       <div id="date-inicio" #dataInicial  >
         <ion-popover trigger="date-inicio" alignment="center" :show-backdrop="true" size="cover" side="top">
           <ng-template>

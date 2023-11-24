@@ -25,8 +25,9 @@ import { AuthUser } from '@core/store/state/auth.state';
     getLookUp(params = null, endPoint = 'Empreendimentos'){
       console.log(endPoint)
       return new Promise((resolve, reject) => {
+        console.log('teste')
         if(endPoint === 'colaboradorCod') {
-          console.log('dasdasd')
+          console.log(params)
           params = {
             pesquisa: null,
             valorSelecionado: '',
@@ -48,9 +49,8 @@ import { AuthUser } from '@core/store/state/auth.state';
     }
     getLookUpOb(params = null, endPoint = 'Empreendimentos'): Observable<any>{
       if(endPoint === 'colaboradorCod') {
-        console.log('dasdasd')
         params = {
-          pesquisa: null,
+          pesquisa: params.pesquisa,
           valorSelecionado: '',
           tipoPessoa: 'Funcionário',
           somenteFiliaisDoSelecionado:false
