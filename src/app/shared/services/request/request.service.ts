@@ -635,7 +635,7 @@ export class RequestService {
   }
   postReqEpi(params , type){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${environment.BASE_URL}/sieconwebwebapi/api/Epi/EpiBaixaEstoque/inserirEpiBaixaEstoque`;
+    const url = `${this.sieconwebwebapi}/sieconwebwebapi/api/Epi/EpiBaixaEstoque/inserirEpiBaixaEstoque`;
     let req;
     if(type === 'POST'){
       delete params["versaoEsperada"];
@@ -684,7 +684,7 @@ export class RequestService {
   }
   postReqFrota(params , type){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${environment.BASE_URL}/sieconwebwebapi/api/frotas/TermoResponsabilidade/inserirTermoResponsabilidade`;
+    const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/inserirTermoResponsabilidade`;
     let req;
     if(type === 'POST'){
       delete params["versaoEsperada"];
@@ -733,7 +733,7 @@ export class RequestService {
   }
   postInsertItemReq(params ){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${environment.BASE_URL}/sieconwebwebapi/api/frotas/TermoResponsabilidade/inserirItemTermoResponsabilidade`;
+    const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/inserirItemTermoResponsabilidade`;
     const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.pipe(
@@ -759,7 +759,7 @@ export class RequestService {
   }
   postInsertItemReqEpi(params ){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${environment.BASE_URL}/sieconwebwebapi/api/Epi/EpiBaixaEstoque/inserirEpiItemBaixaEstoque`;
+    const url = `${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/inserirEpiItemBaixaEstoque`;
     const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.pipe(
@@ -785,7 +785,7 @@ export class RequestService {
   }
   postAlterQtdtemReq(params ){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${environment.BASE_URL}/sieconwebwebapi/api/frotas/TermoResponsabilidade/alteraQuantidadeItemTermoResponsabilidade`;
+    const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/alteraQuantidadeItemTermoResponsabilidade`;
     const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.pipe(
