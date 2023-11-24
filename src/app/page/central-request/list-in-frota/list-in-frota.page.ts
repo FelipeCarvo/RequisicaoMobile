@@ -159,15 +159,17 @@ export class ListInsumosFrotaPage implements OnInit {
 
       if (code) {
         this.scanActive = false;
-        console.log(code);
+        // console.log(code);
         // this.scanResult = code.data;
         // this.showQrToast();
         let blnEncontrado = false;
         let lista = [];
+        // console.log(code.data.toUpperCase().trim())
         for (let index = 0; index < this.listInsumos.length; index++) {
           const element = this.listInsumos[index];
-          if (element.equipamentoCod === code.data){
-            console.log('localizado')
+          // console.log(element.equipamentoCod.toUpperCase().trim())
+          if (element.equipamentoCod.toUpperCase().trim() === code.data.toUpperCase().trim()){
+            // console.log('localizado')
             blnEncontrado = true;
             this.selectedRadioGroup = element.id;
             this.produtoId = element.id;
