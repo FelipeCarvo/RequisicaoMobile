@@ -12,4 +12,7 @@ export class setAuthUrl {
 }
 export class Logout{
   static readonly type = '[AuthUser] Logout';
-} 
+};
+export class ParametrosApp{
+  static readonly type = '[AuthUser] AppParams';
+} ;

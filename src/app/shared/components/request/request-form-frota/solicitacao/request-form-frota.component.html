@@ -5,12 +5,36 @@
         <app-input-search label="Empreendimentos" [DisabledInput]="validReqId" formName="req" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
+
     <ion-col size="11" class="no-padding-top" *ngIf="hasValueEmpreendimento">
       <ion-item lines="none" class="box ion-margin-vertical">
         <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Código da Empresa" formName="req" [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoId}" [listItemFilter]="listItemFilter.EmpresasDoEmpreendimento" [parentForm]="reqForm" controlName="empresaId" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
-    <ion-col size="11" class="no-padding-top">
+
+    <ion-row class="ion-justify-content-center" *ngIf="mostrarLeitorQrCode">
+      <ion-col size="11" class="no-padding-top">
+        <div>
+          <ion-button expand="full" (click)="startScan()">
+            <ion-icon slot="start" name="qr-scanner"></ion-icon>
+            Escaneia o QRCODE do colaborador
+          </ion-button>
+
+          <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
+            <ion-icon slot="start" name="refresh"></ion-icon>
+            Reset
+          </ion-button>
+
+          <!-- Shows our camera stream -->
+          <video #video [hidden]="!scanActive" width="100%"></video>
+
+          <!-- Used to render the camera stream images -->
+          <canvas #canvas hidden></canvas>
+       </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-col size="11" class="no-padding-top" *ngIf="digitacaoColaborador">
       <ion-item  lines="none" class="box">
         <app-input-search label="Colaborador" [DisabledInput]="validReqId" formName="req"
         (emitFieldClean)="emitFieldClean($event)"

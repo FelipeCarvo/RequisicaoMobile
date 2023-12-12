@@ -58,48 +58,6 @@ export class newHomePage {
     //this.init();
   }
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event) {
-  //     this.init();
-  // }
-
-  // init() {
-  //   const canvas: any = this.elementRef.nativeElement.querySelector('canvas');
-  //   console.log(canvas)
-  //   canvas.width = window.innerWidth;
-  //   canvas.height = window.innerHeight - 140;
-  //   if (this.signaturePad) {
-  //     this.signaturePad.clear(); // Clear the pad on init
-  //   }
-  // }
-
-  // public ngAfterViewInit(): void {
-  //   this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
-  //   this.signaturePad.clear();
-  //   this.signaturePad.penColor = 'rgb(56,128,255)';
-  // }
-  // save(): void {
-  //   const img = this.signaturePad.toDataURL();
-  //   console.log(img)
-  // }
-
-  // isCanvasBlank(): boolean {
-  //   if (this.signaturePad) {
-  //     return this.signaturePad.isEmpty() ? true : false;
-  //   }
-  // }
-
-  // clear() {
-  //   this.signaturePad.clear();
-  // }
-
-  // undo() {
-  //   const data = this.signaturePad.toData();
-  //   if (data) {
-  //     data.pop(); // remove the last dot or line
-  //     this.signaturePad.fromData(data);
-  //   }
-  // }
 
   newRequest(){
     this.router.navigate(['tabs/home']);

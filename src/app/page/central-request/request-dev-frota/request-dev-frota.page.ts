@@ -33,6 +33,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   empreendimentoId: string;
   reqItem: any = {};
   colaboradorNome ='';
+  mostrarLeitorQrCode = false;
 
   textoValidacao = '';
   listStatus: any =[];
@@ -81,7 +82,13 @@ export class DetailRequestPage implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.getReq();
-
+    let parametroapp = JSON.parse(localStorage.getItem('parametroapp'));
+    for (let index = 0; index < parametroapp.length; index++) {
+      const element = parametroapp[index]["leituraColaboradorQrCod"];
+      if (element===1) {
+        this.mostrarLeitorQrCode = true;
+      }
+    }
   }
 
   setOpen(isOpen: boolean) {
@@ -107,12 +114,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       this.signaturePad.clear(); // Clear the pad on init
     }
   }
-  public ngAfterViewInit(): void {
-    //alert(this.requisicaoStatusCod)
-    // this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
-    // this.signaturePad.clear();
-    // this.signaturePad.penColor = 'rgb(56,128,255)';
-  }
+  public ngAfterViewInit(): void {}
   save(): void {
     const img = this.signaturePad.toDataURL();
     console.log(img);
@@ -482,20 +484,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       .subscribe((res: any) =>{
         this.loadButton = false;
         this.loading.dismiss();
-        // const paramsAssinatura ={
-        //   termoResponsabilidadeId: this.requisicaoId,
-        //   assinaturaEntregaBase64:  this.signaturePad.toDataURL()
-        // };
-        //console.log(paramsAssinatura);
-        //window.location.reload();
-        // this.router.navigate([`tabs/central-req/nova-req-frota/${this.rota}`]);
         this.router.navigate(['/tabs/home-estoque']);
         return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
       },async (error) =>{
         this.showMsg(error);
         this.loading.dismiss();
         this.loadButton = false;
-
       });
     } else if (this.rota === 'epi') {
       const params ={

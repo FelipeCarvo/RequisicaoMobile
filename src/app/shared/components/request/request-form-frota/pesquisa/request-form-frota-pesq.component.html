@@ -1,24 +1,4 @@
 <form id="requestForm" [formGroup]="reqForm"  #formDirective="ngForm" style="background-color: white;">
- <!-- <ion-button id="click-trigger">Left-Click Me</ion-button>
-<ion-popover trigger="click-trigger" triggerAction="click">
-  <ng-template>
-    <ion-content class="ion-padding">Hello World!</ion-content>
-  </ng-template>
-</ion-popover>
-
-<ion-button id="context-menu-trigger">Right-Click Me</ion-button>
-<ion-popover trigger="context-menu-trigger" triggerAction="context-menu">
-  <ng-template>
-    <ion-content class="ion-padding">Hello World!</ion-content>
-  </ng-template>
-</ion-popover>
-
-<ion-button id="hover-trigger">Hover Over Me</ion-button>
-<ion-popover trigger="hover-trigger" triggerAction="hover">
-  <ng-template>
-    <ion-content class="ion-padding">Hello World!</ion-content>
-  </ng-template>
-</ion-popover>-->
 
   <ion-row class="ion-justify-content-center">
     <ion-col size="11" class="no-padding-top">
@@ -102,16 +82,36 @@
       </div>
     </ion-col>
   </ion-row>
+  <ion-row class="ion-justify-content-center" *ngIf="mostrarLeitorQrCode">
+    <ion-col size="11" class="no-padding-top">
+      <div>
+        <ion-button expand="full" (click)="startScan()">
+          <ion-icon slot="start" name="qr-scanner"></ion-icon>
+          Escaneia o QRCODE do colaborador
+        </ion-button>
 
+        <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
+          <ion-icon slot="start" name="refresh"></ion-icon>
+          Reset
+        </ion-button>
 
-  <ion-row class="ion-justify-content-center">
+        <!-- Shows our camera stream -->
+        <video #video [hidden]="!scanActive" width="100%"></video>
+
+        <!-- Used to render the camera stream images -->
+        <canvas #canvas hidden></canvas>
+     </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center" >
     <ion-col size="11" class="no-padding-top">
       <ion-item  lines="none" class="box">
-        <app-input-search label="Colaborador"  formName="req" [pesquisa]="{pesquisa: ''}"  placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
+        <app-input-search label="Colaborador" class="colaborador" formName="req" [pesquisa]="{pesquisa: ''}"  placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl ></app-input-search>
       </ion-item>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row class="ion-justify-content-center" >
     <ion-col size="11" >
       <ion-button class="btnRedondo btnVoltar"  expand="block" (click)="sendForm()" [disabled]="!hasValidForm || sendLoading">
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>

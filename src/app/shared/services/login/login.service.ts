@@ -16,20 +16,33 @@ export class LoginService {
   login(obj){
     let {grantTypeLogin,client_id,scope} = environment;
     let body = `username=${obj.userName}&password=${obj.password}&grant_type=${grantTypeLogin}&scope=${scope} offline_access&client_id=${client_id}`
-    
+
     let newUrl = this.store.selectSnapshot(AuthUser.geturlLogin);
 
     return new Observable((observer) => {
       this.http.post(`${newUrl}/connect/token`,body).subscribe(
         async(res:any) => {
+
           const {access_token,refresh_token} = res;
           const userName =  obj.userName;
           const authData = {
             token:access_token,
             refreshToken:refresh_token,
-            userName
-          }
+            userName,
+          };
           await this.store.dispatch(new setAuthData(authData));
+          this.http.post(`${this.store.selectSnapshot(AuthUser.geturlAPISP7)}/api/frotas/Configuracoes/ConfiguracoesApp`,null).subscribe(
+                async (res2: any) => {
+                  // console.log(res2)
+                  localStorage.setItem('parametroapp',JSON.stringify(res2));
+                  // let parametroapp = localStorage.getItem('parametroapp');
+                  // console.log(JSON.parse(parametroapp));
+                },
+                error => {
+                  console.log(error);
+                  observer.error(error);
+                }
+              );
           observer.next(res);
         },
         error => {
@@ -46,7 +59,7 @@ export class LoginService {
           let urlLogin = itens.find(item => item.nome == 'urlLogin').valor;
           let urlAPISuprimentos = itens.find(item => item.nome == 'urlAPISuprimentos').valor;
           let urlAPISP7 = itens.find(item => item.nome == 'urlAPISP7').valor;
-          let data = this.sliceUrl({urlLogin,urlAPISuprimentos,urlAPISP7})
+          let data = this.sliceUrl({urlLogin,urlAPISuprimentos,urlAPISP7});
           this.store.dispatch(new setAuthUrl(data));
           observer.next(res);
         },
@@ -57,6 +70,7 @@ export class LoginService {
       )
     })
   }
+
   sliceUrl(data:IurlDTOS){
     let newObj = {}
     for (const [key, value] of Object.entries(data)) {

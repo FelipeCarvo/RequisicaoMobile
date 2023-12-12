@@ -635,7 +635,7 @@ export class RequestService {
   }
   postReqEpi(params , type){
     const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${this.sieconwebwebapi}/sieconwebwebapi/api/Epi/EpiBaixaEstoque/inserirEpiBaixaEstoque`;
+    const url = `${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/inserirEpiBaixaEstoque`;
     let req;
     if(type === 'POST'){
       delete params["versaoEsperada"];

@@ -56,6 +56,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     isIncluiProduto = false;
     prontaEntregavel = false;
     isAlteraStatus = false;
+    mostrarLeitorQrCode = false;
   //#endregion
 
   public unsubscribe$ = new Subject();
@@ -81,6 +82,13 @@ export class DetailRequestPage implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.getReq();
+    let parametroapp = JSON.parse(localStorage.getItem('parametroapp'));
+    for (let index = 0; index < parametroapp.length; index++) {
+      const element = parametroapp[index]["leituraColaboradorQrCod"];
+      if (element===1) {
+        this.mostrarLeitorQrCode = true;
+      }
+    }
 
   }
 
@@ -136,6 +144,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   radioGroupChange(event) {
     this.selectedRadioGroup = event.detail;
     this.statusId = event.detail;
+    console.log(this.statusId)
   }
   atualizaQuantiddadeEntregue(event){
     for (const index in this.reqItem.itens){
@@ -149,6 +158,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   radioSelect(event) {
     this.selectedRadioItem = event.detail;
+
   }
   radioBlur() {
   }
@@ -466,7 +476,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
             this.showMsg(error);
           });
         }
-        // this.router.navigate([`tabs/central-req/nova-req-frota/${this.rota}`]);
         this.router.navigate(['/tabs/home-estoque']);
         this.loading.dismiss();
         this.loadButton = false;
@@ -478,17 +487,13 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         return;
       });
     } else if(this.rota === 'req') {
+      if (this.mostrarLeitorQrCode ===true && params.statusNovo === 1){
+        params.statusNovo = 2;
+      }
       this.rquestService.postAlterarStatusTermo(params)
       .subscribe((res: any) =>{
         this.loadButton = false;
         this.loading.dismiss();
-        // const paramsAssinatura ={
-        //   termoResponsabilidadeId: this.requisicaoId,
-        //   assinaturaEntregaBase64:  this.signaturePad.toDataURL()
-        // };
-        //console.log(paramsAssinatura);
-        //window.location.reload();
-        // this.router.navigate([`tabs/central-req/nova-req-frota/${this.rota}`]);
         this.router.navigate(['/tabs/home-estoque']);
         return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
       },async (error) =>{
@@ -549,13 +554,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       .subscribe((res: any) =>{
         this.loadButton = false;
         this.loading.dismiss();
-        // const paramsAssinatura ={
-        //   termoResponsabilidadeId: this.requisicaoId,
-        //   assinaturaEntregaBase64:  this.signaturePad.toDataURL()
-        // };
-        //console.log(paramsAssinatura);
-        //window.location.reload();
-        // this.router.navigate([`tabs/central-req/nova-req-frota/${this.rota}`]);
         this.router.navigate(['/tabs/home-estoque']);
         return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
       },async (error) =>{

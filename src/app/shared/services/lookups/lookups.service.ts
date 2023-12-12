@@ -25,7 +25,6 @@ import { AuthUser } from '@core/store/state/auth.state';
     getLookUp(params = null, endPoint = 'Empreendimentos'){
       console.log(endPoint)
       return new Promise((resolve, reject) => {
-        console.log('teste')
         if(endPoint === 'colaboradorCod') {
           console.log(params)
           params = {
@@ -51,7 +50,7 @@ import { AuthUser } from '@core/store/state/auth.state';
       if(endPoint === 'colaboradorCod') {
         params = {
           pesquisa: params.pesquisa,
-          valorSelecionado: '',
+          valorSelecionado: params.valorSelecionado,
           tipoPessoa: 'Funcionário',
           somenteFiliaisDoSelecionado:false
         };

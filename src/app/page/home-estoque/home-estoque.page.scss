@@ -1,5 +1,5 @@
 
-    ion-header{ 
+    ion-header{
         height: 320px;
         width: 100%;
         background-color: #023A51;
@@ -47,6 +47,21 @@
         letter-spacing: -0.08px;
         line-height: 18px;
     }
+
+    .btnRed{
+      width: 100%;
+      font-weight: 600;
+      --border-radius: 9px;
+      font-size: 22px;
+      --background: linear-gradient(180deg, red 0%, red 100%);
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      position: absolute;
+      top: -30px;
+      z-index: 10;
+      height: 80px;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+  }
     .principalDiv{
         background: rgba(2, 58, 81, 1);
         box-shadow: 0px 2px 36px rgb(0 0 0 / 30%);
