@@ -226,6 +226,7 @@ export class ListInsumosFrotaPage implements OnInit {
   }
 
   async ngOnInit() {
+    console.log('ngOnInit')
     this.getInsumos();
       this.reqForm = this.formBuilder.group({
         quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
@@ -339,6 +340,11 @@ export class ListInsumosFrotaPage implements OnInit {
       .subscribe(async (res: any) => {
         const requisicaoId = res.requisicaoId;
           msg = `Item adicionado com sucesso`;
+          this.getInsumos();
+          this.reqForm = this.formBuilder.group({
+            quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
+            item: new UntypedFormControl({ value: null,disabled: false}, [Validators.required]),
+          });
         this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
                         {queryParams: {rota:'req'}});
       },
@@ -364,13 +370,18 @@ export class ListInsumosFrotaPage implements OnInit {
           itemBaixaData: new Date(),
           itemCodigo:this.produtoId['value'],
           riBaixaCodigo:riBaixaCodigo
-        }
-        console.log(params);
+        };
+
 
         let msg: string;
         this.requestService.postInsertItemReqEpi(params)
         .subscribe(async (res: any) => {
           msg = `Item adicionado com sucesso`;
+          this.getInsumos();
+          this.reqForm = this.formBuilder.group({
+            quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
+            item: new UntypedFormControl({ value: null,disabled: false}, [Validators.required]),
+          });
           this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
                           {queryParams: {rota:'req'}});
         },

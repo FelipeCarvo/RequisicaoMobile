@@ -8,11 +8,12 @@ import { Component,OnInit, Input,Output,EventEmitter } from '@angular/core';;
 })
 export class ListInsumosComponent implements OnInit {
   @Input() item: any;
-  @Input() itemId:Number;
-  @Output()goToInsumoEmpreendimento:EventEmitter<any> = new EventEmitter();;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  @Input() itemId: Number;
+  @Output()goToInsumoEmpreendimento: EventEmitter<any> = new EventEmitter();;
   constructor() { }
   public get disabled(): boolean {
-    return !!this.itemId && this.itemId == this.item.item}
+    return !!this.itemId && this.itemId === this.item.item;};
   ngOnInit() {
 
   }

@@ -70,13 +70,13 @@ export class InsumoComponent implements AfterViewInit {
   }
   editInsumo(id){
     this.loadingService.present();
-    const params = `ItemId=${id}`
-    this.insumosRequest.getItemEdit(params).then((res:any) =>{
+    const params = `ItemId=${id}`;
+    this.insumosRequest.getItemEdit(params).then((res: any) =>{
       this.loadingService.dismiss();
       const objResult = this.removeEmpty(res);
-      this.store.dispatch(new SetInsumosFileds(objResult))
+      this.store.dispatch(new SetInsumosFileds(objResult));
       this.router.navigate(['/tabs/central-req/insumos']);
-    })
+    });
   }
   removeEmpty(obj) {
     return Object.entries(obj)
@@ -84,15 +84,15 @@ export class InsumoComponent implements AfterViewInit {
     .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
   }
   getInsumos(){
-    this.insumosRequest.getInsumoById(this.requisicaoId).then((res:any) =>{
+    this.insumosRequest.getInsumoById(this.requisicaoId).then((res: any) =>{
       this.listInsumos = res;
       setTimeout(() =>{
         if(res.length > 0){
-          this.updateButton.emit(true)
+          this.updateButton.emit(true);
         }
         this.loading = true;
-      },200)
-    })
+      },200);
+    });
   }
 
   presentModal(){

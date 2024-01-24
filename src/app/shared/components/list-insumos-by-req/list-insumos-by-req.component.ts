@@ -6,24 +6,24 @@ import { Router } from '@angular/router';
   templateUrl: './list-insumos-by-req.component.html',
   styleUrls: ['./list-insumos-by-req.component.scss'],
   animations: [
-       trigger("grow", [ // Note the trigger name
-      transition(":enter", [
+       trigger('grow', [ // Note the trigger name
+      transition(':enter', [
         // :enter is alias to 'void => *'
-        style({ height: "0", overflow: "hidden",opacity: 0 }),
-        animate(300, style({ height: "*",opacity:1 }))
+        style({ height: '0', overflow: 'hidden',opacity: 0 }),
+        animate(300, style({ height: '*',opacity:1 }))
       ]),
-      transition(":leave", [
+      transition(':leave', [
         // :leave is alias to '* => void'
-        animate(500, style({ height: 0, overflow: "hidden",opacity:0 }))
+        animate(500, style({ height: 0, overflow: 'hidden',opacity:0 }))
       ])
     ])
   ]
 })
 export class ListInsumosByReqComponent implements OnInit {
   @Input()item: any;
-  @Output() editInsumo:EventEmitter<any> = new EventEmitter();
-  @Output() excludeInsumo:EventEmitter<any> = new EventEmitter();
-  showButtons:boolean = false;
+  @Output() editInsumo: EventEmitter<any> = new EventEmitter();
+  @Output() excludeInsumo: EventEmitter<any> = new EventEmitter();
+  showButtons = false;
   constructor(
     private cdr: ChangeDetectorRef,
     public router: Router,
@@ -31,10 +31,10 @@ export class ListInsumosByReqComponent implements OnInit {
 
   ngOnInit() {}
   editItem(id){
-    this.editInsumo.emit(id)
+    this.editInsumo.emit(id);
   }
   exludeItem(id){
-    this.excludeInsumo.emit(id)
+    this.excludeInsumo.emit(id);
   }
   displayButtons(){
     this.showButtons = !this.showButtons;
