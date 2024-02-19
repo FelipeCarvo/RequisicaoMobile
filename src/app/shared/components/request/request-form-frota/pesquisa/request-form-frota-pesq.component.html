@@ -84,23 +84,7 @@
   </ion-row>
   <ion-row class="ion-justify-content-center" *ngIf="mostrarLeitorQrCode">
     <ion-col size="11" class="no-padding-top">
-      <div>
-        <ion-button expand="full" (click)="startScan()">
-          <ion-icon slot="start" name="qr-scanner"></ion-icon>
-          Escaneia o QRCODE do colaborador
-        </ion-button>
-
-        <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
-          <ion-icon slot="start" name="refresh"></ion-icon>
-          Reset
-        </ion-button>
-
-        <!-- Shows our camera stream -->
-        <video #video [hidden]="!scanActive" width="100%"></video>
-
-        <!-- Used to render the camera stream images -->
-        <canvas #canvas hidden></canvas>
-     </div>
+      <app-qr-scanner (qrCodeLido)="buscarColaboradorScan($event)"></app-qr-scanner>
     </ion-col>
   </ion-row>
 

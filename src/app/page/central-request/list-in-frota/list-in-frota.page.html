@@ -11,38 +11,8 @@
   <div class="statusDiv">
     <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
   </div>
-  <div>
-    <ion-button expand="full" (click)="startScan()">
-      <ion-icon slot="start" name="qr-scanner"></ion-icon>
-      Escaneia o QRCODE
-    </ion-button>
+  <app-qr-scanner (qrCodeLido)="buscaInsumoQrCode($event)"></app-qr-scanner>
 
-    <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
-      <ion-icon slot="start" name="refresh"></ion-icon>
-      Reset
-    </ion-button>
-
-    <!-- Shows our camera stream -->
-    <video #video [hidden]="!scanActive" width="100%"></video>
-
-    <!-- Used to render the camera stream images -->
-    <canvas #canvas hidden></canvas>
-
-    <!-- Stop our scanner preview if active -->
-    <!--<ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
-      <ion-icon slot="start" name="close"></ion-icon>
-      Stop scan
-    </ion-button>-->
-
-    <!--<ion-card *ngIf="scanResult">
-      <ion-card-header>
-        <ion-card-title>QR Code</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ scanResult }}
-      </ion-card-content>
-    </ion-card>-->
- </div>
   <ion-grid  class="no-padding-bottom no-padding-top" style="justify-content: center;">
     <ion-row class="ion-justify-content-center corpo"  *ngIf="load && !error ">
         <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>

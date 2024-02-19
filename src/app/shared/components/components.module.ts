@@ -1,6 +1,7 @@
 import { ListRequest } from './list-request/list-request.component';
 import {SpinnerComponent} from './spinner/spinner.component';
-import {InputSearchComponent} from './input-search/input-search.component'
+import {InputSearchComponent} from './input-search/input-search.component';
+import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule,FormControlDirective } from '@angular/forms';
@@ -52,6 +53,7 @@ const components = [
   SpinnerComponent,
   StepTwoComponent,
   InputSearchComponent,
+  QrScannerComponent,
   ListRequest,
   ModalFinishReqComponent,
   IsumosFormComponent,
@@ -65,7 +67,7 @@ const components = [
   ModalEstoqueComponent
 ]
 @NgModule({
- 
+
   imports: [CommonModule, ReactiveFormsModule,FormsModule, IonicModule.forRoot(), ...matModules],
   declarations: [...components, ...providers],
   exports: [CommonModule,IonicModule, ReactiveFormsModule, ...matModules, ...providers, ...components]
@@ -77,7 +79,7 @@ export class sharedModules {}
   //     CommonModule,
   //     FormsModule,
   //     ReactiveFormsModule,
-   
+
   //     IonicModule
   //   ],
   //   declarations: [SpinnerComponent,InputSearchComponent,ModalFinishReqComponent,ListRequest,IsumosFormComponent,ListInsumosComponent,ListInsumosByReqComponent,Descripitionpipe],

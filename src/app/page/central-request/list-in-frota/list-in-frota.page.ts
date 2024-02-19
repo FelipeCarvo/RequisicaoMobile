@@ -15,24 +15,9 @@ import jsQR from 'jsqr';
   animations: [translateAnimation()]
 })
 export class ListInsumosFrotaPage implements OnInit {
-  @ViewChild('video', { static: false })
-  video!: ElementRef;
-  @ViewChild('canvas', { static: false })
-  canvas!: ElementRef;
-  @ViewChild('fileinput', { static: false })
-  fileinput!: ElementRef;
-  canvasElement: any;
-  videoElement: any;
-  canvasContext: any;
-  scanActive = false;
-  scanResult = null;
-
-
   @Input() getFormForStore: any;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
-
-
-
+  @Output() sendReq: EventEmitter<any> = new EventEmitter();
 
   empreendimentoId: string = null;
   produtoId: [];
@@ -48,12 +33,9 @@ export class ListInsumosFrotaPage implements OnInit {
   qtdListInsumos = 0;
   listInsumos: Array<any>;
   listInsumosFiltro: Array<any>;
-  @Output() sendReq: EventEmitter<any> = new EventEmitter();
   public reqForm: UntypedFormGroup;
+
   constructor(
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
-    private plt: Platform,
     private requestService: RequestService,
     private store: Store,
     public navCtrl: NavController,
@@ -80,148 +62,36 @@ export class ListInsumosFrotaPage implements OnInit {
   public get hasValuequantidade(): boolean{
     return !!this.reqForm.get('quantidade').value;
   }
-  ngAfterViewInit() {
-    this.canvasElement = this.canvas.nativeElement;
-    this.canvasContext = this.canvasElement.getContext('2d');
-    this.videoElement = this.video.nativeElement;
-  }
-  handleFile(files: FileList) {
-    const file = files.item(0);
 
-    var img = new Image();
-    img.onload = () => {
-      this.canvasContext.drawImage(img, 0, 0, this.canvasElement.width, this.canvasElement.height);
-      const imageData = this.canvasContext.getImageData(
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      });
-
-      if (code) {
-        console.log(code)
-        //this.scanResult = code.data;
-        this.showQrToast();
+  buscaInsumoQrCode(idInsumo: string) {
+    let blnEncontrado = false;
+    const lista = [];
+    // console.log(code.data.toUpperCase().trim())
+    for (let index = 0; index < this.listInsumos.length; index++) {
+      const element = this.listInsumos[index];
+      // console.log(element.equipamentoCod.toUpperCase().trim())
+      if (element.equipamentoCod.toUpperCase().trim() === idInsumo.toUpperCase().trim()) {
+        // console.log('localizado')
+        blnEncontrado = true;
+        this.selectedRadioGroup = element.id;
+        this.produtoId = element.id;
+        lista.push(element);
+        this.listInsumos = lista;
+        continue;
       }
-    };
-    // img.src = URL.createObjectURL(file);
-  }
-  captureImage() {
-    this.fileinput.nativeElement.click();
-  }
-  async startScan() {
-    // Not working on iOS standalone mode!
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' }
-    });
-
-    this.videoElement.srcObject = stream;
-    //Required for Safari
-    this.videoElement.setAttribute('playsinline', true);
-
-    // this.loading = await this.loadingCtrl.create({});
-    // await this.loading.present();
-
-    this.videoElement.play();
-    requestAnimationFrame(this.scan.bind(this));
-  }
-  async scan() {
-    if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA) {
-      this.scanActive = true;
-      // if (this.loading) {
-      //   await this.loading.dismiss();
-      //   //this.loading = null;
-      //   this.scanActive = true;
-      // }
-
-      this.canvasElement.height = this.videoElement.videoHeight;
-      this.canvasElement.width = this.videoElement.videoWidth;
-
-      this.canvasContext.drawImage(
-        this.videoElement,
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const imageData = this.canvasContext.getImageData(
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      });
-
-      if (code) {
-        this.scanActive = false;
-        // console.log(code);
-        // this.scanResult = code.data;
-        // this.showQrToast();
-        let blnEncontrado = false;
-        let lista = [];
-        // console.log(code.data.toUpperCase().trim())
-        for (let index = 0; index < this.listInsumos.length; index++) {
-          const element = this.listInsumos[index];
-          // console.log(element.equipamentoCod.toUpperCase().trim())
-          if (element.equipamentoCod.toUpperCase().trim() === code.data.toUpperCase().trim()){
-            // console.log('localizado')
-            blnEncontrado = true;
-            this.selectedRadioGroup = element.id;
-            this.produtoId = element.id;
-            lista.push(element)
-            this.listInsumos=lista;
-            continue;
-          }
-        }
-
-        if (blnEncontrado) {
-          alert('Item localizado');
-
-        } else {
-          alert('Item não localizado');
-        }
-      } else {
-        if (this.scanActive) {
-          requestAnimationFrame(this.scan.bind(this));
-        }
-      }
-    } else {
-      requestAnimationFrame(this.scan.bind(this));
     }
-  }
-  // Helper functions
-  async showQrToast() {
-    const toast = await this.toastCtrl.create({
-      message: `Open ${this.scanResult}?`,
-      position: 'top',
-      buttons: [
-        {
-          text: 'Open',
-          handler: () => {
-            //window.open(this.scanResult, '_system', 'location=yes');
-          }
-        }
-      ]
-    });
-    toast.present();
+
+    if (blnEncontrado) {
+      alert('Item localizado');
+
+    } else {
+      alert('Item não localizado');
+    }
+
   }
 
-  reset() {
-    this.scanResult = null;
-  }
 
-  stopScan() {
-    // this.videoElement.setAttribute('playsinline', false);
-    this.scanActive = false;
-    // requestAnimationFrame(this.scan.bind(this));
-    // this.reset();
-  }
-   get validReqId(){
+  get validReqId() {
     return this.store.selectSnapshot(ReqState.validReqId);
   }
 
