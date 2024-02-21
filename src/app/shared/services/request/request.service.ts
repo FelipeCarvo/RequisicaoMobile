@@ -1,15 +1,12 @@
 import { HttpClient,HttpHeaders,HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable,} from 'rxjs';
-import {environment} from '@environment/environment';
 import { Store } from '@ngxs/store';
 import * as moment from 'moment';
-import {RequestsEndPoints} from '../utils/enums/EnumRequest'
+import {RequestsEndPoints} from '../utils/enums/EnumRequest';
 import {tap,switchMap} from 'rxjs/operators';
-import { ReqIntefaceModel } from '@core/store/models/req.model';
 import {ReqState} from '@core/store/state/req.state';
-import {setReqFileds} from '@core/store/actions/req.actions'
-import { NavParams } from '@ionic/angular';
+import {setReqFileds} from '@core/store/actions/req.actions';
 import { AuthUser } from '@core/store/state/auth.state';
 
 @Injectable({
@@ -83,6 +80,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -96,7 +96,11 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       )
     })
   }
@@ -109,7 +113,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       )
     })
   }
@@ -124,7 +132,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       )
     })
   }
@@ -139,7 +151,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -154,7 +170,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -169,7 +189,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -184,7 +208,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -201,7 +229,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -217,7 +249,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -232,7 +268,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -245,7 +285,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       )
     })
   }
@@ -260,6 +304,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -313,6 +360,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -326,6 +376,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -339,6 +392,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -353,6 +409,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -366,6 +425,9 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -380,6 +442,9 @@ export class RequestService {
           error => {
             console.log(error);
             observer.error(error);
+          },
+          () => {
+            observer.complete();
           }
         );
     });
@@ -394,7 +459,11 @@ export class RequestService {
           error => {
             console.log(error);
             observer.error(error);
+          },
+          () => {
+            observer.complete();
           }
+
         );
     });
   }
@@ -414,7 +483,11 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       )
     })
   }
@@ -433,6 +506,9 @@ export class RequestService {
         error => {
           console.log(error)
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -447,6 +523,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -460,6 +539,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -472,6 +554,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -488,6 +573,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -584,6 +672,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -602,6 +693,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -624,6 +718,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       )
     })
@@ -678,6 +775,9 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -693,6 +793,7 @@ export class RequestService {
       params.versaoEsperada = versaoEsperada;
       req = this.http.put(url,params);
     }
+
     return new Observable((observer) => {
       req.pipe(
         tap((response:any) => {
@@ -727,7 +828,11 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -753,6 +858,9 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -779,7 +887,11 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -800,6 +912,9 @@ export class RequestService {
         error => {
           console.log(error);
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -855,7 +970,11 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
+
       );
     });
   }
@@ -908,6 +1027,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -921,6 +1043,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
@@ -934,6 +1059,9 @@ export class RequestService {
         },
         error => {
           observer.error(error);
+        },
+        () => {
+          observer.complete();
         }
       );
     });
