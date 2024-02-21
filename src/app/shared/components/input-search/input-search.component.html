@@ -5,7 +5,7 @@
 <ion-item lines="none" [formGroup]="parentForm">
   <ion-row >
     <ion-label position="floating"  *ngIf="controlName != 'insumoId'">{{label}}</ion-label>
-  
+
       <ion-row *ngIf="controlName == 'insumoId'">
         <ion-col class="ion-no-padding">
           <ion-item lines="none">
@@ -33,11 +33,11 @@
           class="customInput"
           (focus)="getLoockups()"
           [class]="getRequerid ? 'required' : ''"
-          [matAutocompleteConnectedTo]="origin" 
+          [matAutocompleteConnectedTo]="origin"
           style="padding-inline-end: 30px;">
-          <ion-icon name="close-outline" *ngIf="!!getValue && !setDisableButton" (click)="clearField(); openPanel()"></ion-icon>
+          <ion-icon name="close-outline" *ngIf="!!getValue && !setDisableButton" (click)="apagaEAbre()"></ion-icon>
       </div>
-  
+
       <mat-autocomplete #name="matAutocomplete"  [displayWith]="displayFn.bind(this)" (selectionChange)="setPlans($event.value)">
         <mat-option value="null" *ngIf="noSearchResult">Nenhum valor encontrado</mat-option>
         <mat-option *ngFor="let option of listItemFilter | async" [value]="option.id" [style.fontSize]="formName == 'insumos' ? '12px':'14px'">
@@ -49,7 +49,7 @@
       <ion-button class="searchButton" (click)="getLoockups()" [disabled]="setDisableButton">
         <ion-spinner name="crescent" *ngIf="loading" ></ion-spinner>
         <ion-icon src="../../assets/icon/searchIcon.svg"  class="ion-padding search-icon-input" slot="end" *ngIf="!loading"></ion-icon>
-      </ion-button> 
+      </ion-button>
     </ion-col>
     <ion-col size="12" class="required-text" *ngIf="getRequerid">
       <p>Campo Obrigatório </p>

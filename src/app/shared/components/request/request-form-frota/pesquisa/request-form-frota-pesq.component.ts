@@ -1,4 +1,3 @@
-
 import { Component, OnInit,Output ,Input,EventEmitter, ElementRef,ViewChild} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl, FormGroup} from '@angular/forms';
 import {translateAnimation} from '@services/animation/custom-animation';
@@ -7,8 +6,7 @@ import {FilterRequestFields} from '@services/utils/interfaces/request.interface'
 import * as moment from 'moment';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
-
+import { InputSearchComponent } from '@components/input-search/input-search.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +25,7 @@ export class RequestFormFrotaPesqComponent implements OnInit {
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
   @Input() dataInicial:any;
   @Input() dataFim:any;
+  @ViewChild('colabPesquisa') colabPesquisa: InputSearchComponent;
   listReq: Array<any> = [];
   sendLoading = false;
   mostrarLeitorQrCode =false;
@@ -53,6 +52,10 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     { id:4, descricao:'Reprovado' },
   ];
   load = false;
+  public pesquisaColaborador = {
+    pesquisa: '',
+    valorSelecionado: null
+  };
   popover: any;
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -80,7 +83,6 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     this.initForm();
   }
   //#region  parametros
-
     get hasValidForm(){
       return !!this.reqForm.valid;
     }
@@ -102,14 +104,12 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     get _dataFinal(){
       return this.reqForm.get('dataFinal').value;
     }
-
     get hasValueDataFinal(): boolean{
       return !!this.reqForm.get('dataFim').value;
     }
     get hasValueStatus(): boolean{
       return !!this.reqForm.get('statusId').value;
     }
-
     get colaboradorCodValue() {
       return this.reqForm.get('colaboradorCod').value;
     }
@@ -127,43 +127,13 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     this.reqForm.markAllAsTouched();
   }
 
-  buscarColaboradorScan(id: string){
-    //const id = 'B2178BCE-1569-4D05-87C4-28647A7D0D34';
-    const enumName = 'colaboradorCod';
-    const params = {
-      pesquisa:  '',
-      valorSelecionado: id,
-      tipoPessoa: 'Funcionário',
-      somenteFiliaisDoSelecionado:false
-    };
-
-    this.loockupstService.getLookUpOb(params,enumName)
-        .subscribe(async (res: any) => {
-          if (res.length>0){
-            const element = res[0];
-            // set setValueColaboradorCod(id) {
-            //   this.reqForm.setValue({colaboradorCod: id});
-            // }
-            this.reqForm.value.colaboradorCod =  element.id;
-            this.nomeColaborador = element.descricao;
-            console.log(this.reqForm.value.colaboradorCod);
-            this.reqForm.controls['colaboradorCod'].setValue(element.id);
-          }
-          else {
-            // this.reqForm.value.colaboradorCod = null;
-            alert('Colaborador não localizado');
-          }
-        },
-        async (error) =>{
-          console.log(error);
-        }
-      );
+  async buscarColaboradorScan(id: string){
+    await this.colabPesquisa.defineValorPorId(id);
   }
 
   habiliDigitacaoNome(){
     this.digitacaoColaborador = true;
   }
-
   async  ngOnInit() {
     let parametroapp = JSON.parse(localStorage.getItem('parametroapp'));
     for (let index = 0; index < parametroapp.length; index++) {
@@ -173,7 +143,6 @@ export class RequestFormFrotaPesqComponent implements OnInit {
         this.digitacaoColaborador = false;
       }
     }
-
     this.dataInicial = null;
   }
   get getForm(){
@@ -209,14 +178,13 @@ export class RequestFormFrotaPesqComponent implements OnInit {
       delete res[e];
     });
   }
-  async sendForm(){
+  sendForm(){
     this.sendLoading = true;
-    await this.sendReq.emit(this.getForm);
+    this.sendReq.emit(this.getForm);
     this.sendLoading = false;
   }
   doRefresh() {
     console.log(this.listReq);
     // this.cdr.detectChanges();
   }
-
 }

@@ -13,5 +13,6 @@ export interface FilterRequestFields {
     filteredOptionsOrdemServico?: Observable<string[]>,
     filteredOptionsEquipamento?: Observable<string[]>,
     filteredOptionsEtapas?: Observable<string[]>,
-    filteredOptionsStatus?: Observable<string[]>
-  }
+    filteredOptionsStatus?: Observable<string[]>,
+    filteredOptionsColaboradores?: Observable<string[]>
+}

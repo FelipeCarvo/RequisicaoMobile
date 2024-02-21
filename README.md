@@ -5,9 +5,9 @@
 
 Clone this repository
 ```sh
-git clone https://github.com/fastersbrazil/sieconApp.git
-cd POLIVIEW/
-'npm i' or 'yarn'
+git clone https://github.com/Poliview-Siecon/RequisicaoMobile.git
+cd RequisicaoMobile
+'npm i' ou 'yarn'
 'npm install @capacitor/core @capacitor/cli'
 ```
 

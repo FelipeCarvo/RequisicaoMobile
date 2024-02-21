@@ -15,57 +15,54 @@ import { AuthUser } from '@core/store/state/auth.state';
       this.sieconwebwebapi = this.getUrlParams.urlAPISP7;
     }
     filterLockup(el){
-      el = el.split(" ")[0];
+      el = el.split(' ')[0];
       el = el.replace(/[^0-9]/g,'');
       return parseInt(el);
     }
     public get getUrlParams(){
       return this.store.selectSnapshot(AuthUser.geturlParams);
     }
-    getLookUp(params = null, endPoint = 'Empreendimentos'){
-      console.log(endPoint)
+
+
+    getLookUp(params = null, endPoint = 'Empreendimentos') {
       return new Promise((resolve, reject) => {
-        if(endPoint === 'colaboradorCod') {
-          console.log(params)
-          params = {
-            pesquisa: null,
-            valorSelecionado: '',
-            tipoPessoa: 'Funcionário',
-            somenteFiliaisDoSelecionado:false
-          };
-        }
-        this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
-          async(res:any) => {
-            let result = res
+        this.buscaDados(params, endPoint).subscribe(
+          async (res: any) => {
+            const result = res;
             resolve(result);
           },
           error => {
-            console.log(error)
-           reject(error);
+            console.log(error);
+            reject(error);
           }
-        )
-      })
+        );
+      });
     }
-    getLookUpOb(params = null, endPoint = 'Empreendimentos'): Observable<any>{
-      if(endPoint === 'colaboradorCod') {
-        params = {
-          pesquisa: params.pesquisa,
-          valorSelecionado: params.valorSelecionado,
-          tipoPessoa: 'Funcionário',
-          somenteFiliaisDoSelecionado:false
-        };
-      }
+
+    getLookUpOb(params = null, endPoint = 'Empreendimentos'): Observable<any> {
       return new Observable((observer) => {
-        this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`,JSON.stringify(params)).subscribe(
-          async(res:any) => {
-            let result = res
+        this.buscaDados(params, endPoint).subscribe(
+          async (res: any) => {
             observer.next(res);
           },
           error => {
-            console.log(error)
+            console.log(error);
             observer.error(error);
+          },
+          () => {
+            observer.complete();
           }
-        )
-      })
+        );
+      });
+    }
+
+    private buscaDados(params = null, endPoint = 'Empreendimentos') {
+      console.log('buscaDados: ' + endPoint);
+      if(endPoint === 'colaboradorCod') {
+        params.tipoPessoa = 'Funcionário';
+        params.somenteFiliaisDoSelecionado = false;
+      }
+      console.log(params);
+      return this.http.post(`${this.sieconwebwebapi}${LookupsEndPoints[endPoint]}`, JSON.stringify(params));
     }
   }

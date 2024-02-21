@@ -91,7 +91,12 @@
   <ion-row class="ion-justify-content-center" >
     <ion-col size="11" class="no-padding-top">
       <ion-item  lines="none" class="box">
-        <app-input-search label="Colaborador" class="colaborador" formName="req" [pesquisa]="{pesquisa: ''}"  placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl ></app-input-search>
+        <app-input-search label="Colaborador" class="colaborador" #colabPesquisa
+          [listItemFilter]="listItemFilter.filteredOptionsColaboradores"
+          formName="req"
+          [pesquisa]="pesquisaColaborador"  placeholder="Nome do colaborador" [parentForm]="reqForm"
+          controlName="colaboradorCod"
+          ngDefaultControl ></app-input-search>
       </ion-item>
     </ion-col>
   </ion-row>
