@@ -1,12 +1,12 @@
-import { Component, OnInit, EventEmitter,Output, Input,ViewChild, ElementRef } from '@angular/core';
-import { NavController, ToastController, LoadingController, Platform } from '@ionic/angular';
+import { Component, OnInit, EventEmitter,Output, Input, ViewChild } from '@angular/core';
+import { NavController, ToastController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {RequestService} from '@services/request/request.service';
 import {ActivatedRoute,Router} from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl,ReactiveFormsModule,FormGroup} from '@angular/forms';
-import jsQR from 'jsqr';
+import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl } from '@angular/forms';
+import { InputSearchComponent } from '@components/input-search/input-search.component';
 
 @Component({
   selector: 'app-list-insumos-frota',
@@ -18,13 +18,13 @@ export class ListInsumosFrotaPage implements OnInit {
   @Input() getFormForStore: any;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
+  @ViewChild('equipamentoLookup') equipamentoLookup: InputSearchComponent;
 
   empreendimentoId: string = null;
   produtoId: [];
   requisicaoId: string = null;
   defaultSelectedRadio = '';
   selectedRadioGroup: any;
-  selectedRadioItem: any;
   load = false;
   rota = '';
   requisicao: any;
@@ -32,8 +32,8 @@ export class ListInsumosFrotaPage implements OnInit {
   requisicaoStatus: '';
   qtdListInsumos = 0;
   listInsumos: Array<any>;
-  listInsumosFiltro: Array<any>;
   public reqForm: UntypedFormGroup;
+  pesquisaEqp: any;
 
   constructor(
     private requestService: RequestService,
@@ -62,32 +62,12 @@ export class ListInsumosFrotaPage implements OnInit {
   public get hasValuequantidade(): boolean{
     return !!this.reqForm.get('quantidade').value;
   }
+  get item() {
+    return this.reqForm.get('item').value;
+  }
 
-  buscaInsumoQrCode(idInsumo: string) {
-    let blnEncontrado = false;
-    const lista = [];
-    // console.log(code.data.toUpperCase().trim())
-    for (let index = 0; index < this.listInsumos.length; index++) {
-      const element = this.listInsumos[index];
-      // console.log(element.equipamentoCod.toUpperCase().trim())
-      if (element.equipamentoCod.toUpperCase().trim() === idInsumo.toUpperCase().trim()) {
-        // console.log('localizado')
-        blnEncontrado = true;
-        this.selectedRadioGroup = element.id;
-        this.produtoId = element.id;
-        lista.push(element);
-        this.listInsumos = lista;
-        continue;
-      }
-    }
-
-    if (blnEncontrado) {
-      alert('Item localizado');
-
-    } else {
-      alert('Item não localizado');
-    }
-
+  buscaInsumoQrCode(codigoInsumo: string) {
+    this.equipamentoLookup.defineValorPorPesquisa(codigoInsumo);
   }
 
 
@@ -96,15 +76,16 @@ export class ListInsumosFrotaPage implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('ngOnInit')
+    console.log('ngOnInit');
+    this.reqForm = this.formBuilder.group({
+      quantidade: 0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
+      item: new UntypedFormControl({ value: null, disabled: false }, [Validators.required])
+    });
     this.getInsumos();
-      this.reqForm = this.formBuilder.group({
-        quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
-        item: new UntypedFormControl({ value: null,disabled: false}, [Validators.required]),
-      });
 
-      await this.setValform();
+    await this.setValform();
   }
+
   async setValform(){
     await this.reqForm.patchValue(this.getFormForStore);
     const formVal = this.getForm;
@@ -125,15 +106,10 @@ export class ListInsumosFrotaPage implements OnInit {
 
   getInsumos(){
     const {params} = this.getParams(this.route.snapshot);
-    console.log(params)
+    this.pesquisaEqp = params;
+    console.log(params);
     if(this.rota === 'req'){
-      this.requestService.consultaEstoqueItemEquipamento(params).subscribe((res: Array<any>) =>{
-        this.load = true;
-        this.listInsumos= res;
-        console.log(res)
-        this.qtdListInsumos = res.length;
-        this.getDados();
-      });
+      this.getDados();
     } else {
       this.requestService.consultaEstoqueItemEpi(params.empreendimentoId).subscribe((res: Array<any>) =>{
         this.load = true;
@@ -162,6 +138,7 @@ export class ListInsumosFrotaPage implements OnInit {
       this.load = true;
     });
   }
+
   getParamsEpiDados(){
     const params = {
       empreendimentoId:this.empreendimentoId,
@@ -169,6 +146,7 @@ export class ListInsumosFrotaPage implements OnInit {
     };
     return {params};
   }
+
   getParamsReq(){
     const params = {
       empreendimentoId:null,
@@ -181,7 +159,6 @@ export class ListInsumosFrotaPage implements OnInit {
     return {params};
   }
 
-
   getParams(form){
     const type = 'POST';
     this.requisicaoId=form.params.requisicaoId;
@@ -193,37 +170,38 @@ export class ListInsumosFrotaPage implements OnInit {
     };
     return {params,type};
   }
+
   dismiss(){
     this.navCtrl.back();
   }
+
   async sendPostItem(){
     const form = this.route.snapshot;
-     if(this.rota === 'req'){
+    if (this.rota === 'req') {
       const params = {
-        termoResponsabilidadeId:form.params.requisicaoId,
+        termoResponsabilidadeId: form.params.requisicaoId,
         quantidade: this.quantidadeValue,
-        equipamentoId: this.produtoId['value']
-      }
+        equipamentoId: this.item
+      };
 
       let msg: string;
       this.requestService.postInsertItemReq(params)
-      .subscribe(async (res: any) => {
-        const requisicaoId = res.requisicaoId;
+        .subscribe(async (res: any) => {
           msg = `Item adicionado com sucesso`;
           this.getInsumos();
           this.reqForm = this.formBuilder.group({
-            quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
-            item: new UntypedFormControl({ value: null,disabled: false}, [Validators.required]),
+            quantidade: 0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
+            item: new UntypedFormControl({ value: null, disabled: false }, [Validators.required]),
           });
-        this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
-                        {queryParams: {rota:'req'}});
-      },
-        async (error) =>{
-          msg = error.Mensagem? error.Mensagem : error;
-          console.log(error);
-          await this.showMsg(msg);
-        }
-      );
+          this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
+            { queryParams: { rota: 'req' } });
+        },
+          async (error) => {
+            msg = error.Mensagem ? error.Mensagem : error;
+            console.log(error);
+            await this.showMsg(msg);
+          }
+        );
     } else if (this.rota === 'epi') {
        let riBaixaCodigo=0;
         for(const index in this.listInsumos){
@@ -283,18 +261,9 @@ export class ListInsumosFrotaPage implements OnInit {
     return this.reqForm.getRawValue();
   }
 
-  radioGroupChange(event) {
-    console.log(event.detail)
-    this.selectedRadioGroup = event.detail;
-    this.produtoId = event.detail;
+  getEnumName(): string {
+    return 'equipamentoemprdtermo';
   }
 
-  radioFocus() {
-  }
-  radioSelect(event) {
-    this.selectedRadioItem = event.detail;
-  }
-  radioBlur() {
-  }
 
 }

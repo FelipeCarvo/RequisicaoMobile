@@ -1,4 +1,4 @@
-import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef, AfterViewChecked, TemplateRef } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith,debounceTime,distinctUntilChanged,switchMap} from 'rxjs/operators';
@@ -30,6 +30,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Output() setfalseUpdate: EventEmitter<any> = new EventEmitter();
   @Output() emitFieldClean: EventEmitter<any> = new EventEmitter();
   @Output() changeQtdEtapa: EventEmitter<any> = new EventEmitter();
+  @Input() itemTemplate: TemplateRef<any>;
   @Input() DisabledInput = false;
   @Input() label: string;
   @Input() hasQtdOr: Boolean;
@@ -42,6 +43,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Input() formName: string;
   @Input()updateInsumos: Boolean;
   @Input() msgDisabled?: string;
+  @Input() nomeUrlDados: string;
   listGroup:any = [];
   loading = false;
   refreshLoad= false;
@@ -147,12 +149,9 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   async getLoockups(){
       console.log(this.controlName);
       this.loading = true;
-      let enumName = this.controlName;
+      const enumName = this.getEnumName();
       const hasValue = !!this.getValue;
       const params = this.pesquisa;
-      if(this.formName === 'insumos' && this.controlName === 'empresaId'){
-        enumName = 'EmpresasDoEmpreendimento';
-      }
       if(this.listGroup.length === 0 || this.updateInsumos){
         if(!!this.updateInsumos)
         {
@@ -216,9 +215,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
           }
       },300);
   }
-  setPlans(val){
 
-  }
 
   isUUID(str: string) {
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
@@ -226,10 +223,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
 
   filter(val: string): Observable<any[]> {
     console.log('entrou no filter');
-    let enumName = this.controlName;
-    if (this.formName === 'insumos' && this.controlName === 'empresaId') {
-      enumName = 'EmpresasDoEmpreendimento';
-    }
+    const enumName = this.getEnumName();
     const searh = this.pesquisa;
     searh.pesquisa = '';
     const find = this.listGroup.find(el => (el.id.toLowerCase() === val.toLowerCase()));
@@ -274,6 +268,26 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  public async defineValorPorPesquisa(consulta: string) {
+    this.pesquisa.pesquisa = consulta;
+    this.listItemFilter = this.filter(consulta);
+    let lista = null;
+    this.listItemFilter.subscribe({
+      next: (a) => { lista = a; },
+      complete: () => {
+        console.log('terminou');
+        if (!lista) {
+          return;
+        }
+        if (!lista[0]) {
+          return;
+        }
+
+        this.parentForm.controls[this.controlName].setValue(lista[0].id);
+      }
+    });
+  }
+
   public objetoSelecionado() {
     const selecionado = this.getValue;
     if (!selecionado) {
@@ -295,5 +309,19 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
             return filterValue;
           })
         );
+  }
+
+  private getEnumName(): string {
+
+    if (this.nomeUrlDados) {
+      return this.nomeUrlDados;
+    }
+
+    let enumName = this.controlName;
+    if (this.formName === 'insumos' && this.controlName === 'empresaId') {
+      enumName = 'EmpresasDoEmpreendimento';
+    }
+
+    return enumName;
   }
 }

@@ -12,53 +12,67 @@
     <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
   </div>
   <app-qr-scanner (qrCodeLido)="buscaInsumoQrCode($event)"></app-qr-scanner>
+  <!--
+  <app-combo-search [itens]="listInsumosObs" (atualizarDados)="atualizarDados($event)" [itemTemplate]="templateEquipamento"
+    label="Equipamento" controlName="equipamento" placeholder="Equipamento" [parentForm]="reqForm" [pesquisa]="pesquisa" >
+  </app-combo-search>
+-->
+  <ng-template #templateEquipamento let-item>
+    <!-- Personalize a apresentação do item aqui -->
+    <ion-item>
+        <ion-col size="11">
+          <b style="font-size: 12px;">{{rota === 'req' ? item.descricao:item.insumoDescricao}}
+            <br />
+            <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{rota === 'req' ?
+              item.saldoEquipamento:item.quantidadeEstoque}}</span>
+          </b>
+        </ion-col>
+    </ion-item>
+  </ng-template>
+
 
   <ion-grid  class="no-padding-bottom no-padding-top" style="justify-content: center;">
     <ion-row class="ion-justify-content-center corpo"  *ngIf="load && !error ">
         <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+
         <!--<ion-col size=11>
           <div class="statusDiv">
             <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
           </div>
         </ion-col>-->
         <ion-col  size="11" >
-          <ion-item class="desc">
-            Quantidade de itens disponiveis: {{qtdListInsumos}}
-          </ion-item>
+
           <ion-row class="desc">
 
-      </ion-row>
-          <ion-list [inset]="true" style="background-color: white; max-height: 300px; overflow-y: scroll;">
-           <ion-radio-group value="itensTermo" (ionChange)="radioGroupChange($event)" name="radio-group" #radioGroup>
-              <ion-item *ngFor="let item of listInsumos" >
-                <ion-radio [value]="rota === 'req' ? item.id:item.itemCodigo" slot="start" name="{{rota === 'req' ? item.id:item.itemCodigo}}"></ion-radio>
-                <ion-col size="11">
-                  <b style="font-size: 12px;">{{rota === 'req' ? item.descricao:item.insumoDescricao}}
-                    <br/>
-                    <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{rota === 'req' ? item.saldoEquipamento:item.quantidadeEstoque}}</span>
-                  </b>
-                </ion-col>
-              </ion-item>
-            </ion-radio-group>
-          </ion-list>
-        </ion-col>
-        <ion-row >
-          <ion-col  size="4" style="align-self: end" ><span >Quantidade:</span></ion-col>
-          <ion-col  size="3" >
-            <ion-item style=" text-align: center; color: black; border-top-width: 200px;  ">
-              <ion-input label="quantidade" name="qtdGeral"
-                style="background: #fff;
-                      color: #000000;
-                      --placeholder-color: #ddd;
-                      --border-color: #9d2525;
-                      --border-style:dashed;
-                      --border-width: 10px;"
+          </ion-row>
+          <app-input-search #equipamentoLookup
+            label="Equipamento"
+            formName="req"
+            [pesquisa]="pesquisaEqp"
+            placeholder="Equipamento"
+            [parentForm]="reqForm"
+            [itemTemplate]="templateEquipamento"
+            controlName="item"
 
-                formName="req" type="number" formControlName="quantidade"
-                [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
-            </ion-item>
+            [nomeUrlDados]="getEnumName()" ngDefaultControl></app-input-search>
+
+        </ion-col>
+          <ion-col size="11">
+            <ion-row>
+              <ion-col size="4" style="align-self: end"><span>Quantidade:</span></ion-col>
+              <ion-col size="3">
+                <ion-item style=" text-align: center; color: black; border-top-width: 200px;  ">
+                  <ion-input label="quantidade" name="qtdGeral" style="background: #fff;
+                                            color: #000000;
+                                            --placeholder-color: #ddd;
+                                            --border-color: #9d2525;
+                                            --border-style:dashed;
+                                            --border-width: 10px;" formName="req" type="number" formControlName="quantidade"
+                    [parentForm]="reqForm" controlName="quantidade" ngDefaultControl></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
           </ion-col>
-        </ion-row>
         <ion-col size="11">
           <ion-row class="ion-justify-content-center">
             <ion-col size="10">
