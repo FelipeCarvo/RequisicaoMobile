@@ -32,7 +32,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Output() changeQtdEtapa: EventEmitter<any> = new EventEmitter();
   @Output() itemSelecionado: EventEmitter<any> = new EventEmitter();
   @Input() itemTemplate: TemplateRef<any>;
-  @Input() DisabledInput = false;
+  @Input() disabledInput = false;
   @Input() label: string;
   @Input() hasQtdOr: Boolean;
   @Input() placeholder: string;
@@ -42,7 +42,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Input() pesquisa: any;
   @Input() disabledCondition: any;
   @Input() formName: string;
-  @Input()updateInsumos: Boolean;
+  @Input() updateInsumos: Boolean;
   @Input() msgDisabled?: string;
   @Input() nomeUrlDados: string;
   listGroup:any = [];
@@ -99,7 +99,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
        disable = Object.values(o).filter(e => e!=null && e!=``).length == 0
 
      }
-    return disable || this.DisabledInput;
+    return disable || this.disabledInput;
   }
 
   displayFn(value = this.getValue) {

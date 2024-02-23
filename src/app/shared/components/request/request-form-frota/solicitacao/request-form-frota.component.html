@@ -2,7 +2,7 @@
   <ion-row class="ion-justify-content-center">
     <ion-col size="11" class="no-padding-top">
       <ion-item  lines="none" class="box">
-        <app-input-search label="Empreendimentos" [DisabledInput]="validReqId" formName="req" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
+        <app-input-search label="Empreendimentos" [disabledInput]="validReqId" formName="req" [pesquisa]="{pesquisa: ''}" [listItemFilter]="listItemFilter.filteredOptionsEmpreendimento" placeholder="Código da obra" [parentForm]="reqForm" controlName="empreendimentoId" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
 
@@ -21,7 +21,7 @@
 
     <ion-col size="11" class="no-padding-top" *ngIf="digitacaoColaborador">
       <ion-item  lines="none" class="box">
-        <app-input-search label="Colaborador" [DisabledInput]="validReqId" formName="req"
+        <app-input-search label="Colaborador" [disabledInput]="validReqId" formName="req"
         (emitFieldClean)="emitFieldClean($event)"
         [pesquisa]="{pesquisa: '',colaboradorCod:colaboradorCod}"
         placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
