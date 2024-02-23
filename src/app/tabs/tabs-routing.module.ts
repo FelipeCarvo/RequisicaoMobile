@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-import { Store } from '@ngxs/store';
 import {RouterTokenValidation} from './auth/validationToken';
 const routes: Routes = [
   {

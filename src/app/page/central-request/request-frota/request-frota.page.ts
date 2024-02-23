@@ -1,20 +1,15 @@
 import { Component, OnInit,ViewChild,HostListener,OnDestroy,ChangeDetectorRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-import {ModalFinishReqComponent} from '@components/modal-finish-req/modal-finish-req.component';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions';
+import {setReqFileds} from '@core/store/actions/req.actions';
 import {RequestService} from '@services/request/request.service';
 import { ToastController } from '@ionic/angular';
 import {LoadingService} from '@services/loading/loading-service';
-import {AlertServices} from '@services/utils/alerts-services/alerts-services';
-import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import {ActivatedRoute,Router} from '@angular/router';
-import {RequestFormFrotaPesqComponent}from '@components/request/request-form-frota/pesquisa/request-form-frota-pesq.component';
 
 import * as moment from 'moment';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 
 @Component({
@@ -22,8 +17,6 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
   templateUrl: './request-frota.page.html',
   styleUrls: ['./request.page.scss'],
 })
-
-
 export class RequestPage implements OnInit,OnDestroy {
   @ViewChild('appChild', {static: false}) childComponent;
   step: any = 0;
@@ -34,7 +27,6 @@ export class RequestPage implements OnInit,OnDestroy {
   sendPost = false;
   hasButtonFinish = false;
   steps: any = [];
-  public reqForm: UntypedFormGroup;
 
   listStatus: any =
     [
@@ -51,22 +43,20 @@ export class RequestPage implements OnInit,OnDestroy {
     private toastController: ToastController,
     public loading: LoadingService,
     private rquestService: RequestService,
-    // private alertServices: AlertServices,
-    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     public router: Router,
-    private cdr: ChangeDetectorRef
   )
   {
     this.rota = route.snapshot.params.rota;
-    if(this.rota==='dev'){
-      this.steps =[ { key: 0, title: 'Pesquisa', enabled:true}];
-    }else {
-    this.steps =[
-      { key: 0, title: 'Pesquisa', enabled:true},
-      { key: 1, title: 'Nova Requisição', enabled: true}
-    ];
+    const steps = [];
+    steps.push({ key: 0, title: 'Pesquisa', enabled:true});
+
+    if(this.rota==='epi'){
+      steps.push({ key: 1, title: 'Nova Baixa', enabled: true});
+    } else if (this.rota === 'req') {
+      steps.push({ key: 1, title: 'Novo Termo', enabled: true});
     }
+    this.steps = steps;
 
     this.store
     .select(state => state.ReqState)
@@ -81,10 +71,6 @@ export class RequestPage implements OnInit,OnDestroy {
   }
   get validReqId(){
     return true;
-    // if (this.steps[0].enabled === true){
-    //   return true;
-    // }
-    // return this.store.selectSnapshot(ReqState.validReqId);
   }
   get currentStatus(){
     return this.store.selectSnapshot(ReqState.getStatus);
