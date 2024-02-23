@@ -34,6 +34,7 @@ export class ListInsumosFrotaPage implements OnInit {
   listInsumos: Array<any>;
   public reqForm: UntypedFormGroup;
   pesquisaEqp: any;
+  qtdMaxima = '';
 
   constructor(
     private requestService: RequestService,
@@ -265,5 +266,13 @@ export class ListInsumosFrotaPage implements OnInit {
     return 'equipamentoemprdtermo';
   }
 
+  comboSelecionada(itemSelecionado: any) {
+    this.qtdMaxima = '';
+    if (!itemSelecionado) {
+      return;
+    }
+    this.qtdMaxima = this.rota === 'req' ? itemSelecionado.saldoEquipamento:itemSelecionado.quantidadeEstoque;
+    this.qtdMaxima = 'Máx.: ' + this.qtdMaxima;
+  }
 
 }

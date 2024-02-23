@@ -30,6 +30,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Output() setfalseUpdate: EventEmitter<any> = new EventEmitter();
   @Output() emitFieldClean: EventEmitter<any> = new EventEmitter();
   @Output() changeQtdEtapa: EventEmitter<any> = new EventEmitter();
+  @Output() itemSelecionado: EventEmitter<any> = new EventEmitter();
   @Input() itemTemplate: TemplateRef<any>;
   @Input() DisabledInput = false;
   @Input() label: string;
@@ -106,8 +107,9 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
       if(this.listGroup.length === 0){
         this.getLoockups();
       }
-      let filtredList = this.listGroup.find(option => option.id.toLowerCase() === value.toLowerCase());
-      let desc =  !!filtredList ? filtredList.descricao : '';
+      const filtredList = this.listGroup.find(option => option.id.toLowerCase() === value.toLowerCase());
+      const desc =  !!filtredList ? filtredList.descricao : '';
+      this.itemSelecionado.emit(filtredList);
       if(this.controlName === 'insumoId'){
         this.setUnidadeType.emit(desc);
       }
@@ -121,6 +123,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
     this.parentForm.controls[this.controlName].setValue(null);
     await this.getLoockups();
     this.emitFieldClean.emit({[this.controlName]:null});
+    this.itemSelecionado.emit(null);
     if(this.controlName === 'insumoId'){
       this.setUnidadeType.emit(null);
     }
