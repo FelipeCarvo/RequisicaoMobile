@@ -1,10 +1,9 @@
-import { Component, OnInit,Output ,Input,EventEmitter, ElementRef,ViewChild} from '@angular/core';
+import { Component, OnInit,Output ,Input,EventEmitter, ViewChild} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl, FormGroup} from '@angular/forms';
 import {translateAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import * as moment from 'moment';
-import {LoockupstService} from '@services/lookups/lookups.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputSearchComponent } from '@components/input-search/input-search.component';
 @Injectable({
@@ -61,7 +60,6 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     public router: Router,
     private route: ActivatedRoute,
-    private loockupstService:LoockupstService,
   ) {
     this.rota = route.snapshot.params.rota;
     if(this.rota === 'epi'){
