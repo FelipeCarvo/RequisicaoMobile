@@ -82,6 +82,11 @@ const routes: Routes = [
         path: 'list-in-frota/:requisicaoId/:empreendimentoId',
         loadChildren: () => import('../page/central-request/list-in-frota/list-in-frota.module').then( m => m.ListInsumosFrotaPageModule),
         data:{noHeader:true},
+      },      {
+        path: 'add-insumo-baixa/:requisicaoId/:empreendimentoId',
+        loadChildren: () => import('../page/central-request/add-insumo-baixa/add-insumo-baixa.module')
+        .then( m => m.AddInsumoBaixaPageModule),
+        data:{noHeader:true},
       },
       {
         path: '**',

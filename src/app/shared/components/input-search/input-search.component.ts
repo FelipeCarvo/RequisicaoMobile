@@ -260,15 +260,21 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
    }
 
   public async defineValorPorId(id: string) {
-    this.pesquisa.valorSelecionado = id;
-    this.listItemFilter = this.filter(id);
-    this.listItemFilter.subscribe({
-      next: (a) => { console.log(a); },
-      complete: () => {
-        console.log('terminou');
-        this.parentForm.controls[this.controlName].setValue(id);
-      }
+
+    return new Promise((resolve, reject) => {
+      this.pesquisa.valorSelecionado = id;
+      this.listItemFilter = this.filter(id);
+      this.listItemFilter.subscribe({
+        next: (a) => { console.log(a); },
+        error: (e) => { reject(e); },
+        complete: () => {
+          console.log('terminou');
+          this.parentForm.controls[this.controlName].setValue(id);
+          resolve(true);
+        }
+      });
     });
+
   }
 
   public async defineValorPorPesquisa(consulta: string) {

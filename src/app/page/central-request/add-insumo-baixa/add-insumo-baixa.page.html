@@ -1,0 +1,91 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
+    <ion-title class="ion-text-center">
+      Adicionar Item
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<form id="requestForm" [formGroup]="reqForm"  style="height: 100%;background-color: white;justify-content: center;" >
+  <div class="statusDiv">
+    <p>Baixa Nº: <span>{{requisicaoCod}}</span></p>
+  </div>
+  <app-qr-scanner (qrCodeLido)="buscaInsumoQrCode($event)" caption="Ler QRCODE Insumo"></app-qr-scanner>
+
+
+
+  <ion-grid  class="no-padding-bottom no-padding-top" style="justify-content: center;">
+    <ion-row class="ion-justify-content-center corpo"  *ngIf="load && !error ">
+        <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+
+        <!--<ion-col size=11>
+          <div class="statusDiv">
+            <p>Requisição Nº: <span>{{requisicaoCod}}</span></p>
+          </div>
+        </ion-col>-->
+        <ion-col size="11">
+          <ion-row class="desc">
+
+          </ion-row>
+          <app-input-search #insumoLookup label="Insumo" formName="req" [pesquisa]="pesquisaInsumo" placeholder="Insumo"
+            [parentForm]="reqForm" controlName="insumo" (itemSelecionado)="insumoSelecionado($event)"
+            [nomeUrlDados]="getEnumName()" ngDefaultControl></app-input-search>
+        </ion-col>
+
+        <ion-col size="11">
+            <ion-button class="btnRedondo" (click)="buscarEstoque()" expand="block">Buscar Estoque</ion-button>
+        </ion-col>
+
+        <!-- Inicio Lista de Insumos em Estoque -->
+        <ion-col size="11">
+          <ion-item class="desc">
+            Quantidade de itens disponiveis: {{qtdListInsumos}}
+          </ion-item>
+          <ion-row class="desc"></ion-row>
+          <ion-list [inset]="true" style="background-color: white; max-height: 300px; overflow-y: scroll;">
+            <ion-radio-group value="itemRi" (ionChange)="radioGroupChange($event)" name="radio-group" #radioGroup>
+              <ion-item *ngFor="let item of listInsumos | async">
+                <ion-radio [value]="item.itemRi" slot="start"
+                  name="{{item.itemRi}}"></ion-radio>
+                <ion-col size="11">
+                  <b style="font-size: 12px;">{{item.insumoCodigo}} - {{item.insumoDescricao}} - {{item.complemento}}
+                    <br />
+                    <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{item.quantidadeEstoque}} {{item.unidadeSimbolo}}</span>
+                  </b>
+                </ion-col>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+        </ion-col>
+        <!-- Fim Lista de Insumos em Estoque -->
+
+        <ion-col size="11">
+          <ion-row>
+            <ion-col size="4" style="align-self: end"><span>Quantidade:</span></ion-col>
+            <ion-col size="3">
+              <ion-item style=" text-align: center; color: black; border-top-width: 200px;  ">
+                <ion-input label="quantidade" name="qtdGeral" style="background: #fff;
+                                                              color: #000000;
+                                                              --placeholder-color: #ddd;
+                                                              --border-color: #9d2525;
+                                                              --border-style:dashed;
+                                                              --border-width: 10px;" formName="req" type="number"
+                  formControlName="quantidade" [parentForm]="reqForm" controlName="quantidade" ngDefaultControl></ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+        </ion-col>
+        <ion-col size="11">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="10">
+              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem($event)"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</form>
+

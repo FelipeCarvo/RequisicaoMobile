@@ -109,17 +109,7 @@ export class ListInsumosFrotaPage implements OnInit {
     const {params} = this.getParams(this.route.snapshot);
     this.pesquisaEqp = params;
     console.log(params);
-    if(this.rota === 'req'){
-      this.getDados();
-    } else {
-      this.requestService.consultaEstoqueItemEpi(params.empreendimentoId).subscribe((res: Array<any>) =>{
-        this.load = true;
-        this.listInsumos= res;
-
-        this.qtdListInsumos = res.length;
-        this.getDadosEpi();
-      });
-    }
+    this.getDados();
   }
   getDados(){
     const dados = this.getParamsReq();
@@ -129,23 +119,6 @@ export class ListInsumosFrotaPage implements OnInit {
       this.requisicaoStatus = this.requisicao.documentoStatusDescricao;
       this.load = true;
     });
-  }
-  getDadosEpi(){
-    const dados = this.getParamsEpiDados();
-    this.requestService.getTermosEmprEpi(dados.params).subscribe((res: Array<any>) =>{
-      this.requisicao= res[0];
-      this.requisicaoCod = this.requisicao.baixaCodigo;
-      this.requisicaoStatus = this.requisicao.baixaStatusDescricao;
-      this.load = true;
-    });
-  }
-
-  getParamsEpiDados(){
-    const params = {
-      empreendimentoId:this.empreendimentoId,
-      baixaEstoqueId:this.requisicaoId
-    };
-    return {params};
   }
 
   getParamsReq(){
@@ -178,69 +151,30 @@ export class ListInsumosFrotaPage implements OnInit {
 
   async sendPostItem(){
     const form = this.route.snapshot;
-    if (this.rota === 'req') {
-      const params = {
-        termoResponsabilidadeId: form.params.requisicaoId,
-        quantidade: this.quantidadeValue,
-        equipamentoId: this.item
-      };
+    const params = {
+      termoResponsabilidadeId: form.params.requisicaoId,
+      quantidade: this.quantidadeValue,
+      equipamentoId: this.item
+    };
 
-      let msg: string;
-      this.requestService.postInsertItemReq(params)
-        .subscribe(async (res: any) => {
-          msg = `Item adicionado com sucesso`;
-          this.getInsumos();
-          this.reqForm = this.formBuilder.group({
-            quantidade: 0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
-            item: new UntypedFormControl({ value: null, disabled: false }, [Validators.required]),
-          });
-          this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
-            { queryParams: { rota: 'req' } });
-        },
-          async (error) => {
-            msg = error.Mensagem ? error.Mensagem : error;
-            console.log(error);
-            await this.showMsg(msg);
-          }
-        );
-    } else if (this.rota === 'epi') {
-       let riBaixaCodigo=0;
-        for(const index in this.listInsumos){
-          const element = this.listInsumos[index];
-          if(element.itemCodigo === this.produtoId['value']){
-            riBaixaCodigo=element.riBaixaCodigo
-            break;
-          }
-
+    let msg: string;
+    this.requestService.postInsertItemReq(params)
+      .subscribe(async (res: any) => {
+        msg = `Item adicionado com sucesso`;
+        this.getInsumos();
+        this.reqForm = this.formBuilder.group({
+          quantidade: 0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
+          item: new UntypedFormControl({ value: null, disabled: false }, [Validators.required]),
+        });
+        this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
+          { queryParams: { rota: 'req' } });
+      },
+        async (error) => {
+          msg = error.Mensagem ? error.Mensagem : error;
+          console.log(error);
+          await this.showMsg(msg);
         }
-        const params = {
-          baixaId:form.params.requisicaoId,
-          quantidadeItemBaixa: this.quantidadeValue,
-          itemBaixaData: new Date(),
-          itemCodigo:this.produtoId['value'],
-          riBaixaCodigo:riBaixaCodigo
-        };
-
-
-        let msg: string;
-        this.requestService.postInsertItemReqEpi(params)
-        .subscribe(async (res: any) => {
-          msg = `Item adicionado com sucesso`;
-          this.getInsumos();
-          this.reqForm = this.formBuilder.group({
-            quantidade:  0,//new UntypedFormControl({value:0,disabled:false}, [Validators.required]),
-            item: new UntypedFormControl({ value: null,disabled: false}, [Validators.required]),
-          });
-          this.router.navigate([`tabs/detail-request-frota/${form.params.requisicaoId}/${form.params.empreendimentoId}`],
-                          {queryParams: {rota:'req'}});
-        },
-          async (error) =>{
-            msg = error.Mensagem? error.Mensagem : error;
-            console.log(error);
-            await this.showMsg(msg);
-          }
-        );
-    }
+      );
   }
 
   async showMsg(msg){
@@ -271,7 +205,7 @@ export class ListInsumosFrotaPage implements OnInit {
     if (!itemSelecionado) {
       return;
     }
-    this.qtdMaxima = this.rota === 'req' ? itemSelecionado.saldoEquipamento:itemSelecionado.quantidadeEstoque;
+    this.qtdMaxima = itemSelecionado.saldoEquipamento;
     this.qtdMaxima = 'Máx.: ' + this.qtdMaxima;
   }
 

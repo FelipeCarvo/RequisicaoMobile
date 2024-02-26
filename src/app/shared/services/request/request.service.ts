@@ -449,12 +449,16 @@ export class RequestService {
         );
     });
   }
-  consultaEstoqueItemEpi(id) {
+  consultaEstoqueItemEpi(empreendimentoId, insumoId) {
     return new Observable((observer) =>{
-      this.http.get(`${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/SaldoEstoqueEmprdEpi/${id}`)
+      this.http.get(`${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/SaldoEstoqueEmprdEpi/${empreendimentoId}/${insumoId}`)
         .subscribe(
           async (res: any) => {
-            observer.next(res);
+            observer.next(res.map(e => {
+              const r = e;
+              r.itemRi = r.itemCodigo + '-' + r.riBaixaCodigo;
+              return r;
+            }));
           },
           error => {
             console.log(error);
@@ -865,36 +869,12 @@ export class RequestService {
       );
     });
   }
-  postInsertItemReqEpi(params ){
-    const {requisicaoId,versaoEsperada} = this.getStore;
-    const url = `${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/inserirEpiItemBaixaEstoque`;
-    const req = this.http.post(url,params);
-    return new Observable((observer) => {
-      req.pipe(
-        tap((response:any) => {
-          console.log('TAP');
-          console.log(response);
-        }),
-        switchMap((postReRes:any) => {
-          const resultado = postReRes;
-          console.log(postReRes);
-          return resultado;
-        })
-      ).subscribe(
-        async (res: any) => {
-          observer.next({versaoEsperada:res,requisicaoId:this.getStore.requisicaoId});
-        },
-        error => {
-          console.log(error);
-          observer.error(error);
-        },
-        () => {
-          observer.complete();
-        }
 
-      );
-    });
+  postInsertItemReqEpi(params ){
+    const url = `${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/inserirEpiItemBaixaEstoque`;
+    return this.http.post(url,params);
   }
+
   postAlterQtdtemReq(params ){
     const {requisicaoId,versaoEsperada} = this.getStore;
     const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/alteraQuantidadeItemTermoResponsabilidade`;
