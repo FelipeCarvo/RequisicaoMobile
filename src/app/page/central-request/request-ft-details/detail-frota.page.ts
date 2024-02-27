@@ -193,7 +193,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     this.unsubscribe$.unsubscribe();
   }
   goToNovosItensTermos(){
-    this.router.navigate([`tabs/list-in-frota/${this.requisicaoId}/${this.empreendimentoId}`], {queryParams: {rota:this.rota}});
+    if (this.rota === 'epi') {
+      this.router.navigate([`tabs/add-insumo-baixa/${this.requisicaoId}/${this.empreendimentoId}`], { queryParams: { rota: this.rota } });
+    }
+    else {
+      this.router.navigate([`tabs/list-in-frota/${this.requisicaoId}/${this.empreendimentoId}`], { queryParams: { rota: this.rota } });
+    }
   }
   public dismiss(): void {
     this.navCtrl.back();
@@ -425,7 +430,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         this.loadButton = false;
       });
       return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
-    } else if (this.rota === 'epi') {
+} else if (this.rota === 'epi') {
       const params ={
         itembaixaId: item.itembaixaId
       };
