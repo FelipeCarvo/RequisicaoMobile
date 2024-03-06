@@ -195,7 +195,8 @@ export class RequestPage implements OnInit,OnDestroy {
     const url = `tabs/central-req/list-req-pesqfrota`;
     this.router.navigate([url],{queryParams: {rota:this.rota, colaboradorId: params.colaboradorId,
                                   statusTermo:params.statusId , dataIni:params.dataInicio,
-                                  dataFim:params.dataFim, empreendimentoId:  params.empreendimentoId}});
+                                  dataFim:params.dataFim, empreendimentoId:  params.empreendimentoId,
+                                  equipamentoId: params.equipamentoId }});
     this.loading.dismiss();
   }
   getParamsReq(form){
@@ -236,7 +237,8 @@ export class RequestPage implements OnInit,OnDestroy {
       colaboradorId:paramsForm.colaboradorCod,
       statusId: paramsForm.statusId,
       dataInicio: this.formatDate(paramsForm.dataInicio),
-      dataFim: this.formatDate(paramsForm.dataFinal)
+      dataFim: this.formatDate(paramsForm.dataFinal),
+      equipamentoId: paramsForm.equipamentoId
     };
     console.log(params)
     for (const key in params) {

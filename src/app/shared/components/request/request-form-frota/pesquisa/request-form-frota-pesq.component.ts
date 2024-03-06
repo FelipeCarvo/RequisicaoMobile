@@ -25,6 +25,7 @@ export class RequestFormFrotaPesqComponent implements OnInit {
   @Input() dataInicial:any;
   @Input() dataFim:any;
   @ViewChild('colabPesquisa') colabPesquisa: InputSearchComponent;
+  @ViewChild('equipPesquisa') equipPesquisa: InputSearchComponent;
   listReq: Array<any> = [];
   sendLoading = false;
   mostrarLeitorQrCode =false;
@@ -51,6 +52,10 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     { id:4, descricao:'Reprovado' },
   ];
   load = false;
+  public pesquisaEquipamento = {
+    pesquisa: '',
+    valorSelecionado: null
+  };
   public pesquisaColaborador = {
     pesquisa: '',
     valorSelecionado: null
@@ -125,6 +130,10 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     this.reqForm.markAllAsTouched();
   }
 
+  async buscarEquipamentoScan(id: string){
+    await this.equipPesquisa.defineValorPorPesquisa(id);
+  }
+
   async buscarColaboradorScan(id: string){
     await this.colabPesquisa.defineValorPorId(id);
   }
@@ -155,7 +164,8 @@ export class RequestFormFrotaPesqComponent implements OnInit {
       statusId: [this.idstatus],
       dataInicio: [this.dataInicial],
       dataFinal: [this.dataFim],
-      colaboradorCod:new UntypedFormControl({value:null,disabled:false})
+      colaboradorCod:new UntypedFormControl({value:null,disabled:false}),
+      equipamentoId: new UntypedFormControl({value:null,disabled:false}),
     });
   }
   async setValform(){
@@ -185,4 +195,6 @@ export class RequestFormFrotaPesqComponent implements OnInit {
     console.log(this.listReq);
     // this.cdr.detectChanges();
   }
+
 }
+

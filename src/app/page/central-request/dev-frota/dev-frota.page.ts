@@ -1,17 +1,13 @@
 import { Component, OnInit,ViewChild,HostListener,OnDestroy,ChangeDetectorRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-import {ModalFinishReqComponent} from '@components/modal-finish-req/modal-finish-req.component';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions';
+import {setReqFileds} from '@core/store/actions/req.actions';
 import {RequestService} from '@services/request/request.service';
 import { ToastController } from '@ionic/angular';
 import {LoadingService} from '@services/loading/loading-service';
-import {AlertServices} from '@services/utils/alerts-services/alerts-services';
-import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import {ActivatedRoute,Router} from '@angular/router';
-import {RequestFormFrotaPesqComponent}from '@components/request/request-form-frota/pesquisa/request-form-frota-pesq.component';
 
 import * as moment from 'moment';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';

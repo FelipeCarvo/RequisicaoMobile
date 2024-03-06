@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import {LoockupstService} from '@services/lookups/lookups.service';
-import { Store } from '@ngxs/store';
-import {ReqState} from '@core/store/state/req.state';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {RequestService} from '@services/request/request.service';
 import {ActivatedRoute} from '@angular/router';
@@ -23,7 +20,6 @@ export class ListRequestFrotaPesqPage implements OnInit {
   habilitaDev = false;
   constructor(
     private requestService: RequestService,
-    private store: Store,
     public navCtrl: NavController,
     private route: ActivatedRoute,
     private router: Router,
@@ -89,6 +85,8 @@ export class ListRequestFrotaPesqPage implements OnInit {
       dataInicio: queryParams.dataIni===undefined?null:queryParams.dataIni,
       dataFim: queryParams.dataFim===undefined?null:queryParams.dataFim,
       termoResponsabilidadeId:queryParams.termoResponsabilidadeId===undefined?null:queryParams.termoResponsabilidadeId,
+      equipamentoId: queryParams.equipamentoId===undefined ? null : queryParams.equipamentoId,
+      somenteComSaldoDevedor: (this.rota === 'dev' ? 1 : 0)
     };
     return {params};
   }

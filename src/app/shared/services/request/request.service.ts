@@ -902,7 +902,7 @@ export class RequestService {
   getTermosEmpr(params){
     return new Observable((observer) => {
       let url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/`;
-      console.log(params)
+      console.log(params);
       var qtdparam = 0;
       url =url + `termoResponsabilidade/listaTermodeResponsabilidade?`;
       if (params.empreendimentoId !== null && params.empreendimentoId !== undefined){
@@ -916,12 +916,26 @@ export class RequestService {
         qtdparam++;
         url =url + `ColaboradorId=${params.colaboradorId}`;
       }
+      if (params.equipamentoId !== null && params.equipamentoId !== undefined){
+        if(qtdparam>0) {
+          url =url+'&';
+        }
+        qtdparam++;
+        url =url + `EquipamentoId=${params.equipamentoId}`;
+      }
       if (params.statusId !== null && params.statusId !== undefined){
         if(qtdparam>0) {
           url =url+'&';
         }
         qtdparam++;
         url =url + `StatusTermo=${params.statusId}`;
+      }
+      if (params.somenteComSaldoDevedor !== null && params.somenteComSaldoDevedor !== undefined){
+        if(qtdparam>0) {
+          url =url+'&';
+        }
+        qtdparam++;
+        url =url + `SomenteComSaldoDevolver=${params.somenteComSaldoDevedor}`;
       }
       if (params.dataInicio !== null && params.dataInicio !== undefined){
         if(qtdparam>0) {
@@ -1014,14 +1028,27 @@ export class RequestService {
       );
     });
   }
-  getItensTermosEmpr(termoId){
+  objetoParaUrlParams(obj: any): URLSearchParams {
+    const params = new URLSearchParams();
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        params.set(key, obj[key]);
+      }
+    }
+    return params;
+  }
+  getItensTermosEmpr(filtro: FiltroItensTermo){
     return new Observable((observer) => {
-      this.http.get(`${this.sieconwebwebapi}/frotas/TermoResponsabilidade/termoResponsabilidadeItens/${termoId}`
+      const params = this.objetoParaUrlParams(filtro);
+      const options = params.toString();
+      this.http.get(
+        `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/termoResponsabilidadeItens/listaItensTermoResponsabilidade?${options}`
       ).subscribe(
         async (res: any) => {
           observer.next(res);
         },
         error => {
+          console.error(error);
           observer.error(error);
         },
         () => {
@@ -1046,4 +1073,18 @@ export class RequestService {
       );
     });
   }
+}
+
+export class FiltroItensTermo {
+  public termoResponsabilidadeId: string;
+  public equipamentoId: string;
+  get filtrarComSaldoDevolver(): boolean {
+    return this.somenteComSaldoDevolver === 1;
+  }
+  set filtrarComSaldoDevolver(value: boolean) {
+    this.somenteComSaldoDevolver = value
+      ? 1
+      : 0;
+  }
+  public somenteComSaldoDevolver: number;
 }

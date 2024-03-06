@@ -29,10 +29,10 @@ export class QrScannerComponent implements AfterViewInit {
   async startScan() {
     /*
     this.scanActive = false;
-    this.scanResult = '6DBB04F4-549E-4B58-9E23-F1D0B0411860';
+    this.scanResult = 'DB385629-EB38-4142-AC2B-249E9FBAA7B9';
     this.qrCodeLido.emit(this.scanResult);
     return;
-    */
+    // */
 
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: 'environment' }

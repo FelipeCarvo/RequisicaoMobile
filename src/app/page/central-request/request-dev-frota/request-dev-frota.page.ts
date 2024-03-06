@@ -1,6 +1,6 @@
 import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,AfterViewInit, HostListener } from '@angular/core';
 import { NavController, IonModal,InfiniteScrollCustomEvent } from '@ionic/angular';
-import {RequestService} from '@services/request/request.service';
+import {FiltroItensTermo, RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
@@ -9,7 +9,6 @@ import { ToastController , ModalController} from '@ionic/angular';
 import {  UntypedFormGroup, Validators } from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import SignaturePad from 'signature_pad';
-import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import * as moment from 'moment';
 
 @Component({
@@ -192,7 +191,10 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   getReq(){
     if (this.rota !== 'epi'){
-      this.rquestService.getItensTermosEmpr(this.requisicaoId).subscribe((res: any) =>{
+      const filtro = new FiltroItensTermo();
+      filtro.termoResponsabilidadeId = this.requisicaoId;
+      filtro.filtrarComSaldoDevolver = this.rota === 'dev';
+      this.rquestService.getItensTermosEmpr(filtro).subscribe((res: any) =>{
         this.load = true;
         this.reqItem.itens = res;
         this.isFinalizaSolicitacao = !(this.reqItem.itens.length>0);
@@ -580,28 +582,27 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       });
     }
   }
-  confirmaDevolucao (lote){
+  confirmaDevolucao(lote){
     let retorno =true;
-    for (let index = 0; index < this.reqItem.itens.length; index++) {
-      const element = this.reqItem.itens[index];
-      if(element.saldoQuantidadeEntregar === '' ||element.saldoQuantidadeEntregar ===0){
+    for (const element of this.reqItem.itens) {
+      if (element.saldoQuantidadeDevolver === '' || element.saldoQuantidadeDevolver === 0) {
         continue;
       }
-      const paramsDev ={
+      const paramsDev = {
         termoResponsabilidadeId: this.requisicaoId,
-        quantidadeBaixa: element.saldoQuantidadeEntregar,
+        quantidadeBaixa: element.saldoQuantidadeDevolver,
         dataBaixa: this.formatDate(new Date()),
         equipamentoCodigo: element.equipamentoCod,
         loteDeBaixa: lote
-        };
-        this.rquestService.postConfirmarDevolucaoTermo(paramsDev)
-        .subscribe((res: any) =>{
-          this.router.navigate(['/tabs/home-estoque']);
-        },async (error) =>{
-          this.showMsg(error);
-          retorno=false;
-        });
-      }
+      };
+      this.rquestService.postConfirmarDevolucaoTermo(paramsDev)
+        .subscribe((res: any) => {
+        },
+          async (error) => {
+            this.showMsg(error);
+            retorno = false;
+          });
+    }
     return retorno;
   }
   confirmEntrega(item) {

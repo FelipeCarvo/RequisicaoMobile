@@ -1,15 +1,14 @@
 import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,AfterViewInit, HostListener } from '@angular/core';
 import { NavController, IonModal,InfiniteScrollCustomEvent } from '@ionic/angular';
-import {RequestService} from '@services/request/request.service';
+import {FiltroItensTermo, RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
 import { ToastController , ModalController} from '@ionic/angular';
-import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import SignaturePad from 'signature_pad';
-import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import * as moment from 'moment';
 
 @Component({
@@ -205,7 +204,10 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   getReq(){
     if (this.rota !== 'epi'){
-      this.rquestService.getItensTermosEmpr(this.requisicaoId).subscribe((res: any) =>{
+      const filtro = new FiltroItensTermo();
+      filtro.termoResponsabilidadeId = this.requisicaoId;
+      filtro.filtrarComSaldoDevolver = this.rota === 'dev';
+      this.rquestService.getItensTermosEmpr(filtro).subscribe((res: any) =>{
         this.load = true;
         this.reqItem.itens = res;
         this.isFinalizaSolicitacao = !(this.reqItem.itens.length>0);

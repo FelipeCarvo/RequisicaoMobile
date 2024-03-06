@@ -25,7 +25,7 @@ cd RequisicaoMobile
 * Confirmar dispositivo como any ios Device (arm64)
 * fazer o archive e upload pra App Store
 ### - Android ###
-* `npm generate_apk:android`
+* `npm run generate_apk:android`
 * Pegar apk no output em ``/android/app/build/outputs/apk``
 ### - Warning: ###
 * :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk`` e gerar splashScreen com capacitor-resources

@@ -80,7 +80,7 @@
                       <ion-input label="quantidade" name="qtdGeral" id="quantidade"
                       (ionChange)="atualizaQuantiddadeEntregue($event)"
                       formName="req" type="number" formControlName="quantidade"
-                      placeholder="Quantidade" value="0" [item]="item.termoResponsabilidadeItemId"
+                      placeholder="Quantidade" [value]="item.saldoQuantidadeDevolver" [item]="item.termoResponsabilidadeItemId"
                       [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
                     </p>
                   </ion-item>

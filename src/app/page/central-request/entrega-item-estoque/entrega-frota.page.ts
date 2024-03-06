@@ -1,6 +1,6 @@
 import { Component, OnInit,OnDestroy  } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import {RequestService} from '@services/request/request.service';
+import {FiltroItensTermo, RequestService} from '@services/request/request.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
@@ -77,7 +77,10 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
   }
   getReq(){
     if(this.rota === 'req' || this.rota === 'dev') {
-      this.rquestService.getItensTermosEmpr(this.requisicaoId).subscribe((res: any) =>{
+      const filtro = new FiltroItensTermo();
+      filtro.termoResponsabilidadeId = this.requisicaoId;
+      filtro.filtrarComSaldoDevolver = this.rota === 'dev';
+      this.rquestService.getItensTermosEmpr(filtro).subscribe((res: any) =>{
         this.load = true;
         this.reqItem.itens = res;
         if(this.itemId !== 'all'){
