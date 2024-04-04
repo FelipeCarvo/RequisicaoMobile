@@ -257,9 +257,9 @@ export class RequestService {
       );
     });
   }
-  postConfirmarDevolucaoTermo(params ){
+  postConfirmarDevolucaoItemTermo(params ){
     const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/baixaDevolucaodoItemTermoResponsabilidade`;
-    let req = this.http.post(url,params);
+    const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.subscribe(
         async (res: any) => {
@@ -283,7 +283,7 @@ export class RequestService {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -302,7 +302,7 @@ export class RequestService {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -335,7 +335,7 @@ export class RequestService {
         switchMap((postReRes:any) => {
           const resultado = postReRes;
           let res;
-          if(typeof resultado === "string"){
+          if(typeof resultado === 'string'){
             if(!!resultado  && requisicaoId != resultado){
               res = resultado;
             }else if(!!requisicaoId && !resultado){
@@ -1032,6 +1032,9 @@ export class RequestService {
     const params = new URLSearchParams();
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
+        if (obj[key] === undefined) {
+          continue;
+        }
         params.set(key, obj[key]);
       }
     }
@@ -1073,10 +1076,35 @@ export class RequestService {
       );
     });
   }
+
+  getItensParaDevolver(filtro: FiltroItensDevolucao) {
+      const params = this.objetoParaUrlParams(filtro);
+      const options = params.toString();
+      return this.http.get(
+        `${this.sieconwebwebapi}/frotas/termoResponsabilidade/termoResponsabilidade/listaTermoResponsabilidadeDevolver?${options}`
+      );
+  }
 }
 
 export class FiltroItensTermo {
   public termoResponsabilidadeId: string;
+  public equipamentoId: string;
+  get filtrarComSaldoDevolver(): boolean {
+    return this.somenteComSaldoDevolver === 1;
+  }
+  set filtrarComSaldoDevolver(value: boolean) {
+    this.somenteComSaldoDevolver = value
+      ? 1
+      : 0;
+  }
+  public somenteComSaldoDevolver: number;
+}
+
+export class FiltroItensDevolucao {
+  public empreendimentoId: string;
+  public dataIni: Date;
+  public dataFim: Date;
+  public colaboradorId: string;
   public equipamentoId: string;
   get filtrarComSaldoDevolver(): boolean {
     return this.somenteComSaldoDevolver === 1;

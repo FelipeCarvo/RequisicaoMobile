@@ -477,7 +477,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
           equipamentoCodigo: element.equipamentoCod,
           loteDeBaixa: lote
           };
-          this.rquestService.postConfirmarDevolucaoTermo(paramsDev)
+          this.rquestService.postConfirmarDevolucaoItemTermo(paramsDev)
           .subscribe((res: any) =>{
           },async (error) =>{
             this.showMsg(error);
@@ -605,7 +605,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         equipamentoCodigo: element.equipamentoCod,
         loteDeBaixa: lote
         };
-        this.rquestService.postConfirmarDevolucaoTermo(paramsDev)
+        this.rquestService.postConfirmarDevolucaoItemTermo(paramsDev)
         .subscribe((res: any) =>{
           this.router.navigate(['/tabs/home-estoque']);
         },async (error) =>{

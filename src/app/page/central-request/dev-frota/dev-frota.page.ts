@@ -195,7 +195,7 @@ export class RequestPage implements OnInit,OnDestroy {
   async sendReqPesq(form){
     this.loading.present();
     const {params,type} = this.getParams(form);
-    console.log(params)
+    console.log(params);
     this.router.onSameUrlNavigation = 'reload';
     const url = `tabs/central-req/list-req-pesqfrota`;
     this.router.navigate([url],{queryParams: {rota:this.rota, colaboradorId: params.colaboradorId,

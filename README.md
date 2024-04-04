@@ -1,9 +1,11 @@
 # siecon-req
+
 ![](https://img.shields.io/badge/Ionic-v6.20.1-blue) ![](https://img.shields.io/badge/Capacitor-v4.1.0-black) ![](https://img.shields.io/badge/Angular-14.2.0-red) ![](https://img.shields.io/badge/Node-v16.16.0-green)
 
-## :electric_plug: Getting Started ##
+## :electric_plug: Getting Started
 
 Clone this repository
+
 ```sh
 git clone https://github.com/Poliview-Siecon/RequisicaoMobile.git
 cd RequisicaoMobile
@@ -11,32 +13,41 @@ cd RequisicaoMobile
 'npm install @capacitor/core @capacitor/cli'
 ```
 
-## :zap: Run ##
+## :zap: Run
+
 * no browser: `npm start`
 * no android: `ionic capacitor run android`
 * no ios: `ionic capacitor run ios`
 
-## :rocket: Build ##
-### - IOS ###
+## :rocket: Build 
+
+### - IOS
+
 * `npm run generate_apk:ios`
-* Confirmar certifcados
+* Confirmar certificados
 * Alterar a versao no XCode
 * Confirmar Bundle com.siecon.req.app
 * Confirmar dispositivo como any ios Device (arm64)
 * fazer o archive e upload pra App Store
-### - Android ###
+
+### - Android
+
 * `npm run generate_apk:android`
 * Pegar apk no output em ``/android/app/build/outputs/apk``
-### - Warning: ###
+
+### - Warning
+
 * :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk`` e gerar splashScreen com capacitor-resources
 
 ## Branch(Develop)
-    .
-    ├── Main                    # Prod branch
-    ├── Develop                 # Dev branch
-    ├── old_version_node        # Branch com backup
 
-## :hammer: Dependences ##
+.
+├── Main                    # Prod branch
+├── Develop                 # Dev branch
+├── old_version_node        # Branch com backup
+
+## :hammer: Dependences
+
 ```sh
 
 Package                         Version
@@ -55,7 +66,9 @@ Package Manager:                npm 8.11.0
 rxjs                            6.6.7
 typescript                      4.6.4
 ```
+
 ### - DevDependencies
+
 ```json
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.0",
@@ -93,15 +106,21 @@ typescript                      4.6.4
   }
 ```
 
-## :fearful: Problems and Solutions(macOs m1) ##
-### - IOS ###
+## :fearful: Problemas e Soluções(macOs m1)
+
+### - Solução IOS
+
 Pod install - failed!
+
 ```sh
-$ sudo arch -x86_64 gem install ffi
-$ arch -x86_64 pod install
+sudo arch -x86_64 gem install ffi
+arch -x86_64 pod install
 ```
-### - Android ###
+
+### - Solução Android
+
 package android.support.v4.content does not exist!
+
 ```sh
 npm install jetifier
 npx jetify
@@ -110,9 +129,9 @@ npx cap sync android
 
 ## Publicar Apps
 
-#### Android
+### Android
 
-```
+```sh
 npx cap sync
 npm run generate_apk:android
 npm run pos_build_android
@@ -133,7 +152,7 @@ O arquivo será gerado na pasta {raizdoprojeto}/android/app/release
 
 #### IOS
 
-```
+```sh
 npx cap sync
 npm run generate_apk:ios
 npx cap open ios
@@ -150,4 +169,3 @@ Selecione a opção "Any IOS Device" na lista dos dispositivos.
 No lado esquerdo clique duplo em App, na aba **"General"**, procure por **Version** e **Build** esses dois campos devem ser únicos em relação ao site da Apple. 
 
 Depois selecione o menu Product->Archive, siga os passos na tela.
-

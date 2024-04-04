@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-// import { Routes, RouterModule } from '@angular/router';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CentealEstoquePage } from './centeal-estoque.page';
 
 const routes: Routes = [
@@ -53,6 +52,11 @@ const routes: Routes = [
         loadChildren: () => import('../reserva-insumo/reserva-insumo.module').then( m => m.ReservaInsumoPageModule),
         data:{noHeader:true},
       },
+      {
+        path: 'itens-devolver-frotas',
+        loadChildren: () => import('../itens-devolver-frotas/itens-devolver-frotas.module').then( m => m.ItensDevolverFrotasPageModule),
+        data:{noHeader:true},
+      }
     ]
   }
 ];

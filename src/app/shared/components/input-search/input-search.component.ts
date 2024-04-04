@@ -45,6 +45,7 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
   @Input() updateInsumos: Boolean;
   @Input() msgDisabled?: string;
   @Input() nomeUrlDados: string;
+  @Input() selecionarPrimeiro = false;
   listGroup:any = [];
   loading = false;
   refreshLoad= false;
@@ -73,11 +74,17 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
     }
   }
   async ngOnInit() {
-    if(!!this.getValue || this.formName === 'insumos' && this.controlName === 'empresaId'){
+    if (!!this.getValue || this.formName === 'insumos' && this.controlName === 'empresaId') {
 
       this.refreshLoad = true;
       await this.getLoockups();
       this.firstLoad = true;
+    }
+    if (!this.getValue && this.selecionarPrimeiro) {
+      await this.getLoockups();
+      if (this.listGroup.length > 0) {
+        this.parentForm.controls[this.controlName].setValue(this.listGroup[0].id);
+      }
     }
   }
 

@@ -1,0 +1,177 @@
+<ion-header >
+  <ion-toolbar lines="none">
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
+    <ion-title  class="ion-text-center">Itens a Devolver</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="    background-color: white;">
+  <form id="requestForm"  [@hideShowAnimator]="load" style="height: 150%;    background-color: white;">
+    <ion-row class="ion-justify-content-center corpo" *ngIf="load && !error ">
+      <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
+      <ion-col  size="11" >
+        <div>
+          <ion-card *ngFor="let item of itens" >
+            <ion-card-header>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-col size="12" style="padding: 0;">
+              <ion-row class="borded">
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Item:</ion-label>
+                    <p>{{item.equipamentoCod}}-{{item.equipamentoModelo}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-label position="stacked"  class="labelTitle">Controle de quantidade:</ion-label>
+                <hr/>
+              </ion-row>
+              <ion-row class="ion-no-padding">
+                <ion-col size="4">
+                  <ion-item lines="none" style="vertical-align: text-bottom;">
+                    <ion-label position="stacked" class="labelTitle">Pendente:</ion-label>
+                    <p>
+                      <span style="color: #828282;margin-right: 0%;font-size:20px">{{item.saldoQuantidadeDevolver}}
+                      </span>
+                    </p>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="3">
+                  <ion-item lines="none" style="vertical-align: text-bottom;">
+                    <ion-label position="stacked" class="labelTitle">Devolvida:</ion-label>
+                    <p>
+                      <span style="color: #828282;margin-right: 0%;font-size:20px">{{item.quantidadeDevolvida}}
+                      </span>
+                    </p>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="5">
+                  <ion-row>
+                    <ion-item lines="none" style="vertical-align: text-bottom;">
+                      <ion-label position="stacked" class="labelTitle">A devolver:</ion-label>
+                      <p>
+                        <ion-input label="quantidade" name="qtdGeral" id="quantidade" type="number"
+                          (ionChange)="atualizaQuantidadeEntregar(item, $event)" placeholder="Quantidade"
+                          [value]="item.saldoQuantidadeEntregar"></ion-input>
+
+                      </p>
+
+                    </ion-item>
+
+                    <ion-item lines="none" style="vertical-align: middle;">
+                      <ion-row style="height: 20%;">
+                      <ion-label position="stacked" class="labelTitle"></ion-label>
+                      </ion-row>
+
+                      <ion-row>
+                        <ion-button (click)="zerarQuantidade(item)" color="danger" fill="outline">
+                          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+                        </ion-button>
+                      </ion-row>
+                    </ion-item>
+                  </ion-row>
+                </ion-col>
+
+              </ion-row>
+              <ion-row >
+                    <ion-checkbox [checked]="item.devolucaoComAvaria" labelPlacement="end" (ionChange)="atualizaComAvaria(item, $event)" ></ion-checkbox>
+                    <ion-label style="margin-left: 1em;">Avariado?</ion-label>
+              </ion-row>
+              <ion-row *ngIf="item.devolucaoComAvaria">
+                <ion-textarea [value]="item.devolucaoObservacao" (ionChange)="atualizaObservacao(item, $event)" placeholder="Detalhes da avaria" ></ion-textarea>
+              </ion-row>
+
+              <ion-row class="ion-no-padding">
+                <ion-col size="6">
+                  <ion-item  lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Colaborador</ion-label>
+                    <p>{{item.colaboradorNome}}</p>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-item  lines="none">
+                    <ion-label position="stacked"  class="labelTitle">Termo</ion-label>
+                    <p>{{item.termoResponsabilidadeCod}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+
+            </ion-col>
+
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <ion-row  class="ion-justify-content-center" *ngIf="!!itens && itens.length === 0" >
+          <ion-col size="5" class="ion-margin-top" >
+            <div class="imgDiv" >
+              <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+            </div>
+          </ion-col>
+          <ion-col size="11">
+            <h2 class="titleNoInsumos">Nenhum item
+              adicionado.</h2>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+
+    </ion-row>
+    <ion-row  class="ion-justify-content-center" *ngIf="load && error" style="height: 100%; align-items: center;">
+      <ion-col size="5" class="ion-margin-top" >
+        <div class="imgDiv" >
+          <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
+        </div>
+        <h2 class="titleNoInsumos">Algo deu errado</h2>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" style="    background-color: white;">
+      <ion-row class="ion-justify-content-center" >
+        <ion-col size="10" style="padding-right: 10px;">
+          <ion-button id="open-modal-entrega" class="btnRedondo btnConfirmar" [disabled]="semItensParaDevolver" expand="block">
+          Devolver  o(s) item(ns)
+          </ion-button>
+            <ion-modal #modal trigger="open-modal-entrega" >
+            <ng-template>
+              <ion-header>
+                <ion-toolbar>
+                  <ion-title style="text-align: center;">Atenção</ion-title>
+                </ion-toolbar>
+              </ion-header>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
+                    <div class="" style="background-color: white;padding: 10%;" >
+                      Você realmente confirma a devolução do(s) item(ns) acima?
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                    <ion-button color="medium"  class="btnRedondo" (click)="cancel()">Não</ion-button>
+                  </ion-col>
+                  <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                    <ion-button (click)="goToEntregarTodos()" class="btnRedondo btnExcluir" [strong]="true">Sim</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ng-template>
+            </ion-modal>
+          </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center" style="    background-color: white;">
+        <ion-col size="10" >
+          <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block">
+            <ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-row>
+
+</form>
+
+</ion-content>
+

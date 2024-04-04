@@ -178,7 +178,7 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
           };
           this.loadButton = true;
           this.loading.present();
-          this.rquestService.postConfirmarDevolucaoTermo(params)
+          this.rquestService.postConfirmarDevolucaoItemTermo(params)
           .subscribe((res: any) =>{
             this.loading.dismiss();
             this.loadButton = false;

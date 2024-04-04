@@ -44,7 +44,7 @@ export class RequestPage implements OnInit,OnDestroy {
     public loading: LoadingService,
     private rquestService: RequestService,
     private route: ActivatedRoute,
-    public router: Router,
+    public router: Router
   )
   {
     this.rota = route.snapshot.params.rota;
@@ -192,7 +192,11 @@ export class RequestPage implements OnInit,OnDestroy {
     console.log(form)
     console.log(params)
     this.router.onSameUrlNavigation = 'reload';
-    const url = `tabs/central-req/list-req-pesqfrota`;
+
+    const url = this.rota === 'dev'
+      ?  'tabs/central-req/itens-devolver-frotas'
+      :  `tabs/central-req/list-req-pesqfrota`;
+
     this.router.navigate([url],{queryParams: {rota:this.rota, colaboradorId: params.colaboradorId,
                                   statusTermo:params.statusId , dataIni:params.dataInicio,
                                   dataFim:params.dataFim, empreendimentoId:  params.empreendimentoId,
