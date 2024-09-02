@@ -3,9 +3,9 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl, F
 import {translateAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
-import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputSearchComponent } from '@components/input-search/input-search.component';
+import { format } from 'date-fns';
 @Injectable({
   providedIn: 'root'
 })
@@ -154,9 +154,6 @@ export class RequestFormFrotaPesqComponent implements OnInit {
   }
   get getForm(){
     return this.reqForm.getRawValue();
-  }
-  formatDate(date){
-    return  moment(date).format('YYYY-MM-DD');
   }
   initForm(){
     this.reqForm = this.formBuilder.group({

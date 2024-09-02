@@ -8,7 +8,7 @@
 
     <ion-col size="11" class="no-padding-top" *ngIf="hasValueEmpreendimento">
       <ion-item lines="none" class="box ion-margin-vertical">
-        <app-input-search   (emitFieldClean)="emitFieldClean($event)" label="Código da Empresa" formName="req" [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoId}" [listItemFilter]="listItemFilter.EmpresasDoEmpreendimento" [parentForm]="reqForm" controlName="empresaId" ngDefaultControl></app-input-search>
+        <app-input-search   label="Código da Empresa" formName="req" [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoIdValue}" [listItemFilter]="listItemFilter.EmpresasDoEmpreendimento" [parentForm]="reqForm" controlName="empresaId" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
 
@@ -22,8 +22,7 @@
     <ion-col size="11" class="no-padding-top" *ngIf="digitacaoColaborador">
       <ion-item  lines="none" class="box">
         <app-input-search label="Colaborador" [disabledInput]="validReqId" formName="req"
-        (emitFieldClean)="emitFieldClean($event)"
-        [pesquisa]="{pesquisa: '',colaboradorCod:colaboradorCod}"
+        [pesquisa]="{pesquisa: '',colaboradorCod: colaboradorIdValue}"
         placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
@@ -31,7 +30,7 @@
       <ion-item lines="none">
         <ion-label  position="floating">Data da Solicitação</ion-label>
         <div class="calendar grid-item" (click)="dataInicial.click()"  style="width: 100%;">
-          <ion-input [value]="_dataInicio | momentPipe"  formName="req" [parentForm]="reqForm" readonly  style="text-align: left;"></ion-input>
+          <ion-input [value]="_dataInicio | momentPipe"  formName="req" readonly  style="text-align: left;"></ion-input>
           <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
         </div>
       </ion-item>
@@ -41,8 +40,8 @@
         <ion-popover trigger="date-inicio" alignment="center" :show-backdrop="true" size="cover" side="top">
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR" [showDefaultButtons]="true"
-              [value]="currentDay" picker-format="MMMM DD, YYYY"
-              display-format="MM/DD/YYYY" [max]="currentDay"
+              picker-format="MMMM dd, yyyy"
+              display-format="MM/dd/yyyy"
               formControlName="dataInicio" done-text="Confirmar"
               cancel-text="cancelar">
             </ion-datetime>

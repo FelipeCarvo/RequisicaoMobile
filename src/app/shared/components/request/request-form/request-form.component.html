@@ -11,7 +11,7 @@
         </ion-select>
       </ion-item>
       <ion-item  lines="none" class="box"  *ngIf="hasValueEmpreendimento">
-        <app-input-search label="Número O.F (Para desconto)" formName="req"  [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoIdValue}" [listItemFilter]="listItemFilter.OfDescontoMaterial" placeholder="Número O.F" name="ofDescontoMaterial" [parentForm]="reqForm" controlName="ofDescontoMaterial" ngDefaultControl></app-input-search>
+        <app-input-search label="Número O.F (Para desconto)" formName="req"  [pesquisa]="{pesquisa: '',empreendimentoId:empreendimentoIdValue}" [listItemFilter]="listItemFilter.ofDescontoMaterial" placeholder="Número O.F" name="ofDescontoMaterial" [parentForm]="reqForm" controlName="ofDescontoMaterial" ngDefaultControl></app-input-search>
       </ion-item>
       <ion-item  lines="none" class="box ion-margin-vertical">
         <app-input-search label="Aprovador" formName="req"  [pesquisa]="{pesquisa: ''}"  [listItemFilter]="listItemFilter.filteredOptionsUsuarios" [parentForm]="reqForm" controlName="aprovador" ngDefaultControl></app-input-search>
@@ -19,7 +19,7 @@
       </ion-item>
       <ion-item lines="none" class="box">
         <ion-label position="stacked">Observações</ion-label>
-        <ion-textarea placeholder="Enter more information here..." formControlName="observacao" cols="20"></ion-textarea>
+        <ion-textarea placeholder="" formControlName="observacao" cols="20"></ion-textarea>
       </ion-item>
     </ion-col>
     <ion-col size="11" >

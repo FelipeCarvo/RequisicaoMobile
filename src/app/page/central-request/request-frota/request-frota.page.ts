@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,HostListener,OnDestroy,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ViewChild,HostListener,OnDestroy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
@@ -8,8 +8,8 @@ import {RequestService} from '@services/request/request.service';
 import { ToastController } from '@ionic/angular';
 import {LoadingService} from '@services/loading/loading-service';
 import {ActivatedRoute,Router} from '@angular/router';
+import { formatISO } from 'date-fns';
 
-import * as moment from 'moment';
 
 
 @Component({
@@ -117,7 +117,8 @@ export class RequestPage implements OnInit,OnDestroy {
   updateStep(step){
     this.step = step;
   }
-  setStep(val){
+  setStep(event){
+    const val = event.target.value;
     this.step = parseInt(val,10);
   }
   async onBack(): Promise<void> {
@@ -244,7 +245,7 @@ export class RequestPage implements OnInit,OnDestroy {
       dataFim: this.formatDate(paramsForm.dataFinal),
       equipamentoId: paramsForm.equipamentoId
     };
-    console.log(params)
+    console.log(params);
     for (const key in params) {
       if(params[key]===0){
         continue;
@@ -257,7 +258,7 @@ export class RequestPage implements OnInit,OnDestroy {
   }
   formatDate(date){
     if (date !== null){
-      return  moment(date).format('YYYY-MM-DD');
+      return  formatISO(date, { representation: 'date' });
     }
     return date;
   }

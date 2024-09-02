@@ -1,14 +1,14 @@
 import { Component, OnInit,OnDestroy  } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import {FiltroItensTermo, RequestService} from '@services/request/request.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
-import { ToastController , ModalController,AlertController} from '@ionic/angular';
-import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
+import { ToastController , ModalController} from '@ionic/angular';
+import { UntypedFormGroup} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
-import * as moment from 'moment';
+import { formatISO } from 'date-fns';
 @Component({
   selector: 'app-entrega-frota',
   templateUrl: './entrega-frota.page.html',
@@ -34,7 +34,7 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
     public navCtrl: NavController,
     private rquestService: RequestService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     public loading: LoadingService,
     private modalCtrl: ModalController,
     private toastController: ToastController,
@@ -136,21 +136,13 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
-  formatDate(date){
-    if (date !== null){
-      let _data =   moment(date).format('YYYY-MM-DD');
-      let _hora =   moment(date).format('HH:mm:ss');
-      return `${_data}T${_hora}.000Z`;
-    }
-    return date;
-  }
   confirm() {
     if(this.itemId !== 'all'){
       if(this.rota === 'req') {
         const params ={
           termoResponsabilidadeItemId: this.itemId,
           quantidadeEntregue: this.qtdSolicitada,
-          dataEntrega: this.formatDate(new Date())
+          dataEntrega: formatISO(new Date())
         };
         this.loadButton = true;
         this.loading.present();
@@ -172,7 +164,7 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
           const params ={
             termoResponsabilidadeId: this.requisicaoId,
             quantidadeBaixa: (document.getElementById('quantidade')   as HTMLIonInputElement).value,
-            dataBaixa: this.formatDate(new Date()),
+            dataBaixa: formatISO(new Date()),
             equipamentoCodigo: this.reqItem.itens[0].equipamentoCod,
             loteDeBaixa: lote
           };
@@ -201,7 +193,7 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
         const params ={
           termoResponsabilidadeItemId: this.itemId,
           quantidadeEntregue: this.qtdSolicitada,
-          dataEntrega: this.formatDate(new Date())
+          dataEntrega: formatISO(new Date())
         };
         this.loadButton = true;
         this.loading.present();
@@ -222,7 +214,7 @@ export class EntregaRequestPage implements OnInit,OnDestroy {
       const params ={
         termoResponsabilidadeItemId: this.requisicaoId,
         quantidadeEntregue: this.reqItem.itens[0].quantidade,
-        dataEntrega: this.formatDate(new Date())
+        dataEntrega: formatISO(new Date())
       };
       this.loadButton = true;
       this.loading.present();

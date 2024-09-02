@@ -3,15 +3,14 @@ import { ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { homePage } from './home.page';
 import { homePageRoutingModule } from './home-routing.module';
-import {sharedModules} from '@components/components.module'
+import {SharedModules} from '@components/components.module';
 @NgModule({
   imports: [
     IonicModule,
     homePageRoutingModule,
-    sharedModules,
+    SharedModules,
     ReactiveFormsModule,
     FormsModule
-    
   ],
   declarations: [homePage]
 })

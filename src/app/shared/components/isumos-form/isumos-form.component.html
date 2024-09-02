@@ -34,7 +34,7 @@
       </ion-item>
       <ion-item class="box radio">
         <ion-label>Apenas Etapas do Insumo</ion-label>
-        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa"  (ionChange)="changeEtapa($event)"></ion-checkbox>
+        <ion-checkbox slot="start" formName="insumos"  formControlName="somenteInsumosDaEtapa"  (ionChange)="changeEtapa()"></ion-checkbox>
       </ion-item>
       <ion-item class="ion-margin-vertical box" lines="none">
           <app-input-search label="Etapa" formName="insumos" (emitFieldClean)="emitFieldClean($event)"
@@ -69,9 +69,9 @@
             <div *ngIf="hasInsumoId && qtdOrc">
               <p class="totalQtd">Quantidade orçada {{qtdOrc}}</p>
             </div>
-            <div class="required-text" *ngIf="!hasInsumoId || (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null )">
+            <div class="required-text" *ngIf="!hasInsumoId || (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value === null )">
               <p *ngIf="!hasInsumoId">Insumo obrigatório </p>
-              <p *ngIf="hasInsumoId && (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value == null )">A quantidade deve ser maior que 0 </p>
+              <p *ngIf="hasInsumoId && (!!quantidadeInput.errors && !!quantidadeInput.errors.min || quantidadeInput.value === null )">A quantidade deve ser maior que 0 </p>
             </div>
           </ion-col>
         </ion-row>
@@ -81,7 +81,7 @@
           <ion-label position="floating">Prazo de Entrega</ion-label>
           <ion-col size="4" class="no-padding-left">
             <div class="calendar grid-item">
-              <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" style="text-align: left;" (ionInput)="setDateManual($event.target.value)"></ion-input>
+              <ion-input formControlName="prazo" numbersOnly placeholder="0" type="number" style="text-align: left;" (ionInput)="setDateManual($event)"></ion-input>
               <ion-icon src="../../assets/icon/calendar.svg" (click)="diaUtil.click()" ></ion-icon>
             </div>
           </ion-col>
@@ -98,8 +98,8 @@
 
                 presentation="date" locale="pt-BR"
                 [value]="currentDay"
-                picker-format="MMMM DD, YYYY"
-                display-format="MM/DD/YYYY"
+                picker-format="MMMM dd, yyyy"
+                display-format="MM/dd/yyyy"
                 [min]="currentyear"
                 done-text="Confirmar"
                 cancel-text="cancelar"
@@ -128,8 +128,8 @@
           <ion-popover  #popTwo trigger="open-date-input"alignment="center" :show-backdrop="true" size="cover">
             <ng-template>
               <ion-datetime presentation="date" locale="pt-BR"
-                [value]="currentDay" picker-format="MMMM DD, YYYY"
-                display-format="MM/DD/YYYY" [min]="currentyear"
+                [value]="currentDay" picker-format="MMMM dd, yyyy"
+                display-format="MM/dd/yyyy" [min]="currentyear"
                 (ionChange)="setPopTwo($event)"
                 formControlName="prazoDevolucao" done-text="Confirmar"
                 cancel-text="cancelar">
@@ -183,7 +183,7 @@
       </ion-item>
       <ion-item lines="none" class="box">
         <ion-label position="floating">Observações</ion-label>
-        <ion-textarea placeholder="Enter more information here..." formControlName="observacoes"></ion-textarea>
+        <ion-textarea placeholder="" formControlName="observacoes"></ion-textarea>
       </ion-item>
     </ion-col>
     <ion-col size="11" >

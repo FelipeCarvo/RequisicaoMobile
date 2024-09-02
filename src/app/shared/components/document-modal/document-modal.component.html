@@ -20,9 +20,9 @@
             <ion-row class="ion-justify-content-center ion-align-items-center">
               <ion-col size="3">
                 <span>
-                  <ion-icon name="document" *ngIf="(item.type | imageType) != 'pdf' && (item.type | imageType) != 'image'"  class="ion-no-padding"slot="start"></ion-icon>
-                  <ion-icon *ngIf="(item.type|imageType) == 'pdf'" src="../../assets/icon/pdf.svg" class="ion-no-padding"slot="start"></ion-icon>
-                  <ion-icon *ngIf="(item.type|imageType) == 'image'" src="../../assets/icon/img.svg" class="ion-no-padding"slot="start"></ion-icon>    
+                  <ion-icon name="document" *ngIf="(item.type | imageType) !== 'pdf' && (item.type | imageType) !== 'image'"  class="ion-no-padding"slot="start"></ion-icon>
+                  <ion-icon *ngIf="(item.type|imageType) === 'pdf'" src="../../assets/icon/pdf.svg" class="ion-no-padding"slot="start"></ion-icon>
+                  <ion-icon *ngIf="(item.type|imageType) === 'image'" src="../../assets/icon/img.svg" class="ion-no-padding"slot="start"></ion-icon>
                 </span>
               </ion-col>
               <ion-col size="9" style="overflow-x: hidden;">

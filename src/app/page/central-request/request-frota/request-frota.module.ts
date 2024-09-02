@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {sharedModules} from '@components/components.module';
+import {SharedModules} from '@components/components.module';
 import { RequestPageRoutingModule } from './request-frota-routing.module';
 import {RequestFormComponentModule} from '@components/request/request-form-frota/solicitacao/resquest-form-frota.module';
 import {RequestFormPesqComponentModule} from '@components/request/request-form-frota/pesquisa/request-form-frota-pesq.module';
@@ -12,7 +12,7 @@ import {DocumentsComponentComponentModule} from '@components/request/documents/d
 
 @NgModule({
   imports: [
-    sharedModules,
+    SharedModules,
     CommonModule,
     FormsModule,
     IonicModule,

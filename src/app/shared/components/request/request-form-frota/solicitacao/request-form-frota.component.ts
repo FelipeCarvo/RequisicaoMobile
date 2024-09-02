@@ -1,5 +1,5 @@
 
-import { Component, OnInit,Output ,Input,EventEmitter,ViewChild,ElementRef} from '@angular/core';
+import { Component, OnInit,Output ,Input,EventEmitter} from '@angular/core';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl} from '@angular/forms';
 import {translateAnimation} from '@services/animation/custom-animation';
@@ -30,17 +30,16 @@ export class RequestFormFrotaComponent implements OnInit {
   mostrarLeitorQrCode =false;
   digitacaoColaborador = true;
   nomeColaborador = '';
-  sendLoading: boolean = false;
+  sendLoading = false;
 
   public reqForm: UntypedFormGroup;
-  private loadForm: boolean = false
-  listItemFilter:FilterRequestFields ={
-    filteredOptionsEmpresasInsumos:null,
-    filteredOptionsOfDescontoMaterial:null,
-    filteredOptionsUsuarios:null
+  listItemFilter: FilterRequestFields = {
+    filteredOptionsEmpresasInsumos: null,
+    filteredOptionsOfDescontoMaterial: null,
+    filteredOptionsUsuarios: null
   };
-
   load = false;
+
   constructor(
     route: ActivatedRoute,
     private loockupstService: LoockupstService,
@@ -91,11 +90,10 @@ export class RequestFormFrotaComponent implements OnInit {
       empresaId: new UntypedFormControl({ value: null,disabled: false}),
       dataInicio: [this.dateInicial],
     });
-    this.loadForm = true;
   }
 
-  async setValform(){
-    await this.reqForm.patchValue(this.getFormForStore);
+  setValform(){
+    this.reqForm.patchValue(this.getFormForStore);
     const formVal = this.getForm;
     const obj1 = this.removeFields(formVal);
     const obj2 = this.removeFields(this.getFormForStore);
@@ -112,9 +110,9 @@ export class RequestFormFrotaComponent implements OnInit {
       delete res[e];
     });
   }
-  async sendForm(){
+  sendForm(){
     this.sendLoading = true;
-    await this.sendReq.emit(this.getForm);
+    this.sendReq.emit(this.getForm);
     this.sendLoading = false;
   }
 

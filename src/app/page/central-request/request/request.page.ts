@@ -4,15 +4,13 @@ import { ModalController } from '@ionic/angular';
 import {ModalFinishReqComponent} from '@components/modal-finish-req/modal-finish-req.component';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
-import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions'
-import {RequestService} from '@services/request/request.service'
+import {setReqFileds,ResetStateReq} from '@core/store/actions/req.actions';
+import {RequestService} from '@services/request/request.service';
 import { ToastController } from '@ionic/angular';
-import {tap,switchMap} from 'rxjs/operators';
 import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import {ActivatedRoute,Router} from '@angular/router';
-import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -20,32 +18,32 @@ import { NgZone } from '@angular/core';
 })
 export class RequestPage implements OnInit,OnDestroy {
   @ViewChild('appChild', {static: false}) childComponent;
-  step:any = 0;
-  validStep: boolean = false;
-  sendPost:boolean = false;
-  hasButtonFinish:boolean = false;
+  step: any = 0;
+  validStep = false;
+  sendPost = false;
+  hasButtonFinish = false;
   // requisicaoId:string = null;
   // versaoEsperada:Number;
-  steps:any = [
-    { key: 0, title: "Requisição",enabled:true},
-    { key: 1, title: "Insumos",enabled:this.validStep},
-    { key: 2, title: "Documentos",enabled:this.validStep},
-    { key: 3, title: "Justificativa",enabled:this.validStep},
-  ]
+  steps: any = [
+    { key: 0, title: 'Requisição',enabled:true},
+    { key: 1, title: 'Insumos',enabled:this.validStep},
+    { key: 2, title: 'Documentos',enabled:this.validStep},
+    { key: 3, title: 'Justificativa',enabled:this.validStep},
+  ];
   constructor(
-    public navCtrl:NavController,
+    public navCtrl: NavController,
     public modalController: ModalController,
-    private store:Store,
-    private rquestService:RequestService,
-    private toastController:ToastController,
+    private store: Store,
+    private rquestService: RequestService,
+    private toastController: ToastController,
     public loading: LoadingService,
     private alertServices: AlertServices,
     private updateRequestStatus: UpdateRequestStatus,
-    private route:ActivatedRoute,
-    public router:Router,
+    private route: ActivatedRoute,
+    public router: Router,
     private cdr: ChangeDetectorRef
-  ) 
-  {  
+  )
+  {
     this.store
     .select(state => state.ReqState)
     .subscribe(e => {
@@ -55,10 +53,11 @@ export class RequestPage implements OnInit,OnDestroy {
     });
   }
   get validReqId(){
-    return this.store.selectSnapshot(ReqState.validReqId);
+    const retorno = this.store.selectSnapshot(ReqState.validReqId);
+    return retorno;
   }
   get currentStatus(){
-    return this.store.selectSnapshot(ReqState.getStatus)
+    return this.store.selectSnapshot(ReqState.getStatus);
   }
   get getFormForStore() {
     return this.store.selectSnapshot(ReqState.getReq);
@@ -69,16 +68,16 @@ export class RequestPage implements OnInit,OnDestroy {
   public get requisicaoId(){
     return this.store.selectSnapshot(ReqState.getReqId);
   }
-  public get versaoEsperada(){
+  public get versaoEsperada(): number{
     return this.store.selectSnapshot(ReqState.getVersaoEsperada);
   }
   public get getCode(){
-    return this.store.selectSnapshot(ReqState.getNumberValue)
+    return this.store.selectSnapshot(ReqState.getNumberValue);
   }
-  
+
   ngAfterViewInit(){
-    
-   
+
+
   }
 
   ionViewWillEnter(){
@@ -95,19 +94,19 @@ export class RequestPage implements OnInit,OnDestroy {
   }
   initStep(){
     this.step = 0;
-    let {params} = this.route.snapshot;
+    const {params} = this.route.snapshot;
     if(!!params.number){
       setTimeout(() =>{
-        this.step = parseInt(params.number)
-      },200)
+        this.step = parseInt(params.number, 10);
+      },200);
 
     }else{
       if(!!this.requisicaoId){
         setTimeout(()=>{
           this.step = 1;
           this.cdr.detectChanges();
-        })
-       
+        });
+
       }
     }
   }
@@ -117,40 +116,42 @@ export class RequestPage implements OnInit,OnDestroy {
   updateStep(step){
     this.step = step;
   }
-   setStep(val){
+
+   setStep(event){
+    const val = parseInt(event.target.value, 10);
     const hasUpdate = Object.values(this.getFormForStore).filter(e =>e).length > 0 && this.requisicaoId;
     if(hasUpdate){
-      this.step = val;     
+      this.step = val;
     }
   }
-  async onBack():Promise<void> {
+  async onBack(): Promise<void> {
     const reqId =  !!this.requisicaoId;
     const filter = Object.values(this.getFormForStore).filter(e =>e).length > 0;
-    if(this.step == 0){   
+    if(this.step === 0){
       if(reqId ||filter){
         const res = await this.alertServices.alertReq(reqId,filter);
         if(res === 'confirm-exclude'){
           const {versaoEsperada} = this.getFormForStore;
           this.updateRequestStatus.deleteRequest(this.requisicaoId,versaoEsperada).then(res =>{
             this.resetForm();
-            this.navCtrl.back();  
+            this.navCtrl.back();
           },err =>{
-            this.showMsg(err?.Mensagem)
-            console.log(err)
+            this.showMsg(err?.Mensagem);
+            console.log(err);
           });
         }
         else if(res === 'confirm'){
           this.resetForm();
-          this.navCtrl.back();  
+          this.navCtrl.back();
         }
         else if(res === 'confirm-exclude'){
           this.resetForm();
-          this.navCtrl.back(); 
+          this.navCtrl.back();
         }
         else if(res === 'finish'){
           await this.openModal();
         }
-      
+
       }
       else{
         this.navCtrl.back();
@@ -167,7 +168,7 @@ export class RequestPage implements OnInit,OnDestroy {
   }
 
   public setFormForStore(formField){
-    this.store.dispatch(new setReqFileds(formField))
+    this.store.dispatch(new setReqFileds(formField));
   }
 
   async openModal(){
@@ -181,8 +182,8 @@ export class RequestPage implements OnInit,OnDestroy {
     await modal.present();
     modal.onDidDismiss().then(response => {
       if(!this.validForm){
-      
-        this.resetForm()
+
+        this.resetForm();
         this.step = 0;
       }
     });
@@ -198,40 +199,40 @@ export class RequestPage implements OnInit,OnDestroy {
   }
   async sendReq(form){
     this.loading.present();
-    let msg: String;
-    let {params,type} = this.getParams(form);
+    let msg: string;
+    const {params,type} = this.getParams(form);
     this.rquestService.postReqTwo(params,type)
-      .subscribe(async(res:any) => {
+      .subscribe(async(res: any) => {
         const {requisicaoId,versaoEsperada} = res;
         if(type === 'POST'){
           this.setFormForStore(form);
-          msg = `Requisição criada com sucesso: ${requisicaoId}`
+          msg = `Requisição criada com sucesso: ${requisicaoId}`;
         }
         else{
-          msg = `Requisição editada com sucesso: ${requisicaoId}`
+          msg = `Requisição editada com sucesso: ${requisicaoId}`;
         }
         this.loading.dismiss();
 
         this.setFormForStore(form);
-        await this.showMsg(msg)
+        await this.showMsg(msg);
         this.step = 1;
-        this.sendPost = false;  
+        this.sendPost = false;
       },
       async(error) =>{
-        msg = error.Mensagem? error.Mensagem : error
-        console.log(error)
-        await this.showMsg(msg)
+        msg = error.Mensagem? error.Mensagem : error;
+        console.log(error);
+        await this.showMsg(msg);
         this.loading.dismiss();
         this.step = this.step;
       }
-    )
+    );
   }
-  UpdateForm(ev){
-    this.sendPost = ev
+  updateForm(ev){
+    this.sendPost = ev;
   }
   getParams(form){
-    let params = Object.assign({}, form);
-    let type = this.validReqId ? "PUT" :"POST";
+    const params = Object.assign({}, form);
+    const type = this.validReqId ? 'PUT' :'POST';
     for (const key in params) {
       if (!params[key]) {
         delete params[key];
@@ -240,13 +241,13 @@ export class RequestPage implements OnInit,OnDestroy {
     if(this.validReqId){
       params.id = this.requisicaoId;
       params.versaoEsperada = this.versaoEsperada;
-      delete params["requisicaoId"];
+      delete params['requisicaoId'];
     }
 
-    return {params,type}
+    return {params,type};
   }
   gonew(){
     this.step = 0;
-    this.step = 1
+    this.step = 1;
   }
 }

@@ -42,7 +42,7 @@
                       *ngIf="rota === 'dev' && itemId !== 'all'"
                       formName="req" type="number" formControlName="quantidade"
                       placeholder="Quantidade" value="{{item.quantidade}}"
-                      [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
+                      controlName="quantidade" ngDefaultControl ></ion-input>
                     <span *ngIf="rota !== 'dev'" ><p>{{item.quantidade}}</p></span>
                   </ion-item>
                 </ion-col>
@@ -106,7 +106,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="10">
             <ion-button id="open-modal" class="btnRedondo btnConfirmar" expand="block">Confirmar</ion-button>
-            <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+            <ion-modal #modal trigger="open-modal" >
               <ng-template>
                 <ion-header>
                   <ion-toolbar>
@@ -137,7 +137,7 @@
             <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar</ion-button>
           </ion-col>
           <ion-col size="10" *ngIf="reqItem.statusDescricao === 'Nao Concluido'">
-            <ion-button class="btnRedondo btnVoltar" (click)="editReq()"  expand="block" [disabled]="loadButton">
+            <ion-button class="btnRedondo btnVoltar"  expand="block" [disabled]="loadButton">
               <ion-ripple-effect type="unbounded"></ion-ripple-effect>
               <ion-spinner name="crescent" *ngIf="loadButton"></ion-spinner>
             </ion-button>

@@ -9,8 +9,8 @@ import { ToastController } from '@ionic/angular';
 import {LoadingService} from '@services/loading/loading-service';
 import {ActivatedRoute,Router} from '@angular/router';
 
-import * as moment from 'moment';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { format } from 'date-fns';
 
 
 @Component({
@@ -127,8 +127,9 @@ export class RequestPage implements OnInit,OnDestroy {
   updateStep(step){
     this.step = step;
   }
-  setStep(val){
-    this.step = parseInt(val,10);
+  setStep(event){
+    const val = parseInt(event.target.value, 10);
+    this.step = val;
   }
   async onBack(): Promise<void> {
     this.router.navigate(['tabs/home-estoque']);
@@ -253,7 +254,7 @@ export class RequestPage implements OnInit,OnDestroy {
   }
   formatDate(date){
     if (date !== null){
-      return  moment(date).format('YYYY-MM-DD');
+      return format(date, 'yyyy-MM-dd');
     }
     return date;
   }

@@ -1,13 +1,13 @@
-import { HttpClient,HttpHeaders,HttpResponse } from '@angular/common/http';
+import { HttpClient,HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable,} from 'rxjs';
 import { Store } from '@ngxs/store';
-import * as moment from 'moment';
 import {RequestsEndPoints} from '../utils/enums/EnumRequest';
 import {tap,switchMap} from 'rxjs/operators';
 import {ReqState} from '@core/store/state/req.state';
 import {setReqFileds} from '@core/store/actions/req.actions';
 import { AuthUser } from '@core/store/state/auth.state';
+import { formatISO } from 'date-fns';
 
 @Injectable({
     providedIn: 'root'
@@ -15,23 +15,23 @@ import { AuthUser } from '@core/store/state/auth.state';
 export class RequestService {
   // sieconwebsuprimentos;
   //sieconwebwebapi;
-  constructor(private http:HttpClient, private store:Store){
+  constructor(private http: HttpClient, private store: Store){
     // this.sieconwebsuprimentos = this.getUrlParams.urlAPISuprimentos;
     //this.sieconwebwebapi = this.getUrlParams.urlAPISP7;
   }
   getInitialParams(){
-    const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
-    const beforeDay = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+    const currentDatecurrentDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+    const beforeDay = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
     return {
-      dataInicial: moment(beforeDay).format(),
-      dataFinal: moment(currentDatecurrentDate).format(),
-      retificada: "Todos",
-      vistada: "Todos",
-      situacao: "Todas",
+      dataInicial: formatISO(beforeDay, { representation: 'date' }),
+      dataFinal: formatISO(currentDatecurrentDate),
+      retificada: 'Todos',
+      vistada: 'Todos',
+      situacao: 'Todas',
 
       filtrarComprador: true,
-      exportadoConstruCompras: "Todos"
-    }
+      exportadoConstruCompras: 'Todos'
+    };
   }
   public get requisicaoId(){
     return this.store.selectSnapshot(ReqState.getReqId);
@@ -50,32 +50,32 @@ export class RequestService {
   }
   getReq(params = null, endPoint = 'PesquisaRequisicoes'){
     return new Observable((observer) => {
-      if(!!params == false){
+      if(!!params === false){
         params = this.getInitialParams();
       }
       this.http.post(`${this.sieconwebwebapi}${RequestsEndPoints[endPoint]}`,params).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res.sort(this.sortFunction));
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         }
-      )
-    })
+      );
+    });
   }
   getCurrentReq(id = null, endPoint = 'GetVersion'){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
-        async(res:any) => {
-          let result = res;
+        async (res: any) => {
+          const result = res;
           result.empreendimentoId =  result.empreendimentoID;
-          result.requisicaoId = result.id;
-          result.versaoEsperada = result.version
+          result.requisicaoId = result.id ?? id;
+          result.versaoEsperada = result.version;
           delete result["id"];
           delete result["empreendimentoID"];
           delete result["version"];
-          this.store.dispatch(new setReqFileds(result))
+          this.store.dispatch(new setReqFileds(result));
           observer.next(res);
         },
         error => {
@@ -90,8 +90,8 @@ export class RequestService {
   getVersion(id = null, endPoint = 'GetVersion'){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
-        async(res:any) => {
-          this.store.dispatch(new setReqFileds({versaoEsperada:res.version,codigoExterno:res.codigoExterno,status:res.status}))
+        async (res: any) => {
+          this.store.dispatch(new setReqFileds({versaoEsperada:res.version,codigoExterno:res.codigoExterno,status:res.status}));
           observer.next(res.version);
         },
         error => {
@@ -107,11 +107,11 @@ export class RequestService {
   getInsumosById(id = null, endPoint = 'getIsumosId'){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}`).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -122,34 +122,34 @@ export class RequestService {
     })
   }
   postReq(params , type){
-    const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`
-    let req = type == 'POST' ? this.http.post(url,params) : this.http.put(url,params);
-    return new Observable((observer) => {
-      req.subscribe(
-        async(res:any) => {
-          observer.next(res);
-        },
-        error => {
-          console.log(error)
-          observer.error(error);
-        },
-        () => {
-          observer.complete();
-        }
-
-      )
-    })
-  }
-  postExcluirItemTermo(params ){
-    const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/excluirItemTermoResponsabilidade`;
-    let req = this.http.post(url,params);
+    const url = `${this.sieconwebsuprimentos}${RequestsEndPoints['RequisicaoId']}`;
+    const req = type === 'POST' ? this.http.post(url,params) : this.http.put(url,params);
     return new Observable((observer) => {
       req.subscribe(
         async (res: any) => {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
+          observer.error(error);
+        },
+        () => {
+          observer.complete();
+        }
+
+      );
+    });
+  }
+  postExcluirItemTermo(params ){
+    const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/excluirItemTermoResponsabilidade`;
+    const req = this.http.post(url,params);
+    return new Observable((observer) => {
+      req.subscribe(
+        async (res: any) => {
+          observer.next(res);
+        },
+        error => {
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -199,14 +199,14 @@ export class RequestService {
   }
   postAlterarStatusTermoEpi(params ){
     const url = `${this.sieconwebwebapi}/Epi/EpiBaixaEstoque/alterarStatusEpiBaixa`;
-    let req = this.http.post(url,params);
+    const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.subscribe(
         async (res: any) => {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -220,14 +220,14 @@ export class RequestService {
 
   postInsereAssinaturaTermo(params ){
     const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/inserirAssinaturaTermoResponsabilidade`;
-    let req = this.http.post(url,params);
+    const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.subscribe(
         async (res: any) => {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -240,14 +240,14 @@ export class RequestService {
 
   postConfirmarEntregaItemTermo(params ){
     const url = `${this.sieconwebwebapi}/frotas/TermoResponsabilidade/confirmaEntregaItemTermoResponsabilidade`;
-    let req = this.http.post(url,params);
+    const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.subscribe(
         async (res: any) => {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -266,7 +266,7 @@ export class RequestService {
           observer.next(res);
         },
         error => {
-          console.log(error)
+          console.log(error);
           observer.error(error);
         },
         () => {
@@ -279,7 +279,7 @@ export class RequestService {
   getNumeroLoteDevolucao(){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebwebapi}/frotas/TermoResponsabilidade/NovoNumeroLoteDevulucaoTermorResponsabilidade`).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -328,11 +328,11 @@ export class RequestService {
     }
     return new Observable((observer) => {
       req.pipe(
-        tap((response:any) => {
+        tap((response: any) => {
 
 
         }),
-        switchMap((postReRes:any) => {
+        switchMap((postReRes: any) => {
           const resultado = postReRes;
           let res;
           if(typeof resultado === 'string'){
@@ -352,7 +352,7 @@ export class RequestService {
           return this.getVersion(res)
         })
       ).subscribe(
-        async(res:any) => {
+        async (res: any) => {
 
 
           observer.next({versaoEsperada:res,requisicaoId:this.getStore.requisicaoId});
@@ -370,7 +370,7 @@ export class RequestService {
   getJustifcativa(id = null){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}/Requisicao/${id}/Justificativas`).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -386,7 +386,7 @@ export class RequestService {
   getJustifcativaDetail(id = null){
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}/Requisicao/Justificativa?id=${id}`).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -403,7 +403,7 @@ export class RequestService {
   getEstoque(params){
     return new Observable((observer) => {
       this.http.post(`${this.sieconwebwebapi}/suprimentos/Requisicao/ConsultaEstoque`,params).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -481,7 +481,7 @@ export class RequestService {
         })
       )
       .subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -504,7 +504,7 @@ export class RequestService {
         })
       )
       .subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -522,7 +522,7 @@ export class RequestService {
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${entidadeId}/${id}/` )
       .subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res);
         },
         error => {
@@ -538,7 +538,7 @@ export class RequestService {
     return new Observable((observer) => {
       this.http.get(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}/${id}` )
       .subscribe(
-        async(res:any) => {
+        async (res: any) => {
           observer.next(res.sort(this.sortFunction));
         },
         error => {
@@ -553,7 +553,7 @@ export class RequestService {
   getTest(url){
     return new Observable((observer) => {
       this.http.get(`${url}`).subscribe(
-        async(res:any) => {
+        async (res: any) => {
 
         },
         error => {
@@ -569,7 +569,7 @@ export class RequestService {
     return new Observable((observer) => {
       this.http.post(`${this.sieconwebsuprimentos}${RequestsEndPoints[endPoint]}`,obj,{  responseType: 'blob',observe: 'response' } )
       .subscribe(
-        async(res:HttpResponse<any>) => {
+        async (res: HttpResponse<any>) => {
           let type = this.retornaMIME(fileName)
           let blob = new Blob([res.body], { type: type })
 
@@ -670,7 +670,7 @@ export class RequestService {
       ).pipe(switchMap(res =>{
         return this.getVersion(this.requisicaoId)
       })).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
           observer.next(res);
         },
@@ -691,7 +691,7 @@ export class RequestService {
       ).pipe(switchMap(res =>{
         return this.getVersion(this.requisicaoId)
       })).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
           observer.next(res);
         },
@@ -716,7 +716,7 @@ export class RequestService {
       ).pipe(switchMap(res =>{
         return this.getVersion(this.requisicaoId)
       })).subscribe(
-        async(res:any) => {
+        async (res: any) => {
           // this.store.dispatch(new setReqFileds({versaoEsperada:res}))
           observer.next(res);
         },
@@ -747,11 +747,11 @@ export class RequestService {
     }
     return new Observable((observer) => {
       req.pipe(
-        tap((response:any) => {
+        tap((response: any) => {
           console.log('TAP');
           console.log(response);
         }),
-        switchMap((postReRes:any) => {
+        switchMap((postReRes: any) => {
           const resultado = postReRes;
           let res;
           if(typeof resultado === 'string'){
@@ -800,11 +800,11 @@ export class RequestService {
 
     return new Observable((observer) => {
       req.pipe(
-        tap((response:any) => {
+        tap((response: any) => {
           console.log('TAP');
           console.log(response);
         }),
-        switchMap((postReRes:any) => {
+        switchMap((postReRes: any) => {
           const resultado = postReRes;
           let res;
           if(typeof resultado === 'string'){
@@ -846,11 +846,11 @@ export class RequestService {
     const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.pipe(
-        tap((response:any) => {
+        tap((response: any) => {
           console.log('TAP');
           console.log(response);
         }),
-        switchMap((postReRes:any) => {
+        switchMap((postReRes: any) => {
           const resultado = postReRes;
           console.log(postReRes);
           return resultado;
@@ -881,7 +881,7 @@ export class RequestService {
     const req = this.http.post(url,params);
     return new Observable((observer) => {
       req.pipe(
-        tap((response:any) => {
+        tap((response: any) => {
           console.log('TAP');
           console.log(response);
         }),

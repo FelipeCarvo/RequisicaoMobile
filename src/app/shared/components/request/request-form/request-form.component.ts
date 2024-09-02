@@ -15,21 +15,23 @@ import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
   animations: [translateAnimation()]
 })
 export class RequestFormComponent implements OnInit {
-  @Input() getFormForStore :any;
+  @Input() getFormForStore: any;
   @Input() validReqId: boolean;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
-  sendLoading: boolean = false;
+  sendLoading = false;
   public reqForm: UntypedFormGroup;
-  private loadForm:boolean = false
-  listItemFilter:FilterRequestFields ={
+  listItemFilter: FilterRequestFields ={
     filteredOptionsEmpresasInsumos:null,
     filteredOptionsOfDescontoMaterial:null,
-    filteredOptionsUsuarios:null
+    filteredOptionsUsuarios:null,
+    ofDescontoMaterial:null
   };
   motivos:any;
   load = false;
+  private loadForm = false;
+
   constructor(
     private loockupstService: LoockupstService,
     private formBuilder: UntypedFormBuilder
@@ -40,10 +42,10 @@ export class RequestFormComponent implements OnInit {
     return !!this.reqForm.valid;
   }
   get empreendimentoIdValue(){
-    return this.reqForm.get("empreendimentoId").value
+    return this.reqForm.get("empreendimentoId").value;
   }
-  get hasValueEmpreendimento():boolean{
-    return !!this.reqForm.get("empreendimentoId").value
+  get hasValueEmpreendimento(): boolean{
+    return !!this.reqForm.get("empreendimentoId").value;
   }
   async ngOnInit() {
     this.getLoockupMotivo();

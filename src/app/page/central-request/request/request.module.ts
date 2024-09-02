@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {sharedModules} from '@components/components.module'
+import {SharedModules} from '@components/components.module';
 import { RequestPageRoutingModule } from './request-routing.module';
-import {RequestFormComponentModule} from '@components/request/request-form/resquest-form.module'
-import {InsumoComponentModule} from '@components/request/insumo/insumo.module'
+import {RequestFormComponentModule} from '@components/request/request-form/resquest-form.module';
+import {InsumoComponentModule} from '@components/request/insumo/insumo.module';
 import { RequestPage } from './request.page';
-import {DocumentsComponentComponentModule} from '@components/request/documents/documents.module'
+import {DocumentsComponentComponentModule} from '@components/request/documents/documents.module';
 
 @NgModule({
   imports: [
-    sharedModules,
+    SharedModules,
     CommonModule,
     FormsModule,
     IonicModule,
@@ -19,7 +19,7 @@ import {DocumentsComponentComponentModule} from '@components/request/documents/d
     RequestFormComponentModule,
     InsumoComponentModule,
     DocumentsComponentComponentModule,
-    
+
   ],
   declarations: [RequestPage,]
 })

@@ -6,7 +6,7 @@ import { Component, OnInit,Input } from '@angular/core';
   styleUrls: ['./no-image-icon.component.scss'],
 })
 export class NoImageIconComponent implements OnInit {
-  @Input() typeFile:String;
+  @Input() typeFile: string;
 
   constructor() { }
 

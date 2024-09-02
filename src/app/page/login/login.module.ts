@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { LoginPage } from './login.page';
 import { LoginPageRoutingModule } from './login-routing.module';
-import {sharedModules} from '@components/components.module'
+import {SharedModules} from '@components/components.module';
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    sharedModules,
+    SharedModules,
     LoginPageRoutingModule
   ],
   declarations: [LoginPage]

@@ -2,14 +2,14 @@ import { Component, OnInit,Input,Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 export default interface archivesInterface {
-  name:String;
-  id:Number;
-  type:String;
-  file:any;
-  simpleType:String;
-  size:Number;
-  filePath?:any,
-  descripition?:String;
+  name: String;
+  id: Number;
+  type: string;
+  file: any;
+  simpleType: String;
+  size: Number;
+  filePath?: any,
+  descripition?: String;
 }
 @Component({
   selector: 'app-document-modal',
@@ -32,7 +32,7 @@ export class DocumentModalComponent implements OnInit {
     public modalController: ModalController,
     private alertServices: AlertServices,
   ) {
-    
+
    }
 
   ngOnInit() {
@@ -67,7 +67,7 @@ export class DocumentModalComponent implements OnInit {
         obj.filePath = reader.result as string
         setTimeout(()=>{
           this.archives.push(obj);
-         
+
         },200)
       }
       reader.readAsDataURL(this.file)

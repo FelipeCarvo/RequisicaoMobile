@@ -13,19 +13,19 @@ import { ToastController } from '@ionic/angular';
   animations: [translateAnimation()]
 })
 export class DetailRequestPage implements OnInit,OnDestroy {
-  requisicaoId:string;
-  reqItem:any = {}
-  load:Boolean = false;
-  loadButton:boolean = false;
-  error:boolean = false;
+  requisicaoId: string;
+  reqItem: any = {};
+  load = false;
+  loadButton = false;
+  error = false;
   public unsubscribe$ = new Subject();
   constructor(
-    public navCtrl:NavController,
-    private rquestService:RequestService,
+    public navCtrl: NavController,
+    private rquestService: RequestService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     public loading: LoadingService,
-    private toastController:ToastController,
+    private toastController: ToastController,
     ) {
      this.requisicaoId = activatedRoute.snapshot.params.requisicaoId;
      }
@@ -35,7 +35,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   ionViewWillEnter(){
     this.loadButton = false;
-    this.getReq(this.requisicaoId)
+    this.getReq(this.requisicaoId);
   }
   ngOnDestroy(): void {
     this.unsubscribe$.unsubscribe();
@@ -44,39 +44,39 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     this.navCtrl.back();
   }
   getReq(id){
-    const params ={id,mostrarCancelados:true}
-    this.rquestService.getReq(params,'RelatorioRequisicao').subscribe((res:any) =>{
+    const params ={id,mostrarCancelados:true};
+    this.rquestService.getReq(params,'RelatorioRequisicao').subscribe((res: any) =>{
       this.reqItem = res[0];
-      let date = new Date(this.reqItem.dataHora)
-      if(this.reqItem.itens.length == 1) {
-        this.reqItem.itens = this.reqItem.itens.filter(itens => itens.id !=="00000000-0000-0000-0000-000000000000")
+      const date = new Date(this.reqItem.dataHora);
+      if(this.reqItem.itens.length === 1) {
+        this.reqItem.itens = this.reqItem.itens.filter(itens => itens.id !=='00000000-0000-0000-0000-000000000000');
       }
-      this.reqItem.dataHora = date.toLocaleDateString('PT-US',{ hour12: false,hour: "numeric", minute: "numeric"})
+      this.reqItem.dataHora = date.toLocaleDateString('PT-US',{ hour12: false,hour: 'numeric', minute: 'numeric'});
       setTimeout(()=>{
         this.load = true;
         this.error = false;
-      },300)
-    },async(error) =>{
+      },300);
+    },async (error) =>{
       this.load = true;
-      console.log(error)
+      console.log(error);
       this.error = true;
       const toast = await this.toastController.create({
         message: error.Mensagem,
         duration: 2000
       });
       toast.present();
-    })
+    });
   }
   editReq(){
     this.loadButton = true;
     this.loading.present();
-    this.rquestService.getCurrentReq(this.requisicaoId).subscribe((res:any) =>{
+    this.rquestService.getCurrentReq(this.requisicaoId).subscribe((res: any) =>{
       this.router.navigate(['/tabs/central-req/nova-req']);
       this.loading.dismiss();
       this.loadButton = false;
-    },async(error) =>{
+    },async (error) =>{
       this.loading.dismiss();
       this.loadButton = false;
-    })
+    });
   }
 }

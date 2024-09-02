@@ -17,7 +17,7 @@ export class EditJustificativaPage implements OnInit {
   public formJus: UntypedFormGroup;
   justificativaId: string;
   versaoEsperada:Number
-  justificativa:{};  
+  justificativa: any;
   constructor(
     public navCtrl:NavController,
     private requestService:RequestService,
@@ -46,7 +46,7 @@ export class EditJustificativaPage implements OnInit {
     });
   }
   public dismiss(): void {
-   
+
     this.router.navigate(['tabs/central-req/nova-req',{number:3}]);
     // this.navCtrl.back();
   }
@@ -55,7 +55,7 @@ export class EditJustificativaPage implements OnInit {
     this.requestService.getJustifcativaDetail(this.justificativaId).subscribe((res:any) =>{
       this.justificativa = res;
       this.formJus.controls['justificativa'].setValue(res.justificativa);
-      
+
       this.loading.dismiss();
     })
   }

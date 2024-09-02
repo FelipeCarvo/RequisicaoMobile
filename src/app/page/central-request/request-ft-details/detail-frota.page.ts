@@ -1,15 +1,14 @@
-import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,HostListener } from '@angular/core';
 import { NavController, IonModal,InfiniteScrollCustomEvent } from '@ionic/angular';
 import {FiltroItensTermo, RequestService} from '@services/request/request.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
 import { ToastController , ModalController} from '@ionic/angular';
-import { UntypedFormGroup } from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import SignaturePad from 'signature_pad';
-import * as moment from 'moment';
+import { formatISO } from 'date-fns';
 
 @Component({
   selector: 'app-detail-request',
@@ -62,13 +61,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   listItemFilter: FilterRequestFields ={
     filteredOptionsEquipamento:null
   };
-  public reqForm: UntypedFormGroup;
   constructor(
     private elementRef: ElementRef,
     public navCtrl: NavController,
     private rquestService: RequestService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     public loading: LoadingService,
     private modalCtrl: ModalController,
     private toastController: ToastController,
@@ -108,7 +106,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
 
   init() {
     const canvas: any = this.elementRef.nativeElement.querySelector('canvas');
-    console.log(this.elementRef.nativeElement)
+    console.log(this.elementRef.nativeElement);
     canvas.height = 200;
     if (this.signaturePad) {
       this.signaturePad.clear(); // Clear the pad on init
@@ -449,14 +447,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
     }
   }
-  formatDate(date){
-    if (date !== null){
-      let _data =   moment(date).format('YYYY-MM-DD');
-      let _hora =   moment(date).format('HH:mm:ss');
-      return `${_data}T${_hora}.000Z`;
-    }
-    return date;
-  }
   confirmStatus() {
     this.loadButton = true;
     const params ={
@@ -473,7 +463,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         const paramsDev ={
           termoResponsabilidadeId: this.requisicaoId,
           quantidadeBaixa: element.saldoQuantidadeEntregar,
-          dataBaixa: this.formatDate(new Date()),
+          dataBaixa: formatISO(new Date()),
           equipamentoCodigo: element.equipamentoCod,
           loteDeBaixa: lote
           };
@@ -555,7 +545,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     } else if (this.rota === 'req') {
       const params ={
         termoResponsabilidadeId: this.requisicaoId,
-        dataEntrega: this.formatDate(new Date())
+        dataEntrega: formatISO(new Date())
       };
       this.rquestService.postConfirmarEntregaTotalTermo(params)
       .subscribe((res: any) =>{
@@ -601,7 +591,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       const paramsDev ={
         termoResponsabilidadeId: this.requisicaoId,
         quantidadeBaixa: element.saldoQuantidadeEntregar,
-        dataBaixa: this.formatDate(new Date()),
+        dataBaixa: formatISO(new Date()),
         equipamentoCodigo: element.equipamentoCod,
         loteDeBaixa: lote
         };

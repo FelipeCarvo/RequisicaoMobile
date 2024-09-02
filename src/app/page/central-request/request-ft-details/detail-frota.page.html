@@ -87,8 +87,8 @@
                       <ion-input label="quantidade" name="qtdGeral" id="quantidade"
                       *ngIf="rota === 'dev' " (ionChange)="atualizaQuantiddadeEntregue($event)"
                       formName="req" type="number" formControlName="quantidade"
-                      placeholder="Quantidade" value="0" [item]="item.termoResponsabilidadeItemId"
-                      [parentForm]="reqForm" controlName="quantidade" ngDefaultControl ></ion-input>
+                      placeholder="Quantidade" value="0"
+                      controlName="quantidade" ngDefaultControl ></ion-input>
                     </p>
                   </ion-item>
                 </ion-col>
@@ -176,7 +176,7 @@
                   </ion-toolbar>
                 </ion-header>
                 <ion-grid>
-                  <form [attr.id]="'form_' + item.termoResponsabilidadeItemId" [formGroup]="'reqForm_' + item.termoResponsabilidadeItemId" >
+                  <form [attr.id]="'form_' + item.termoResponsabilidadeItemId" >
                     <ion-row>
                       <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
                         <ion-row>
@@ -198,7 +198,7 @@
                               </ion-toolbar>
                             </ion-header>
                             <ion-grid>
-                              <form [attr.id]="'form_' + item.termoResponsabilidadeItemId" [formGroup]="'reqForm_' + item.termoResponsabilidadeItemId" >
+                              <form [attr.id]="'form_' + item.termoResponsabilidadeItemId" >
                                 <ion-row>
                                   <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
                                     <ion-row>
@@ -416,7 +416,7 @@
           <ion-button id="open-modal-entrega" class="btnRedondo btnConfirmar" [disabled]="isFinalizaSolicitacao" expand="block">
             {{rota === 'dev'?'Devolver  o(s) item(ns)':'Entregar todos os itens'}}
           </ion-button>
-            <ion-modal #modal trigger="open-modal-entrega" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+            <ion-modal #modal trigger="open-modal-entrega" >
             <ng-template>
               <ion-header>
                 <ion-toolbar>
@@ -450,7 +450,7 @@
       <ion-row class="ion-justify-content-center" *ngIf="isAlteraStatus">
         <ion-col size="10" style="padding-right: 10px;">
         <ion-button id="open-modal2" class="btnRedondo" [disabled]="isFinalizaSolicitacao" expand="block">FINALIZAR</ion-button>
-          <ion-modal #modal trigger="open-modal2" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+          <ion-modal #modal trigger="open-modal2" >
           <ng-template>
             <ion-header>
               <ion-toolbar>

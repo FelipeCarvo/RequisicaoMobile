@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { AddInsumoBaixaPageRoutingModule } from './add-insumo-baixa-routing.module';
 
 import { AddInsumoBaixaPage } from './add-insumo-baixa.page';
-import {sharedModules} from '@components/components.module';
+import {SharedModules} from '@components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     AddInsumoBaixaPageRoutingModule,
-    sharedModules
+    SharedModules
   ],
   declarations: [AddInsumoBaixaPage]
 })

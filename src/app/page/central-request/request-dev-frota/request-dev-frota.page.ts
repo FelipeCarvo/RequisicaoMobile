@@ -1,15 +1,14 @@
-import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit,OnDestroy,ElementRef,ViewChild ,HostListener } from '@angular/core';
 import { NavController, IonModal,InfiniteScrollCustomEvent } from '@ionic/angular';
 import {FiltroItensTermo, RequestService} from '@services/request/request.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {translateAnimation} from '@services/animation/custom-animation';
 import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
 import { ToastController , ModalController} from '@ionic/angular';
-import {  UntypedFormGroup, Validators } from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import SignaturePad from 'signature_pad';
-import * as moment from 'moment';
+import { formatISO } from 'date-fns';
 
 @Component({
   selector: 'app-request-dev-frota',
@@ -62,13 +61,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   listItemFilter: FilterRequestFields ={
     filteredOptionsEquipamento:null
   };
-  public reqForm: UntypedFormGroup;
   constructor(
     private elementRef: ElementRef,
     public navCtrl: NavController,
     private rquestService: RequestService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     public loading: LoadingService,
     private modalCtrl: ModalController,
     private toastController: ToastController,
@@ -107,7 +105,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
 
   init() {
     const canvas: any = this.elementRef.nativeElement.querySelector('canvas');
-    console.log(this.elementRef.nativeElement)
+    console.log(this.elementRef.nativeElement);
     canvas.height = 200;
     if (this.signaturePad) {
       this.signaturePad.clear(); // Clear the pad on init
@@ -138,13 +136,8 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     this.selectedRadioGroup = event.detail;
     this.statusId = event.detail;
   }
-  atualizaQuantiddadeEntregue(event){
-    for (const index in this.reqItem.itens){
-      var element = this.reqItem.itens[index]
-      if(element.termoResponsabilidadeItemId === event.srcElement.item){
-        element.saldoQuantidadeEntregar = event.detail.value
-      }
-    }
+  atualizaQuantiddadeEntregue(item, event){
+    item.saldoQuantidadeEntregar = event.detail.value;
   }
   radioFocus() {
   }
@@ -436,14 +429,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
     }
   }
-  formatDate(date){
-    if (date !== null){
-      let _data =   moment(date).format('YYYY-MM-DD');
-      let _hora =   moment(date).format('HH:mm:ss');
-      return `${_data}T${_hora}.000Z`;
-    }
-    return date;
-  }
   confirmStatus() {
     this.loadButton = true;
     const params ={
@@ -460,7 +445,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         const paramsDev ={
           termoResponsabilidadeId: this.requisicaoId,
           quantidadeBaixa: element.saldoQuantidadeEntregar,
-          dataBaixa: this.formatDate(new Date()),
+          dataBaixa: formatISO(new Date()),
           equipamentoCodigo: element.equipamentoCod,
           loteDeBaixa: lote
           };
@@ -494,12 +479,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         this.loadButton = false;
       });
     } else if (this.rota === 'epi') {
-      const params ={
+      const paramsPost ={
         baixaId: this.requisicaoId,
         statusNovo: this.statusId['value']
       };
 
-      this.rquestService.postAlterarStatusTermoEpi(params)
+      this.rquestService.postAlterarStatusTermoEpi(paramsPost)
       .subscribe((res: any) =>{
         this.loading.dismiss();
         this.loadButton = false;
@@ -539,7 +524,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
     } else if (this.rota === 'req') {
       const params ={
         termoResponsabilidadeId: this.requisicaoId,
-        dataEntrega: this.formatDate(new Date())
+        dataEntrega: formatISO(new Date())
       };
       this.rquestService.postConfirmarEntregaTotalTermo(params)
       .subscribe((res: any) =>{
@@ -584,15 +569,15 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   confirmaDevolucao(lote){
     let retorno =true;
-    for (const element of this.reqItem.itens) {
-      if (element.saldoQuantidadeDevolver === '' || element.saldoQuantidadeDevolver === 0) {
+    for (const item of this.reqItem.itens) {
+      if (item.saldoQuantidadeDevolver === '' || item.saldoQuantidadeDevolver === 0) {
         continue;
       }
       const paramsDev = {
         termoResponsabilidadeId: this.requisicaoId,
-        quantidadeBaixa: element.saldoQuantidadeDevolver,
-        dataBaixa: this.formatDate(new Date()),
-        equipamentoCodigo: element.equipamentoCod,
+        quantidadeBaixa: item.saldoQuantidadeDevolver,
+        dataBaixa: formatISO(new Date()),
+        equipamentoCodigo: item.equipamentoCod,
         loteDeBaixa: lote
       };
       this.rquestService.postConfirmarDevolucaoItemTermo(paramsDev)

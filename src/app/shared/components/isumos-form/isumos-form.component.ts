@@ -8,8 +8,8 @@ import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {InsumosRequest} from '@services/insumos/inusmo-req.service';
 import { ToastController } from '@ionic/angular';
-import * as moment from 'moment';
 import { InputSearchComponent } from '@components/input-search/input-search.component';
+import { addDays, differenceInDays, format } from 'date-fns';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +30,7 @@ export class IsumosFormComponent implements OnInit {
   @ViewChild('etapaId') etapaIdComponent: InputSearchComponent;
   empreendimentoId:String = null;
   public reqFormInsumos: UntypedFormGroup;
-  public metodSend: String = 'POST'
+  public metodSend: String = 'POST';
   public sendLoading: boolean = false;
   public insumoTypeUnidades:String = null;
   diference = new Date().toISOString();
@@ -51,7 +51,7 @@ export class IsumosFormComponent implements OnInit {
     {id: '1',label: 'Ativo'},
     {id: '2',label: 'Suspenso'},
     {id: '3',label: 'Cancelado'},
-  ]
+  ];
   listItemFilter:FilterRequestFields ={
     EmpresasDoEmpreendimento:null,
     filteredOptionsInsumos:null,
@@ -81,39 +81,39 @@ export class IsumosFormComponent implements OnInit {
     const somenteInsumosDaEtapa = this.reqFormInsumos?.get('somenteInsumosDaEtapa').value;
     const insumoId = this.reqFormInsumos?.get('insumoId').value;
     if(!!somenteInsumosDaEtapa){
-      retorno = !insumoId
+      retorno = !insumoId;
     }
     else{
       retorno = false;
     }
-    return retorno
+    return retorno;
   }
   get hasInsumoId():boolean{
-    let valid = !!this.reqFormInsumos.get('insumoId').value;
-    let hasQtd = this.reqFormInsumos.get('quantidade').value > 0;
+    const valid = !!this.reqFormInsumos.get('insumoId').value;
+    const hasQtd = this.reqFormInsumos.get('quantidade').value > 0;
     if(!valid && hasQtd){
-      this.reqFormInsumos.controls['quantidade'].setValue(0)
+      this.reqFormInsumos.controls['quantidade'].setValue(0);
     }
-    return valid
+    return valid;
   }
   get quantidadeInput() {
     return this.reqFormInsumos.get('quantidade');
    }
   get etapaIdInput():String { return this.reqFormInsumos.get('etapaId').value; }
   get paramsInsumo(){
-    let obj:{
+    const obj:{
       empreendimentoId?:String,
       pesquisa?:String,
       etapaId?:String,
       somenteInsumosDaEtapa?:Boolean,
       calcularQuantidade?:Boolean
-    } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr}
-    let hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value || !!this.etapaIdInput;
+    } = {empreendimentoId: this.empreendimentoId,pesquisa:'',calcularQuantidade:this.hasQtdOr};
+    const hasEtapa = !!this.reqFormInsumos?.get('somenteInsumosDaEtapa').value || !!this.etapaIdInput;
     if(hasEtapa){
-      obj.etapaId = this.etapaIdInput
-      obj.somenteInsumosDaEtapa = true
+      obj.etapaId = this.etapaIdInput;
+      obj.somenteInsumosDaEtapa = true;
     }
-    return obj
+    return obj;
   }
   get validForm(){
     return this.reqFormInsumos.valid;
@@ -148,39 +148,42 @@ export class IsumosFormComponent implements OnInit {
     });
   }
 
-  setDateManual(val){
-    this.diference = moment(new Date()).add(val, 'days').toISOString();
+  setDateManual(event){
+    const val = event.target.value;
+    const novoDia = addDays(new Date(),val);
+    this.diference = format(novoDia,'yyyy-MM-dd');
   }
   changeQtdEtapa(ev){
-   let insumoId = this.reqFormInsumos?.get('insumoId').value;
+   const insumoId = this.reqFormInsumos?.get('insumoId').value;
    if(!!insumoId){
      this.updateInsumos = true;
    }
-    this.hasQtdOr = ev
+    this.hasQtdOr = ev;
   }
   setUnidadeType(desc: string){
     if(!!desc && this.hasInsumoId){
-      let s =  desc.split(' - ')[1]
-      let trim = s.trim();
+      const s =  desc.split(' - ')[1];
+      const trim = s.trim();
       this.insumoTypeUnidades = trim.split(' ')[0];
       if(this.hasQtdOr){
         if(trim.split(' ').length > 1){
           this.insumoTypeUnidades = trim.split(' ')[1];
-          let int = parseFloat(trim.split(' ')[0])
-          if(this.qtdOrc == 0)
-          this.qtdOrc = !!int ? int : 0;
+          const int = parseFloat(trim.split(' ')[0]);
+          if(this.qtdOrc === 0) {
+            this.qtdOrc = !!int ? int : 0;
+          }
         }
-        else if(trim.split(' ').length == 1){
+        else if(trim.split(' ').length === 1){
           this.insumoTypeUnidades = trim;
         }else{
           this.qtdOrc = 0;
         }
       }
       else{
-        this.insumoTypeUnidades = trim.split(' ').length > 1 ? trim.split(' ')[1] : trim
+        this.insumoTypeUnidades = trim.split(' ').length > 1 ? trim.split(' ')[1] : trim;
       }
     }else{
-      this.insumoTypeUnidades = null
+      this.insumoTypeUnidades = null;
       this.qtdOrc = 0;
     }
   }
@@ -192,25 +195,25 @@ export class IsumosFormComponent implements OnInit {
 
   }
   async setDif(event){
-    let a = moment(this.diference);
-    let b = moment(this.currentDay);
-    let dif:any = a.diff(b,'days');
-    this.reqFormInsumos.controls['prazo'].setValue(parseInt(dif))
-    setTimeout(async()=>{
+    const a = new Date(this.diference);
+    const b = new Date(this.currentDay);
+    const dif = differenceInDays(a, b);
+    this.reqFormInsumos.controls['prazo'].setValue(dif);
+    setTimeout(async ()=>{
       if(!this.closeModal){
         await this.popOne.dismiss();
-        this.closeModal = true
+        this.closeModal = true;
       }else{
-        this.closeModal = false
+        this.closeModal = false;
       }
-    },200)
+    },200);
   }
 
   eventChanged(event){
-    let{type} = event
+    const{type} = event;
     if(type == 'cancel' || type == 'ionCancel'){
       this.reqFormInsumos.controls['etapaId'].setValue(null);
-      this.emitFieldClean( {['etapaId']:null})
+      this.emitFieldClean( {['etapaId']:null});
       this.updateInsumos = true;
     }
   }
@@ -247,19 +250,19 @@ export class IsumosFormComponent implements OnInit {
     this.loadForm = true;
     await this.setValform();
     this.reqFormInsumos.valueChanges.subscribe(selectedValue  => {
-      let filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
+      const filterVal =Object.keys(selectedValue).filter(e => selectedValue[e] !== null && this.getFormForStore[e] != selectedValue[e]);
       filterVal.forEach(e =>{
-        let val = this.getFormField(e);
-        let formField = {[e]:val};
-        let atualValue = this.getFormForStore[e];
+        const val = this.getFormField(e);
+        const formField = {[e]:val};
+        const atualValue = this.getFormForStore[e];
         if(formField != atualValue){
           this.setFormForStore.emit(formField);
           if(e === 'etapaId' && !!formField){
             this.updateInsumos = true;
           }
         }
-      })
-    })
+      });
+    });
 
   }
   emitFieldClean(formField){
@@ -271,14 +274,14 @@ export class IsumosFormComponent implements OnInit {
   async setValform(){
     await this.reqFormInsumos.patchValue(this.getFormForStore);
     if(this.getFormForStore.status === 0){
-      this.reqFormInsumos.controls['status'].setValue('Ativo')
+      this.reqFormInsumos.controls['status'].setValue('Ativo');
     }
   }
   changeQtd(ev){
     if(!ev){
       setTimeout(() => {
-        this.reqFormInsumos.controls['quantidade'].setValue(0)
-      })
+        this.reqFormInsumos.controls['quantidade'].setValue(0);
+      });
     }
   }
   get parametrosLookupEtapa()
@@ -302,7 +305,7 @@ export class IsumosFormComponent implements OnInit {
   }
 
   getFormField(field){
-    return this.reqFormInsumos.get(field).value
+    return this.reqFormInsumos.get(field).value;
   }
   async submit(){
    if(this.validForm){
@@ -315,7 +318,7 @@ export class IsumosFormComponent implements OnInit {
       this.sendLoading = false;
       let type = 'criado';
       if(this.metodSend === 'PUT'){
-        type = 'editado'
+        type = 'editado';
         this.resetAndBack.emit();
       }else{
         this.resetForm();
@@ -333,27 +336,27 @@ export class IsumosFormComponent implements OnInit {
         duration: 2000
       });
       toast.present();
-    })
+    });
    }
   }
   async qtdInsumoMsg(){
-    let qtd = this.getFormField('quantidade');
-    let etapaId = this.getFormField('etapaId');
-    let insumoId =  this.getFormField('insumoId');
-    let insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
+    const qtd = this.getFormField('quantidade');
+    const etapaId = this.getFormField('etapaId');
+    const insumoId =  this.getFormField('insumoId');
+    const insumoSubstituicaoId =  this.getFormField('insumoSubstituicaoId');
     if( !!etapaId){
-      let obj = {
+      const obj = {
         empreendimentoId:this.empreendimentoId,
         insumoId,
         etapaId,
         insumoSubstituicaoId
-      }
-      let newObj = Object.keys(obj)
+      };
+      const newObj = Object.keys(obj)
       .filter((k) => obj[k] != null)
       .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
-      let res:any = await this.insumosRequest.getValidacaoInsumoOrc(newObj);
-      let {quantidadePedida,quantidadeOrcada} = res;
-      let total = quantidadePedida + qtd;
+      const res:any = await this.insumosRequest.getValidacaoInsumoOrc(newObj);
+      const {quantidadePedida,quantidadeOrcada} = res;
+      const total = quantidadePedida + qtd;
       if(total > quantidadeOrcada){
         const toast = await this.toastController.create({
           message: `Quantidade pedida para esta etapa é maior que a orçada. Quantidade Orçada do Insumo para a Etapa : ${quantidadeOrcada}<br />
@@ -372,21 +375,21 @@ export class IsumosFormComponent implements OnInit {
     this.router.navigate(['/central-req/consulta-estoque']);
   }
   scrollToElement() {
-    let el = this.scrollTarget.nativeElement
+    const el = this.scrollTarget.nativeElement;
     el.scrollIntoView({ behavior: 'smooth' });
   }
   public resetForm(){
     this.onlyReset.emit();
     this.insumoTypeUnidades = null;
-    let empresaId = this.getFormField('empresaId');
-    let qtd:number = this.getFormField('quantidade');
-    let etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
-    let insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
-    let planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
-    let blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
+    const empresaId = this.getFormField('empresaId');
+    const qtd:number = this.getFormField('quantidade');
+    const etapaId = this.saveEtapas ? this.getFormField('etapaId'):null;
+    const insumoId = this.saveInsumos ? this.getFormField('insumoId'):null;
+    const planoContasId = this.savePlanoDeContas ? this.getFormField('planoContasId'):null;
+    const blocoId = this.saveblocoId ? this.getFormField('blocoId'):null;
     if(this.hasQtdOr && this.saveInsumos &&  this.qtdOrc != 0){
       if(this.qtdOrc < 0 ){
-        let res = this.qtdOrc - qtd;
+        const res = this.qtdOrc - qtd;
         this.qtdOrc =res;
       }
       else{
@@ -396,7 +399,7 @@ export class IsumosFormComponent implements OnInit {
     else{
       this.qtdOrc = 0;
     }
-    let objForm = {
+    const objForm = {
       empresaId:empresaId,
       etapaId:etapaId,
       somenteInsumosDaEtapa:false,
@@ -416,10 +419,10 @@ export class IsumosFormComponent implements OnInit {
       equipamentoId:null,
       observacoes:null,
       status:'Ativo'
-    }
-    this.reqFormInsumos.patchValue(objForm)
+    };
+    this.reqFormInsumos.patchValue(objForm);
     setTimeout(()=>{
       this.cdr.detectChanges();
-    })
+    });
   }
 }

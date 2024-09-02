@@ -1,4 +1,5 @@
-import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,ChangeDetectorRef, AfterViewChecked, TemplateRef } from '@angular/core';
+import { Component,OnInit, Input,ViewChild,EventEmitter,Output,forwardRef,
+  ChangeDetectorRef, AfterViewChecked, TemplateRef } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {LoockupstService} from '@services/lookups/lookups.service';
 import {map, startWith,debounceTime,distinctUntilChanged,switchMap} from 'rxjs/operators';
@@ -239,8 +240,10 @@ export class InputSearchComponent implements OnInit, AfterViewChecked {
     const find = this.listGroup.find(el => (el.id.toLowerCase() === val.toLowerCase()));
     if (this.listGroup.length > 0 && !!find) {
       searh.valorSelecionado = find.id;
+      const retornoArray = [];
+      retornoArray.push(find);
       console.log('Novo valor selecionado ' + searh.valorSelecionado);
-      return of(this.listGroup);
+      return of(retornoArray);
     }
 
     if (this.isUUID(val)) {

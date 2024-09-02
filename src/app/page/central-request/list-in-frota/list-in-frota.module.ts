@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ListInsumosFrotaPageRoutingModule } from './list-in-routing-frota.module';
 
 import { ListInsumosFrotaPage } from './list-in-frota.page';
-import {sharedModules} from '@components/components.module';
+import {SharedModules} from '@components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ListInsumosFrotaPageRoutingModule,
-    sharedModules
+    SharedModules
   ],
   declarations: [ListInsumosFrotaPage]
 })

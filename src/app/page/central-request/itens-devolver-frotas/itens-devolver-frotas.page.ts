@@ -7,7 +7,7 @@ import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
 import { ToastController , ModalController} from '@ionic/angular';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
-import * as moment from 'moment';
+import { formatISO } from 'date-fns';
 
 @Component({
   selector: 'app-request-dev-frota',
@@ -91,14 +91,6 @@ export class ItensDevolverFrotasPage implements OnInit,OnDestroy {
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
-  formatDate(date){
-    if (date !== null) {
-      const data = moment(date).format('YYYY-MM-DD');
-      const hora = moment(date).format('HH:mm:ss');
-      return `${data}T${hora}.000Z`;
-    }
-    return date;
-  }
   goToEntregarTodos(){
     let lote = 0;
     this.rquestService.getNumeroLoteDevolucao().subscribe((res: any) => {
@@ -128,7 +120,7 @@ export class ItensDevolverFrotasPage implements OnInit,OnDestroy {
       const paramsDev = {
         termoResponsabilidadeId: element.termoResponsabilidadeId,
         quantidadeBaixa: element.saldoQuantidadeEntregar,
-        dataBaixa: this.formatDate(new Date()),
+        dataBaixa: formatISO(new Date()),
         equipamentoCodigo: element.equipamentoCod,
         loteDeBaixa: lote,
         devolucaoObservacao: element.devolucaoObservacao,

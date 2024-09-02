@@ -1,15 +1,14 @@
-import { Component,ElementRef,OnInit,HostListener, ViewChild} from '@angular/core';
+import { Component} from '@angular/core';
 import { Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service';
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation';
-import * as moment from 'moment';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {ResetStateReq} from '@core/store/actions/req.actions';
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
 //import SignaturePad from 'signature_pad';
-import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
+import { setHours, setMinutes, setSeconds, formatISO } from 'date-fns';
 
 
 @Injectable({
@@ -38,7 +37,6 @@ export class newHomePage {
     private router: Router,
     private rquestService: RequestService,
     private store: Store,
-    private base64ToGallery: Base64ToGallery
    ) {
    }
    get validReqId(){
@@ -99,52 +97,46 @@ export class newHomePage {
   }
   convertNumber(element){
     if(!this.empreendimentoDescricao){
-      return
+      return;
     }
-    return parseInt(element.replace(/[^0-9]/g,''))
+    return parseInt(element.replace(/[^0-9]/g,''), 10);
   }
   getReq(){
     this.load = false;
-    let hour = {
-      hour: 24,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    }
+    let data = this.dataFinal;
+    data = setHours(data, 23);
+    data = setMinutes(data, 59);
+    data = setSeconds(data, 59);
 
     const params = {
-      dataInicial: moment(this.dataInicial).format(),
-      dataFinal: moment(this.dataFinal).set(hour).format(),
-      retificada: "Todos",
-      vistada: "Todos",
-      situacao: "Todas",
+      dataInicial: formatISO(this.dataInicial, { representation: 'date' }),
+      dataFinal: formatISO(data),
+      retificada: 'Todos',
+      vistada: 'Todos',
+      situacao: 'Todas',
       comTodosOsItensCancelados:true,
       statusRequisicao:this.statusRequisicao,
       filtrarComprador: false,
-      exportadoConstruCompras: "Todos"
+      exportadoConstruCompras: 'Todos'
 
-    }
+    };
 
-    this.rquestService.getReq(params).subscribe((res:any) =>{
+    this.rquestService.getReq(params).subscribe((res: any) =>{
 
       setTimeout(()=>{
         this.load = true;
         this.dataInicial = new Date(this.dataInicial);
         this.dataFinal = new Date(this.dataFinal);
-        let datea = moment(this.dataInicial)
-        let dateb = moment(this.dataFinal)
-        let dif:any = dateb.diff(datea,'days')
 
-        let msg = `Requisições adicionadas nos ultimos ${dif} dias`
         if(!!this.empreendimentoDescricao){
-          this.listReq = res.filter(el => el.empreendimento === this.convertNumber(this.empreendimentoDescricao));​
+          this.listReq = res.filter(el => el.empreendimento === this.convertNumber(this.empreendimentoDescricao));
         }else{
-          this.listReq = res;​
+          this.listReq = res;
         }
-      },200)
-    },async(error)=>{
-      console.log(error)
+      },200);
+    },async (error)=>{
+      console.log(error);
       this.load = true;
-    })
+    });
   }
 }

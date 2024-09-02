@@ -11,42 +11,6 @@
       </ion-row>
     </ion-grid>
   </ion-toolbar>
-  <div>
-       <!-- Fallback for iOS PWA -->
-        <!--<input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">-->
-
-
-        <!-- <ion-button expand="full" (click)="startScan()">
-          <ion-icon slot="start" name="qr-scanner"></ion-icon>
-          Start scan
-        </ion-button>
-
-        <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
-          <ion-icon slot="start" name="refresh"></ion-icon>
-          Reset
-        </ion-button>-->
-
-        <!-- Shows our camera stream -->
-        <video #video [hidden]="!scanActive" width="100%"></video>
-
-        <!-- Used to render the camera stream images -->
-        <canvas #canvas hidden></canvas>
-
-        <!-- Stop our scanner preview if active -->
-        <ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
-          <ion-icon slot="start" name="close"></ion-icon>
-          Stop scan
-        </ion-button>
-
-        <ion-card *ngIf="scanResult">
-          <ion-card-header>
-            <ion-card-title>QR Code</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            {{ scanResult }}
-          </ion-card-content>
-        </ion-card>
-  </div>
   <ion-grid class="ion-no-padding position-relative" style="height: 80px;">
     <ion-row class="ion-justify-content-center">
       <ion-col size="5" style="padding-right: 10px;">
@@ -75,7 +39,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="11" @hideShowAnimator *ngIf="showFIlters && (load && !!listReq)">
-        <app-filter-req [empreendimentoDescricao]="empreendimentoDescricao"[statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
+        <app-filter-req [empreendimento]="empreendimento" [statusRequisicao]="statusRequisicao" [dataInicial]="dataInicial" (setParams)="setParams($event)" [dataFinal]="dataFinal"></app-filter-req>
       </ion-col>
       <ion-col size="11" *ngIf="!showFIlters && load">
         <list-request-component [item]="item" [loaded]="load"  *ngFor="let item of listReq; let i = index"></list-request-component>

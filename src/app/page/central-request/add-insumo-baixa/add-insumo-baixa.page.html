@@ -71,7 +71,7 @@
                                                               --border-color: #9d2525;
                                                               --border-style:dashed;
                                                               --border-width: 10px;" formName="req" type="number"
-                  formControlName="quantidade" [parentForm]="reqForm" controlName="quantidade" ngDefaultControl></ion-input>
+                  formControlName="quantidade" controlName="quantidade" ngDefaultControl></ion-input>
               </ion-item>
             </ion-col>
 
@@ -80,7 +80,7 @@
         <ion-col size="11">
           <ion-row class="ion-justify-content-center">
             <ion-col size="10">
-              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem($event)"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
+              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
             </ion-col>
           </ion-row>
         </ion-col>

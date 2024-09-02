@@ -16,11 +16,10 @@ import {InsumoState} from'@core/store/state/inusmos.state';
 import {environment} from '@environment/environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { File } from '@ionic-native/file/ngx';
-import {sharedModules} from '@components/components.module';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import {SharedModules} from '@components/components.module';
+//import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
+//import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -30,7 +29,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,
-        sharedModules,
+        SharedModules,
         IonicModule.forRoot({
             rippleEffect: true,
             animated: true,
@@ -44,7 +43,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
             key: ['AuthUser', 'ReqState', 'InsumoState']
         }),
     ],
-    providers: [File, AndroidPermissions, Base64ToGallery, FileOpener,
+    providers: [/*File, AndroidPermissions, Base64ToGallery, */FileOpener,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },],
     bootstrap: [AppComponent],
 })

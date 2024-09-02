@@ -23,7 +23,7 @@
       <ion-label style="width: 100%;font-weight: 600;font-size: 14px;line-height: 17px;letter-spacing: -0.01em;transform: initial;color: #4682B4;" position="floating">Status</ion-label>
       <ion-item  lines="none" class="box" style="background: white;">
           <ion-select aria-label="Status" formName="req" (ionChange)="handleChange($event)"
-                  [parentForm]="reqForm" [placeholder]="strStatusPadrao" formControlName="statusId"
+                  [placeholder]="strStatusPadrao" formControlName="statusId"
                   [value]="codStatusPadrao" style="background: white;" interface="action-sheet"
                   [interfaceOptions]="{ cssClass: 'my-custom-interface' }" >
               <ion-select-option  [value]="item.id" style="color: white;" *ngFor="let item of listStatus">{{item.descricao}}</ion-select-option>
@@ -77,7 +77,7 @@
       <ion-item lines="none">
         <ion-label  position="floating">Data Inicial</ion-label>
         <div class="calendar grid-item" (click)="dataInicial.click()" style="width: 100%;">
-          <ion-input [value]="_dataInicio | momentPipe"  formName="req" [parentForm]="reqForm"
+          <ion-input [value]="_dataInicio | momentPipe"  formName="req"
               readonly  style="text-align: left;"></ion-input>
           <ion-icon src="../../assets/icon/calendar.svg"  ></ion-icon>
         </div>
@@ -86,8 +86,8 @@
         <ion-popover trigger="date-inicio" alignment="center" :show-backdrop="true" size="cover" side="top">
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR"  [showDefaultButtons]="true"
-              [value]="currentDay" picker-format="MMMM DD, YYYY"
-              display-format="MM/DD/YYYY" [max]="currentDay" [parentForm]="reqForm"
+              [value]="currentDay" picker-format="MMMM dd, yyyy"
+              display-format="MM/dd/yyyy" [max]="currentDay"
               formControlName="dataInicio" done-text="Confirmar"
               cancel-text="cancelar">
             </ion-datetime>
@@ -107,11 +107,11 @@
       </ion-item>
       <div id="date-fim" #dataFim >
         <ion-popover trigger="date-fim" alignment="center" :show-backdrop="true" size="cover" side="top">
-          <app-header [openAddLocation]="openAddLocation"></app-header>
+
           <ng-template>
             <ion-datetime presentation="date" locale="pt-BR" [showDefaultButtons]="true"
-              [value]="currentDay" picker-format="MMMM DD, YYYY"
-              display-format="MM/DD/YYYY" [max]="currentDay"
+              [value]="currentDay" picker-format="MMMM dd, yyyy"
+              display-format="MM/dd/yyyy" [max]="currentDay"
               formControlName="dataFinal" done-text="Confirmar"
               cancel-text="cancelar">
             </ion-datetime>

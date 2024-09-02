@@ -18,6 +18,9 @@ const config: CapacitorConfig = {
 
     },
   },
+  server: {
+    androidScheme: 'http'
+  }
 };
 
 export default config;

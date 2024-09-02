@@ -3,12 +3,12 @@
     <ion-grid>
       <ion-row>
         <ion-col size="11">
-          <ion-radio-group formControlName="centralEstoque"  (ionChange)="updateEstoque.emit($event.target.value)">
+          <ion-radio-group formControlName="centralEstoque"  (ionChange)="eventoMudancaRadio($event)">
             <ion-item *ngFor="let status of groupRadio" lines="none" >
               <ion-label class="aprovado">{{status.name}}</ion-label>
               <ion-radio  slot="start" [value]="status.param" slot="start" ></ion-radio>
-            </ion-item>   
-          </ion-radio-group>   
+            </ion-item>
+          </ion-radio-group>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -23,7 +23,7 @@
         <ion-label position="stacked">Descrição do Insumo</ion-label>
         <p>{{insumoEstoque.insumoDescricao}}</p>
       </ion-item>
-     
+
       <ion-item>
         <ion-label position="stacked">Complemento:</ion-label>
         <p>{{insumoEstoque.complemento}}</p>
@@ -33,18 +33,18 @@
         <ion-checkbox formControlName="filterComplement"   slot="end" (ionChange)="changeComplement()"></ion-checkbox>
       </ion-item>
       <ion-item  lines="none" class="box">
-        <ion-row> 
+        <ion-row>
           <ion-col size="8" class="no-padding-left">
             <ion-label position="floating">Quantidade Requisitada</ion-label>
             <ion-input  readonly="true" formControlName="quantidadeRequisitada" [disabled]="disabledButton"></ion-input>
           </ion-col>
           <ion-col size="4" class="no-padding-right">
             <ion-label  position="floating">Unidade</ion-label>
-            <ion-select [placeholder]="insumoEstoque.unidade" disabled formControlName="unidade" >
+            <ion-select [placeholder]="insumoEstoque.unidade" [disabled]="true" formControlName="unidade" >
               <ion-select-option value="0">Un</ion-select-option>
             </ion-select>
           </ion-col>
-        </ion-row>    
+        </ion-row>
       </ion-item>
       <ion-item  lines="none" class="box">
         <ion-row>
@@ -64,10 +64,10 @@
           <ion-label position="floating">Quantidade Reservada</ion-label>
           <ion-col size="9" class="no-padding-left" class="estoqueIcon">
             <ion-input readonly="true" formControlName="quantidadeReservada" style="padding-inline-start: 0;"></ion-input>
-           
+
           </ion-col>
         </ion-row>
       </ion-item>
     </ion-col>
   </ion-row>
-</form> 
+</form>

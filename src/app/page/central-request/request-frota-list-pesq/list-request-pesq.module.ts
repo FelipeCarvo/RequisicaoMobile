@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ListRequestFrotaPesqPageRoutingModule } from './list-request-pesq-routing.module';
 
 import { ListRequestFrotaPesqPage } from './list-request-pesq.page';
-import {sharedModules} from '@components/components.module';
+import {SharedModules} from '@components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ListRequestFrotaPesqPageRoutingModule,
-    sharedModules
+    SharedModules
   ],
   declarations: [ListRequestFrotaPesqPage]
 })

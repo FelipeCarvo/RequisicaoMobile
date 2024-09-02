@@ -3,7 +3,6 @@ import { Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import {RequestService} from '@services/request/request.service';
 import {translateAnimation,rotateAnimation} from '@services/animation/custom-animation';
-import * as moment from 'moment';
 import { Store } from '@ngxs/store';
 import {ReqState} from '@core/store/state/req.state';
 import {ResetStateReq} from '@core/store/actions/req.actions';
@@ -88,9 +87,9 @@ export class HomeEstoquePage {
   }
   convertNumber(element){
     if(!this.empreendimentoDescricao){
-      return
+      return;
     }
-    return parseInt(element.replace(/[^0-9]/g,''))
+    return parseInt(element.replace(/[^0-9]/g,''), 10);
   }
   getReq(){}
 }

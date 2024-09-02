@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import {sharedModules} from '@components/components.module'
+import {SharedModules} from '@components/components.module';
 import { DocumentsComponent } from './documents.component';
-import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+//import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule,sharedModules,],
+  imports: [ CommonModule, FormsModule, IonicModule,SharedModules,],
   declarations: [DocumentsComponent],
   exports: [DocumentsComponent]
 })

@@ -2,7 +2,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { setReqFileds,ResetStateReq } from '../actions/req.actions';
 import { ReqIntefaceModel } from '../models/req.model';
-const defaults:ReqIntefaceModel = {
+const defaults: ReqIntefaceModel = {
   requisicaoId:null,
   motivoId: null,
   codigoExterno:null,
@@ -14,7 +14,7 @@ const defaults:ReqIntefaceModel = {
   aprovador: null,
   versaoEsperada: null,
   status:null,
-}
+};
 @State<ReqIntefaceModel>({
   name: 'ReqState',
   defaults: defaults

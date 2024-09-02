@@ -1,6 +1,6 @@
 <ion-header >
   <ion-toolbar lines="none">
-    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>  
+    <ion-icon src="../../assets/icon/arrow.svg" class="ion-padding"slot="start" (click)="dismiss()"></ion-icon>
     <ion-title class="ion-text-center">
       Detalhe Requisição
     </ion-title>
@@ -45,7 +45,7 @@
                 <ion-item  lines="none">
                   <ion-label position="stacked"  class="labelTitle">Empreendimento:</ion-label>
                   <p>{{reqItem.empreendimento.descricao || 'Não cadastrado'}}</p>
-                </ion-item>   
+                </ion-item>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -54,7 +54,7 @@
       </ion-col>
       <ion-col  size="11">
         <ion-item class="desc">
-          Insumos 
+          Insumos
         </ion-item>
         <ion-card *ngFor="let item of reqItem.itens">
           <ion-card-header>
@@ -74,8 +74,8 @@
               <ion-col size="6">
                 <ion-item  lines="none">
                   <ion-label position="stacked"  class="labelTitle">Quantidade:</ion-label>
-                  <p>{{!!item.quantidade ? item.quantidade : NULL}}</p>
-                </ion-item>   
+                  <p>{{!!item.quantidade ? item.quantidade : null}}</p>
+                </ion-item>
               </ion-col>
               <ion-col  size="6">
                 <ion-item lines="none">
@@ -87,8 +87,8 @@
           </ion-col>
           </ion-card-content>
         </ion-card>
-        <ion-row  class="ion-justify-content-center" *ngIf="!!reqItem.itens && reqItem.itens.length == 0" >
-          <ion-col size="5" class="ion-margin-top" > 
+        <ion-row  class="ion-justify-content-center" *ngIf="!!reqItem.itens && reqItem.itens.length === 0" >
+          <ion-col size="5" class="ion-margin-top" >
             <div class="imgDiv" >
               <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
             </div>
@@ -98,8 +98,8 @@
               adicionado nesta requisição.</h2>
           </ion-col>
         </ion-row>
-      </ion-col>   
-      <ion-col size="11"> 
+      </ion-col>
+      <ion-col size="11">
         <ion-item class="desc">
           Demais informações
         </ion-item>
@@ -121,7 +121,7 @@
                 <ion-item  lines="none">
                   <ion-label position="stacked"  class="labelTitle">Numero OF:</ion-label>
                   <p>{{!!reqItem.ofCodigo ? reqItem.ofCodigo : 'Não possue Numero OF'}}</p>
-                </ion-item>   
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
@@ -129,7 +129,7 @@
                 <ion-item  lines="none">
                   <ion-label position="stacked"  class="labelTitle">Aprovador:</ion-label>
                   <p>{{!!reqItem.aprovadoPorUsuario ? reqItem.aprovadoPorUsuario : 'Aprovação pendente'}}</p>
-                </ion-item>   
+                </ion-item>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -141,29 +141,29 @@
           Observações:
         </ion-item>
         <ion-item lines="none">
-          <ion-textarea placeholder="Enter more information here..." [value]="reqItem.observacao" cols="20"></ion-textarea>
+          <ion-textarea placeholder="" [value]="reqItem.observacao" cols="20"></ion-textarea>
         </ion-item>
-      </ion-col>  
+      </ion-col>
       <ion-col size="11">
         <ion-row class="ion-justify-content-center">
           <ion-col size="10">
             <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar</ion-button>
           </ion-col>
-          <ion-col size="10" *ngIf="reqItem.statusDescricao == 'Nao Concluido'">
+          <ion-col size="10">
             <ion-button class="btnRedondo btnVoltar" (click)="editReq()"  expand="block" [disabled]="loadButton">
               <ion-ripple-effect type="unbounded"></ion-ripple-effect>
               <ion-spinner name="crescent" *ngIf="loadButton"></ion-spinner>
               {{!loadButton ? 'EDITAR REQUISIÇÃO' :'' }}
             </ion-button>
-          </ion-col> 
+          </ion-col>
         </ion-row>
-      </ion-col>  
+      </ion-col>
     </ion-row>
     <ion-row  class="ion-justify-content-center" *ngIf="load && error" style="height: 100%; align-items: center;">
-      <ion-col size="5" class="ion-margin-top" > 
+      <ion-col size="5" class="ion-margin-top" >
         <div class="imgDiv" >
           <ion-img src="../../assets/img/noInsumos.svg"></ion-img>
-         
+
         </div>
         <h2 class="titleNoInsumos">Algo deu errado</h2>
       </ion-col>
