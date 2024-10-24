@@ -4,5 +4,6 @@ export interface AuthUserStateModel {
   refreshToken:string,
   urlLogin:string,
   urlAPISuprimentos:string,
-  urlAPISP7:string
+  urlAPISP7:string,
+  colaboradorViaQrCode:string
 }

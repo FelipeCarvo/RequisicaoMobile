@@ -6,7 +6,7 @@ import { Store } from '@ngxs/store';
 import {setAuthData,setAuthUrl} from '@core/store/actions/auth.actions'
 import { AuthUser } from '@core/store/state/auth.state';
 type IurlDTOS ={
-  urlLogin:string;urlAPISuprimentos:string;urlAPISP7:string
+  urlLogin:string;urlAPISuprimentos:string;urlAPISP7:string;colaboradorViaQrCode:string
 }
 @Injectable({
     providedIn: 'root'
@@ -59,7 +59,8 @@ export class LoginService {
           let urlLogin = itens.find(item => item.nome == 'urlLogin').valor;
           let urlAPISuprimentos = itens.find(item => item.nome == 'urlAPISuprimentos').valor;
           let urlAPISP7 = itens.find(item => item.nome == 'urlAPISP7').valor;
-          let data = this.sliceUrl({urlLogin,urlAPISuprimentos,urlAPISP7});
+          let colaboradorViaQrCode = itens.find(item => item.nome == 'colaboradorViaQrCode').valor;
+          let data = this.sliceUrl({urlLogin,urlAPISuprimentos,urlAPISP7,colaboradorViaQrCode});
           this.store.dispatch(new setAuthUrl(data));
           observer.next(res);
         },

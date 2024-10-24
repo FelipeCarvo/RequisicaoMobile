@@ -6,6 +6,8 @@ import {translateAnimation} from '@services/animation/custom-animation';
 import { Injectable } from '@angular/core';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { AuthUser } from '@core/store/state/auth.state';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,7 @@ export class RequestFormFrotaComponent implements OnInit {
   @Input() controlName: any;
   @Input() getFormForStore: any;
   @Input() validReqId: boolean;
+  @Input() colabViaQrCode: boolean;
   @Output() UpdateForm: EventEmitter<any> = new EventEmitter();
   @Output() sendReq: EventEmitter<any> = new EventEmitter();
   @Output() setFormForStore: EventEmitter<any> = new EventEmitter();
@@ -43,7 +46,8 @@ export class RequestFormFrotaComponent implements OnInit {
   constructor(
     route: ActivatedRoute,
     private loockupstService: LoockupstService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private store:Store
   ) {
     this.rota = route.snapshot.params.rota;
     this.initForm();
@@ -69,8 +73,27 @@ export class RequestFormFrotaComponent implements OnInit {
   get _dataInicio(){
     return this.reqForm.get('dataInicio').value;
   }
+
+  public get getcolaboradorViaQrCode(){
+    return this.store.selectSnapshot(AuthUser.getcolaboradorViaQrCode)
+  }
+
+  getBoolean(value) {
+    switch(value){
+      case true:
+      case "true":
+      case "sim":
+      case 1:
+      case "1":
+        return true;
+      default:
+        return false;
+    }
+  }
+
   async ngOnInit() {
     this.validReqId;
+    this.colabViaQrCode = this.getBoolean(this.getcolaboradorViaQrCode);
     let parametroapp = JSON.parse(localStorage.getItem('parametroapp'));
     for (let index = 0; index < parametroapp.length; index++) {
       const element = parametroapp[index]["leituraColaboradorQrCod"];

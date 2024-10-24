@@ -8,7 +8,8 @@ const defaults: AuthUserStateModel = {
   refreshToken:null,
   urlLogin:null,
   urlAPISuprimentos:null,
-  urlAPISP7:null
+  urlAPISP7:null,
+  colaboradorViaQrCode:null
 };
 @State<AuthUserStateModel>({
   name: 'AuthUser',
@@ -36,7 +37,7 @@ export class AuthUser {
   }
   @Selector()
   static noUrls(state: AuthUserStateModel) {
-    return !state.urlLogin || !state.urlAPISuprimentos || !state.urlAPISP7;
+    return !state.urlLogin || !state.urlAPISuprimentos || !state.urlAPISP7 || !state.colaboradorViaQrCode;
   
   }
   @Selector()
@@ -46,6 +47,10 @@ export class AuthUser {
   @Selector()
   static geturlLogin(state: AuthUserStateModel) {
     return state.urlLogin;
+  }
+  @Selector()
+  static getcolaboradorViaQrCode(state: AuthUserStateModel) {
+    return state.colaboradorViaQrCode;
   }
   @Selector()
   static geturlParams(state: AuthUserStateModel) {
@@ -83,7 +88,8 @@ export class AuthUser {
     patchState({
       urlLogin:payload.urlLogin,
       urlAPISuprimentos:payload.urlAPISuprimentos,
-      urlAPISP7:payload.urlAPISP7
+      urlAPISP7:payload.urlAPISP7,
+      colaboradorViaQrCode:payload.colaboradorViaQrCode
     })
   }
   @Action(Logout)

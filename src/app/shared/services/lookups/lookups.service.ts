@@ -23,6 +23,9 @@ import { AuthUser } from '@core/store/state/auth.state';
       return this.store.selectSnapshot(AuthUser.geturlParams);
     }
 
+    public get getColaboradorViaQrCode(){
+      return this.store.selectSnapshot(AuthUser.getcolaboradorViaQrCode);
+    }
 
     getLookUp(params = null, endPoint = 'Empreendimentos') {
       return new Promise((resolve, reject) => {

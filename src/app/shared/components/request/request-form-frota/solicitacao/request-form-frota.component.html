@@ -14,7 +14,7 @@
 
     <ion-row class="ion-justify-content-center" *ngIf="mostrarLeitorQrCode">
       <ion-col size="11" class="no-padding-top">
-        <app-qr-scanner (qrCodeLido)="buscarColaboradorScan($event)"></app-qr-scanner>
+        <app-qr-scanner (qrCodeLido)="buscarColaboradorScan($event)" caption="Ler QRCODE Colaborador"></app-qr-scanner>
 
       </ion-col>
     </ion-row>
@@ -23,6 +23,7 @@
       <ion-item  lines="none" class="box">
         <app-input-search label="Colaborador" [disabledInput]="validReqId" formName="req"
         [pesquisa]="{pesquisa: '',colaboradorCod: colaboradorIdValue}"
+        [disabledInput]="colabViaQrCode"
         placeholder="Nome do colaborador" [parentForm]="reqForm" controlName="colaboradorCod" ngDefaultControl></app-input-search>
       </ion-item>
     </ion-col>
