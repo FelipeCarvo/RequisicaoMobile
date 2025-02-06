@@ -257,6 +257,9 @@ export class RequestPage implements OnInit,OnDestroy {
     return {params,type};
   }
   formatDate(date){
+    if (date === undefined) {
+        return date;
+    }
     if (date !== null){
       return  formatISO(date, { representation: 'date' });
     }
