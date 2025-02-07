@@ -1,16 +1,21 @@
 # siecon-req
 
-![](https://img.shields.io/badge/Ionic-v7.0.1-blue) ![](https://img.shields.io/badge/Capacitor-v5.0.0-black) ![](https://img.shields.io/badge/Angular-16.2.12-red) ![](https://img.shields.io/badge/Node-v18.16.0-green)
+![](https://img.shields.io/badge/Ionic-v7.2.0-blue) ![](https://img.shields.io/badge/Capacitor-v7.0.0-black) ![](https://img.shields.io/badge/Angular-19.1.5-red) ![](https://img.shields.io/badge/Node-v20.18.2-green)
 
 ## :electric_plug: Getting Started
 
-Clone this repository
+Instale o nvm.
 
-```sh
+```terminal
+nvm install 20.18.2
+nvm use 20.18.2
 git clone https://github.com/Poliview-Siecon/RequisicaoMobile.git
 cd RequisicaoMobile
+npm install --global yarn
+npm i -g @ionic/cli
+npm install @capacitor/core 
+npm install @capacitor/cli
 'npm i' ou 'yarn'
-'npm install @capacitor/core @capacitor/cli'
 ```
 
 ## :zap: Run
@@ -38,30 +43,6 @@ cd RequisicaoMobile
 ### - Warning
 
 * :warning:``Certfique-se que tem a dependencia `capacitor-resources` para funcionar o run generate_apk`` e gerar splashScreen com capacitor-resources
-
-## :hammer: Dependences
-
-```sh
-
-Package                         Version
----------------------------------------------------------
-Angular                         CLI: 16.2.13
-Node:                           18.16.0
-Package Manager:                npm 8.18.0 
-@angular-eslint/eslint-plugin   14.0.3,
-@angular-devkit/architect       0.1602.13
-@angular-devkit/build-angular   16.2.13
-@angular-devkit/core            16.2.13
-@angular-devkit/schematics      16.2.13
-@angular/cdk                    16.2.14
-@angular/cli                    16.2.13
-@angular/material               16.2.14
-@schematics/angular             16.2.13
-rxjs                            6.6.7
-typescript                      5.1.6
-zone.js                         0.13.3
-
-```
 
 ## :fearful: Problemas e Soluções(macOs m1)
 

@@ -4,10 +4,11 @@ import { AuthUser } from '@core/store/state/auth.state';
 import {opacityAnimationT} from '@services/animation/custom-animation'
 import {Logout} from '@core/store/actions/auth.actions'
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss'],
-  animations: [opacityAnimationT()]
+    selector: 'app-tab1',
+    templateUrl: 'login.page.html',
+    styleUrls: ['login.page.scss'],
+    animations: [opacityAnimationT()],
+    standalone: false
 })
 export class LoginPage implements OnInit{
   hasUrl: boolean;

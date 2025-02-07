@@ -13,9 +13,10 @@ import { formatISO } from 'date-fns';
 
 
 @Component({
-  selector: 'app-request',
-  templateUrl: './request-frota.page.html',
-  styleUrls: ['./request.page.scss'],
+    selector: 'app-request',
+    templateUrl: './request-frota.page.html',
+    styleUrls: ['./request.page.scss'],
+    standalone: false
 })
 export class RequestPage implements OnInit,OnDestroy {
   @ViewChild('appChild', {static: false}) childComponent;

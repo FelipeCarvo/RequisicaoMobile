@@ -7,9 +7,10 @@ import {ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-reserva-insumo',
-  templateUrl: './reserva-insumo.page.html',
-  styleUrls: ['./reserva-insumo.page.scss'],
+    selector: 'app-reserva-insumo',
+    templateUrl: './reserva-insumo.page.html',
+    styleUrls: ['./reserva-insumo.page.scss'],
+    standalone: false
 })
 export class ReservaInsumoPage implements OnInit {
   itemObject:{

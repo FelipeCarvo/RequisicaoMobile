@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 
 import {translateAnimation} from '@services/animation/custom-animation'
 @Component({
-  selector: 'list-request-component',
-  templateUrl: './list-request.component.html',
-  styleUrls: ['./list-request.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'list-request-component',
+    templateUrl: './list-request.component.html',
+    styleUrls: ['./list-request.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ListRequest implements OnInit {
   @Input() name: string;

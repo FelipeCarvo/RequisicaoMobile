@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MenuComponentComponentModule} from './shared/components/menu-cp/menu.module';
 import {MenuComponentFooterModule} from './shared/components/menu-footer/menu-footer.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { InterceptorModule } from './core/interceptor/interceptor.module';
 import { NgxsModule } from '@ngxs/store';
 import {AuthUser} from '@core/store/state/auth.state';
@@ -20,11 +20,8 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import {SharedModules} from '@components/components.module';
 //import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 //import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-@NgModule({
-    declarations: [AppComponent],
-    imports: [
-        ReactiveFormsModule,
-        HttpClientModule,
+@NgModule({ declarations: [AppComponent],
+    bootstrap: [AppComponent], imports: [ReactiveFormsModule,
         InterceptorModule,
         FormsModule,
         BrowserModule,
@@ -40,11 +37,7 @@ import {SharedModules} from '@components/components.module';
         MenuComponentFooterModule,
         NgxsModule.forRoot([AuthUser, ReqState, InsumoState], { developmentMode: !environment.production }),
         NgxsStoragePluginModule.forRoot({
-            key: ['AuthUser', 'ReqState', 'InsumoState']
-        }),
-    ],
-    providers: [/*File, AndroidPermissions, Base64ToGallery, */FileOpener,
-      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },],
-    bootstrap: [AppComponent],
-})
+            keys: ['AuthUser', 'ReqState', 'InsumoState']
+        })], providers: [/*File, AndroidPermissions, Base64ToGallery, */ FileOpener,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(withInterceptorsFromDi()),] })
 export class AppModule {}

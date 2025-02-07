@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-@Pipe({name: 'imageType'})
+@Pipe({
+    name: 'imageType',
+    standalone: false
+})
 export class imageTypepipe implements PipeTransform {
   transform(type:string): string {
     let result

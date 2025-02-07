@@ -3,9 +3,10 @@ import { NavController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'profile.page.html',
-  styleUrls: ['profile.page.scss']
+    selector: 'app-tab3',
+    templateUrl: 'profile.page.html',
+    styleUrls: ['profile.page.scss'],
+    standalone: false
 })
 export class ProfilePage {
   hasEditProfile = false;

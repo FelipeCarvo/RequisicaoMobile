@@ -7,9 +7,10 @@ import {ResetStateReq} from '@core/store/actions/req.actions'
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
 @Component({
-  selector: 'menu-root',
-  templateUrl: 'menu.component.html',
-  styleUrls: ['menu.component.scss'],
+    selector: 'menu-root',
+    templateUrl: 'menu.component.html',
+    styleUrls: ['menu.component.scss'],
+    standalone: false
 })
 export class MenuComponent {
   userName: String = null;

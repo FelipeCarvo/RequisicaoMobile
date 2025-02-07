@@ -10,10 +10,11 @@ import {FilterRequestFields} from '@services/utils/interfaces/request.interface'
 import { formatISO } from 'date-fns';
 
 @Component({
-  selector: 'app-request-dev-frota',
-  templateUrl: './itens-devolver-frotas.page.html',
-  styleUrls: ['./itens-devolver-frotas.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-request-dev-frota',
+    templateUrl: './itens-devolver-frotas.page.html',
+    styleUrls: ['./itens-devolver-frotas.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ItensDevolverFrotasPage implements OnInit,OnDestroy {
 

@@ -8,10 +8,11 @@ import {RequestService} from '@services/request/request.service';
 import {ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-list-insumos',
-  templateUrl: './list-insumos.page.html',
-  styleUrls: ['./list-insumos.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-list-insumos',
+    templateUrl: './list-insumos.page.html',
+    styleUrls: ['./list-insumos.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ListInsumosPage implements OnInit {
   empreendimentoId:string = null;

@@ -3,7 +3,10 @@ import { Validators, NgControl,ValidatorFn, AbstractControl, ValidationErrors } 
 import { FormGroupDirective } from "@angular/forms";
 
 // import { NgControl } from '@angular/forms';
-@Directive({selector: '[disableControl]'})
+@Directive({
+    selector: '[disableControl]',
+    standalone: false
+})
 export class DisableControlDirective  {
   disabled: boolean;
   @Input() set disableControl( condition : boolean ) {

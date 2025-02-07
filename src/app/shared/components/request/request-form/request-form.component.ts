@@ -9,10 +9,11 @@ import {RequestFormInterface} from '@services/utils/interfaces/reqForm.interce'
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-request-form',
-  templateUrl: './request-form.component.html',
-  styleUrls: ['./request-form.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-request-form',
+    templateUrl: './request-form.component.html',
+    styleUrls: ['./request-form.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class RequestFormComponent implements OnInit {
   @Input() getFormForStore: any;

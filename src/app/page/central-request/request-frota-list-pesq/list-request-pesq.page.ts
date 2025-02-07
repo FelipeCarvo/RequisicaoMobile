@@ -5,10 +5,11 @@ import {RequestService} from '@services/request/request.service';
 import {ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-list-request-pesq',
-  templateUrl: './list-request-pesq.page.html',
-  styleUrls: ['./list-request-pesq.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-list-request-pesq',
+    templateUrl: './list-request-pesq.page.html',
+    styleUrls: ['./list-request-pesq.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ListRequestFrotaPesqPage implements OnInit {
   empreendimentoId: string = null;

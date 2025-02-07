@@ -4,9 +4,10 @@ import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import { ToastController } from '@ionic/angular';
 @Component({
-  selector: 'app-justificativa',
-  templateUrl: './justificativa.component.html',
-  styleUrls: ['./justificativa.component.scss'],
+    selector: 'app-justificativa',
+    templateUrl: './justificativa.component.html',
+    styleUrls: ['./justificativa.component.scss'],
+    standalone: false
 })
 export class JustificativaComponent implements OnInit {
   @Input() versaoEsperada:Number;

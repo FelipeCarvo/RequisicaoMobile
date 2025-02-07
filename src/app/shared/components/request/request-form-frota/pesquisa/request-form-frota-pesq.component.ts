@@ -10,10 +10,11 @@ import { format } from 'date-fns';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-pesq-form-frota',
-  templateUrl: './request-form-frota-pesq.component.html',
-  styleUrls: ['./request-form-frota-pesq.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-pesq-form-frota',
+    templateUrl: './request-form-frota-pesq.component.html',
+    styleUrls: ['./request-form-frota-pesq.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class RequestFormFrotaPesqComponent implements OnInit {
   @Input() controlName: any;

@@ -9,9 +9,10 @@ import {ReqState} from '@core/store/state/req.state';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-edit-justificativa',
-  templateUrl: './edit-justificativa.page.html',
-  styleUrls: ['./edit-justificativa.page.scss'],
+    selector: 'app-edit-justificativa',
+    templateUrl: './edit-justificativa.page.html',
+    styleUrls: ['./edit-justificativa.page.scss'],
+    standalone: false
 })
 export class EditJustificativaPage implements OnInit {
   public formJus: UntypedFormGroup;

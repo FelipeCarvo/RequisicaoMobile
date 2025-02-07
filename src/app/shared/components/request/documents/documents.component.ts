@@ -23,9 +23,10 @@ export default interface archivesInterface {
   descripition?: String;
 }
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss'],
+    selector: 'app-documents',
+    templateUrl: './documents.component.html',
+    styleUrls: ['./documents.component.scss'],
+    standalone: false
 })
 @Injectable({
   providedIn: 'root'

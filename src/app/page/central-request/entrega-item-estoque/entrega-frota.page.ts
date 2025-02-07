@@ -10,10 +10,11 @@ import { UntypedFormGroup} from '@angular/forms';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import { formatISO } from 'date-fns';
 @Component({
-  selector: 'app-entrega-frota',
-  templateUrl: './entrega-frota.page.html',
-  styleUrls: ['./entrega-frota.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-entrega-frota',
+    templateUrl: './entrega-frota.page.html',
+    styleUrls: ['./entrega-frota.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class EntregaRequestPage implements OnInit,OnDestroy {
   requisicaoId: string;

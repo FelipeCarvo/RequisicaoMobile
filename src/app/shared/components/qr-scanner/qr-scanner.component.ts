@@ -2,9 +2,10 @@ import { Component, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, 
 import jsQR from 'jsqr';
 
 @Component({
-  selector: 'app-qr-scanner',
-  templateUrl: './qr-scanner.component.html',
-  styleUrls: ['./qr-scanner.component.scss'],
+    selector: 'app-qr-scanner',
+    templateUrl: './qr-scanner.component.html',
+    styleUrls: ['./qr-scanner.component.scss'],
+    standalone: false
 })
 export class QrScannerComponent implements AfterViewInit {
   @ViewChild('video', { static: false })

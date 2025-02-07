@@ -6,9 +6,10 @@ import {LoadingService} from '@services/loading/loading-service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import { ToastController } from '@ionic/angular';
 @Component({
-  selector: 'app-document-item',
-  templateUrl: './document-item.component.html',
-  styleUrls: ['./document-item.component.scss'],
+    selector: 'app-document-item',
+    templateUrl: './document-item.component.html',
+    styleUrls: ['./document-item.component.scss'],
+    standalone: false
 })
 export class DocumentItemComponent implements OnInit {
   @Input()item:any;

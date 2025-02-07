@@ -5,9 +5,10 @@ import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-login-cp',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login-cp',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   public loginForm: UntypedFormGroup;

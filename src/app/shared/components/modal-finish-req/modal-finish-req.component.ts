@@ -9,10 +9,11 @@ import {ResetStateReq} from '@core/store/actions/req.actions'
 import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
-  selector: 'app-modal-finish-req',
-  templateUrl: './modal-finish-req.component.html',
-  styleUrls: ['./modal-finish-req.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-modal-finish-req',
+    templateUrl: './modal-finish-req.component.html',
+    styleUrls: ['./modal-finish-req.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ModalFinishReqComponent implements OnInit {
   @Input() id: string;

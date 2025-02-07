@@ -7,10 +7,11 @@ import {LoadingService} from '@services/loading/loading-service';
 import {Subject } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 @Component({
-  selector: 'app-detail-request',
-  templateUrl: './detail-request.page.html',
-  styleUrls: ['./detail-request.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-detail-request',
+    templateUrl: './detail-request.page.html',
+    styleUrls: ['./detail-request.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class DetailRequestPage implements OnInit,OnDestroy {
   requisicaoId: string;

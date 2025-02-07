@@ -13,15 +13,15 @@ import {
   Validator
 } from '@angular/forms';
 @Component({
-  selector: 'app-input-search',
-  templateUrl: './input-search.component.html',
-  styleUrls: ['./input-search.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => InputSearchComponent),
-    multi: true
-   }]
-
+    selector: 'app-input-search',
+    templateUrl: './input-search.component.html',
+    styleUrls: ['./input-search.component.scss'],
+    providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InputSearchComponent),
+            multi: true
+        }],
+    standalone: false
 })
 
 export class InputSearchComponent implements OnInit, AfterViewChecked {

@@ -13,10 +13,11 @@ import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-home-estoque',
-  templateUrl: 'home-estoque.page.html',
-  styleUrls: ['home-estoque.page.scss'],
-  animations: [translateAnimation(),rotateAnimation()]
+    selector: 'app-home-estoque',
+    templateUrl: 'home-estoque.page.html',
+    styleUrls: ['home-estoque.page.scss'],
+    animations: [translateAnimation(), rotateAnimation()],
+    standalone: false
 })
 export class HomeEstoquePage {
   listReq: Array<any> = [];

@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-@Pipe({name: 'formatSize'})
+@Pipe({
+    name: 'formatSize',
+    standalone: false
+})
 export class sizeFormatPipe implements PipeTransform {
   transform(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';

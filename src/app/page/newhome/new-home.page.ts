@@ -15,10 +15,11 @@ import { setHours, setMinutes, setSeconds, formatISO } from 'date-fns';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-home',
-  templateUrl: 'new-home.page.html',
-  styleUrls: ['new-home.page.scss'],
-  animations: [translateAnimation(),rotateAnimation()]
+    selector: 'app-home',
+    templateUrl: 'new-home.page.html',
+    styleUrls: ['new-home.page.scss'],
+    animations: [translateAnimation(), rotateAnimation()],
+    standalone: false
 })
 export class newHomePage {
   // @ViewChild('canvas', { static: true }) signaturePadElement;

@@ -1,6 +1,7 @@
 import {Directive ,HostListener} from '@angular/core';
 @Directive({
-  selector: '[appMousePosition]'
+    selector: '[appMousePosition]',
+    standalone: false
 })
 export class MosuePositionDirective {
   @HostListener('mousemove', ['$event']) onMouseMove(event) {

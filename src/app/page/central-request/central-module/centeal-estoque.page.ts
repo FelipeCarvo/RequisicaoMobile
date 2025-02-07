@@ -8,9 +8,10 @@ import {LoadingService} from '@services/loading/loading-service';
 import {ActivatedRoute} from '@angular/router';
 import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
-  selector: 'app-centeal-estoque',
-  templateUrl: './centeal-estoque.page.html',
-  styleUrls: ['./centeal-estoque.page.scss'],
+    selector: 'app-centeal-estoque',
+    templateUrl: './centeal-estoque.page.html',
+    styleUrls: ['./centeal-estoque.page.scss'],
+    standalone: false
 })
 export class CentealEstoquePage implements OnInit {
   

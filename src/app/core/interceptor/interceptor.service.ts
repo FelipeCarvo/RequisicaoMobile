@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '@environment/environment';
-import { 
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpErrorResponse,
-  HttpClient 
-}  
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpClient }  
 from '@angular/common/http';
 import { Observable,throwError, } from 'rxjs';
 import { catchError ,switchMap,debounceTime,tap} from 'rxjs/operators';

@@ -14,9 +14,10 @@ import { format } from 'date-fns';
 
 
 @Component({
-  selector: 'app-dev',
-  templateUrl: './dev-frota.page.html',
-  styleUrls: ['./dev.page.scss'],
+    selector: 'app-dev',
+    templateUrl: './dev-frota.page.html',
+    styleUrls: ['./dev.page.scss'],
+    standalone: false
 })
 
 

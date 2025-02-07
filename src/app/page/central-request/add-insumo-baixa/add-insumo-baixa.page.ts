@@ -12,10 +12,11 @@ import { first, map } from 'rxjs/operators';
 import { LoadingService } from '@services/loading/loading-service';
 
 @Component({
-  selector: 'app-add-insumo-baixa',
-  templateUrl: './add-insumo-baixa.page.html',
-  styleUrls: ['./add-insumo-baixa.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-add-insumo-baixa',
+    templateUrl: './add-insumo-baixa.page.html',
+    styleUrls: ['./add-insumo-baixa.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class AddInsumoBaixaPage implements OnInit {
   @Input() getFormForStore: any;

@@ -12,9 +12,10 @@ export default interface archivesInterface {
   descripition?: String;
 }
 @Component({
-  selector: 'app-document-modal',
-  templateUrl: './document-modal.component.html',
-  styleUrls: ['./document-modal.component.scss'],
+    selector: 'app-document-modal',
+    templateUrl: './document-modal.component.html',
+    styleUrls: ['./document-modal.component.scss'],
+    standalone: false
 })
 export class DocumentModalComponent implements OnInit {
   @Input('versaoEsperada') versaoEsperada:Number;

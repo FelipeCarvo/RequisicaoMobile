@@ -12,9 +12,10 @@ import {AlertServices} from '@services/utils/alerts-services/alerts-services';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-insumos',
-  templateUrl: './insumos.page.html',
-  styleUrls: ['./insumos.page.scss'],
+    selector: 'app-insumos',
+    templateUrl: './insumos.page.html',
+    styleUrls: ['./insumos.page.scss'],
+    standalone: false
 })
 export class InsumosPage{
   @ViewChild('appChild', {static: false}) childComponent;

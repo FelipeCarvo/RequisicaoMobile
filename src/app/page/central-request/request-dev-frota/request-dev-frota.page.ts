@@ -11,10 +11,11 @@ import SignaturePad from 'signature_pad';
 import { formatISO } from 'date-fns';
 
 @Component({
-  selector: 'app-request-dev-frota',
-  templateUrl: './request-dev-frota.page.html',
-  styleUrls: ['./request-dev-frota.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-request-dev-frota',
+    templateUrl: './request-dev-frota.page.html',
+    styleUrls: ['./request-dev-frota.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class DetailRequestPage implements OnInit,OnDestroy {
   @ViewChild('canvas', { static: true }) signaturePadElement;

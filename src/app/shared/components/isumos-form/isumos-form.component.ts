@@ -14,10 +14,10 @@ import { addDays, differenceInDays, format } from 'date-fns';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-isumos-form',
-  templateUrl: './isumos-form.component.html',
-  styleUrls: ['./isumos-form.component.scss'],
-
+    selector: 'app-isumos-form',
+    templateUrl: './isumos-form.component.html',
+    styleUrls: ['./isumos-form.component.scss'],
+    standalone: false
 })
 export class IsumosFormComponent implements OnInit {
   @Input() getFormForStore:any;

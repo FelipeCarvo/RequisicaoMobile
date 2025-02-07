@@ -1,10 +1,10 @@
 import { Component,OnInit, Input,Output,EventEmitter } from '@angular/core';;
 
 @Component({
-  selector: 'app-list-req-frota',
-  templateUrl: './list-insumos.component.html',
-  styleUrls: ['./list-insumos.component.scss'],
-
+    selector: 'app-list-req-frota',
+    templateUrl: './list-insumos.component.html',
+    styleUrls: ['./list-insumos.component.scss'],
+    standalone: false
 })
 export class ListInsumosComponent implements OnInit {
   @Input() item: any;

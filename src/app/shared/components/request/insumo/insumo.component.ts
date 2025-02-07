@@ -9,10 +9,11 @@ import {opacityAnimation} from '@services/animation/custom-animation';
 import {InsumosRequest} from '@services/insumos/inusmo-req.service';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 @Component({
-  selector: 'app-insumo',
-  templateUrl: './insumo.component.html',
-  styleUrls: ['./insumo.component.scss'],
-  animations: [opacityAnimation()]
+    selector: 'app-insumo',
+    templateUrl: './insumo.component.html',
+    styleUrls: ['./insumo.component.scss'],
+    animations: [opacityAnimation()],
+    standalone: false
 })
 export class InsumoComponent implements AfterViewInit {
   @Input() requisicaoId: string;

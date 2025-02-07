@@ -7,9 +7,10 @@ import {ResetStateReq} from '@core/store/actions/req.actions';
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
 @Component({
-  selector: 'app-menu-footer',
-  templateUrl: 'menu-footer.component.html',
-  styleUrls: ['menu-footer.component.scss'],
+    selector: 'app-menu-footer',
+    templateUrl: 'menu-footer.component.html',
+    styleUrls: ['menu-footer.component.scss'],
+    standalone: false
 })
 export class MenuFooterComponent {
   userName  = null;

@@ -12,9 +12,10 @@ import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import {UpdateRequestStatus} from '@services/send-status/send-status.service';
 import {ActivatedRoute,Router} from '@angular/router';
 @Component({
-  selector: 'app-request',
-  templateUrl: './request.page.html',
-  styleUrls: ['./request.page.scss'],
+    selector: 'app-request',
+    templateUrl: './request.page.html',
+    styleUrls: ['./request.page.scss'],
+    standalone: false
 })
 export class RequestPage implements OnInit,OnDestroy {
   @ViewChild('appChild', {static: false}) childComponent;

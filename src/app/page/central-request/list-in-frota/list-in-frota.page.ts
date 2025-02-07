@@ -9,10 +9,11 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators ,UntypedFormControl } 
 import { InputSearchComponent } from '@components/input-search/input-search.component';
 
 @Component({
-  selector: 'app-list-insumos-frota',
-  templateUrl: './list-in-frota.page.html',
-  styleUrls: ['./list-in-frota.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-list-insumos-frota',
+    templateUrl: './list-in-frota.page.html',
+    styleUrls: ['./list-in-frota.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ListInsumosFrotaPage implements OnInit {
   @Input() getFormForStore: any;

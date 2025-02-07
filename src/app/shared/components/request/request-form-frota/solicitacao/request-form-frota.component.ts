@@ -13,10 +13,11 @@ import { AuthUser } from '@core/store/state/auth.state';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-request-form-frota',
-  templateUrl: './request-form-frota.component.html',
-  styleUrls: ['./request-form-frota.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-request-form-frota',
+    templateUrl: './request-form-frota.component.html',
+    styleUrls: ['./request-form-frota.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class RequestFormFrotaComponent implements OnInit {
   @Input() controlName: any;

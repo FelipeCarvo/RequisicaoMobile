@@ -6,9 +6,10 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
 import { Observable } from 'rxjs';
 import { formatISO, isSameDay } from 'date-fns';
 @Component({
-  selector: 'app-filter-req',
-  templateUrl: './filter-req.component.html',
-  styleUrls: ['./filter-req.component.scss']
+    selector: 'app-filter-req',
+    templateUrl: './filter-req.component.html',
+    styleUrls: ['./filter-req.component.scss'],
+    standalone: false
 })
 export class FilterReqComponent implements OnInit {
   public filterForm: UntypedFormGroup;

@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-@Pipe({name: 'descripitionpipe'})
+@Pipe({
+    name: 'descripitionpipe',
+    standalone: false
+})
 export class Descripitionpipe implements PipeTransform {
   transform(content:string,maxCharacters:number):string {
     if (!maxCharacters) return content.replace(/[^0-9]/g,'');
@@ -22,7 +25,10 @@ export class Descripitionpipe implements PipeTransform {
     // return numsStr  
   }
 }
-@Pipe({name: 'filterType'})
+@Pipe({
+    name: 'filterType',
+    standalone: false
+})
 export class filterType implements PipeTransform {
   transform(content:string,name:string,Hasfilter:boolean): String {
     let retorno;

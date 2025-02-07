@@ -4,10 +4,11 @@ import { ModalController } from '@ionic/angular';
 import {AlertServices} from '@services/utils/alerts-services/alerts-services';
 import { ToastController } from '@ionic/angular';
 @Component({
-  selector: 'app-modal-estoque',
-  templateUrl: './modal-estoque.component.html',
-  styleUrls: ['./modal-estoque.component.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-modal-estoque',
+    templateUrl: './modal-estoque.component.html',
+    styleUrls: ['./modal-estoque.component.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class ModalEstoqueComponent implements OnInit {
   @Input() listInsumos:any;

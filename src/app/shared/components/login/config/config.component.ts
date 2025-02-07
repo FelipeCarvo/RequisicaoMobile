@@ -3,9 +3,10 @@ import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 @Component({
-  selector: 'app-config-cp',
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.scss'],
+    selector: 'app-config-cp',
+    templateUrl: './config.component.html',
+    styleUrls: ['./config.component.scss'],
+    standalone: false
 })
 export class ConfigComponent implements OnInit {
   public configForm: UntypedFormGroup;

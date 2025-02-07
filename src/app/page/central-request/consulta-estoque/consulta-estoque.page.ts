@@ -10,9 +10,10 @@ import {ModalEstoqueComponent} from '@components/modal-estoque/modal-estoque.com
 import { ModalController,ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-consulta-estoque',
-  templateUrl: './consulta-estoque.page.html',
-  styleUrls: ['./consulta-estoque.page.scss'],
+    selector: 'app-consulta-estoque',
+    templateUrl: './consulta-estoque.page.html',
+    styleUrls: ['./consulta-estoque.page.scss'],
+    standalone: false
 })
 export class ConsultaEstoquePage implements OnInit {
   idInsumo: string;

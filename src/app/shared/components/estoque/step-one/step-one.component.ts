@@ -2,9 +2,10 @@ import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';;
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-step-one',
-  templateUrl: './step-one.component.html',
-  styleUrls: ['./step-one.component.scss'],
+    selector: 'app-step-one',
+    templateUrl: './step-one.component.html',
+    styleUrls: ['./step-one.component.scss'],
+    standalone: false
 })
 export class StepOneComponent implements OnInit {
   @Input() insumoEstoque;

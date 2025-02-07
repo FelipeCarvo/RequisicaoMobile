@@ -14,10 +14,11 @@ import { formatISO, setHours, setMinutes, setSeconds } from 'date-fns';
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  animations: [translateAnimation(),rotateAnimation()]
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    animations: [translateAnimation(), rotateAnimation()],
+    standalone: false
 })
 export class homePage {
 

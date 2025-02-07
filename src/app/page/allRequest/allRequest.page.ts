@@ -4,10 +4,11 @@ import {RequestService} from '@services/request/request.service';
 import { NavController } from '@ionic/angular';
 import {translateAnimation} from '@services/animation/custom-animation'
 @Component({
-  selector: 'app-allRequest',
-  templateUrl: './allRequest.page.html',
-  styleUrls: ['./allRequest.page.scss'],
-  animations: [translateAnimation()]
+    selector: 'app-allRequest',
+    templateUrl: './allRequest.page.html',
+    styleUrls: ['./allRequest.page.scss'],
+    animations: [translateAnimation()],
+    standalone: false
 })
 export class AllRequestPage implements OnInit {
   listReq: Array<any>;
