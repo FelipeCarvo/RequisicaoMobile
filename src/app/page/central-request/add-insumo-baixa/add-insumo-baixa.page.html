@@ -6,17 +6,17 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <form id="requestForm" [formGroup]="reqForm" style="height: 150%;background-color: white;justify-content: center;">
+    <div class="statusDiv">
+      <p>Baixa Nº: <span>{{requisicaoCod}}</span></p>
+    </div>
+    <app-qr-scanner (qrCodeLido)="buscaInsumoQrCode($event)" caption="Ler QRCODE Insumo"></app-qr-scanner>
 
-<form id="requestForm" [formGroup]="reqForm"  style="height: 100%;background-color: white;justify-content: center;" >
-  <div class="statusDiv">
-    <p>Baixa Nº: <span>{{requisicaoCod}}</span></p>
-  </div>
-  <app-qr-scanner (qrCodeLido)="buscaInsumoQrCode($event)" caption="Ler QRCODE Insumo"></app-qr-scanner>
 
 
-
-  <ion-grid  class="no-padding-bottom no-padding-top" style="justify-content: center;">
-    <ion-row class="ion-justify-content-center corpo"  *ngIf="load && !error ">
+    <ion-grid class="no-padding-bottom no-padding-top" style="justify-content: center;">
+      <ion-row class="ion-justify-content-center corpo" *ngIf="load && !error ">
         <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
 
         <!--<ion-col size=11>
@@ -34,7 +34,7 @@
         </ion-col>
 
         <ion-col size="11">
-            <ion-button class="btnRedondo" (click)="buscarEstoque()" expand="block">Buscar Estoque</ion-button>
+          <ion-button class="btnRedondo" (click)="buscarEstoque()" expand="block">Buscar Estoque</ion-button>
         </ion-col>
 
         <!-- Inicio Lista de Insumos em Estoque -->
@@ -46,12 +46,12 @@
           <ion-list [inset]="true" style="background-color: white; max-height: 300px; overflow-y: scroll;">
             <ion-radio-group value="itemRi" (ionChange)="radioGroupChange($event)" name="radio-group" #radioGroup>
               <ion-item *ngFor="let item of listInsumos | async">
-                <ion-radio [value]="item.itemRi" slot="start"
-                  name="{{item.itemRi}}"></ion-radio>
+                <ion-radio [value]="item.itemRi" slot="start" name="{{item.itemRi}}"></ion-radio>
                 <ion-col size="11">
                   <b style="font-size: 12px;">{{item.insumoCodigo}} - {{item.insumoDescricao}} - {{item.complemento}}
                     <br />
-                    <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{item.quantidadeEstoque}} {{item.unidadeSimbolo}}</span>
+                    <span style="font-size: 12px;font-weight: lighter; ">Saldo disponivel: {{item.quantidadeEstoque}}
+                      {{item.unidadeSimbolo}}</span>
                   </b>
                 </ion-col>
               </ion-item>
@@ -65,7 +65,7 @@
             <ion-col size="4" style="align-self: end"><span>Quantidade:</span></ion-col>
             <ion-col size="3">
               <ion-item style=" text-align: center; color: black; border-top-width: 200px;  ">
-                <ion-input label="quantidade" name="qtdGeral" style="background: #fff;
+                <ion-input name="qtdGeral" style="background: #fff;
                                                               color: #000000;
                                                               --placeholder-color: #ddd;
                                                               --border-color: #9d2525;
@@ -80,12 +80,14 @@
         <ion-col size="11">
           <ion-row class="ion-justify-content-center">
             <ion-col size="10">
-              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem()"  expand="block"><ion-ripple-effect type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
+              <ion-button class="btnRedondo btnVoltar" (click)="sendPostItem()" expand="block"><ion-ripple-effect
+                  type="unbounded"></ion-ripple-effect>Adicionar item</ion-button>
             </ion-col>
           </ion-row>
         </ion-col>
 
-    </ion-row>
-  </ion-grid>
-</form>
+      </ion-row>
+    </ion-grid>
+  </form>
 
+</ion-content>

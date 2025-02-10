@@ -84,7 +84,7 @@
                   <ion-item  lines="none" style="vertical-align: text-bottom;">
                     <ion-label position="stacked"  class="labelTitle">Quantidade a devolver:</ion-label>
                     <p>
-                      <ion-input label="quantidade" name="qtdGeral" id="quantidade"
+                      <ion-input name="qtdGeral" id="quantidade"
                       *ngIf="rota === 'dev' " (ionChange)="atualizaQuantiddadeEntregue($event)"
                       formName="req" type="number" formControlName="quantidade"
                       placeholder="Quantidade" value="0"
@@ -184,7 +184,7 @@
                           Digite a nova quantidade para o item {{item.equipamentoCod}}-{{item.equipamentoModelo}} desta reserva
                         </div>
                         <div class="" style="background-color: white;width: 100%">
-                          <ion-input label="Quantidade"
+                          <ion-input
                           type="number"
                           placeholder="Quantidade desejada"
                           controlName="quantidade" ngDefaultControl
@@ -206,7 +206,7 @@
                                       Digite a nova quantidade para o item {{item.itemCodigo}}-{{item.insumoDescricao}} desta reserva
                                     </div>
                                     <div class="" style="background-color: white;width: 100%">
-                                      <ion-input label="Quantidade"
+                                      <ion-input
                                       type="number"
                                       placeholder="Quantidade desejada"
                                       controlName="quantidade" ngDefaultControl

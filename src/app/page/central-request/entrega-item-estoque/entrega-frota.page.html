@@ -38,7 +38,7 @@
                 <ion-col size="6">
                   <ion-item  lines="none">
                     <ion-label position="stacked"  class="labelTitle">Quantidade:</ion-label>
-                      <ion-input label="quantidade" name="qtdGeral" id="quantidade"
+                      <ion-input name="qtdGeral" id="quantidade"
                       *ngIf="rota === 'dev' && itemId !== 'all'"
                       formName="req" type="number" formControlName="quantidade"
                       placeholder="Quantidade" value="{{item.quantidade}}"
