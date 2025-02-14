@@ -308,7 +308,7 @@ function AtualizaVersaoIOS {
         -substituirPor "`t<key>NSLocationWhenInUseUsageDescription</key>`n`t<string>Nao precisa de localizacao</string>`n</dict>"
     SubstituiNoArquivo -arquivo $arquivoPlist `
         -procurarPor "(?sm)^</dict>$" `
-        -substituirPor "`t<key>NSCameraUsageDescription</key>`n`t<string></string>`n</dict>"
+        -substituirPor "`t<key>NSCameraUsageDescription</key>`n`t<string>Leitura de QrCodes</string>`n</dict>"
     SubstituiNoArquivo -arquivo $arquivoPlist `
         -procurarPor "(?sm)^</dict>$" `
         -substituirPor "`t<key>NSPhotoLibraryAddUsageDescription</key>`n`t<string></string>`n</dict>"
