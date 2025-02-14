@@ -3,14 +3,4 @@
     <ion-icon slot="start" name="qr-scanner"></ion-icon>
     {{caption}}
   </ion-button>
-  <!-- Botão abaixo não parece ser útil o valor lido é enviado por evento, não precisa de uma propriedade com o valor
-  <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
-    <ion-icon slot="start" name="refresh"></ion-icon>
-    Reset
-  </ion-button>
-   -->
-  <!-- Shows our camera stream -->
-  <video #video [hidden]="!scanActive" width="100%"></video>
-  <!-- Used to render the camera stream images -->
-  <canvas #canvas hidden></canvas>
 </div>

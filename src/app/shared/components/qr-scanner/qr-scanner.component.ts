@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, Input } from '@angular/core';
-import jsQR from 'jsqr';
+import { Component, Output, EventEmitter, AfterViewInit, Input } from '@angular/core';
+import { CapacitorBarcodeScanner, CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 
 @Component({
     selector: 'app-qr-scanner',
@@ -8,23 +8,12 @@ import jsQR from 'jsqr';
     standalone: false
 })
 export class QrScannerComponent implements AfterViewInit {
-  @ViewChild('video', { static: false })
-  video!: ElementRef;
-  @ViewChild('canvas', { static: false })
-  canvas!: ElementRef;
   @Output() qrCodeLido = new EventEmitter<string>();
   @Input() caption = 'Ler QRCODE';
 
-  canvasElement: any;
-  videoElement: any;
-  canvasContext: any;
-  scanActive = false;
   scanResult: string | null = null;
 
   ngAfterViewInit() {
-    this.canvasElement = this.canvas.nativeElement;
-    this.canvasContext = this.canvasElement.getContext('2d');
-    this.videoElement = this.video.nativeElement;
   }
 
   async startScan() {
@@ -35,48 +24,23 @@ export class QrScannerComponent implements AfterViewInit {
     return;
     // */
 
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' }
-    });
-    this.videoElement.srcObject = stream;
-    this.videoElement.setAttribute('playsinline', true);
-    this.videoElement.play();
-    requestAnimationFrame(this.scan.bind(this));
-  }
 
-  async scan() {
-    if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA) {
-      this.scanActive = true;
-      this.canvasElement.height = this.videoElement.videoHeight;
-      this.canvasElement.width = this.videoElement.videoWidth;
-      this.canvasContext.drawImage(
-        this.videoElement,
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const imageData = this.canvasContext.getImageData(
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      });
-      if (code) {
-        this.scanActive = false;
-        this.scanResult = code.data;
-        this.qrCodeLido.emit(this.scanResult);
-      } else {
-        if (this.scanActive) {
-          requestAnimationFrame(this.scan.bind(this));
-        }
-      }
-    } else {
-      requestAnimationFrame(this.scan.bind(this));
+    var resposta = undefined;
+    await CapacitorBarcodeScanner.scanBarcode({
+      hint: CapacitorBarcodeScannerTypeHint.ALL
+    })
+    .then(r => {
+      resposta = r;
+    })
+    .catch(e => {
+      alert(e);
+    });
+    
+    if (resposta !== undefined) {
+      this.scanResult = resposta.ScanResult;
+      this.qrCodeLido.emit(this.scanResult);
     }
+    
   }
 
   reset() {
@@ -84,7 +48,5 @@ export class QrScannerComponent implements AfterViewInit {
   }
 
   stopScan() {
-    this.videoElement.setAttribute('playsinline', false);
-    this.scanActive = false;
   }
 }

@@ -4,7 +4,6 @@ const config: CapacitorConfig = {
   appId: 'com.siecon.req.app',
   appName: 'siecon-req',
   webDir: 'www',
-  bundledWebRuntime: false,
   plugins: {
     SplashScreen: {
       androidSplashResourceName: 'splash',
@@ -19,7 +18,9 @@ const config: CapacitorConfig = {
     },
   },
   server: {
-    androidScheme: 'http'
+    androidScheme: 'http',
+    hostname: 'localhost',
+    iosScheme: 'https'
   }
 };
 

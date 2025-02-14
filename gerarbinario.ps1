@@ -74,7 +74,7 @@ function GerarAndroid {
     AtualizaPermissoesAndroid
     ionic cap build android
     # Durante o build os plugins são reiniciados, os xmls voltam ao estado original
-    #AtualizaPermissoesAndroidPlugins
+    AtualizaPermissoesAndroidPlugins
     AguardaFecharAndroidStudio
     CopiarBinario
 }
@@ -196,10 +196,25 @@ function AtualizaPermissoesAndroid {
 }
 
 function AtualizaPermissoesAndroidPlugins {
-    $arquivoManifestoPlugin = "./android/capacitor-cordova-android-plugins/src/main/AndroidManifest.xml"
-    SubstituiNoArquivo -arquivo $arquivoManifestoPlugin `
-        -procurarPor "<uses-permission\sandroid:name=`"android.permission.REQUEST_INSTALL_PACKAGES`"/>" `
-        -substituirPor ""
+    #$arquivoManifestoPlugin = "./android/capacitor-cordova-android-plugins/src/main/AndroidManifest.xml"
+    #SubstituiNoArquivo -arquivo $arquivoManifestoPlugin `
+    #    -procurarPor "<uses-permission\sandroid:name=`"android.permission.REQUEST_INSTALL_PACKAGES`"/>" `
+    #    -substituirPor ""
+
+    # Versão mínima deve ser 26 para o plugin do qrcode
+    $variablesGradle = "./android/variables.gradle"
+    for ($i = 23; $i -lt 26; $i++) {
+        SubstituiNoArquivo -arquivo $variablesGradle `
+          -procurarPor "minSdkVersion *= *$i" `
+          -substituirPor "minSdkVersion = 26"
+    }
+
+    # Plugin qrcode precisa de códigos externos
+    $buildGradle = './android/build.gradle'
+    SubstituiNoArquivo -arquivo $buildGradle `
+        -procurarPor "mavenCentral\(\)" `
+        -substituirPor "mavenCentral()`n        maven {`n            url 'https://pkgs.dev.azure.com/OutSystemsRD/9e79bc5b-69b2-4476-9ca5-d67594972a52/_packaging/PublicArtifactRepository/maven/v1'`n            name 'Azure'`n            credentials {`n                username = `"optional`"`n                password = `"`"`n            }`n            content {`n                includeGroup `"com.github.outsystems`"`n            }`n        }"
+
 }
 
 function VersaoTrabalho {
