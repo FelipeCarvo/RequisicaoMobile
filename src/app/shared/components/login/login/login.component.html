@@ -8,7 +8,7 @@
       <ion-icon name="lock-closed-outline" class="iconColor" slot="start" size="small"></ion-icon>
       <ion-input  formControlName="password" class="password" name="password" type={{typePassword}} placeholder="Senha" required>
     </ion-input>
-   
+
     <ion-icon [name]="typePassword !== 'text' ? 'eye' : 'eye-off' " slot="end" class="iconColor2" size="small" (click)="revealPassword()"></ion-icon>
     </ion-item>
     <ion-button class="btn-login" type="submit" expand="block"[disabled]="loginForm.invalid ||loadSendData">
@@ -16,4 +16,12 @@
       <ion-spinner name="crescent" *ngIf="loadSendData"></ion-spinner>
       {{!loadSendData ?'Entrar':'' }}
       </ion-button>
+
+      <ion-grid>
+        <ion-row style="padding-top: 3em;">
+          <ion-col size="12" class="ion-justify-content-center corpo">
+            <a (click)="sair()" style="color: white;" >Sair</a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
   </form>

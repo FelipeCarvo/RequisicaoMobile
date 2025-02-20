@@ -10,7 +10,11 @@ const routes: Routes = [
   {
     path: 'list-insumos',
     loadChildren: () => import('./page/central-request/list-insumos/list-insumos.module').then( m => m.ListInsumosPageModule)
+  },  {
+    path: 'modal-altera-qtd-item',
+    loadChildren: () => import('./page/central-request/request-ft-details/modal-altera-qtd-item/modal-altera-qtd-item.module').then( m => m.ModalAlteraQtdItemPageModule)
   },
+
 
 ];
 @NgModule({

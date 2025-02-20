@@ -9,6 +9,8 @@ import { ToastController , ModalController} from '@ionic/angular';
 import {FilterRequestFields} from '@services/utils/interfaces/request.interface';
 import SignaturePad from 'signature_pad';
 import { formatISO } from 'date-fns';
+import { ModalExcluiReqDevPage } from './modal-exclui-req-dev/modal-exclui-req-dev.page';
+import { ModalAlteraQtdItemPage } from './modal-altera-qtd-item/modal-altera-qtd-item.page';
 
 @Component({
     selector: 'app-detail-request',
@@ -79,7 +81,6 @@ export class DetailRequestPage implements OnInit,OnDestroy {
 
 
   ngOnInit() {
-    this.getReq();
     let parametroapp = JSON.parse(localStorage.getItem('parametroapp'));
     for (let index = 0; index < parametroapp.length; index++) {
       const element = parametroapp[index]["leituraColaboradorQrCod"];
@@ -146,7 +147,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   atualizaQuantiddadeEntregue(event){
     for (const index in this.reqItem.itens){
-      var element = this.reqItem.itens[index]
+      const element = this.reqItem.itens[index]
       if(element.termoResponsabilidadeItemId === event.srcElement.item){
         element.saldoQuantidadeEntregar = event.detail.value
       }
@@ -160,13 +161,12 @@ export class DetailRequestPage implements OnInit,OnDestroy {
   }
   radioBlur() {
   }
-  confirmAlterarQuantida(item,termoResponsabilidadeItemId) {
-    const myDiv = document.getElementById(termoResponsabilidadeItemId) as HTMLInputElement;
+  confirmAlterarQuantida(item,quantidade) {
     this.loadButton = true;
     this.loading.present();
     const params ={
       termoResponsabilidadeItemId: item.termoResponsabilidadeItemId,
-      quantidade:myDiv.value
+      quantidade:quantidade
     };
     this.rquestService.postAlterQtdtemReq(params)
     .subscribe((res: any) =>{
@@ -574,7 +574,7 @@ export class DetailRequestPage implements OnInit,OnDestroy {
         return this.modalCtrl.dismiss(this.requisicaoId, 'confirm');
       }
       },async (error) =>{
-        const toast = await this.toastController.create({
+        await this.toastController.create({
           message: error.Mensagem,
           duration: 2000
         });
@@ -627,5 +627,26 @@ export class DetailRequestPage implements OnInit,OnDestroy {
       }
     );
     toast.present();
+  }
+
+  async excluiItemReqDev(item) {
+    if (await ModalExcluiReqDevPage.PerguntaUsuario(this.modalCtrl,
+      `Você realmente deseja excluir o item ${item.equipamentoCod}-${item.equipamentoModelo} desta reserva?`)) {
+      this.confirm(item);
+    }
+  }
+
+  async excluiItemEpi(item) {
+    if (await ModalExcluiReqDevPage.PerguntaUsuario(this.modalCtrl,
+      `Você realmente deseja excluir o item ${item.itemCodigo}-${item.insumoDescricao} desta reserva?`)) {
+      this.confirm(item);
+    }
+  }
+
+  async alteraQtdItem(item) {
+    const retorno = await ModalAlteraQtdItemPage.PerguntaUsuario(this.modalCtrl, item);
+    if (retorno.confirmado) {
+      this.confirmAlterarQuantida(item, retorno.quantidade);
+    }
   }
 }

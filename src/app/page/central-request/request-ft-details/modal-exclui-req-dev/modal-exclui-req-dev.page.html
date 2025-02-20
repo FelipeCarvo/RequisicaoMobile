@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">Atenção</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="background-color: white; color: black;">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+        <div class="block" style="color: black; background-color: white;padding: 10%;" [innerHTML]="mensagem"></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+        <ion-button color="medium" class="btnRedondo" (click)="cancel()">Não</ion-button>
+      </ion-col>
+      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+        <ion-button (click)="confirm()" class="btnRedondo btnExcluir" [strong]="true">Sim</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

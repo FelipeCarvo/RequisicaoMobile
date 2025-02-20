@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">Atenção</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <form [attr.id]="'form_' + item.termoResponsabilidadeItemId">
+      <ion-row>
+        <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+          <ion-row>
+            <div class="" style="color: black; background-color: white;">
+              Digite a nova quantidade para o item {{item.equipamentoCod}}-{{item.equipamentoModelo}} desta reserva
+            </div>
+            <div class="" style="color: black; background-color: white;width: 100%">
+              <ion-input type="number" placeholder="Quantidade desejada" controlName="quantidade" ngDefaultControl
+                [attr.id]="'newqtd_' + item.termoResponsabilidadeItemId" max="10" min="0"></ion-input>
+            </div>
+            <ion-modal [attr.trigger]="'qtd' + item.termoResponsabilidadeItemId" style="background-color: white;"
+              class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar>
+                    <ion-title style="text-align: center;">Atenção</ion-title>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-grid>
+                  <form [attr.id]="'form_' + item.termoResponsabilidadeItemId">
+                    <ion-row>
+                      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                        <ion-row>
+                          <div class="" style="color: black; background-color: white;">
+                            Digite a nova quantidade para o item {{item.itemCodigo}}-{{item.insumoDescricao}} desta
+                            reserva
+                          </div>
+                          <div class="" style="color: black; background-color: white;width: 100%">
+                            <ion-input type="number" placeholder="Quantidade desejada" controlName="quantidade"
+                              ngDefaultControl [attr.id]="'newqtd_' + item.termoResponsabilidadeItemId" max="10"
+                              min="0"></ion-input>
+                          </div>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                        <ion-button color="medium" class="btnRedondo" (click)="cancel()">Não</ion-button>
+                      </ion-col>1
+                      <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+                        <ion-button (click)="confirmAlterarQuantida(item,'newqtd_' + item.termoResponsabilidadeItemId)"
+                          class="btnRedondo btnConfirmar" [strong]="true">Confirmar</ion-button>
+                      </ion-col>
+                    </ion-row>
+                  </form>
+                </ion-grid>
+
+              </ng-template>
+            </ion-modal>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+          <ion-button color="medium" class="btnRedondo" (click)="cancel()">Não</ion-button>
+        </ion-col>1
+        <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;">
+          <ion-button (click)="confirmAlterarQuantida(item,'newqtd_' + item.termoResponsabilidadeItemId)"
+            class="btnRedondo btnConfirmar" [strong]="true">Confirmar</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>

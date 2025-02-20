@@ -457,6 +457,7 @@ export class RequestService {
             observer.next(res.map(e => {
               const r = e;
               r.itemRi = r.itemCodigo + '-' + r.riBaixaCodigo;
+              r.quantidadeEstoque = r.quantidadeEstoque.toFixed(3);
               return r;
             }));
           },

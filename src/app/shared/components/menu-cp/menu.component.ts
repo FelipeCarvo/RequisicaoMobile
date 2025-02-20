@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {Logout} from '@core/store/actions/auth.actions'
-import { ResetStateInsumos } from '@core/store/actions/insumos.actions';
-import {ResetStateReq} from '@core/store/actions/req.actions'
 import { Store } from '@ngxs/store';
 import { AuthUser } from '@core/store/state/auth.state';
+import { Uteis } from '@core/Uteis';
 @Component({
     selector: 'menu-root',
     templateUrl: 'menu.component.html',
@@ -26,11 +24,9 @@ export class MenuComponent {
   }
   exit(){
     this.menu.close()
-   
+
     setTimeout(() =>{
-      this.store.dispatch(new ResetStateReq())
-      this.store.dispatch(new ResetStateInsumos());
-      this.store.dispatch(new Logout())
+      Uteis.ZerarLogin(this.store);
       this.router.navigate([ `/tabs/login`]);
     },200)
 

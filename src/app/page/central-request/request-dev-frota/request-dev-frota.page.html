@@ -4,8 +4,8 @@
     <ion-title  class="ion-text-center">Itens do Termo Nº {{requisicaoCod}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content style="    background-color: white;">
-  <form id="requestForm"  [@hideShowAnimator]="load" style="height: 150%;    background-color: white;">
+<ion-content style="    color: black; background-color: white;">
+  <form id="requestForm"  [@hideShowAnimator]="load" style="height: 150%;    color: black; background-color: white;">
     <ion-row class="ion-justify-content-center corpo" *ngIf="load && !error ">
       <app-spinner [showSpinner]="!load" *ngIf="!load"></app-spinner>
       <ion-col size=11>
@@ -136,7 +136,7 @@
                 </ion-col>
               </ion-row>-->
             </ion-col>
-            <ion-modal [trigger]="item.termoResponsabilidadeItemId" style="background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
+            <ion-modal [trigger]="item.termoResponsabilidadeItemId" style="color: black; background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
               <ng-template>
                 <ion-header>
                   <ion-toolbar>
@@ -146,7 +146,7 @@
                 <ion-grid>
                   <ion-row>
                     <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
-                      <div class="block" style="background-color: white;padding: 10%;"> Você realmente deseja excluir o item {{item.equipamentoCod}}-{{item.equipamentoModelo}} desta reserva?</div>
+                      <div class="block" style="color: black; background-color: white;padding: 10%;"> Você realmente deseja excluir o item {{item.equipamentoCod}}-{{item.equipamentoModelo}} desta reserva?</div>
                     </ion-col>
                   </ion-row>
                   <ion-row>
@@ -161,7 +161,7 @@
 
               </ng-template>
             </ion-modal>
-            <ion-modal [attr.trigger]="'qtd' + item.termoResponsabilidadeItemId" style="background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
+            <ion-modal [attr.trigger]="'qtd' + item.termoResponsabilidadeItemId" style="color: black; background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
               <ng-template>
                 <ion-header>
                   <ion-toolbar>
@@ -173,17 +173,17 @@
                     <ion-row>
                       <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
                         <ion-row>
-                        <div class="" style="background-color: white;">
+                        <div class="" style="color: black; background-color: white;">
                           Digite a nova quantidade para o item {{item.equipamentoCod}}-{{item.equipamentoModelo}} desta reserva
                         </div>
-                        <div class="" style="background-color: white;width: 100%">
+                        <div class="" style="color: black; background-color: white;width: 100%">
                           <ion-input
                           type="number"
                           placeholder="Quantidade desejada"
                           controlName="quantidade" ngDefaultControl
                           [attr.id]="'newqtd_' + item.termoResponsabilidadeItemId" max="10" min="0" ></ion-input>
                         </div>
-                        <ion-modal [attr.trigger]="'qtd' + item.termoResponsabilidadeItemId" style="background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
+                        <ion-modal [attr.trigger]="'qtd' + item.termoResponsabilidadeItemId" style="color: black; background-color: white;" class="borded" [initialBreakpoint]="1" [breakpoints]="[0, 1]" >
                           <ng-template>
                             <ion-header>
                               <ion-toolbar>
@@ -195,10 +195,10 @@
                                 <ion-row>
                                   <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
                                     <ion-row>
-                                    <div class="" style="background-color: white;">
+                                    <div class="" style="color: black; background-color: white;">
                                       Digite a nova quantidade para o item {{item.itemCodigo}}-{{item.insumoDescricao}} desta reserva
                                     </div>
-                                    <div class="" style="background-color: white;width: 100%">
+                                    <div class="" style="color: black; background-color: white;width: 100%">
                                       <ion-input
                                       type="number"
                                       placeholder="Quantidade desejada"
@@ -287,13 +287,13 @@
               </div>
           </ion-col>
       </ion-row>
-      <ion-row style="    background-color: white;">
+      <ion-row style="    color: black; background-color: white;">
         <ion-col>
           <ion-button color="light" expand="full" (click)="clear()">LIMPAR ASSINATURA</ion-button>
         </ion-col>
       </ion-row>
     </div>
-    <ion-row class="ion-justify-content-center" style="    background-color: white;">
+    <ion-row class="ion-justify-content-center" style="    color: black; background-color: white;">
       <ion-row class="ion-justify-content-center" *ngIf="prontaEntregavel">
         <ion-col size="10" style="padding-right: 10px;">
           <ion-button id="open-modal-entrega" class="btnRedondo btnConfirmar" [disabled]="isFinalizaSolicitacao" expand="block">
@@ -309,10 +309,10 @@
               <ion-grid>
                 <ion-row>
                   <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
-                    <div class="" style="background-color: white;padding: 10%;" *ngIf="!isCanvasBlank()">
+                    <div class="" style="color: black; background-color: white;padding: 10%;" *ngIf="!isCanvasBlank()">
                       {{rota==='dev'?' Você realmente confirma a devolução do(s) item(ns) acima?':'Você realmente confirma a entrega de todos os itens?'}}
                     </div>
-                    <div class="" style="background-color: white;padding: 10%;" *ngIf="isCanvasBlank()">
+                    <div class="" style="color: black; background-color: white;padding: 10%;" *ngIf="isCanvasBlank()">
                       {{rota==='dev'?'Para devolução dos itens, é obrigatória a assinatura do colaborador(a)':'Para entrega dos itens, é obrigatória a assinatura do colaborador(a)'}}
                     </div>
                   </ion-col>
@@ -330,7 +330,7 @@
             </ion-modal>
           </ion-col>
       </ion-row>
-      <ion-row class="ion-justify-content-center"  style="    background-color: white;"*ngIf="isAlteraStatus">
+      <ion-row class="ion-justify-content-center"  style="    color: black; background-color: white;"*ngIf="isAlteraStatus">
         <ion-col size="10" style="padding-right: 10px;">
         <ion-button id="open-modal2" class="btnRedondo" [disabled]="isFinalizaSolicitacao" expand="block">FINALIZAR</ion-button>
           <ion-modal #modal trigger="open-modal2" >
@@ -343,11 +343,11 @@
             <ion-grid>
               <ion-row>
                 <ion-col size="11" style="text-align: center;margin-left: auto;margin-right: auto;" >
-                  <div class="" style="background-color: white;padding: 10%;">
+                  <div class="" style="color: black; background-color: white;padding: 10%;">
                     Você realmente deseja alterar o status desta solicitação?
                   </div>
-                  <div class="block" style="background-color: white;padding: 10%;">
-                    <ion-list [inset]="true" style="background-color: white;">
+                  <div class="block" style="color: black; background-color: white;padding: 10%;">
+                    <ion-list [inset]="true" style="color: black; background-color: white;">
                       <ion-radio-group value="itensTermo" (ionChange)="radioGroupChange($event)" name="radio-group" #radioGroup>
                           <ion-item *ngFor="let item of listStatus">
                             <ion-radio [value]="item.id" slot="start" name="{{item.id}}"></ion-radio>{{item.descricao}}
@@ -370,7 +370,7 @@
           </ion-modal>
         </ion-col>
       </ion-row>
-      <ion-row class="ion-justify-content-center" style="    background-color: white;">
+      <ion-row class="ion-justify-content-center" style="    color: black; background-color: white;">
         <ion-col size="10" >
           <ion-button class="btnRedondo btnVoltar" (click)="dismiss()"  expand="block">
             <ion-ripple-effect type="unbounded"></ion-ripple-effect>Voltar
@@ -378,7 +378,7 @@
         </ion-col>
       </ion-row>
     </ion-row>
-    <ion-row class="ion-justify-content-center" style="    background-color: white;">
+    <ion-row class="ion-justify-content-center" style="    color: black; background-color: white;">
       <ion-col size="10" *ngIf="reqItem.statusDescricao === 'Nao Concluido'">
         <ion-button class="btnRedondo btnVoltar" (click)="editReq()"  expand="block" [disabled]="loadButton">
           <ion-ripple-effect type="unbounded"></ion-ripple-effect>

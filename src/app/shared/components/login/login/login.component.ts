@@ -3,6 +3,8 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { Router } from '@angular/router';
 import {LoginService} from '@services/login/login.service';
 import { ToastController } from '@ionic/angular';
+import { Uteis } from '@core/Uteis';
+import { Store } from '@ngxs/store';
 
 @Component({
     selector: 'app-login-cp',
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private router:Router,
     private loginService:LoginService,
+    private store: Store,
     private toastController:ToastController,
   ) {
     this.initForm()
@@ -66,4 +69,10 @@ export class LoginComponent implements OnInit {
     //this.router.navigate(['/tabs/home']);
   }
 
+  sair() {
+    setTimeout(() => {
+      Uteis.ZerarLogin(this.store);
+      window.location.reload();
+    }, 200)
+  }
 }

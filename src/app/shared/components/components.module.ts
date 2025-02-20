@@ -4,7 +4,7 @@ import {InputSearchComponent} from './input-search/input-search.component';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule,ReactiveFormsModule,FormControlDirective } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, } from '@angular/material/autocomplete';
 import {MatFormFieldModule,} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
