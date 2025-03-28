@@ -224,7 +224,7 @@ export class AddInsumoBaixaPage implements OnInit {
   }
 
   getEnumName(): string {
-    return 'insumoId';
+    return 'insumoEmEstoque';
   }
 
   radioGroupChange(event) {

@@ -15,5 +15,6 @@ export enum LookupsEndPoints{
   'ordemServicoId' = '/frotas/Lookups/OrdemServico',
   'equipamentoId'='/frotas/Lookups/Equipamentos',
   'colaboradorCod' = '/cadastros/Lookups/Pessoas',
-  'equipamentoemprdtermo' = '/frotas/Lookups/EquipamentoDisponiveisEmpreendimentoTermoResp'
+  'equipamentoemprdtermo' = '/frotas/Lookups/EquipamentoDisponiveisEmpreendimentoTermoResp',
+  'insumoEmEstoque' = '/suprimentos/Estoque/InsumosEmEstoque'
 }
