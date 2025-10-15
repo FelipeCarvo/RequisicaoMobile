@@ -69,18 +69,18 @@
 
 ![](./Frt_ApiFrotas/image2.png)
 
-* 1 - "Número Os"         --> Inserir somente o numero
+* 1 - "Número Os"             --> Inserir somente o numero
 * 2 - "Empreendimento"    --> Utilizar a  /api/cadastros/Lookups/Empreendimentos
-* 3 - "Equipamento"       --> Utilizar a  /api/frotas/Lookups/Equipamentos 
+* 3 - "Equipamento"          --> Utilizar a  /api/frotas/Lookups/Equipamentos
 * 4 - "Causa Intervenção" --> Utilizar a  /api/frotas/Lookups/CausaIntervencao
-* 5 - "Manutentor"        --> A Implementar
-* 6 - "Status"            --> Fazer uma Combo com os Status existentes na OS.
-      Codigo	Descrição do Status
-      0	      Aberta
-      1	      Serviço Iniciado
-      2	      Serviço Concluido
-      3	      Fechada
-      4	      Reprov./Cancelada
+* 5 - "Manutentor"             --> Utilizar a /api/frotas/OrdensServico/ConsultaColaborador com o parâmetro "Classificacao" = 2
+* 6 - "Status"                     --> Fazer uma Combo com os Status existentes na OS.
+  Codigo	Descrição do Status
+  0	      Aberta
+  1	      Serviço Iniciado
+  2	      Serviço Concluido
+  3	      Fechada
+  4	      Reprov./Cancelada
 
 Utilizar para a consulta das OS a /api/frotas/OrdensServico/ConsultaGeralOrdensServico
 
@@ -88,16 +88,25 @@ Utilizar para a consulta das OS a /api/frotas/OrdensServico/ConsultaGeralOrdensS
 
 ![](./Frt_ApiFrotas/image3.png)
 
-* 1 - "Equipamento"       --> Utilizar a  /api/frotas/Lookups/Equipamentos 
-* 2 - "Empreendimento"    --> Utilizar a  /api/cadastros/Lookups/Empreendimentos
-* 3 - "Classificação"     --> A Implementar
-* 4 - "Tipo"              --> A Implementar
-* 5 - "Causa Intervenção" --> Utilizar a  /api/frotas/Lookups/CausaIntervencao
-* 6 - "Operador/Motorista"
-* 7 - "Empreendimento"    --> Utilizar a  /api/cadastros/Lookups/Empreendimentos
-* 8 - "Status"  , Combo do item 3.4. 
-* 9 - "Manutentor"        --> A Implementar
+* 1 - "Equipamento"          --> Utilizar a  /api/frotas/Lookups/Equipamentos
+* 2 - "Empreendimento"       --> Utilizar a  /api/cadastros/Lookups/Empreendimentos
+* 3 - "Classificação"        --> Utilizar a  /api/livrosfiscais/Lookups/ClassificacaoServico
+* 4 - "Tipo"                 --> Utilizar a /api/frotas/Lookups/TipoOs
+* 5 - "Causa Intervenção"    --> Utilizar a  /api/frotas/Lookups/CausaIntervencao
+* 6 - "Operador/Motorista"   --> Utilizar a /api/frotas/OrdensServico/ConsultaColaborador com o parâmetro "Classificacao" = 1
+* 7 - "Empreendimento"       --> Utilizar a  /api/cadastros/Lookups/Empreendimentos
+* 8 - "Status"  , Combo do item 3.4.
+* 9 - "Manutentor"           -->  Utilizar a /api/frotas/OrdensServico/ConsultaColaborador com o parâmetro "Classificacao" = 2
 
-Utilizar para Gravar a /api/frotas/OrdensServico/GravarOrdemServico
- 
-      
+###### 3.5.1 Gravar/Update  OS  - edição
+
+****** Utilizar para Gravar OS a  /api/frotas/OrdensServico/GravarOrdemServico**
+Parêmetros Obrigatórios para criar uam OS:
+{EquipamentoId}   --> Id do equipapamento
+{Descricao}       --> Descrição da OS
+{Origem}          --> Campo interno do SienconSp7,não preenchido pelo usuário para MoBile utilizar Sempre ORIGEM =3
+                  ORIGEM =0 'SP7'
+                  ORIGEM =1 'SP7_Automatica'
+                  ORIGEM =2 'SP7_Web'
+                  ORIGEM =3 'SP7_app'
+                  ORIGEM =4 'App_terc'
