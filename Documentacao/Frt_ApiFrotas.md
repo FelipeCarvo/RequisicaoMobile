@@ -321,6 +321,121 @@ Parãmetros Não Obrigatórios para criar um Abastecimento Posto:
   4	      Reprov./Cancelada
 
 **Utilizar para a consulta das OS a /api/frotas/OrdensServico/ConsultaGeralOrdensServico**
+*** campos de Retorno da API 
+```
+json
+[
+  {
+    "osCod": 6,
+    "osDescricao": "OS - MATS PARA CONSTRUÇÃO OF 28",
+    "equipCod": "EH01",
+    "equipIndentificador": "EH01",
+    "equipId": "77cc4a23-601d-4734-9b0b-42da1469fdd2",
+    "observacao": "OS - MATS PARA CONSTRUÇÃO OF 28",
+    "obsDef": null,
+    "obsCausas": null,
+    "obsProvidencias": null,
+    "osDataAbertura": "2022-05-30T00:00:00",
+    "osDataConclusao": "0001-01-01T00:00:00",
+    "osHora": "10:47:56",
+    "tpServcod": 0,
+    "tpServDescricao": null,
+    "dataIniParaliz": "0001-01-01T00:00:00",
+    "horaIniParaliz": null,
+    "dataFimParaliz": "0001-01-01T00:00:00",
+    "horaFimParaliz": null,
+    "horimetro": 0,
+    "odometro": 0,
+    "codFornecedor": null,
+    "nomeFornecedor": null,
+    "cpfCnpgFornecedor": null,
+    "nfFornecedor": null,
+    "total": 0,
+    "totalMaoDeObra": 0,
+    "totalterial": 0,
+    "totalServico": 0,
+    "classifDesc": null,
+    "causasCdg": 0,
+    "causasDescri": null,
+    "causasId": "00000000-0000-0000-0000-000000000000",
+    "emprdintervencaoCod": 0,
+    "emprdintervencaoId": "00000000-0000-0000-0000-000000000000",
+    "statusCod": 0,
+    "statusDescricao": "ABERTA             ",
+    "colaboradorCod": null,
+    "colaboradorNome": null,
+    "colaColaboradorCpfCnpg": null,
+    "colaColaboradorId": "00000000-0000-0000-0000-000000000000",
+    "origemCod": 0,
+    "origemDescricao": null,
+    "osGarantia": 0,
+    "osPrzGarantia": 0,
+    "equipBloqueado": 0,
+    "emprdAberturaCod": 50,
+    "emprdAberturaId": "72603b1c-7037-4bca-b74e-3267a6c6b972",
+    "osId": "cee437e8-0638-4157-a906-aa21694fcf37",
+    "manutentorCod": null,
+    "manutentorNome": null,
+    "manutentorCpfCnpg": null,
+    "manutentorId": "00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "osCod": 5,
+    "osDescricao": "OS - MATS PARA CONSTRUÇÃO OF 28",
+    "equipCod": "EH01",
+    "equipIndentificador": "EH01",
+    "equipId": "77cc4a23-601d-4734-9b0b-42da1469fdd2",
+    "observacao": "OS - MATS PARA CONSTRUÇÃO OF 28",
+    "obsDef": null,
+    "obsCausas": null,
+    "obsProvidencias": null,
+    "osDataAbertura": "2022-05-30T00:00:00",
+    "osDataConclusao": "0001-01-01T00:00:00",
+    "osHora": "10:47:31",
+    "tpServcod": 0,
+    "tpServDescricao": null,
+    "dataIniParaliz": "0001-01-01T00:00:00",
+    "horaIniParaliz": null,
+    "dataFimParaliz": "0001-01-01T00:00:00",
+    "horaFimParaliz": null,
+    "horimetro": 0,
+    "odometro": 0,
+    "codFornecedor": null,
+    "nomeFornecedor": null,
+    "cpfCnpgFornecedor": null,
+    "nfFornecedor": null,
+    "total": 0,
+    "totalMaoDeObra": 0,
+    "totalterial": 0,
+    "totalServico": 0,
+    "classifDesc": null,
+    "causasCdg": 0,
+    "causasDescri": null,
+    "causasId": "00000000-0000-0000-0000-000000000000",
+    "emprdintervencaoCod": 0,
+    "emprdintervencaoId": "00000000-0000-0000-0000-000000000000",
+    "statusCod": 0,
+    "statusDescricao": "ABERTA             ",
+    "colaboradorCod": null,
+    "colaboradorNome": null,
+    "colaColaboradorCpfCnpg": null,
+    "colaColaboradorId": "00000000-0000-0000-0000-000000000000",
+    "origemCod": 0,
+    "origemDescricao": null,
+    "osGarantia": 0,
+    "osPrzGarantia": 0,
+    "equipBloqueado": 0,
+    "emprdAberturaCod": 50,
+    "emprdAberturaId": "72603b1c-7037-4bca-b74e-3267a6c6b972",
+    "osId": "b3066b73-ca4f-4907-aeee-adb4337d1019",
+    "manutentorCod": null,
+    "manutentorNome": null,
+    "manutentorCpfCnpg": null,
+    "manutentorId": "00000000-0000-0000-0000-000000000000"
+  }
+
+]
+```
 
 ##### 3.5. API para utilização conforme layout - edição/Insert Aba Principal
 
@@ -354,7 +469,8 @@ Parãmetros Não Obrigatórios para criar um Abastecimento Posto:
 
 **** **Utilizar para Gravar OS a  /api/frotas/OrdensServico/GravarOrdemServico**
 **** **Utilizar para Gravar Fotos  a  /api/frotas/OrdensServico/GravarOrdemServicoFoto**
-Parâmetros Obrigatórios para criar uam OS:
+
+Parâmetros Obrigatórios para criar uma OS:
 {EquipamentoId}   --> Id do equipapamento   - (1-informado no print de Ordem de Serviço Edição ,Aba Principal)
 {Descricao}       --> Descrição da OS       - (11-informado no print de Ordem de Serviço Edição,Aba Principal)
 {Origem}          --> Campo interno do SienconSp7,não preenchido pelo usuário para Mobile utilizar Sempre **ORIGEM =3**
