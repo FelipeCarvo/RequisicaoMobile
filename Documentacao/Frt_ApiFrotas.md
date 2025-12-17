@@ -206,6 +206,9 @@ Para retornar somente os abastecimentos com a origem do App, passar o parâmetro
 * 9 - "Motorista/Operador"    --> Utilizar a /api/frotas/OrdensServico/ConsultaColaborador com o parâmetro "Classificacao" = 1
 * 10 - "Colaborador Frentista" --> Utilizar a /api/cadastros/Lookups/Pessoas   **Passar como parâmetro("tipoPessoa": "Funcionário")**
 * 11 - "Bloco"                 --> Utilizar /api/cadastros/Lookups/Unidades  **Passar como parâmetro(empreendimentoId), selecionado na consulta do empreendimento**
+* 13 - "Odômetro Atual*        --> Utilizar  o resultado da /api/frotas/Lookups/EquipamentosMobile apos a escolha do equipamento(campo 2) , Habitar quando tipoControle(retorno da api EquipamentosMobile) = 'A' or 'V'
+* 15 - "Horímetro Atual*        --> Utilizar  o resultado da /api/frotas/Lookups/EquipamentosMobile apos a escolha do equipamento(campo 2) , Habitar quando tipoControle (retorno da api EquipamentosMobile)= 'A' or 'H'
+
 * **Campo Novo -- "Aplicação"**    --> Utilizar /api/frotas/Abastecimentos/ConsultaAplicacaoPrevEquipInsumo  **Passar como parâmetro(EquipamentoId,InsumoId), selecionado na consulta do    equipamento e Insumo** , habiltar combo somente se consulta "Aplicação" retornar regsitro 
 * **Campo Novo -- "Troca/Reposição"**    -->  Fazer uma Combo com "T - Troca" e "R - Reposição" , habiltar combo somente se consulta "Aplicação" retornar regsitro 
 
@@ -269,7 +272,7 @@ Parâmetros Obrigatórios para criar um Abastecimento Posto:
 {IdInsumo}         ,  Insumo               (6-informado no print Grava Abastecimento em posto)
 {IdBloco}          ,  Bloco                (8-informado no print Grava Abastecimento em posto)
 {QtdInsumo}        ,  Quantidade Solicitada e Retirada (11 e 14 -informado no print Grava Abastecimento em posto), Informando a Quantidade Solicitada preencher a Quantidade Retirada, será a mesma 
-{TotalAbastecimentoPosto} ,   Valor Solicitada e Total (12 e 15 -informado no print Grava Abastecimento em posto), Informando a Quantidade Solicitada preencher a Quantidade Retirada, será a mesma 
+{TotalAbastecimentoPosto} ,   Valor Solicitada e Total (12 e 15 -informado no print Grava Abastecimento em posto), Informando o valor total do abastecimento.
 {Origem}  --> Campo interno do SienconSp7,não preenchido pelo usuário para Mobile utilizar Sempre **ORIGEM =3**
 
 Parãmetros Não Obrigatórios para criar um Abastecimento Posto:
