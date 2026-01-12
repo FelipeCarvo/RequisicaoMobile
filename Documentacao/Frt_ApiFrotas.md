@@ -45,7 +45,20 @@
     "bicoDescr": "string",
     "bicoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "fornecedorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "responsavelId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    "responsavelId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "centroDespesaId": "00000000-0000-0000-0000-000000000000",
+    "centroDespesaDescr": null,
+    "orcamentoCodigo": 2,
+    "orcmentoVersaoCodigo": 1,
+    "etapaCodigo": "1.2.03",
+    "etapaDescricao": "ESCAVAÇÃO DE MATERIAL DE 2ª CATEGORIA, EMPREGANDO EXPLOSIVOS E TRATOR SOBRE ESTEIRAS",
+    "etapaId": "4c99859d-2d51-4a37-9217-0ecb5fc3aa54",
+    "orcamentoVersaoId": "f1db97fc-7d05-4029-8f8f-4c8075769714",
+    "blocoCodigo": 0,
+    "blocoDescricao": null,
+    "blocoId": "00000000-0000-0000-0000-000000000000"
+
+
   }
 ]
 ```
@@ -206,7 +219,15 @@
 **Utilizar a Api para consulta dos abastecimentos:  /api/frotas/Abastecimentos/ConsultaAbastecimento** com o parâmetro fixo:
 "TpAbastecimento" = 0 ;
 
-Para retornar somente os abastecimentos com a origem do App, passar o parâmetro "Origem"  = 3
+**Parâmetros Não Obrigatórios para Consulta**
+{DataIni} 
+{DataFim} 
+{IdEquipamento}
+{Origem}  ,  Passando  **Origem =3 Tras somente os abastecimento feitos pelo App**
+{TpAbastecimento}
+{ComboioBomba}
+{IdFornecedor} 
+{IdAbastecimento}
 
 ##### 1.11. API para utilização conforme layout -Grava Abastecimento Próprio
 
@@ -259,7 +280,15 @@ Parâmetros Não Obrigatórios para criar um Abastecimento Próprio:
 * 2 - "Equipamento"     --> Utilizar a  /api/frotas/Lookups/Equipamentos
 
 **Utilizar a Api para consulta dos abastecimentos:  /api/frotas/Abastecimentos/ConsultaAbastecimento** com o parâmetro fixo:
-"TpAbastecimento" = 1 ;
+"TpAbastecimento" = 1 ; 
+
+**Parâmetros Não Obrigatórios para Consulta**
+{DataIni} 
+{DataFim} 
+{IdEquipamento}
+{Origem}  ,  Passando  **Origem =3 Tras somente os abastecimento feitos pelo App**
+{IdFornecedor} 
+{IdAbastecimento}
 
 ##### 1.13. API para utilização conforme layout -Gravar Abastecimento Posto
 
