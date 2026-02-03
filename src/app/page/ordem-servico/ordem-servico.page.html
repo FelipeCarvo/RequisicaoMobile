@@ -1,0 +1,188 @@
+<ion-header class="os-header">
+  <ion-toolbar lines="none">
+    <div class="os-header-bar">
+      <!-- Ícone de voltar (casinha) -->
+      <button class="os-back-btn" (click)="onBack()">
+        <img src="../../assets/icon/topoRequest.svg" alt="Voltar" />
+      </button>
+
+      <h1 class="os-title">Ordem de Serviço</h1>
+
+      <!-- Botão NOVA -->
+      <button class="os-new-btn" (click)="goNovaOrdem()" title="Ação">
+        NOVA
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="os-content">
+  <div class="os-page">
+    <div class="os-card">
+      <!-- Número OS -->
+      <div class="os-field">
+        <label class="os-label">Número OS</label>
+        <ion-input
+          class="os-input"
+          type="text"
+          [(ngModel)]="filtro.numeroOs">
+        </ion-input>
+      </div>
+
+      <!-- Empreendimento -->
+      <div class="os-field">
+        <label class="os-label">Empreendimento</label>
+        <ion-input
+          class="os-input"
+          type="text"
+          [(ngModel)]="filtro.empreendimento">
+        </ion-input>
+      </div>
+
+      <!-- Equipamento -->
+      <div class="os-field">
+        <label class="os-label">Equipamento</label>
+        <ion-input
+          class="os-input"
+          type="text"
+          [(ngModel)]="filtro.equipamento">
+        </ion-input>
+      </div>
+
+      <!-- Causa Intervenção -->
+      <div class="os-field">
+        <label class="os-label">Causa Intervenção</label>
+        <ion-input
+          class="os-input"
+          type="text"
+          [(ngModel)]="filtro.causaIntervencao">
+        </ion-input>
+      </div>
+
+      <!-- Manutentor -->
+      <div class="os-field">
+        <label class="os-label">Manutentor</label>
+        <ion-input
+          class="os-input"
+          type="text"
+          [(ngModel)]="filtro.manutentor">
+        </ion-input>
+      </div>
+      <div class="os-field">
+  <label class="os-label">Status</label>
+  <ion-select
+    class="os-input os-select-input"
+    interface="popover"
+    [(ngModel)]="filtro.status"
+    placeholder="Selecione">
+      <ion-select-option value="1">Selecione</ion-select-option>
+          </ion-select>
+        </div>
+        <!-- Data Abertura Inicial -->
+<div class="os-field">
+  <label class="os-label">Data Abertura Inicial</label>
+  <div class="os-date-input">
+    <ion-input
+      class="os-input os-date-display"
+      readonly
+      placeholder="dd/mm/aaaa"
+      [value]="formatDate(filtro.dataAberturaInicial)">
+    </ion-input>
+
+    <!-- ícone de calendário dentro do campo -->
+    <button
+      type="button"
+      class="os-date-btn"
+      (click)="openCalendar($event, 'dataAberturaInicial')" title="Ação">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Data Abertura Final -->
+<div class="os-field">
+  <label class="os-label">Data Abertura Final</label>
+  <div class="os-date-input">
+    <ion-input
+      class="os-input os-date-display"
+      readonly
+      placeholder="dd/mm/aaaa"
+      [value]="formatDate(filtro.dataAberturaFinal)">
+    </ion-input>
+
+    <button
+      type="button"
+      class="os-date-btn"
+      (click)="openCalendar($event, 'dataAberturaFinal')" title="Ação">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Data Conclusão Inicial -->
+<div class="os-field">
+  <label class="os-label">Data Conclusão Inicial</label>
+  <div class="os-date-input">
+    <ion-input
+      class="os-input os-date-display"
+      readonly
+      placeholder="dd/mm/aaaa"
+      [value]="formatDate(filtro.dataConclusaoInicial)">
+    </ion-input>
+
+    <button
+      type="button"
+      class="os-date-btn"
+      (click)="openCalendar($event, 'dataConclusaoInicial')" title="Ação">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Data Conclusão Final -->
+<div class="os-field">
+  <label class="os-label">Data Conclusão Final</label>
+  <div class="os-date-input">
+    <ion-input
+      class="os-input os-date-display"
+      readonly
+      placeholder="dd/mm/aaaa"
+      [value]="formatDate(filtro.dataConclusaoFinal)">
+    </ion-input>
+
+    <button
+      type="button"
+      class="os-date-btn"
+      (click)="openCalendar($event, 'dataConclusaoFinal')" title="Ação">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </button>
+  </div>
+</div>
+
+
+      <!-- Botão Pesquisar -->
+      <div class="os-actions">
+        <ion-button
+          expand="block"
+          class="os-search-btn"
+          (click)="pesquisar()">
+          PESQUISAR
+        </ion-button>
+      </div>
+        <!-- Resultados da pesquisa -->
+        <div *ngIf="resultados.length > 0" class="os-resultados">
+          <h2>Resultados</h2>
+          <ion-list>
+            <ion-item *ngFor="let os of resultados">
+              <ion-label>
+                <div><strong>Número OS:</strong> {{ os.osCod }}</div>
+                <div><strong>Descrição:</strong> {{ os.osDescricao }}</div>
+                <div><strong>Equipamento:</strong> {{ os.equipCod }} - {{ os.equipIndentificador }}</div>
+                <!-- Adicione outros campos relevantes aqui -->
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+    </div>
+  </div>
+</ion-content>

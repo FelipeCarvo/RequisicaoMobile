@@ -1,0 +1,347 @@
+/* topo igual à tela de Ordem Serviço */
+.os-header,
+.os-header ion-toolbar {
+  --background: #f4f6f9 !important;
+  background: #f4f6f9 !important;
+  color: #2d6fb1;
+  --border-width: 0;
+}
+
+.os-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 10px;
+}
+
+.os-back-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.os-header-spacer {
+  width: 48px; /* só pra balancear visualmente com o back */
+}
+
+.os-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d6fb1;
+}
+
+.os-content {
+  --background: #f4f6f9;
+}
+
+.os-page {
+  display: flex;
+  justify-content: center;
+  padding: 12px 12px 80px; /* espaço pro botão de baixo */
+}
+
+.os-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.08);
+  padding: 18px 18px 24px;
+}
+
+.os-form {
+  width: 100%;
+}
+
+/* campos */
+.os-field {
+  margin-bottom: 14px !important;
+}
+
+.os-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2d6fb1;
+}
+
+/* input padrão (igual da tela de pesquisa OS) */
+/* Inputs arredondados (texto legível) */
+.os-input {
+  --background: #f9fbff;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --min-height: 40px;
+  --color: #3a3a3a;               /* cor do texto digitado */
+  --placeholder-color: #b0bdd5;   /* cor do placeholder dd/mm/aaaa */
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+   --highlight-color-focused: #2d6fb1;
+  --highlight-color: #2d6fb1;
+  --highlight-color-valid: #2d6fb1;
+  --highlight-color-invalid: #2d6fb1;
+  font-size: 13px;
+}
+
+
+/* ion-select com cara de input */
+.os-select-input {
+  --padding-start: 12px;
+  --padding-end: 32px;
+  --placeholder-color: #7a8ba8;
+  color: #7a8ba8;
+}
+
+/* datas lado a lado */
+.os-field-inline {
+  display: flex;
+  gap: 10px;
+}
+
+.os-field-half {
+  flex: 1;
+}
+
+/* wrapper pra input + ícone de calendário */
+.os-date-wrapper {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+  background: #f9fbff;
+  padding-right: 10px;
+}
+
+.os-date-input {
+  --background: transparent;
+  --border-width: 0;
+  --padding-start: 10px;
+  --padding-end: 6px;
+  --min-height: 40px;
+}
+
+.os-date-wrapper ion-icon {
+  font-size: 18px;
+  color: #a0b2cf;
+}
+
+/* seta embaixo à direita, fora do card */
+.os-bottom {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 24px 24px;
+}
+
+.os-next-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  background: #e4f1ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.os-next-btn ion-icon {
+  font-size: 20px;
+  color: #2d6fb1;
+}
+/* container das duas datas na mesma linha */
+.os-group-inline {
+  display: flex;
+  gap: 12px;
+   margin-bottom: 14px;
+}
+
+.os-group-half {
+  flex: 1;
+}
+
+/* Campo visual de data (placeholder + ícone) */
+.os-date-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+  background: #f9fbff;
+  font-size: 13px;
+  color: #b0bdd5;          /* cor do placeholder */
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 18px;
+    color: #b0bdd5;
+  }
+}
+
+/* Quando tiver valor, muda cor do texto para “texto normal” */
+.os-date-field.has-value {
+  color: #4a5a73;
+}
+
+.os-date-field.has-value ion-icon {
+  color: #a0b2cf;
+}
+/*CSS DOS NOVOS CAMPOS*/
+
+.os-textarea {
+  --background: #f9fbff;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+  font-size: 13px;
+  --color: #3a3a3a;
+
+  /*AJUSTE PRINCIPAL: foco azul igual aos outros campos */
+  --highlight-color-focused: #2d6fb1;
+  --highlight-color: #2d6fb1;
+  --highlight-color-valid: #2d6fb1;
+  --highlight-color-invalid: #2d6fb1;
+}
+
+.os-actions-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.os-confirm-btn {
+  width: 100%;
+  border-radius: 22px;
+  padding: 10px;
+  background: #2d6fb1;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+}
+
+.os-attach-photo-btn {
+  width: 100%;
+  border-radius: 22px;
+  padding: 10px;
+  background: transparent;
+  color: #2d6fb1;
+  border: 1px solid #2d6fb1;
+}
+
+.os-attach-photo-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.os-photo-box {
+  border: 1px solid #dde5f2;
+  background: #f9fbff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.os-photo-img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+}
+
+.os-photo-grid {
+  border: 1px solid #dde5f2;
+  background: #f9fbff;
+  border-radius: 8px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.os-photo-thumb {
+  width: 100%;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #dde5f2;
+}
+
+.os-photo-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #7a8ba8;
+  text-align: center;
+}
+
+.os-photo-empty {
+  border: 1px dashed #dde5f2;
+  background: #f9fbff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  color: #7a8ba8;
+  text-align: center;
+}
+
+.os-foto-modal-content {
+  --background: #000;
+}
+
+.os-foto-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+.os-foto-modal-close {
+  border: 1px solid #2d6fb1;
+  background: transparent;
+  color: #2d6fb1;
+  border-radius: 22px;
+  padding: 10px 14px;
+  font-weight: 700;
+}
+
+.os-foto-modal-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+}
+
+.os-foto-modal-img {
+  width: 100%;
+  max-height: calc(100vh - 160px);
+  object-fit: contain;
+}
+
+.os-foto-modal-actions {
+  display: flex;
+  justify-content: center;
+  padding: 12px 12px 18px;
+}
+
+.os-foto-modal-delete {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 22px;
+  padding: 10px;
+  background: transparent;
+  color: #2d6fb1;
+  border: 1px solid #2d6fb1;
+  font-weight: 700;
+}

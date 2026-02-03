@@ -1,0 +1,200 @@
+/* HEADER no padrão das outras telas */
+.os-header,
+.os-header ion-toolbar {
+  --background: #f4f6f9 !important;
+  background: #f4f6f9 !important;
+  color: #2d6fb1;
+  --border-width: 0;
+}
+
+.os-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 10px;
+}
+
+.os-header-spacer {
+  width: 24px;
+}
+
+.os-back-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.os-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d6fb1;
+}
+
+/* Fundo da página */
+.os-content {
+  --background: #f4f6f9;
+}
+
+.os-page {
+  display: flex;
+  justify-content: center;
+  padding: 12px 12px 24px;
+}
+
+/* Card principal */
+.os-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.08);
+  padding: 18px 18px 24px;
+}
+
+/* Campos base */
+.abp-field {
+  margin-bottom: 12px;
+}
+
+.abp-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2d6fb1;
+}
+
+.abp-input {
+  --background: #f9fbff;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --min-height: 40px;
+  --color: #3a3a3a;
+
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+  font-size: 13px;
+
+  /* foco azul igual as outras telas */
+  --highlight-color-focused: #2d6fb1;
+  --highlight-color: #2d6fb1;
+  --highlight-color-valid: #2d6fb1;
+  --highlight-color-invalid: #2d6fb1;
+}
+
+.abp-input.ion-focused {
+  border-color: #2d6fb1 !important;
+}
+
+/* Select no mesmo estilo */
+.abp-select {
+  --color: #333;
+  --placeholder-color: #a0b2cf;
+  --placeholder-opacity: 1;
+  --padding-end: 32px;
+}
+
+/* Linhas com 2 ou 3 colunas */
+.abp-group-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.abp-half {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.abp-input {
+  --background: #f9fbff;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --min-height: 40px;
+  --color: #3a3a3a;
+
+  border-radius: 8px;
+  border: 1px solid #dde5f2;
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* foco azul igual as outras telas */
+  --highlight-color-focused: #2d6fb1;
+  --highlight-color: #2d6fb1;
+  --highlight-color-valid: #2d6fb1;
+  --highlight-color-invalid: #2d6fb1;
+}
+
+.abp-date-btn ion-icon {
+  font-size: 16px;
+  color: #a0b2cf;
+}
+
+/* Título da seção de retorno */
+.abp-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d6fb1;
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+
+/* Botão confirmar */
+.abp-actions {
+  margin-top: 18px;
+}
+
+.abp-primary-btn {
+  width: 100%;
+  border: none;
+  border-radius: 22px;
+  padding: 10px 16px;
+  background: #e4f1ff;
+  color: #2d6fb1;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  font-size: 13px;
+}
+
+/* Força o texto do ion-select a ficar visível */
+ion-select.abp-select {
+  --placeholder-color: #9a9a9a;
+  --placeholder-opacity: 1;
+}
+
+/* Parte interna do texto selecionado dentro do ion-select */
+ion-select.abp-select::part(text) {
+  color: #333 !important;
+  opacity: 1 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* AJUSTE: divisor da seção */
+.abp-divider {
+  height: 1px;
+  background: #dde5f2;
+  margin: 16px 0 8px;
+}
+
+/* AJUSTE: checkbox alinhado */
+.abp-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #2d6fb1;
+}

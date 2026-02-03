@@ -26,7 +26,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 ion-app{
-    
+
     margin-bottom: env(safe-area-inset-bottom);
     menu-root{
         margin-top: env(safe-area-inset-top);
@@ -84,7 +84,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             line-height: 20px;
             letter-spacing: -0.01em;
             color: #4682B4;
-    
+
         }
         .alert-button-group{
             border-top: 1px solid #EAECED;
@@ -112,7 +112,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             background: #fFFFFF!important;
             // padding-top: 18px;
             // padding-bottom: 18px;
-            
+
             max-height: 50%;
 
             &:first-child{
@@ -127,7 +127,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
                 --button-color-selected: #023A51;
                 text-align: center;
             }
-            .action-sheet-button{  
+            .action-sheet-button{
                 font-weight: 400;
                 font-size: 14px;
                 height: auto;
@@ -139,7 +139,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
             }
             &:first-child{
                 border-radius:9px 9px 0px 0px;
-               
+
             }.action-sheet-cancel{
                 color: var(--ion-color-danger, #eb445a);
                 text-transform:uppercase;
@@ -148,14 +148,14 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
         }
         .action-sheet-group.action-sheet-group-cancel{
             border:none!important;
-        } 
-      
+        }
+
 
     }
 
   }
   @media (max-width: 393px) {
-    .action-sheet-button{  
+    .action-sheet-button{
         font-weight:400;
         font-size: 10px;
         height: auto;
@@ -167,7 +167,7 @@ app-allRequest,app-request,app-insumos,app-centeal-estoque,app-detail-request{
     }
   }
   @media (-webkit-min-device-pixel-ratio: 4) {
-    .action-sheet-button{  
+    .action-sheet-button{
         font-weight:400;
         font-size: 10px;
         height: auto;
@@ -228,7 +228,7 @@ ion-app{
             border: 2px solid #EB5757 !important;
             // border-color: #EB5757!important;
         }
-        ion-item{ 
+        ion-item{
             --padding-start:0;
             --background:#FFFFFF;
             --border-color:#EAECED;
@@ -336,7 +336,7 @@ ion-app{
                 width: 44px;
                 min-height: 24px;
             }
-         
+
             ion-label{
                 width: 100%;
                 font-weight: 600;
@@ -436,3 +436,8 @@ ion-datetime{
         color: #EAECED;
     }
 }
+/*
+app-frotas-home menu-root ion-icon {
+  color: #FFFFFF;
+  font-size: 32px;
+}*/
