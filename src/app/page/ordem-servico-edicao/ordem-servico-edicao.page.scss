@@ -61,10 +61,11 @@
   width: 100%;
 }
 
-/* campos */
 .os-field {
-  margin-bottom: 14px !important;
+  position: relative;
+  overflow: visible;   // ← ESSA LINHA É A CHAVE
 }
+
 
 .os-label {
   display: block;
@@ -344,4 +345,141 @@
   color: #2d6fb1;
   border: 1px solid #2d6fb1;
   font-weight: 700;
+}
+
+
+
+
+
+
+/* =========================================
+   SELECT PADRÃO DOS CAMPOS
+   ========================================= */
+
+.os-select-input {
+  --background: #f4f6f8;
+  --border-radius: 12px;
+  --padding-start: 14px;
+  --padding-end: 40px;
+  --min-height: 52px;
+
+  font-size: 14px;
+  color: #1a2b3c;
+
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+}
+
+/* ícone do select */
+.os-select-input::part(icon) {
+  color: #7b8a97;
+  font-size: 18px;
+}
+
+/* placeholder */
+.os-select-input.select-placeholder {
+  color: #9aa7b2;
+}
+
+/* popover do ion-select */
+ion-select-popover {
+  --width: 100%;
+  --max-height: 300px;
+  --background: #ffffff;
+}
+
+ion-select-popover ion-item {
+  --min-height: 44px;
+  --background: #ffffff;
+  --color: #333;
+  font-size: 14px;
+}
+
+ion-select-popover ion-item.item-radio-checked {
+  --background: #eef3f7;
+  font-weight: 600;
+}
+
+ion-select-popover ion-item:hover {
+  --background: #f5f7fb;
+}
+
+/* pequeno ajuste de posição do popover */
+ion-popover {
+  --offset-y: 6px !important;
+}
+
+/* =========================================
+   AUTOCOMPLETE — CAMPO EQUIPAMENTO
+   ========================================= */
+
+/* =========================================
+   AUTOCOMPLETE — EQUIPAMENTO (VISUAL FINAL)
+   ========================================= */
+
+/* container do campo */
+.os-autocomplete {
+  position: relative;
+  width: 100%;
+}
+
+/* input padrão */
+.os-autocomplete input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+
+  border: 1px solid #d6dbe1;
+  border-radius: 10px;
+  background: #ffffff;
+
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+/* dropdown */
+/* ===============================
+   DROPDOWN EQUIPAMENTO — VISUAL FINAL
+   =============================== */
+
+/* ===== DROPDOWN EQUIPAMENTO — AJUSTE FINAL ===== */
+
+.os-autocomplete {
+  position: relative;
+  width: 100%;
+}
+
+/* caixa da lista */
+.os-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+
+  max-height: 240px;
+  overflow-y: auto;
+
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+
+  padding: 6px 0;
+  z-index: 9999;
+}
+
+/* cada item */
+.os-select-option {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/* hover */
+.os-select-option:hover {
+  background: #f4f6f9;
 }

@@ -19,7 +19,7 @@
     <div class="os-card">
       <form class="os-form">
 
-        <!-- Número Ordem Serviço -->
+        <!-- Número Ordem Serviço 
 <div class="os-field">
   <label class="os-label">Número Ordem Serviço</label>
   <ion-input
@@ -31,6 +31,8 @@
     disabled="true">
   </ion-input>
 </div>
+
+-->
 
 
 <!-- Descrição -->
@@ -45,9 +47,9 @@
 </div>
 
 
+<!--   Equipamento 
 
-
-        <!-- Equipamento -->
+        
         <div class="os-field">
           <label class="os-label">Equipamento</label>
           <ion-select
@@ -65,6 +67,44 @@
             </ion-select-option>
           </ion-select>
         </div>
+
+-->
+
+<!-- EQUIPAMENTO -->
+<!-- EQUIPAMENTO -->
+<div class="os-field os-autocomplete">
+
+  <label class="os-label">Equipamento</label>
+
+<input
+  type="text"
+  class="os-input"
+  [(ngModel)]="textoBuscaEquipamento"
+  name="textoBuscaEquipamento"
+  (ngModelChange)="onDigitarEquipamento()"
+  autocomplete="off"
+/>
+
+  <!-- LISTA -->
+  <div
+    class="os-select-dropdown"
+    *ngIf="modalEquipamentoAberto && equipamentosFiltrados.length"
+  >
+    <div
+      class="os-select-option"
+      *ngFor="let eq of equipamentosFiltrados"
+      (click)="selecionarEquipamento(eq)"
+    >
+      {{ eq.descricao || eq.nome || eq.equipamento }}
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
 
         <!-- Empreendimento -->
         <div class="os-field">

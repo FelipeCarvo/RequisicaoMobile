@@ -7,6 +7,9 @@ import { format, parseISO } from 'date-fns';
 import { CalendarPopoverComponent } from '../../components/calendar-popover/calendar-popover.component';
 import { OrdemServicoService } from '../../services/ordem-servico.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HostListener, ElementRef } from '@angular/core';
+
+
 
 type FotoCacheItem = {
   id?: string;
@@ -38,6 +41,7 @@ interface OrdemServicoPayload {
   styleUrls: ['./ordem-servico-edicao.page.scss'],
 })
 export class OrdemServicoEdicaoPage implements OnInit {
+
   // Campos de texto e seleção
   numeroOS: string = '';
   // Id interno da OS (GUID) usado para update/anexos
@@ -227,7 +231,8 @@ export class OrdemServicoEdicaoPage implements OnInit {
     private popoverCtrl: PopoverController,
     private ordemService: OrdemServicoService,
     private toastCtrl: ToastController, //  ALTERAÇÃO injeção do ToastController
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private elementRef: ElementRef//novo 
   ) {}
 
   ionViewWillEnter() {
@@ -260,6 +265,8 @@ export class OrdemServicoEdicaoPage implements OnInit {
         this.carregarCombosComCallback(() => {
           limparCampos();
           this.atualizarPreviewFoto();
+          this.ativarFiltroEquipamento();
+
         });
         return;
       }
@@ -795,6 +802,81 @@ export class OrdemServicoEdicaoPage implements OnInit {
     };
     return payload;
   }
+  /* 🔵 NOVO — prepara atualização visual do equipamento */
+private ativarFiltroEquipamento() {
+  if (!this.equipamentosLista || !this.equipamentosLista.length) return;
+
+  /* inicializa lista visível */
+  this.equipamentosFiltrados = [...this.equipamentosLista];
+}
+// =============================
+// 🔎 BUSCA DE EQUIPAMENTO
+// =============================
+// =============================
+// 🔎 BUSCA DE EQUIPAMENTO
+// =============================
+
+modalEquipamentoAberto = false;
+textoBuscaEquipamento = '';
+equipamentosFiltrados: ItemComId[] = [];
+
+get nomeEquipamentoSelecionado(): string {
+  const eq = this.equipamentosLista.find(
+    e => String(e.id) === String(this.equipamento)
+  );
+  return (eq?.descricao || eq?.nome || eq?.equipamento || '') as string;
+}
+
+abrirBuscaEquipamento() {
+  this.modalEquipamentoAberto = true;
+  this.textoBuscaEquipamento = '';
+  this.equipamentosFiltrados = [...this.equipamentosLista];
+}
+
+fecharBuscaEquipamento() {
+  this.modalEquipamentoAberto = false;
+}
+
+filtrarEquipamentos() {
+  const termo = (this.textoBuscaEquipamento || '').toLowerCase();
+
+  this.equipamentosFiltrados = this.equipamentosLista.filter((eq: any) =>
+    String(eq.descricao || eq.nome || eq.equipamento || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarEquipamento(eq: any) {
+  this.equipamento = String(eq.id);
+  this.textoBuscaEquipamento =
+    String(eq.descricao || eq.nome || eq.equipamento || '');
+  this.modalEquipamentoAberto = false;
+}
+
+/** 🔥 FAZ O FILTRO AUTOMÁTICO AO DIGITAR */
+onDigitarEquipamento() {
+
+   //console.log('digitou:', this.textoBuscaEquipamento);
+
+
+  const termo = (this.textoBuscaEquipamento || '').toLowerCase();
+
+  this.modalEquipamentoAberto = true;
+
+  if (!termo) {
+    this.equipamentosFiltrados = [...this.equipamentosLista];
+    return;
+  }
+
+  this.equipamentosFiltrados = this.equipamentosLista.filter((eq: any) =>
+    String(eq.descricao || eq.nome || eq.equipamento || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+
 
   /** Clicou na setinha – monta o JSON igual ao do sistema antigo e chama a API */
   salvarOS() {
