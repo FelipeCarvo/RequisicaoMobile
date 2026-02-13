@@ -19,308 +19,237 @@
     <div class="os-card">
       <form class="os-form">
 
-        <!-- Número Ordem Serviço 
-<div class="os-field">
-  <label class="os-label">Número Ordem Serviço</label>
-  <ion-input
-    class="os-input"
-    type="text"
-    name="numeroOS"
-    [(ngModel)]="numeroOS"
-    placeholder="Gerado automaticamente"
-    disabled="true">
-  </ion-input>
-</div>
-
--->
-
-
-<!-- Descrição -->
-<div class="os-field">
-  <label class="os-label">Descrição</label>
-  <ion-input
-    class="os-input"
-    type="text"
-    name="descricao"
-    [(ngModel)]="descricao">
-  </ion-input>
-</div>
-
-
-<!--   Equipamento 
-
-        
+        <!-- Descrição -->
         <div class="os-field">
-          <label class="os-label">Equipamento</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="equipamento"
-            name="equipamento"
-          >
-            <ion-select-option
-              *ngFor="let eq of equipamentosLista"
-              [value]="eq.id || eq.EquipamentoId || eq.equipamentoId"
-            >
-              {{ eq.descricao || eq.nome || eq.equipamento }}
-            </ion-select-option>
-          </ion-select>
+          <label class="os-label">Descrição</label>
+        <input
+          type="text"
+          class="os-input os-uppercase"
+          name="descricao"
+          [(ngModel)]="descricao"
+          (input)="descricao = descricao.toUpperCase()"
+        />
         </div>
 
--->
-
 <!-- EQUIPAMENTO -->
-<!-- EQUIPAMENTO -->
-<div class="os-field os-autocomplete">
-
+<div class="os-field">
   <label class="os-label">Equipamento</label>
 
-<input
-  type="text"
-  class="os-input"
-  [(ngModel)]="textoBuscaEquipamento"
-  name="textoBuscaEquipamento"
-  (ngModelChange)="onDigitarEquipamento()"
-  autocomplete="off"
-/>
+  <app-autocomplete
+    [lista]="equipamentosLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onEquipamentoSelecionado($event)">
+  </app-autocomplete>
+</div>
 
-  <!-- LISTA -->
-  <div
-    class="os-select-dropdown"
-    *ngIf="modalEquipamentoAberto && equipamentosFiltrados.length"
-  >
+   <!-- EMPREENDIMENTO -->
+<div class="os-field">
+  <label class="os-label">Empreendimento</label>
+
+  <app-autocomplete
+    [lista]="empreendimentosLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onEmpreendimentoSelecionado($event)">
+  </app-autocomplete>
+</div>
+
+
+<!-- Datas (Abertura / Conclusão) lado a lado -->
+<div class="os-group-inline">
+
+  <!-- Data Abertura -->
+  <div class="os-group-half">
+    <label class="os-label">Data Abertura</label>
+
     <div
-      class="os-select-option"
-      *ngFor="let eq of equipamentosFiltrados"
-      (click)="selecionarEquipamento(eq)"
+      class="os-date-field"
+      [ngClass]="{ 'has-value': dataAbertura }"
+      (click)="openCalendar($event, 'dataAbertura')"
     >
-      {{ eq.descricao || eq.nome || eq.equipamento }}
+      <span class="os-date-value">
+        {{ formatDate(dataAbertura) || 'dd/mm/aaaa' }}
+      </span>
+
+      <div class="os-date-icons">
+        <!-- ícone calendário -->
+        <ion-icon name="calendar-outline"></ion-icon>
+      </div>
     </div>
   </div>
 
+  <!-- Data Conclusão -->
+  <div class="os-group-half">
+    <label class="os-label">Data Conclusão</label>
+
+    <div
+      class="os-date-field"
+      [ngClass]="{ 'has-value': dataConclusao }"
+      (click)="openCalendar($event, 'dataConclusao')"
+    >
+      <span class="os-date-value">
+        {{ formatDate(dataConclusao) || 'dd/mm/aaaa' }}
+      </span>
+
+      <div class="os-date-icons">
+        <!-- botão limpar -->
+        <ion-icon
+          name="close-circle"
+          *ngIf="dataConclusao"
+          (click)="limparData('dataConclusao'); $event.stopPropagation()"
+        ></ion-icon>
+
+        <!-- ícone calendário -->
+        <ion-icon name="calendar-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- CLASSIFICAÇÃO -->
+<div class="os-field">
+  <label class="os-label">Classificação</label>
+
+  <app-autocomplete
+    [lista]="classificacoesLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onClassificacaoSelecionada($event)">
+  </app-autocomplete>
+</div>
+
+<!-- TIPO -->
+<div class="os-field">
+  <label class="os-label">Tipo</label>
+
+  <app-autocomplete
+    [lista]="tiposOsLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onTipoSelecionado($event)">
+  </app-autocomplete>
+</div>
+
+ <!-- CAUSA DA INTERVENÇÃO -->
+<div class="os-field">
+  <label class="os-label">Causa da Intervenção</label>
+
+  <app-autocomplete
+    [lista]="causasIntervencaoLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onCausaSelecionada($event)">
+  </app-autocomplete>
+</div>
+
+
+<!-- OPERADOR / MOTORISTA -->
+<div class="os-field">
+  <label class="os-label">Operador / Motorista</label>
+
+  <app-autocomplete
+    [lista]="motoristasLista"
+    placeholder=""
+    campoDescricao="colaboradorNome"
+    (selecionado)="onMotoristaSelecionado($event)">
+  </app-autocomplete>
+</div>
+
+
+  <!-- EMPREENDIMENTO DA INTERVENÇÃO -->
+<div class="os-field">
+  <label class="os-label">Empreendimento da Intervenção</label>
+
+  <app-autocomplete
+    [lista]="empreendimentosLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onEmpreendimentoIntervSelecionado($event)">
+  </app-autocomplete>
 </div>
 
 
 
+      <div class="os-group-inline">
+  <div class="os-group-half">
+    <label class="os-label">Hodômetro</label>
+   <input
+  class="os-input"
+  type="tel"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  [(ngModel)]="hodometro"
+  name="hodometro"
+  (input)="somenteNumero($event)"
+/>
+  </div>
+
+  <div class="os-group-half">
+    <label class="os-label">Horímetro</label>
+<input
+  class="os-input"
+  type="tel"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  [(ngModel)]="horimetro"
+  name="horimetro"
+  (input)="somenteNumero($event)"
+/>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div class="os-field">
+  <label class="os-label">Status</label>
+
+  <app-autocomplete
+    [lista]="statusLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onStatusSelecionado($event)">
+  </app-autocomplete>
+</div>
 
 
+<!-- MANUTENTOR -->
+<div class="os-field">
+  <label class="os-label">Manutentor</label>
 
-        <!-- Empreendimento -->
-        <div class="os-field">
-          <label class="os-label">Empreendimento</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="empreendimento"
-            name="empreendimento"
-          >
-            <ion-select-option
-              *ngFor="let emp of empreendimentosLista"
-              [value]="emp.id || emp.EmpreendimentoId || emp.empreendimentoId"
-            >
-              {{ emp.descricao || emp.nome || emp.empreendimento }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Datas (Abertura / Conclusão) lado a lado -->
-        <div class="os-group os-group-inline">
-          <!-- Data Abertura -->
-          <div class="os-group-half">
-            <label class="os-label">Data Abertura</label>
-            <div
-              class="os-date-field"
-              [ngClass]="{ 'has-value': dataAbertura }"
-              (click)="openCalendar($event, 'dataAbertura')"
-            >
-              <span class="os-date-value">
-                 {{ formatDate(dataAbertura) || 'dd/mm/aaaa' }}
-              </span>
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-          </div>
-
-          <!-- Data Conclusão -->
-          <div class="os-group-half">
-            <label class="os-label">Data Conclusão</label>
-            <div
-              class="os-date-field"
-              [ngClass]="{ 'has-value': dataConclusao }"
-              (click)="openCalendar($event, 'dataConclusao')"
-            >
-              <span class="os-date-value">
-                 {{ formatDate(dataConclusao) || 'dd/mm/aaaa' }}
-              </span>
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-          </div>
-        </div>
-
-        <!-- Classificação -->
-        <div class="os-field">
-          <label class="os-label">Classificação</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="classificacao"
-            name="classificacao"
-          >
-            <ion-select-option
-              *ngFor="let c of classificacoesLista"
-              [value]="c.id || c.Classificacao || c.classificacaoId"
-            >
-              {{ c.descricao || c.nome }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Tipo -->
-        <div class="os-field">
-          <label class="os-label">Tipo</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="tipo"
-            name="tipo"
-          >
-            <ion-select-option
-              *ngFor="let t of tiposOsLista"
-              [value]="t.id || t.TipoServico || t.tipoId"
-            >
-              {{ t.descricao || t.nome }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Causa da Intervenção -->
-        <div class="os-field">
-          <label class="os-label">Causa da Intervenção</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="causaIntervencao"
-            name="causaIntervencao"
-          >
-            <ion-select-option
-              *ngFor="let c of causasIntervencaoLista"
-              [value]="c.id || c.CausaIntervencao || c.causaIntervencaoId"
-            >
-              {{ c.descricao || c.nome }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Operador / Motorista -->
-        <div class="os-field">
-          <label class="os-label">Operador / Motorista</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="operadorMotorista"
-            name="operadorMotorista"
-            (ionChange)="onMotoristaChange($event)"
-          >
-            <ion-select-option
-              *ngFor="let m of motoristasLista"
-              [value]="m.id"
-            >
-              {{ m.colaboradorNome }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Empreendimento da intervenção -->
-        <div class="os-field">
-          <label class="os-label">Empreendimento da intervenção</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="empreendimentoIntervencao"
-            name="empreendimentoIntervencao"
-          >
-            <ion-select-option
-              *ngFor="let emp of empreendimentosLista"
-              [value]="emp.id || emp.EmpreendimentoId || emp.empreendimentoId"
-            >
-              {{ emp.descricao || emp.nome || emp.empreendimento }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Status -->
-        <div class="os-field">
-          <label class="os-label">Status</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="statusCodigo"
-            name="statusCodigo"
-          >
-            <ion-select-option
-              *ngFor="let st of statusLista"
-              [value]="st.valor"
-            >
-              {{ st.descricao }}
-            </ion-select-option>
-          </ion-select>
-        </div>
-
-        <!-- Manutentor -->
-        <div class="os-field">
-          <label class="os-label">Manutentor</label>
-          <ion-select
-            class="os-input os-select-input"
-            interface="popover"
-            placeholder="Selecione"
-            [(ngModel)]="manutentor"
-            name="manutentor"
-          >
-            <ion-select-option
-                *ngFor="let m of manutentoresLista"
-                [value]="m.id"
-            >
-              {{ m.colaboradorNome }}
-            </ion-select-option>
-          </ion-select>
-        </div>
+  <app-autocomplete
+    [lista]="manutentoresLista"
+    placeholder=""
+    campoDescricao="colaboradorNome"
+    (selecionado)="onManutentorSelecionado($event)">
+  </app-autocomplete>
+</div>
 
      <!--ADIÇÃO DOS NOVOS CAMPOS-->
         <div class="os-field">
         <label class="os-label">Defeitos Constatados</label>
-        <ion-textarea
-          class="os-textarea"
-          [(ngModel)]="defeitosConstatados"
-          name="defeitosConstatados"
-          placeholder="Digite aqui...">
-        </ion-textarea>
-      </div>
+       <textarea
+        class="os-textarea-native"
+        [(ngModel)]="defeitosConstatados"
+        name="defeitosConstatados">
+       </textarea>
+        </div>
 
       <div class="os-field">
         <label class="os-label">Causas Prováveis</label>
-        <ion-textarea
-          class="os-textarea"
-          [(ngModel)]="causasProvaveis"
-          name="causasProvaveis"
-          placeholder="Digite aqui...">
-        </ion-textarea>
+      <textarea
+        class="os-textarea-native"
+        [(ngModel)]="causasProvaveis"
+        name="causasProvaveis">
+      </textarea>
       </div>
 
       <div class="os-field">
         <label class="os-label">Observações</label>
-        <ion-textarea
-          class="os-textarea"
+        <textarea
+          class="os-textarea-native"
           [(ngModel)]="observacoes"
-          name="observacoes"
-          placeholder="Digite aqui...">
-        </ion-textarea>
+          name="observacoes">
+        </textarea>
       </div>
 
       <div class="os-field">
@@ -341,6 +270,27 @@
           <div class="os-photo-empty">Nenhuma foto anexada</div>
         </ng-template>
       </div>
+
+      
+<!--ADIÇÃO DOS NOVOS BOTÕES-->
+    <div class="os-actions-column">
+      <button
+        class="os-confirm-btn"
+        (click)="salvarOS()"
+        [disabled]="carregando"
+        type="button">
+        CONFIRMAR
+      </button>
+
+      <button
+        class="os-attach-photo-btn"
+        [class.disabled]="!osConfirmada"
+        (click)="irParaNovaFoto()"
+        type="button">
+        ANEXAR FOTO
+      </button>
+    </div>
+
       </form>
     </div>
   </div>
@@ -378,24 +328,4 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-    <!--ADIÇÃO DOS NOVOS BOTÕES-->
-    <div class="os-actions-column">
-      <button
-        class="os-confirm-btn"
-        (click)="salvarOS()"
-        [disabled]="carregando"
-        type="button">
-        CONFIRMAR
-      </button>
-
-      <button
-        class="os-attach-photo-btn"
-        [class.disabled]="!osConfirmada"
-        (click)="irParaNovaFoto()"
-        type="button">
-        ANEXAR FOTO
-      </button>
-    </div>
-
-
 </ion-content>

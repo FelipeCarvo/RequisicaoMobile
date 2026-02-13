@@ -8,8 +8,11 @@ import { CalendarPopoverComponent } from '../../components/calendar-popover/cale
 import { OrdemServicoService } from '../../services/ordem-servico.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HostListener, ElementRef } from '@angular/core';
-
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { CalendarPopoverComponentModule } from '../../components/calendar-popover/calendar-popover.module';
+import { AutocompleteComponent } from 'src/app/components/autocomplete/autocomplete.component';
 
 type FotoCacheItem = {
   id?: string;
@@ -32,13 +35,23 @@ interface OrdemServicoPayload {
   statusCodigo: number | null;
   dataAbertura: string | null;
   dataConclusao: string | null;
-}
+  hodometro: string;
+horimetro: string;
 
+}
 @Component({
-  standalone: false,
   selector: 'app-ordem-servico-edicao',
   templateUrl: './ordem-servico-edicao.page.html',
   styleUrls: ['./ordem-servico-edicao.page.scss'],
+  standalone: true,
+
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    CalendarPopoverComponentModule,
+    AutocompleteComponent
+  ]
 })
 export class OrdemServicoEdicaoPage implements OnInit {
 
@@ -69,6 +82,10 @@ export class OrdemServicoEdicaoPage implements OnInit {
   defeitosConstatados: string = '';
   causasProvaveis: string = '';
   observacoes: string = '';
+
+
+  hodometro: string = '';
+  horimetro: string = '';
 
 // ALTERAÇÃO: controla liberação do botão "Anexar Foto"
   osConfirmada = false;
@@ -235,6 +252,16 @@ export class OrdemServicoEdicaoPage implements OnInit {
     private elementRef: ElementRef//novo 
   ) {}
 
+@HostListener('document:click', ['$event'])
+fecharDropdownAoClicarFora(event: Event) {
+  const clicouDentro = this.elementRef.nativeElement.contains(event.target);
+
+  if (!clicouDentro) {
+    this.modalEquipamentoAberto = false;
+  }
+}
+
+
   ionViewWillEnter() {
     // Ao voltar da tela de anexar foto (navCtrl.back), o ngOnInit não roda de novo.
     // Então recarregamos as fotos do cache aqui para atualizar a grade imediatamente.
@@ -256,9 +283,10 @@ export class OrdemServicoEdicaoPage implements OnInit {
       this.operadorMotorista = '';
       this.manutentor = '';
       this.statusCodigo = null;
-      this.dataAbertura = null;
+      this.dataAbertura = new Date().toISOString(); // ← data atual
       this.dataConclusao = null;
     };
+    
     this.route.queryParams.subscribe((params) => {
       // Sempre limpar os campos ao criar nova OS (sem parâmetro 'os')
       if (!params || !params['os']) {
@@ -266,9 +294,20 @@ export class OrdemServicoEdicaoPage implements OnInit {
           limparCampos();
           this.atualizarPreviewFoto();
           this.ativarFiltroEquipamento();
+          this.equipamentosFiltrados = [...this.equipamentosLista];
+          this.empreendimentosFiltrados = [...this.empreendimentosLista];
+          this.classificacoesFiltradas = [...this.classificacoesLista];
+          this.tiposFiltrados = [...this.tiposOsLista];
+           this.causasFiltradas = [...this.causasIntervencaoLista];
+           this.motoristasFiltrados = [...this.motoristasLista];
+           this.empreendimentosIntervFiltrados = [...this.empreendimentosLista];
+           this.manutentoresFiltrados = [...this.manutentoresLista];
+           this.statusFiltrados = [...this.statusLista];
+
 
         });
         return;
+        
       }
 
       // Se houver parâmetro 'os', preenche os campos (edição)
@@ -730,6 +769,10 @@ export class OrdemServicoEdicaoPage implements OnInit {
       }
     }
   }
+  /* 🔹 NOVO — limpar data */
+limparData(campo: 'dataAbertura' | 'dataConclusao') {
+  this[campo] = null;
+}
 
   formatDate(isoOrDate: string | null): string {
     // Removido log de debug
@@ -778,6 +821,129 @@ export class OrdemServicoEdicaoPage implements OnInit {
       return dateStr;
     }
   }
+/////////////////////////////////////////////////////////////////////////////
+  /* ================================
+   DROPDOWN EQUIPAMENTO
+================================ */
+onEquipamentoSelecionado(item: any) {
+  if (!item) {
+    this.equipamento = '';
+    return;
+  }
+
+  this.equipamento = item.id;
+}
+  /* ==========================
+   DROPDOWN EMPREENDIMENTO
+================================ */
+onEmpreendimentoSelecionado(item: any) {
+  if (!item) {
+    this.empreendimento = '';
+    return;
+  }
+
+  this.empreendimento = item.id;
+}
+  /* ======================
+   DROPDOWN CLASSIFICAÇÃO
+=========================== */
+onClassificacaoSelecionada(item: any) {
+  if (!item) {
+    this.classificacao = '';
+    return;
+  }
+
+  this.classificacao = item.id;
+}
+  /* ===============
+   DROPDOWN TIPO
+===================== */
+onTipoSelecionado(item: any) {
+  if (!item) {
+    this.tipo = '';
+    return;
+  }
+
+  this.tipo = item.id;
+}
+  /* =============================
+   DROPDOWN CAUSA DA INTERVENÇÃO
+================================== */
+onCausaSelecionada(item: any) {
+  if (!item) {
+    this.causaIntervencao = '';
+    return;
+  }
+
+  this.causaIntervencao = item.id;
+}
+
+  /* ===========================
+   DROPDOWN OPERADOR/MOTORISTA
+================================ */
+onMotoristaSelecionado(item: any) {
+  if (!item) {
+    this.operadorMotorista = '';
+    return;
+  }
+
+  this.operadorMotorista = item.id;
+}
+
+  /* =====================================
+   DROPDOWN EMPREENDIMENTO DA INTERVENÇÃO
+========================================== */
+onEmpreendimentoIntervSelecionado(item: any) {
+  if (!item) {
+    this.empreendimentoIntervencao = '';
+    return;
+  }
+
+  this.empreendimentoIntervencao = item.id;
+}
+
+  /* =====================================
+   DROPDOWN STATUS
+========================================== */
+
+onStatusSelecionado(item: any) {
+  if (!item) {
+    this.statusCodigo = null;
+    return;
+  }
+
+  this.statusCodigo = item.valor;
+}
+
+  /* =====================================
+   DROPDOWN MANUTENTOR
+========================================== */
+
+onManutentorSelecionado(item: any) {
+  if (!item) {
+    this.manutentor = '';
+    return;
+  }
+
+  this.manutentor = item.id;
+}
+////////////////////////////////////////////////////////////////////////////////
+
+abrirDropdownEquipamento() {
+  this.modalEquipamentoAberto = this.equipamentosFiltrados.length > 0;
+}
+
+limparEquipamento() {
+  this.textoBuscaEquipamento = '';
+  this.equipamento = '';
+  this.modalEquipamentoAberto = false;
+  this.equipamentosFiltrados = [];
+}
+
+somenteNumero(event: any) {
+  const valor = event.target.value.replace(/\D/g, '');
+  event.target.value = valor;
+}
 
   // --------- PAYLOAD PARA A API ---------
 
@@ -798,11 +964,14 @@ export class OrdemServicoEdicaoPage implements OnInit {
       statusCodigo: this.statusCodigo,
       dataAbertura: this.toApiDate(this.dataAbertura),
       dataConclusao: this.toApiDate(this.dataConclusao),
+      hodometro: this.hodometro,
+      horimetro: this.horimetro,
+
 
     };
     return payload;
   }
-  /* 🔵 NOVO — prepara atualização visual do equipamento */
+  /*  NOVO — prepara atualização visual do equipamento */
 private ativarFiltroEquipamento() {
   if (!this.equipamentosLista || !this.equipamentosLista.length) return;
 
@@ -812,10 +981,6 @@ private ativarFiltroEquipamento() {
 // =============================
 // 🔎 BUSCA DE EQUIPAMENTO
 // =============================
-// =============================
-// 🔎 BUSCA DE EQUIPAMENTO
-// =============================
-
 modalEquipamentoAberto = false;
 textoBuscaEquipamento = '';
 equipamentosFiltrados: ItemComId[] = [];
@@ -848,31 +1013,329 @@ filtrarEquipamentos() {
 }
 
 selecionarEquipamento(eq: any) {
-  this.equipamento = String(eq.id);
-  this.textoBuscaEquipamento =
-    String(eq.descricao || eq.nome || eq.equipamento || '');
+  this.equipamento = eq.id;
+  this.textoBuscaEquipamento = eq.descricao || eq.nome || eq.equipamento;
   this.modalEquipamentoAberto = false;
 }
 
+
 /** 🔥 FAZ O FILTRO AUTOMÁTICO AO DIGITAR */
 onDigitarEquipamento() {
+  const texto = (this.textoBuscaEquipamento || '').toLowerCase().trim();
 
-   //console.log('digitou:', this.textoBuscaEquipamento);
-
-
-  const termo = (this.textoBuscaEquipamento || '').toLowerCase();
-
-  this.modalEquipamentoAberto = true;
-
-  if (!termo) {
-    this.equipamentosFiltrados = [...this.equipamentosLista];
+  // Se não tem texto → fecha dropdown
+  if (!texto) {
+    this.modalEquipamentoAberto = false;
+    this.equipamentosFiltrados = [];
     return;
   }
 
-  this.equipamentosFiltrados = this.equipamentosLista.filter((eq: any) =>
-    String(eq.descricao || eq.nome || eq.equipamento || '')
+this.equipamentosFiltrados = this.equipamentosLista.filter(eq =>
+  String(eq.descricao || eq.nome || eq.equipamento || '')
+    .toLowerCase()
+    .includes(texto)
+);
+
+  // Só abre se tiver resultado
+  this.modalEquipamentoAberto = this.equipamentosFiltrados.length > 0;
+}
+
+
+// =============================
+// 🔎 BUSCA DE EMPREENDIMENTO
+// =============================
+
+modalEmpreendimentoAberto = false;
+textoBuscaEmpreendimento = '';
+empreendimentosFiltrados: ItemComId[] = [];
+
+/** 🔥 FAZ O FILTRO AUTOMÁTICO AO DIGITAR */
+onDigitarEmpreendimento() {
+
+  const termo = (this.textoBuscaEmpreendimento || '').toLowerCase();
+
+  this.modalEmpreendimentoAberto = true;
+
+  if (!termo) {
+    this.empreendimentosFiltrados = [...this.empreendimentosLista];
+    return;
+  }
+
+  this.empreendimentosFiltrados = this.empreendimentosLista.filter((emp: any) =>
+    String(emp.descricao || emp.nome || emp.empreendimento || '')
       .toLowerCase()
       .includes(termo)
+  );
+}
+
+selecionarEmpreendimento(emp: any) {
+  this.empreendimento = String(
+    emp.id || emp.EmpreendimentoId || emp.empreendimentoId
+  );
+
+  this.textoBuscaEmpreendimento =
+    String(emp.descricao || emp.nome || emp.empreendimento || '');
+
+  this.modalEmpreendimentoAberto = false;
+}
+
+// =============================
+// 🔎 BUSCA DE CLASSIFICAÇÃO
+// =============================
+
+modalClassificacaoAberto = false;
+textoBuscaClassificacao = '';
+classificacoesFiltradas: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarClassificacao() {
+
+  const termo = (this.textoBuscaClassificacao || '').toLowerCase();
+
+  this.modalClassificacaoAberto = true;
+
+  if (!termo) {
+    this.classificacoesFiltradas = [...this.classificacoesLista];
+    return;
+  }
+
+  this.classificacoesFiltradas = this.classificacoesLista.filter((c: any) =>
+    String(c.descricao || c.nome || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarClassificacao(c: any) {
+  this.classificacao = String(
+    c.id || c.Classificacao || c.classificacaoId
+  );
+
+  this.textoBuscaClassificacao =
+    String(c.descricao || c.nome || '');
+
+  this.modalClassificacaoAberto = false;
+}
+// =============================
+// 🔎 BUSCA DE TIPO
+// =============================
+
+modalTipoAberto = false;
+textoBuscaTipo = '';
+tiposFiltrados: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarTipo() {
+
+  const termo = (this.textoBuscaTipo || '').toLowerCase();
+
+  this.modalTipoAberto = true;
+
+  if (!termo) {
+    this.tiposFiltrados = [...this.tiposOsLista];
+    return;
+  }
+
+  this.tiposFiltrados = this.tiposOsLista.filter((t: any) =>
+    String(t.descricao || t.nome || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarTipo(t: any) {
+  this.tipo = String(
+    t.id || t.TipoServico || t.tipoId
+  );
+
+  this.textoBuscaTipo =
+    String(t.descricao || t.nome || '');
+
+  this.modalTipoAberto = false;
+}
+// =============================
+// 🔎 BUSCA DE CAUSA DA INTERVENÇÃO
+// =============================
+
+modalCausaAberto = false;
+textoBuscaCausa = '';
+causasFiltradas: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarCausa() {
+
+  const termo = (this.textoBuscaCausa || '').toLowerCase();
+
+  this.modalCausaAberto = true;
+
+  if (!termo) {
+    this.causasFiltradas = [...this.causasIntervencaoLista];
+    return;
+  }
+
+  this.causasFiltradas = this.causasIntervencaoLista.filter((c: any) =>
+    String(c.descricao || c.nome || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarCausa(c: any) {
+  this.causaIntervencao = String(
+    c.id || c.CausaIntervencao || c.causaIntervencaoId
+  );
+
+  this.textoBuscaCausa =
+    String(c.descricao || c.nome || '');
+
+  this.modalCausaAberto = false;
+}
+// =============================
+// 🔎 BUSCA DE OPERADOR / MOTORISTA
+// =============================
+
+modalMotoristaAberto = false;
+textoBuscaMotorista = '';
+motoristasFiltrados: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarMotorista() {
+
+  const termo = (this.textoBuscaMotorista || '').toLowerCase();
+
+  this.modalMotoristaAberto = true;
+
+  if (!termo) {
+    this.motoristasFiltrados = [...this.motoristasLista];
+    return;
+  }
+
+  this.motoristasFiltrados = this.motoristasLista.filter((m: any) =>
+    String(m.colaboradorNome || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarMotorista(m: any) {
+  // mantém exatamente a mesma lógica de GUID que você já usa
+  this.operadorMotorista = String(m.id);
+
+  this.textoBuscaMotorista =
+    String(m.colaboradorNome || '');
+
+  this.modalMotoristaAberto = false;
+}
+
+// =============================
+// 🔎 BUSCA DE EMPREENDIMENTO DA INTERVENÇÃO
+// =============================
+
+modalEmpreendimentoIntervAberto = false;
+textoBuscaEmpreendimentoInterv = '';
+empreendimentosIntervFiltrados: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarEmpreendimentoInterv() {
+
+  const termo = (this.textoBuscaEmpreendimentoInterv || '').toLowerCase();
+
+  this.modalEmpreendimentoIntervAberto = true;
+
+  if (!termo) {
+    this.empreendimentosIntervFiltrados = [...this.empreendimentosLista];
+    return;
+  }
+
+  this.empreendimentosIntervFiltrados = this.empreendimentosLista.filter((emp: any) =>
+    String(emp.descricao || emp.nome || emp.empreendimento || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarEmpreendimentoInterv(emp: any) {
+  this.empreendimentoIntervencao = String(
+    emp.id || emp.EmpreendimentoId || emp.empreendimentoId
+  );
+
+  this.textoBuscaEmpreendimentoInterv =
+    String(emp.descricao || emp.nome || emp.empreendimento || '');
+
+  this.modalEmpreendimentoIntervAberto = false;
+}
+// =============================
+// 🔎 BUSCA DE MANUTENTOR
+// =============================
+
+modalManutentorAberto = false;
+textoBuscaManutentor = '';
+manutentoresFiltrados: ItemComId[] = [];
+
+/** 🔥 FILTRO AO DIGITAR */
+onDigitarManutentor() {
+
+  const termo = (this.textoBuscaManutentor || '').toLowerCase();
+
+  this.modalManutentorAberto = true;
+
+  if (!termo) {
+    this.manutentoresFiltrados = [...this.manutentoresLista];
+    return;
+  }
+
+  this.manutentoresFiltrados = this.manutentoresLista.filter((m: any) =>
+    String(m.colaboradorNome || '')
+      .toLowerCase()
+      .includes(termo)
+  );
+}
+
+selecionarManutentor(m: any) {
+  this.manutentor = String(m.id);
+
+  this.textoBuscaManutentor =
+    String(m.colaboradorNome || '');
+
+  this.modalManutentorAberto = false;
+}
+// =============================
+// 🔠 DESCRIÇÃO EM UPPERCASE
+// =============================
+onDescricaoInput(event: any) {
+  const valor = event?.target?.value || '';
+  this.descricao = valor.toUpperCase();
+}
+// =============================
+// 🔎 BUSCA DE STATUS
+// =============================
+
+modalStatusAberto = false;
+textoBuscaStatus = '';
+statusFiltrados: { valor: number; descricao: string }[] = [];
+
+abrirBuscaStatus() {
+  this.modalStatusAberto = true;
+
+  if (!this.textoBuscaStatus) {
+    this.statusFiltrados = [...this.statusLista];
+  }
+}
+
+selecionarStatus(st: { valor: number; descricao: string }) {
+  this.statusCodigo = st.valor;
+  this.textoBuscaStatus = st.descricao;
+  this.modalStatusAberto = false;
+}
+
+onDigitarStatus() {
+  const termo = (this.textoBuscaStatus || '').toLowerCase().trim();
+
+  // abre dropdown SOMENTE quando tem algo digitado
+  this.modalStatusAberto = termo.length > 0;
+
+  this.statusFiltrados = this.statusLista.filter(st =>
+    st.descricao.toLowerCase().includes(termo)
   );
 }
 
@@ -901,51 +1364,39 @@ onDigitarEquipamento() {
       Status: (this.statusCodigo !== null && this.statusCodigo !== undefined) ? this.statusCodigo : 1,
       DataAbertura: this.dataAbertura,
       DataFechamento: this.dataConclusao,
+
+      Hodometro: this.hodometro,
+      Horimetro: this.horimetro,
+
       // Novos campos:
       DefeitosConstatados: (this.defeitosConstatados || '').toString().trim(),
       CausasProvaveis: (this.causasProvaveis || '').toString().trim(),
       Observacao: (this.observacoes || '').toString().trim(),
+      
     });
 
-    // Validação dos campos obrigatórios conforme documentação
-    const obrigatorios = [
-      ...(params.OsId ? ['OsId'] : []),
-      'Descricao',                // Descrição
-      'EquipamentoId',            // Equipamento
-      'EmpreendimentoId',         // Empreendimento
-      'OsDataAbertura',           // Data Abertura
-      'OsDataConclusao',          // Data Conclusão
-      'ClassificacaoId',          // Classificação
-      'TipoServicoId',            // Tipo
-      'CausasId',                 // Causa Intervenção
-      'MotoristaOperadorId',      // Operador / Motorista
-      'EmprdintervencaoId',       // Empreendimento da intervenção
-      'Status',                   // Status
-      'ManutentorResponsavelId'   // Manutentor
-    ];
-    const faltando = obrigatorios.filter((key) => !params[key] && params[key] !== 0);
-    if (faltando.length > 0) {
-      const msg = 'Preencha todos os campos obrigatórios:\n' + faltando.map(f => {
-        switch(f) {
-          case 'OsId': return 'Identificador da OS';
-          case 'Descricao': return 'Descrição';
-          case 'EquipamentoId': return 'Equipamento';
-          case 'EmpreendimentoId': return 'Empreendimento';
-          case 'OsDataAbertura': return 'Data Abertura';
-          case 'OsDataConclusao': return 'Data Conclusão';
-          case 'ClassificacaoId': return 'Classificação';
-          case 'TipoServicoId': return 'Tipo';
-          case 'CausasId': return 'Causa Intervenção';
-          case 'MotoristaOperadorId': return 'Operador / Motorista';
-          case 'EmprdintervencaoId': return 'Empreendimento da intervenção';
-          case 'Status': return 'Status (Selecione um status válido)';
-          case 'ManutentorResponsavelId': return 'Manutentor';
-          default: return f;
-        }
-      }).join('\n');
-      alert(msg);
-      return;
-    }
+    
+   // Validação dos campos obrigatórios (apenas o que o usuário precisa preencher)
+const obrigatorios = ['Descricao', 'EquipamentoId'];
+
+// Nome amigável dos campos
+const nomesCampos: Record<string, string> = {
+  Descricao: 'Descrição',
+  EquipamentoId: 'Equipamento'
+};
+
+// Verifica quais estão faltando
+const faltando = obrigatorios.filter((key) => !params[key]);
+
+if (faltando.length > 0) {
+  const msg =
+    'Preencha os campos obrigatórios:\n' +
+    faltando.map(f => nomesCampos[f]).join('\n');
+
+  alert(msg);
+  return;
+}
+
 
    // Log detalhado dos parâmetros
 

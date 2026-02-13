@@ -30,54 +30,56 @@
       </div>
 
       <!-- Empreendimento -->
-      <div class="os-field">
-        <label class="os-label">Empreendimento</label>
-        <ion-input
-          class="os-input"
-          type="text"
-          [(ngModel)]="filtro.empreendimento">
-        </ion-input>
-      </div>
+       <div class="os-field">
+  <label class="os-label">Empreendimento</label>
+
+  <app-autocomplete
+    [lista]="empreendimentosLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onEmpreendimentoSelecionado($event)">
+  </app-autocomplete>
+</div>
+
+ 
 
       <!-- Equipamento -->
-      <div class="os-field">
-        <label class="os-label">Equipamento</label>
-        <ion-input
-          class="os-input"
-          type="text"
-          [(ngModel)]="filtro.equipamento">
-        </ion-input>
-      </div>
+  <div class="os-field">
+  <label class="os-label">Equipamento</label>
+
+  <app-autocomplete
+    [lista]="equipamentosLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onEquipamentoSelecionado($event)">
+  </app-autocomplete>
+</div>
 
       <!-- Causa Intervenção -->
-      <div class="os-field">
-        <label class="os-label">Causa Intervenção</label>
-        <ion-input
-          class="os-input"
-          type="text"
-          [(ngModel)]="filtro.causaIntervencao">
-        </ion-input>
-      </div>
+<div class="os-field">
+  <label class="os-label">Causa Intervenção</label>
+
+  <app-autocomplete
+    [lista]="causasLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onCausaSelecionada($event)">
+  </app-autocomplete>
+</div>
+
 
       <!-- Manutentor -->
-      <div class="os-field">
-        <label class="os-label">Manutentor</label>
-        <ion-input
-          class="os-input"
-          type="text"
-          [(ngModel)]="filtro.manutentor">
-        </ion-input>
-      </div>
-      <div class="os-field">
-  <label class="os-label">Status</label>
-  <ion-select
-    class="os-input os-select-input"
-    interface="popover"
-    [(ngModel)]="filtro.status"
-    placeholder="Selecione">
-      <ion-select-option value="1">Selecione</ion-select-option>
-          </ion-select>
-        </div>
+ <div class="os-field">
+  <label class="os-label">Manutentor</label>
+
+  <app-autocomplete
+    [lista]="manutentoresLista"
+    placeholder=""
+    campoDescricao="descricao"
+    (selecionado)="onManutentorSelecionado($event)">
+  </app-autocomplete>
+</div>
+
         <!-- Data Abertura Inicial -->
 <div class="os-field">
   <label class="os-label">Data Abertura Inicial</label>

@@ -1,17 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+//import { CommonModule } from '@angular/common';
+//import { FormsModule } from '@angular/forms';
+//import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
+
 import { OrdemServicoService } from '../../services/ordem-servico.service';
 import { CalendarPopoverComponent } from '../../components/calendar-popover/calendar-popover.component';
+//import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
 
 @Component({
-  standalone: false,
+
   selector: 'app-ordem-servico',
   templateUrl: './ordem-servico.page.html',
   styleUrls: ['./ordem-servico.page.scss'],
+
 })
-export class OrdemServicoPage {
+
+
+
+
+export class OrdemServicoPage implements OnInit {
 
   filtro = {
     numeroOs: '',
@@ -28,11 +38,33 @@ export class OrdemServicoPage {
 
   resultados: any[] = [];
 
+  // 🔹 LISTAS DO AUTOCOMPLETE (mesmas da edição)
+  equipamentosLista: any[] = [];
+  empreendimentosLista: any[] = [];
+  causasLista: any[] = [];
+  manutentoresLista: any[] = [];
+
   constructor(
     public router: Router,
     private popoverCtrl: PopoverController,
     private ordemServicoService: OrdemServicoService
   ) {}
+
+  // 🔹 Carrega listas ao abrir tela
+ ngOnInit() {
+  this.ordemServicoService.listarEquipamentos().subscribe(r => this.equipamentosLista = r || []);
+  this.ordemServicoService.listarEmpreendimentos().subscribe(r => this.empreendimentosLista = r || []);
+  this.ordemServicoService.listarCausasIntervencao().subscribe(r => this.causasLista = r || []);
+  this.ordemServicoService.listarColaboradoresManutentores()
+  .subscribe(r => {
+    this.manutentoresLista = (r || []).map((m: any) => ({
+      id: m.id ?? m.colaboradorId ?? m.manutentorId,
+      descricao: m.descricao ?? m.nome ?? m.colaboradorNome
+    }));
+  });
+
+}
+
 
   // Voltar para home de frotas
   onBack() {
@@ -41,11 +73,27 @@ export class OrdemServicoPage {
 
   // Ir para tela de edição / nova OS
   goNovaOrdem() {
-    // Navega para tela de edição sem parâmetros para garantir OS em branco
     this.router.navigate(['/tabs/ordem-servico-edicao']);
   }
 
-  // Abrir calendário (usa o mesmo popover do resto do app)
+  // 🔹 Métodos chamados pelo autocomplete
+  onEquipamentoSelecionado(item: any) {
+    this.filtro.equipamento = item?.id || '';
+  }
+
+  onEmpreendimentoSelecionado(item: any) {
+    this.filtro.empreendimento = item?.id || '';
+  }
+
+  onCausaSelecionada(item: any) {
+    this.filtro.causaIntervencao = item?.id || '';
+  }
+
+  onManutentorSelecionado(item: any) {
+    this.filtro.manutentor = item?.id || '';
+  }
+
+  // Abrir calendário
   async openCalendar(
     event: any,
     field: 'dataAberturaInicial' | 'dataAberturaFinal' | 'dataConclusaoInicial' | 'dataConclusaoFinal'
@@ -67,7 +115,7 @@ export class OrdemServicoPage {
   }
 
   formatDate(isoString: string): string {
-    if (!isoString) { return ''; }
+    if (!isoString) return '';
     try {
       return format(parseISO(isoString), 'dd/MM/yyyy');
     } catch {
@@ -75,7 +123,7 @@ export class OrdemServicoPage {
     }
   }
 
-  // Pesquisar: navega para a tela de pesquisa levando os filtros (a tela de pesquisa consulta a API)
+  // Pesquisar → navega para tela de pesquisa com filtros
   pesquisar() {
     this.router.navigate(['/tabs/ordem-servico-pesquisa'], {
       queryParams: {

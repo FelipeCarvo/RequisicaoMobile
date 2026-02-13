@@ -558,8 +558,11 @@ export class OrdemServicoNovaFotoPage {
 
         this.toast('Foto enviada com sucesso e salva na API.', 'success');
 
-        // Volta para a tela anterior (normalmente a edição da OS)
-        this.navCtrl.back();
+        // Após anexar foto, volta para a lista de OS (pesquisa)
+        this.router.navigate(['/tabs/ordem-servico-pesquisa'], {
+          queryParams: { highlightOs: this.osCod },
+         replaceUrl: true
+        });
       },
       error: (err) => {
         this.toast(this.getErrorMessage(err), 'danger');

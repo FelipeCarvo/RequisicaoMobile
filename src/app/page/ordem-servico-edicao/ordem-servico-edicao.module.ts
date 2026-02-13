@@ -15,6 +15,6 @@ import { CalendarPopoverComponentModule } from '../../components/calendar-popove
     CalendarPopoverComponentModule
   ],
   
-  declarations: [OrdemServicoEdicaoPage]
+  //declarations: [OrdemServicoEdicaoPage]
 })
 export class OrdemServicoEdicaoPageModule {}

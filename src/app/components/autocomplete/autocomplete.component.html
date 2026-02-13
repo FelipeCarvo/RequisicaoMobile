@@ -1,0 +1,34 @@
+<div class="os-autocomplete">
+
+  <input
+    type="text"
+    class="os-input"
+    [(ngModel)]="textoBusca"
+    (focus)="abrir()"
+    (ngModelChange)="onDigitar()"
+    [placeholder]="placeholder"
+    autocomplete="off"
+  />
+
+  <!-- botão X -->
+  <button
+    *ngIf="textoBusca"
+    type="button"
+    class="clear-btn"
+    (click)="limpar()"
+  >
+    ✕
+  </button>
+
+  <!-- dropdown -->
+  <div class="os-select-dropdown" *ngIf="aberto">
+    <div
+      class="os-select-option"
+      *ngFor="let item of filtrados"
+      (click)="selecionar(item)"
+    >
+      {{ item[campoDescricao] }}
+    </div>
+  </div>
+
+</div>

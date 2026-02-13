@@ -161,6 +161,8 @@ export class OrdemServicoPesquisaPage implements OnInit {
     });
 
     this.route.queryParamMap.subscribe((params) => {
+      const highlightOs = params.get('highlightOs');
+
       const filtrosTela = {
         numeroOs: params.get('numeroOs') ?? '',
         empreendimento: params.get('empreendimento') ?? '',
@@ -192,10 +194,19 @@ export class OrdemServicoPesquisaPage implements OnInit {
       this.carregando = true;
       this.ordemService.consultarGeral(filtrosApi).subscribe({
         next: (listaApi: any[]) => {
-          const listaFiltrada = this.aplicarFiltrosLocal(listaApi || [], filtrosTela);
-          this.listaOs = listaFiltrada.map(mapItem);
-          this.carregando = false;
-        },
+  let listaFiltrada = this.aplicarFiltrosLocal(listaApi || [], filtrosTela);
+
+  // ⭐ NOVO: se veio highlightOs, mostra só a OS criada
+  if (highlightOs) {
+    listaFiltrada = listaFiltrada.filter(os =>
+      String(os.osCod ?? os.NumeroOs ?? '') === String(highlightOs)
+    );
+  }
+
+  this.listaOs = listaFiltrada.map(mapItem);
+  this.carregando = false;
+},
+
         error: (err) => {
           console.error('Erro ao buscar OS na API:', err);
           this.listaOs = [];
