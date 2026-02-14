@@ -4,31 +4,31 @@
     type="text"
     class="os-input"
     [(ngModel)]="textoBusca"
-    (focus)="abrir()"
-    (ngModelChange)="onDigitar()"
+    (focus)="aberto = true"
+    (input)="filtrar()"
+    (blur)="fechar()"
     [placeholder]="placeholder"
-    autocomplete="off"
   />
 
-  <!-- botão X -->
+  <!-- BOTÃO X -->
   <button
     *ngIf="textoBusca"
-    type="button"
     class="clear-btn"
-    (click)="limpar()"
+    (click)="limpar(); $event.stopPropagation()"
   >
     ✕
   </button>
 
-  <!-- dropdown -->
-  <div class="os-select-dropdown" *ngIf="aberto">
-    <div
-      class="os-select-option"
-      *ngFor="let item of filtrados"
-      (click)="selecionar(item)"
-    >
-      {{ item[campoDescricao] }}
-    </div>
-  </div>
+  <!-- LISTA -->
+  <div class="dropdown" *ngIf="aberto && listaFiltrada.length">
 
+    <div
+      class="item"
+      *ngFor="let item of listaFiltrada"
+      (mousedown)="selecionar(item)"
+    >
+      {{ getDescricao(item) }}
+    </div>
+
+  </div>
 </div>

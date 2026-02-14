@@ -1,26 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-//import { CommonModule } from '@angular/common';
-//import { FormsModule } from '@angular/forms';
-//import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 
 import { OrdemServicoService } from '../../services/ordem-servico.service';
 import { CalendarPopoverComponent } from '../../components/calendar-popover/calendar-popover.component';
-//import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
+import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
 
 @Component({
-
   selector: 'app-ordem-servico',
   templateUrl: './ordem-servico.page.html',
   styleUrls: ['./ordem-servico.page.scss'],
-
+ standalone: false // ← IMPORTANTE
 })
-
-
-
-
 export class OrdemServicoPage implements OnInit {
 
   filtro = {

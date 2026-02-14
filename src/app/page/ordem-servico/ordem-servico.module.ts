@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { OrdemServicoPageRoutingModule } from './ordem-servico-routing.module';
 import { OrdemServicoPage } from './ordem-servico.page';
 
-import { AutocompleteModule } from '../../components/autocomplete/autocomplete.module';
+import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { AutocompleteModule } from '../../components/autocomplete/autocomplete.m
     FormsModule,
     IonicModule,
     OrdemServicoPageRoutingModule,
-    AutocompleteModule
+    AutocompleteComponent // ✅ standalone entra aqui
   ],
   declarations: [OrdemServicoPage]
 })

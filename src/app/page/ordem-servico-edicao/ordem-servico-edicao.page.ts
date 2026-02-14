@@ -88,7 +88,7 @@ export class OrdemServicoEdicaoPage implements OnInit {
   horimetro: string = '';
 
 // ALTERAÇÃO: controla liberação do botão "Anexar Foto"
-  osConfirmada = false;
+  //osConfirmada = false;
 
   // Listas para combos
   equipamentosLista: ItemComId[] = [];
@@ -683,15 +683,37 @@ fecharDropdownAoClicarFora(event: Event) {
     this.ordemService.listarCausasIntervencao().subscribe({
       next: (lista) => { this.causasIntervencaoLista = lista || []; checkDone(); },
     });
-    this.ordemService.listarColaboradoresMotoristas().subscribe({
-      next: (lista) => {
-        this.motoristasLista = (lista || []).map(m => ({
-          ...m,
-          id: String((m as any).fornId || (m as any).colaboradorId || (m as any).id || (m as any).colaboradorCod || ''),
-        }));
-        checkDone();
-      },
-    });
+
+
+this.ordemService.listarColaboradoresMotoristas().subscribe({
+  next: (lista) => {
+
+    this.motoristasLista = (lista || []).map((m: any) => ({
+      ...m,
+      id: String(
+        m.fornId ||
+        m.colaboradorId ||
+        m.id ||
+        m.colaboradorCod ||
+        ''
+      ),
+      colaboradorNome:
+        m.colaboradorNome ||
+        m.nome ||
+        m.descricao ||
+        m.razaoSocial ||
+        ''
+    }));
+
+    // 🔥 ESSA LINHA FALTAVA
+    this.motoristasFiltrados = [...this.motoristasLista];
+
+    checkDone();
+  },
+});
+
+
+
     this.ordemService.listarColaboradoresManutentores().subscribe({
       next: (lista) => {
         this.manutentoresLista = (lista || []).map(m => ({
@@ -1201,12 +1223,11 @@ motoristasFiltrados: ItemComId[] = [];
 /** 🔥 FILTRO AO DIGITAR */
 onDigitarMotorista() {
 
-  const termo = (this.textoBuscaMotorista || '').toLowerCase();
-
-  this.modalMotoristaAberto = true;
+  const termo = (this.textoBuscaMotorista || '').toLowerCase().trim();
 
   if (!termo) {
     this.motoristasFiltrados = [...this.motoristasLista];
+    this.modalMotoristaAberto = this.motoristasFiltrados.length > 0;
     return;
   }
 
@@ -1215,7 +1236,10 @@ onDigitarMotorista() {
       .toLowerCase()
       .includes(termo)
   );
+
+  this.modalMotoristaAberto = this.motoristasFiltrados.length > 0;
 }
+
 
 selecionarMotorista(m: any) {
   // mantém exatamente a mesma lógica de GUID que você já usa
@@ -1429,12 +1453,12 @@ if (faltando.length > 0) {
         this.mostrarToastSucesso();
 
         // 🔧 ALTERAÇÃO: libera botão Anexar Foto
-        this.osConfirmada = true;
+        //this.osConfirmada = true;
       },
       error: async () => {
         // mesmo em erro, mantém o fluxo atual conforme solicitado
         await this.mostrarToastSucesso();
-        this.osConfirmada = true;
+        //this.osConfirmada = true;
 
         // Mesmo em erro, tenta atualizar o preview (pode ter voltado da tela de foto)
         this.atualizarPreviewFoto();
@@ -1442,18 +1466,20 @@ if (faltando.length > 0) {
     });
   }
     //ALTERAÇÃO
-    irParaNovaFoto() {
-    if (!this.osConfirmada) return;
-
-    if (!this.osId || this.osId.length !== 36) {
-      this.mostrarToastAviso('OS sem identificador (OsId). Confirme a OS antes de anexar foto.');
-      return;
-    }
-
-    this.router.navigate(['/tabs/ordem-servico-nova-foto'], {
-        queryParams: { osId: this.osId, osCod: this.numeroOS, os: this.osId },
-    });
+  irParaNovaFoto() {
+  // Só bloqueia se realmente NÃO existir OsId válido
+  if (!this.osId || this.osId.length !== 36) {
+    this.mostrarToastAviso('Salve a OS antes de anexar foto.');
+    return;
   }
+
+  this.router.navigate(['/tabs/ordem-servico-nova-foto'], {
+    queryParams: { osId: this.osId, osCod: this.numeroOS, os: this.osId },
+  });
+}
+
+
+
 
   //AQUI ERA A ROT ANTIGA
 /*

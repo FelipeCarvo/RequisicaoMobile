@@ -19,6 +19,22 @@
     <div class="os-card">
       <form class="os-form">
 
+<!-- Número Ordem Serviço -->
+<div class="os-field">
+  <label class="os-label">Número Ordem Serviço</label>
+
+  <ion-input
+    class="os-input numero-os-disabled"
+    type="text"
+    name="numeroOS"
+    [(ngModel)]="numeroOS"
+    placeholder="Gerado automaticamente"
+    disabled>
+  </ion-input>
+</div>
+
+
+
         <!-- Descrição -->
         <div class="os-field">
           <label class="os-label">Descrição</label>
@@ -282,13 +298,15 @@
         CONFIRMAR
       </button>
 
-      <button
-        class="os-attach-photo-btn"
-        [class.disabled]="!osConfirmada"
-        (click)="irParaNovaFoto()"
-        type="button">
-        ANEXAR FOTO
-      </button>
+<ion-button
+  expand="block"
+  fill="outline"
+  class="btn-anexar-foto"
+  (click)="irParaNovaFoto()">
+  ANEXAR FOTO
+</ion-button>
+
+
     </div>
 
       </form>

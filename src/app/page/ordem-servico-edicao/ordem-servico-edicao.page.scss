@@ -282,3 +282,51 @@
 
   text-align: center;
 }
+
+
+
+
+.numero-os-disabled {
+  --color: #9aa3af;          // texto cinza
+  --placeholder-color: #cbd5e1;
+  --highlight-color-focused: transparent; // remove linha verde
+  --border-color: #e5e7eb;
+
+  opacity: 0.9;
+  font-weight: 600;
+
+    font-weight: 600;
+
+  /* 👇 espaço interno à esquerda do número */
+  --padding-start: 12px;
+}
+
+/* remove qualquer foco visual do Ionic */
+.numero-os-disabled.ion-focused {
+  --highlight-color-focused: transparent;
+}
+
+/* remove cursor de texto */
+.numero-os-disabled input {
+  pointer-events: none;
+}
+
+
+
+.btn-anexar-foto {
+  margin-top: 10px;
+  height: 44px;
+
+ --border-radius: 24px;        // ← mesmo arredondamento do CONFIRMAR
+
+  --background: #e9f1ff;      // azul suave
+  --color: #3b6fb6;           // texto azul
+  --border-width: 0;
+
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  box-shadow: none;
+  opacity: 1;
+}
